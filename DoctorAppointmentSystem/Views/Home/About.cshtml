@@ -1,0 +1,66 @@
+﻿@{
+    ViewBag.Title = "About";
+}
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+
+<p>Use this area to provide additional information.</p>
+
+<h2>jQuery Datatable</h2>
+<div>
+    <table id="myTable" class="display">
+        <thead></thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        var data = [
+            {
+                'id': 'B1906664',
+                'name': 'Johnson',
+                'major': 'Software Engineer'
+            },
+            {
+                'id': 'B1907630',
+                'name': 'Alex',
+                'major': 'Information Technology'
+            },
+            {
+                'id': 'B1906650',
+                'name': 'Maria',
+                'major': 'Data Science'
+            }
+        ]
+        $(document).ready(function () {
+            $('#myTable').DataTable({
+                data: data,
+                columns: [
+                    {
+                        data: 'id',
+                        title: 'ID',
+                        autoWidth: 'auto'
+                    },
+                    {
+                        data: 'name',
+                        title: 'Name',
+                        autoWidth: 'auto'
+                    },
+                    {
+                        data: 'major',
+                        title: 'Major',
+                        autoWidth: 'auto'
+                    },
+                    {
+                        data: 'id',
+                        title: 'Action',
+                        render: function (data, type) {
+                            return type === 'display' ? '<div class="container d-inline-flex"><a data-id="' + data + '" role="button", class="btn btn-primary text-light">Edit</a> <a data-id="' + data + '" role="button", class="btn btn-danger ml-1 text-light">Delete</a></div>' : data;
+                        }
+                    }
+                ]
+            });
+        });
+    </script>
+}
