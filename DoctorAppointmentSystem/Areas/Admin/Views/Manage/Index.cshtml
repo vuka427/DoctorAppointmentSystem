@@ -1,0 +1,12 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Admin Management</h2>
+
+<ul>
+    <li> @Html.ActionLink("Doctor Management", "Index", "DoctorManage", new { area = "Admin" }, new { @class = "btn btn-sm btn-primary m-1" })</li>
+    <li> @Html.ActionLink("Partient Management", "Index", "PartientManage", new { area = "Admin" }, new { @class = "btn btn-sm btn-primary m-1" })</li>
+</ul>
