@@ -1,9 +1,13 @@
-﻿using System;
+﻿using DoctorAppointmentSystem.Models.DB;
+using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Core.Metadata.Edm;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Unity;
+using Unity.AspNet.Mvc;
 
 namespace DoctorAppointmentSystem.App_Start
 {
