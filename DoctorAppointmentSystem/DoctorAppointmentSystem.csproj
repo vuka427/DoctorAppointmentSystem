@@ -157,6 +157,7 @@
     <Compile Include="Areas\Admin\Controllers\ManageController.cs" />
     <Compile Include="Areas\Admin\Controllers\PartientManageController.cs" />
     <Compile Include="Areas\Admin\Models\DataTableModel\JqueryDatatableParam.cs" />
+    <Compile Include="Areas\Admin\Models\DoctorManage\DoctorCreateModel.cs" />
     <Compile Include="Areas\Admin\Models\DoctorManage\DoctorViewModel.cs" />
     <Compile Include="Areas\Admin\Models\DoctorManage\Mapping\MapDoctorProfile.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -233,8 +234,8 @@
     <Content Include="Content\Site.css" />
     <Content Include="Models\DB\DBContext.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>DBContext.Context.cs</LastGenOutput>
       <DependentUpon>DBContext.edmx</DependentUpon>
+      <LastGenOutput>DBContext.Context.cs</LastGenOutput>
     </Content>
     <Content Include="Models\DB\DBContext.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -265,6 +266,10 @@
     <Content Include="Content\bootstrap-reboot.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
+    <Content Include="Areas\Admin\Views\web.config" />
+    <Content Include="Areas\Admin\Views\DoctorManage\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\PartientManage\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Manage\Index.cshtml" />
     <EntityDeploy Include="Models\DB\DBContext.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>DBContext.Designer.cs</LastGenOutput>
@@ -272,10 +277,6 @@
     <Content Include="Models\DB\DBContext.edmx.diagram">
       <DependentUpon>DBContext.edmx</DependentUpon>
     </Content>
-    <Content Include="Areas\Admin\Views\web.config" />
-    <Content Include="Areas\Admin\Views\DoctorManage\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\PartientManage\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Manage\Index.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

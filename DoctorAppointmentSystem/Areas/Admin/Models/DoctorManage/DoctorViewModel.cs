@@ -23,10 +23,10 @@ namespace DoctorAppointmentSystem.Areas.Admin.Models.DoctorManage
         public string WORKINGENDDATE { get; set; }//14
         public string LOGINLOCKDATE { get; set; } //15
         public int LOGINRETRYCOUNT { get; set; } //16
-        public string CREATEBY { get; set; }//17
-        public string CREATEDATE { get; set; }//18
-        public string UPDATEBY { get; set; }//19
-        public string UPDATEDATE { get; set; }//20
+        public string CREATEDBY { get; set; }//17
+        public string CREATEDDATE { get; set; }//18
+        public string UPDATEDBY { get; set; }//19
+        public string UPDATEDDATE { get; set; }//20
         public string AVATARURL { get; set; }//21
         public int DEPARTMENTID { get; set; }//22
 
