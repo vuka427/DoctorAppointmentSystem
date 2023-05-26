@@ -13,127 +13,131 @@
     <link href="~/Content/registration.css" rel="stylesheet" />
     <script src="~/Scripts/registration.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
-
-    <!-- Tooltip-->
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.4.0/css/all.css">
 </head>
 <body>
-    <div class="container">
-        <div class="card">
-            <article class="card-body mx-auto" style="max-width: 400px;">
-                <h4 class="card-title mt-3 text-center">Create Account</h4>
-                <form class="d-flex flex-column justify-content-center">
-                    <p class="divider-text">
-                        <span class="bg-light">Account information</span>
-                    </p>
-                    <div class="form-group input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fa fa-user"></i></span>
-                        </div>
-                        <input name="" class="form-control" placeholder="Username" type="text">
-                    </div> <!-- Username -->
+    <div id="register-wrapper">
+        <div class="container">
+            <div class="card">
+                <article class="card-body mx-auto" style="max-width: 400px;">
+                    <h4 class="card-title mt-3 text-center">Create Account</h4>
+                    <form class="d-flex flex-column justify-content-center">
+                        <p class="divider-text">
+                            <span class="bg-light">Account information</span>
+                        </p>
 
-                    <div class="form-group input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fa fa-lock"></i></span>
-                        </div>
-                        <input class="form-control" placeholder="Password" type="password">
-                    </div> <!-- Password -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-user"></i></span>
+                            </div>
+                            <input name="" class="form-control" placeholder="Username (*)" type="text">
+                        </div> <!-- Username -->
 
-                    <div class="form-group input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fa fa-lock"></i></span>
-                        </div>
-                        <input class="form-control" placeholder="Confirm password" type="password">
-                    </div> <!-- Confirm password -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-lock"></i></span>
+                            </div>
+                            <input class="form-control" placeholder="Password (*)" type="password">
+                        </div> <!-- Password -->
 
-                    <p class="divider-text">
-                        <span class="bg-light">Personal information</span>
-                    </p>
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-lock"></i></span>
+                            </div>
+                            <input class="form-control" placeholder="Confirm password (*)" type="password">
+                        </div> <!-- Confirm password -->
 
-                    <div class="form-group input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fa fa-address-book"></i></span>
-                        </div>
-                        <input name="" class="form-control" placeholder="Full name" type="text">
-                    </div> <!-- Full name -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-user-shield"></i></span>
+                            </div>
+                            <input class="form-control" placeholder="Password Recovery 1 (*)" type="password">
+                        </div> <!-- Password Recovery 1-->
 
-                    <div class="form-group input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fa fa-envelope"></i></span>
-                        </div>
-                        <input name="" class="form-control" placeholder="Email address" type="email">
-                    </div> <!-- Email -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-user-shield"></i></span>
+                            </div>
+                            <input class="form-control" placeholder="Password Recovery 2 (*)" type="password">
+                        </div> <!-- Password Recovery 2 -->
 
-                    <div class="form-group input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fa fa-address-card"></i></span>
-                        </div>
-                        <input name="" class="form-control" placeholder="National ID" type="text">
-                    </div> <!-- National ID -->
+                        <p class="divider-text">
+                            <span class="bg-light">Personal information</span>
+                        </p>
 
-                    <div class="form-group input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"> <i class="fa fa-birthday-cake"></i> </span>
-                        </div>
-                        <input placeholder="Date of birth" type="date" id="dateOfBirth" class="form-control datepicker" data-toggle="tooltip" data-placement="top" title="Date of birth">
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-address-book"></i></span>
+                            </div>
+                            <input name="" class="form-control" placeholder="Full name (*)" type="text">
+                        </div> <!-- Full name -->
 
-                    </div>  <!-- Date of birth -->
-                    <script>
-                        $(document).ready(function () {
-                            $('[data-toggle="tooltip"]').tooltip();
-                        });
-                    </script>
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                            </div>
+                            <input name="" class="form-control" placeholder="Email address (*)" type="email">
+                        </div> <!-- Email -->
 
-                    <div class="form-group input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fa fa-venus-mars"></i></span>
-                        </div>
-                        <select class="form-control  custom-select">
-                            <option selected="selected">Gender</option>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                            <option value="other">Other</option>
-                        </select>
-                    </div> <!-- Gender -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-address-card"></i></span>
+                            </div>
+                            <input name="" class="form-control" placeholder="National ID (*)" type="text">
+                        </div> <!-- National ID -->
 
-                    <div class="form-group input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fa fa-phone"></i></span>
-                        </div>
-                        <input name="" class="form-control" placeholder="Phone number" type="text">
-                    </div> <!-- Phone number -->
 
-                    <div class="form-group input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fa fa-home"></i></span>
-                        </div>
-                        <input name="" class="form-control" placeholder="Address" type="text">
-                    </div> <!-- Address -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"> <i class="fa fa-birthday-cake"></i> </span>
+                            </div>
+                            <input placeholder="Date of birth (*)" class="form-control" type="text" onfocus="(this.type='date')" onblur="this.type='text'" id="date">
+                        </div>  <!-- Date of birth -->
 
-                    <div class="form-group input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fa fa-camera"></i></span>
-                        </div>
-                        <select class="form-control">
-                            <option selected=""> Avatar</option>
-                            <option>Designer</option>
-                            <option>Manager</option>
-                            <option>Accaunting</option>
-                        </select>
-                    </div> <!-- Profile picture -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-venus-mars"></i></span>
+                            </div>
+                            <select class="form-control  custom-select">
+                                <option selected disabled hidden>Gender (*)</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div> <!-- Gender -->
 
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary btn-block"> Create Account </button>
-                    </div> <!-- Submit button -->
-                    <p class="text-center">Already have an account? <a href="">Log In</a> </p>
-                </form>
-            </article>
-        </div> <!-- card.// -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-phone"></i></span>
+                            </div>
+                            <input name="" class="form-control" placeholder="Phone number (*)" type="text" pattern="(84|0[3|5|7|8|9])+([0-9]{8})\b" maxlength="10">
+                        </div> <!-- Phone number -->
+
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-home"></i></span>
+                            </div>
+                            <input name="" class="form-control" placeholder="Address (*)" type="text">
+                        </div> <!-- Address -->
+
+
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-camera"></i></span>
+                            </div>
+                            <input name="" class="form-control" placeholder="Profile picture" type="file" accept="image/*" ">
+                        </div> <!-- Profile picture -->
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-block"> Create Account </button>
+                        </div> <!-- Submit button -->
+
+                        <p class="text-center">Already have an account? <a href="@Url.Action("Login")">Log In</a> </p>
+
+                    </form>
+                </article>
+            </div> <!-- card.// -->
+        </div>
     </div>
     <!--container end.//-->
     <script src="~/Scripts/bootstrap.bundle.min.js"></script>
