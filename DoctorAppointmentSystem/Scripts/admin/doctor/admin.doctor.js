@@ -36,18 +36,24 @@ function setSubmitFormByAjax() {
         var formData = {
 
             DOCTORNAME: $("#doctorname").val(),
+            USERNAME: $("#username").val(), 
+            PASSWORD: $("#password").val(),
+            DOCTORNATIONALID: $("#nationalid").val(), 
             DOCTORGENDER: gender,
             DOCTORADDRESS: $("#address").val(),
             DEPARTMENTID: $("#department").val(),
             DOCTORDATEOFBIRTH: $("#brithofdate").val(),
             DOCTORMOBILENO: $("#mobile").val(),
+            EMAIL: $("#email").val(), 
+            SPECIALITY: $("#specialy").val(), 
+            LOGINLOCKDATE: $("#loginlockdate").val(), 
             WORKINGENDDATE: $("#workingenddate").val(),
             WORKINGSTARTDATE: $("#workingstartdate").val(),
         };
         console.log($("#doctorname").val());
         $.ajax({
             type: "POST",
-            url: "",
+            url: "/Admin/DoctorManage/CreateDoctor",
             data: formData,
             dataType: "json",
             encode: true,
@@ -55,7 +61,7 @@ function setSubmitFormByAjax() {
             console.log(data);
             if (data.error == 1) { showMessage(data.msg, "Error !"); }
             if (data.error == 0) {
-                $("#form-create-doctor").trigger('reset');
+                //$("#form-create-doctor").trigger('reset');
                 $('#DoctorTable').DataTable().ajax.reload();
                 $("#l-form-doctor").hide();
                 $("#table-list-doctor").show();
@@ -231,8 +237,9 @@ function DeleteDocTorByAjax(doctorid) {
 // Jquery datatable
 function initJqueryDatatable() {
     var table = $('#DoctorTable').DataTable({
-
-        "sAjaxSource": "",
+        
+        "sAjaxSource": "/Admin/DoctorManage/LoadDoctorData",
+        "sServerMethod": "POST",
         "bServerSide": true,
         "bProcessing": true,
         "responsive": true,
@@ -351,25 +358,25 @@ function initJqueryDatatable() {
                 "searchable": true
             },
             {
-                "data": "CREATEBY",
+                "data": "CREATEDBY",
                 "title": "Create By",
 
                 "searchable": true
             },
             {
-                "data": "CREATEDATE",
+                "data": "CREATEDDATE",
                 "title": "Create Date",
 
                 "searchable": true
             },
             {
-                "data": "UPDATEBY",
+                "data": "UPDATEDBY",
                 "title": "Update By",
 
                 "searchable": true
             },
             {
-                "data": "UPDATEDATE",
+                "data": "UPDATEDDATE",
                 "title": "Update Date",
 
                 "searchable": true

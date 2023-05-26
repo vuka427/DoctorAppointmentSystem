@@ -25,11 +25,23 @@
                             <input type="text" class="form-control" id="doctorname" placeholder="Doctor name">
                         </div>
                         <div class="form-group">
+                            <label for="username" class="control-label">User Name</label>
+                            <input type="text" class="form-control" id="username" placeholder="User name">
+                        </div>
+                        <div class="form-group">
+                            <label for="password" class="control-label">Password</label>
+                            <input type="password" class="form-control" id="password" placeholder="Password">
+                        </div>
+                        <div class="form-group">
+                            <label for="nationalid" class="control-label">National ID</label>
+                            <input type="text" class="form-control" id="nationalid" placeholder="National ID">
+                        </div>
+                        <div class="form-group">
                             <label for="department" class="control-label">Department</label>
 
-                           @* @Html.DropDownList("Department",
+                            @Html.DropDownList("Department",
                                  ViewBag.department as SelectList,
-                                 new { @class = "form-control", @id = "department" })*@
+                                 new { @class = "form-control", @id = "department" })
 
                         </div>
                         <label for="" class="control-label">Gender</label>
@@ -51,11 +63,23 @@
                         </div>
                         <div class="form-group">
                             <label for="mobile" class="control-label">Mobile No</label>
-                            <input type="text" class="form-control" id="mobile" placeholder="...">
+                            <input type="text" class="form-control" id="mobile" placeholder="Mobile No">
+                        </div>
+                        <div class="form-group">
+                            <label for="email" class="control-label">Email</label>
+                            <input type="email" class="form-control" id="email" placeholder="Email">
                         </div>
                         <div class="form-group">
                             <label for="address" class="control-label">Address</label>
-                            <textarea type="date" rows="4" class="form-control" id="address" placeholder="..."></textarea>
+                            <textarea type="date" rows="4" class="form-control" id="address" placeholder="Address"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="specialy" class="control-label">Specialy</label>
+                            <input type="text" class="form-control" id="specialy" placeholder="Specialy">
+                        </div>
+                        <div class="form-group">
+                            <label for="loginlockdate" class="control-label">Login lock date</label>
+                            <input type="date" class="form-control" id="loginlockdate" placeholder="Specialy">
                         </div>
                         <div class="form-group">
                             <label for="workingstartdate" class="control-label">Working start date</label>
@@ -114,9 +138,9 @@
                         <div class="form-group">
                             <label for="department" class="control-label">Department</label>
 
-                          @*  @Html.DropDownList("Department",
+                            @Html.DropDownList("Department",
                                  ViewBag.department as SelectList,
-                                 new { @class = "form-control", @id = "udepartment" })*@
+                                 new { @class = "form-control", @id = "udepartment" })
 
                         </div>
                         <label for="" class="control-label">Gender</label>

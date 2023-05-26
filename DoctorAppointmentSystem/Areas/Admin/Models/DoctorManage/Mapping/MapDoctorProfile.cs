@@ -17,9 +17,13 @@ namespace DoctorAppointmentSystem.Areas.Admin.Models.DoctorManage.Mapping
                 .ForMember(dest => dest.DOCTORDATEOFBIRTH, act => act.MapFrom(src => src.DOCTORDATEOFBIRTH.ToShortDateString()))
                 .ForMember(dest => dest.WORKINGENDDATE, act => act.MapFrom(src => src.WORKINGENDDATE.ToShortDateString()))
                 .ForMember(dest => dest.WORKINGSTARTDATE, act => act.MapFrom(src => src.WORKINGSTARTDATE.ToShortDateString()))
-                .ForMember(dest => dest.CREATEDATE, act => act.MapFrom(src => src.CREATEDDATE.Value.ToShortDateString()))
-                .ForMember(dest => dest.UPDATEDATE, act => act.MapFrom(src => src.UPDATEDDATE.Value.ToShortDateString()))
-                  ;
+                .ForMember(dest => dest.CREATEDDATE, act => act.MapFrom(src => src.CREATEDDATE.Value.ToShortDateString()))
+                .ForMember(dest => dest.UPDATEDDATE, act => act.MapFrom(src => src.UPDATEDDATE.Value.ToShortDateString()))
+                ;
+
+            CreateMap<DoctorCreateModel,DOCTOR >()
+                
+                ;
         }
 
     }
