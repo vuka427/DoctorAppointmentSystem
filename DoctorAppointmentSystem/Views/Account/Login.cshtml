@@ -18,35 +18,31 @@
         <div class="container-login100">
             <div class="wrap-login100">
                 <div class="login100-pic js-tilt" data-tilt>
-                    <img src="https://img.freepik.com/premium-vector/making-appointment-with-doctor-flat-concept-vector-illustration_151150-12192.jpg" alt="IMG">
+                    <img src="~/img/login-intro-img.png" />
                 </div>
 
                 <form class="login100-form validate-form d-flex flex-column justify-content-center">
-                    <span class="login100-form-title">
+                    <span class="login100-form-title font-weight-bold">
                         Login Now
                     </span>
+                    <div class="form-group input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text login-input"><i class="fa fa-user"></i></span>
+                        </div>
+                        <input name="" class="form-control" placeholder="Username" type="text">
+                    </div> <!-- Username -->
 
-                    <div class="wrap-input100 validate-input">
-                        <input class="input100" type="text" name="username" placeholder="Username">
-                        <span class="focus-input100"></span>
-                        <span class="symbol-input100">
-                            <i class="fa fa-user" aria-hidden="true"></i>
-                        </span>
-                    </div>
+                    <div class="form-group input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text login-input"><i class="fa fa-lock"></i></span>
+                        </div>
+                        <input class="form-control" placeholder="Password" type="password">
+                    </div> <!-- Password -->
 
-                    <div class="wrap-input100 validate-input" data-validate="Password is required">
-                        <input class="input100" type="password" name="pass" placeholder="Password">
-                        <span class="focus-input100"></span>
-                        <span class="symbol-input100">
-                            <i class="fa fa-lock" aria-hidden="true"></i>
-                        </span>
-                    </div>
 
-                    <div class="container-login100-form-btn">
-                        <button class="login100-form-btn">
-                            Login
-                        </button>
-                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success btn-block"> Login </button>
+                    </div> <!-- Submit button -->
 
                     <div class="text-center p-t-12">
                         <span class="txt1">
@@ -58,12 +54,13 @@
                     </div>
 
                     <div class="text-center p-t-136">
-                        <a class="txt2" href="#">
+                        <a class="txt2" href="@Url.Action("Register")">
                             Create your Account
                             <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
                         </a>
                     </div>
                 </form>
+
             </div>
         </div>
     </div>

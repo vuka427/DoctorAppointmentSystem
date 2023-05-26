@@ -9997,7 +9997,7 @@ iframe {
     justify-content: center;
     align-items: center;
     padding: 15px;
-    background-image: url('https://c8.alamy.com/comp/2BBDYMJ/medicine-seamless-doodle-pattern-with-virus-or-bacteria-icon-hand-drawn-health-care-pharmacy-medical-cartoon-background-vector-illustrations-2BBDYMJ.jpg');
+    background-image: url('../img/bg-img.jpg');
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -10280,4 +10280,13 @@ iframe {
 
 input, select, textarea {
     max-width: 100%;
+}
+
+
+.login-input {
+    min-width: 46px;
+}
+
+i {
+    margin: 0 auto;
 }
