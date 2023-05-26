@@ -28,10 +28,16 @@ namespace DoctorAppointmentSystem
 
             //Config ScriptBundle and StyleBundle for jQuery Datatable
             bundles.Add(new ScriptBundle("~/bundles/datatable").Include(
-                "~/Scripts/jquery.dataTables.min.js"));
+                "~/Scripts/jquery.dataTables.min.js",
+                 "~/Scripts/dataTables.responsive.js"));
 
             bundles.Add(new StyleBundle("~/Content/datatable").Include(
                 "~/Content/jquery.dataTables.min.css"));
+
+            //Config ScriptBundle doctor management
+            bundles.Add(new ScriptBundle("~/bundles/admin/doctor").Include(
+                     "~/Scripts/admin/doctor/admin.doctor.js"));
+
         }
     }
 }
