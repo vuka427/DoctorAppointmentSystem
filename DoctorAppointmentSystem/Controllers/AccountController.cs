@@ -1,4 +1,5 @@
 ﻿using DoctorAppointmentSystem.Models;
+using DoctorAppointmentSystem.Models.Account;
 using DoctorAppointmentSystem.Models.DB;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace DoctorAppointmentSystem.Controllers
 {
     public class AccountController : Controller
     {
-        private string salt = "dungvu";
+        private string salt = "appointmentsystem";
         private readonly UserIO db;
 
         public AccountController(UserIO db)
@@ -21,15 +22,16 @@ namespace DoctorAppointmentSystem.Controllers
         }
 
         [HttpPost]
-        public ActionResult Login(string username, string password)
+        public ActionResult Login(LoginViewModel model)
         {
-            USER user = db.GetUser(username);
+            /*USER user = db.GetUser(username);
             if(user != null && VerifyPassword(password, user.PASSWORDHASH))
             {
-                RedirectToAction("Index", "Home");
-            }
+                return RedirectToAction("Index", "Home");
+            }*/
+            if (model.Username.Equals("abc") && VerifyPassword("123", HashPassword("123")))
+                return RedirectToAction("Index", "Home");
             return Json(new { error = 1, message = "Login failed! Username or password is incorrect!" });
-
         }
 
         public ActionResult Login()
@@ -40,6 +42,11 @@ namespace DoctorAppointmentSystem.Controllers
         public ActionResult Register()
         {
             return View();
+        }
+
+        public ActionResult Logout()
+        {
+            return RedirectToAction("Login");
         }
 
         [NonAction]

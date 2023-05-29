@@ -1,17 +1,16 @@
-﻿
-@{
+﻿@{
     Layout = null;
 }
 
-<!DOCTYPE html>
+@model DoctorAppointmentSystem.Models.Account.LoginViewModel
 
+<!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Login</title>
     @Styles.Render("~/Content/css")
     <link href="~/Content/login.css" rel="stylesheet" />
-    <script src="~/Scripts/login.js"></script>
 </head>
 <body>
     <div class="limiter">
@@ -21,51 +20,60 @@
                     <img src="~/img/login-intro-img.png" />
                 </div>
 
-                <form class="login100-form validate-form d-flex flex-column justify-content-center">
-                    <span class="login100-form-title font-weight-bold">
-                        Login Now
-                    </span>
-                    <div class="form-group input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text login-input"><i class="fa fa-user"></i></span>
-                        </div>
-                        <input name="" class="form-control" placeholder="Username" type="text">
-                    </div> <!-- Username -->
-
-                    <div class="form-group input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text login-input"><i class="fa fa-lock"></i></span>
-                        </div>
-                        <input class="form-control" placeholder="Password" type="password">
-                    </div> <!-- Password -->
-
-
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-success btn-block"> Login </button>
-                    </div> <!-- Submit button -->
-
-                    <div class="text-center p-t-12">
-                        <span class="txt1">
-                            Forgot
+                @using (Html.BeginForm("Login", "Account", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    <form class="login100-form validate-form d-flex flex-column justify-content-center">
+                        <span class="login100-form-title font-weight-bold">
+                            Login Now
                         </span>
-                        <a class="txt2" href="#">
-                            Password?
-                        </a>
-                    </div>
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text login-input"><i class="fa fa-user"></i></span>
+                            </div>
+                            @Html.TextBoxFor(m => m.Username, new { @class = "form-control", placeholder = "Username" })
+                            @Html.ValidationMessageFor(m => m.Username)
+                        </div> <!-- Username -->
 
-                    <div class="text-center p-t-136">
-                        <a class="txt2" href="@Url.Action("Register")">
-                            Create your Account
-                            <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
-                        </a>
-                    </div>
-                </form>
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text login-input"><i class="fa fa-lock"></i></span>
+                            </div>
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password" })
+                            @Html.ValidationMessageFor(m => m.Password)
+                        </div> <!-- Password -->
 
+                        <div class="form-group text-center">
+                            @Html.CheckBoxFor(m => m.RememberMe)
+                            @Html.LabelFor(m => m.RememberMe, new { @class = "txt1 checkbox-inline" })
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" id="btn-login-submit" class="btn btn-success btn-block"> Login </button>
+                        </div> <!-- Submit button -->
+
+                        <div class="text-center p-t-12">
+                            <span class="txt1">
+                                Forgot
+                            </span>
+                            <a class="txt2" href="#">
+                                Password?
+                            </a>
+                        </div>
+
+                        <div class="text-center p-t-136">
+                            <a class="txt2" href="@Url.Action("Register")">
+                                Create your Account
+                                <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </form>
+                }
             </div>
         </div>
     </div>
-
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/Scripts/login.js"></script>
 </body>
 </html>

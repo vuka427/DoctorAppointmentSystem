@@ -22,17 +22,8 @@
         z-index: 1;
     }
 
-.btn-facebook {
-    background-color: #405D9D;
-    color: #fff;
-}
 
-.btn-twitter {
-    background-color: #42AEEC;
-    color: #fff;
-}
-
-form, article{
+form, article {
     min-width: 80%;
 }
 
@@ -44,13 +35,13 @@ span {
     min-width: 46px;
 }
 
-i{
+i {
     margin: 0 auto;
 }
 
-.input-group{
+.input-group {
     display: inline-flex;
-    justify-content:center;
+    justify-content: center;
     padding: 0px;
 }
 
@@ -58,7 +49,7 @@ i{
     min-width: 90%;
 }
 
-.card{
+.card {
     max-width: 80%;
     margin: 0 auto;
 }
@@ -73,8 +64,6 @@ body {
     background-repeat: no-repeat;
 }
 
-#register-wrapper{
+#register-wrapper {
     min-height: 100%;
 }
-
-

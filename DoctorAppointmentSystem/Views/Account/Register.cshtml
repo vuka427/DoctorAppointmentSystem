@@ -125,7 +125,8 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fa fa-camera"></i></span>
                             </div>
-                            <input name="" class="form-control" placeholder="Profile picture" type="file" accept="image/*" ">
+                            <input name="" id="pictureName" readonly class="form-control" placeholder="Choose your profile picture" type="text" onclick="document.getElementById('profilePicture').click()">
+                            <input name="" id="profilePicture" class="form-control" type="file" accept="image/*" style="display:none">
                         </div> <!-- Profile picture -->
 
                         <div class="form-group">
@@ -139,6 +140,17 @@
             </div> <!-- card.// -->
         </div>
     </div>
+
+    <!-- Set value for input Profile picture -->
+    <script>
+        $(document).ready(function () {
+            $('#profilePicture').change(function () {
+                var i = $('#pictureName').clone();
+                var file = $('#profilePicture')[0].files[0].name;
+                $('#pictureName').val(file);
+            });
+        });
+    </script>
     <!--container end.//-->
     <script src="~/Scripts/bootstrap.bundle.min.js"></script>
     @Scripts.Render("~/bundles/jquery")
