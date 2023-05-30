@@ -78,10 +78,6 @@
                             <input type="text" class="form-control" id="specialy" placeholder="Specialy">
                         </div>
                         <div class="form-group">
-                            <label for="loginlockdate" class="control-label">Login lock date</label>
-                            <input type="date" class="form-control" id="loginlockdate" placeholder="Specialy">
-                        </div>
-                        <div class="form-group">
                             <label for="workingstartdate" class="control-label">Working start date</label>
                             <input type="date" class="form-control" id="workingstartdate" value="@DateTime.Now.ToString("yyyy-MM-dd")">
                         </div>
@@ -93,7 +89,6 @@
                             <input type="submit" class="btn btn-primary" value="Create">
                             <btn id="btn-close-form" class="btn btn-secondary"> Cancel </btn>
                         </div>
-
                     </form>
                 </div>
 
@@ -131,9 +126,19 @@
 
                             <input type="text" class="form-control" hidden id="udoctorid">
                         </div>
+
                         <div class="form-group">
                             <label for="udoctorname" class="control-label">Doctor Name</label>
                             <input type="text" class="form-control" id="udoctorname" placeholder="Doctor name">
+                        </div>
+                        <div class="form-group">
+                            <label for="uusername" class="control-label">User Name</label>
+                            <input type="text" class="form-control disabled" disabled id="uusername" placeholder="Doctor name">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="unationalid" class="control-label">National ID</label>
+                            <input type="text" class="form-control" id="unationalid" placeholder="National ID">
                         </div>
                         <div class="form-group">
                             <label for="department" class="control-label">Department</label>
@@ -165,8 +170,16 @@
                             <input type="text" class="form-control" id="umobile" placeholder="...">
                         </div>
                         <div class="form-group">
+                            <label for="uemail" class="control-label">Email</label>
+                            <input type="email" class="form-control" id="uemail" placeholder="Email">
+                        </div>
+                        <div class="form-group">
                             <label for="uaddress" class="control-label">Address</label>
                             <textarea type="date" rows="4" class="form-control" id="uaddress" placeholder="..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="uspecialy" class="control-label">Specialy</label>
+                            <input type="text" class="form-control" id="uspecialy" placeholder="Specialy">
                         </div>
                         <div class="form-group">
                             <label for="uworkingstartdate" class="control-label">Working start date</label>
@@ -185,9 +198,47 @@
             </div>
         </div>
     </div>
+    @* Reset password *@
+    <div id="resetpassword-doctor" style=" " class="container justify-content-center  bg-white">
+        <div id="error-message-resetpassword">
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-8 card p-0 shadow">
+                <div class="card-header bg-primary">
+                    <h4 class="text-center text-light">Reset Password </h4>
+                </div>
+                <div class="card-body">
+
+                    <form id="form-resetpassword-doctor" class="form-group">
+                        <div class="form-group">
+                            <input type="text" class="form-control" hidden id="rdoctorid">
+                        </div>
+                        <div class="form-group">
+                            <label for="rdoctorpaswd" class="control-label">New password</label>
+                            <input type="password" class="form-control paswd-on-off" id="rdoctorpaswd" placeholder="Password">
+                        </div>
+                        <div class="form-group">
+                            <label for="rdoctorname" class="control-label">Confirm password</label>
+                            <input type="password" class="form-control paswd-on-off" id="rdoctorname" placeholder="Password">
+                        </div>
+                        <div class="form-group">
+                            <input type="checkbox" id="check-show-pass" onclick="ShowPass()"> Show Password
+                        </div>
+                        <div class="form-group text-center">
+                            <input type="submit" class="btn btn-primary" value="Change">
+                            <btn id="btn-close-form-reset-password" class="btn btn-secondary">Cancel</btn>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
-<!-- Modal -->
+
+<!-- Modal accept delete doctor -->
 <div class="modal fade" id="accept-delete-doctor" tabindex="-1" role="dialog" aria-labelledby="accept-delete-doctorTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -203,7 +254,6 @@
             <div class="modal-footer">
                 <button type="button" id="btn-accept-delete-doctor" data-dismiss="modal" class="btn btn-danger">Delete</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
-
             </div>
         </div>
     </div>

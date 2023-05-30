@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DoctorAppointmentSystem.Models.DB;
+using Microsoft.Ajax.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,22 +10,39 @@ namespace DoctorAppointmentSystem.Areas.Admin.Models.DoctorManage.Mapping
 {
     public class MapDoctorProfile : Profile
     {
-        public MapDoctorProfile() {
+        public MapDoctorProfile()
+        {
 
             CreateMap<DOCTOR, DoctorViewModel>()
-                
-                .ForMember(dest => dest.DEPARTMENT, act => act.MapFrom(src => src.DEPARTMENT != null ? src.DEPARTMENT.DEPARTMENTNAME : "không có"))
+
+                .ForMember(dest => dest.DEPARTMENT, act => act.MapFrom(src => src.DEPARTMENT != null ? src.DEPARTMENT.DEPARTMENTNAME : "none"))
                 .ForMember(dest => dest.DOCTORDATEOFBIRTH, act => act.MapFrom(src => src.DOCTORDATEOFBIRTH.ToShortDateString()))
                 .ForMember(dest => dest.WORKINGENDDATE, act => act.MapFrom(src => src.WORKINGENDDATE.ToShortDateString()))
                 .ForMember(dest => dest.WORKINGSTARTDATE, act => act.MapFrom(src => src.WORKINGSTARTDATE.ToShortDateString()))
                 .ForMember(dest => dest.CREATEDDATE, act => act.MapFrom(src => src.CREATEDDATE.Value.ToShortDateString()))
                 .ForMember(dest => dest.UPDATEDDATE, act => act.MapFrom(src => src.UPDATEDDATE.Value.ToShortDateString()))
+                .ForMember(dest => dest.QUALIFICATION, act => act.MapFrom(src => "none"))
+                .ForMember(dest => dest.EMAIL, act => act.MapFrom(src => src.USER != null ? src.USER.EMAIL : "none"))
+                .ForMember(dest => dest.USERNAME, act => act.MapFrom(src => src.USER != null ? src.USER.USERNAME : "none"))
+                .ForMember(dest => dest.LOGINLOCKDATE, act => act.MapFrom(src => (src.USER != null) ? ((src.USER.LOGINLOCKDATE != null) ? src.USER.LOGINLOCKDATE.Value.ToShortDateString() : "none") : "none"))
+                .ForMember(dest => dest.LOGINRETRYCOUNT, act => act.MapFrom(src => (src.USER != null) ? ((src.USER.LOGINRETRYCOUNT != null) ? src.USER.LOGINRETRYCOUNT.Value : 0) : 0))
                 ;
 
-            CreateMap<DoctorCreateModel,DOCTOR >()
+            CreateMap<DoctorCreateModel, DOCTOR>()
+                ;
+
+            CreateMap<DOCTOR, DoctorViewEditModel>()
                 
+                .ForMember(dest => dest.EMAIL, act => act.MapFrom(src => src.USER != null ? src.USER.EMAIL : "none"))
+                .ForMember(dest => dest.USERNAME, act => act.MapFrom(src => src.USER != null ? src.USER.USERNAME : "none"))
+                .ForMember(dest => dest.LOGINLOCKDATE, act => act.MapFrom(src => (src.USER != null) ? ((src.USER.LOGINLOCKDATE != null) ? src.USER.LOGINLOCKDATE.Value.ToString("yyyy-MM-dd") : DateTime.Now.ToString("yyyy-MM-dd")) : DateTime.Now.ToString("yyyy-MM-dd")))
+                .ForMember(dest => dest.DOCTORDATEOFBIRTH, act => act.MapFrom(src => src.DOCTORDATEOFBIRTH.ToString("yyyy-MM-dd")))
+                .ForMember(dest => dest.WORKINGENDDATE, act => act.MapFrom(src => src.WORKINGENDDATE.ToString("yyyy-MM-dd")))
+                .ForMember(dest => dest.WORKINGSTARTDATE, act => act.MapFrom(src => src.WORKINGSTARTDATE.ToString("yyyy-MM-dd")))
                 ;
-        }
+            CreateMap<DoctorEditModel, DOCTOR>()
+                ;
 
+        }
     }
 }
