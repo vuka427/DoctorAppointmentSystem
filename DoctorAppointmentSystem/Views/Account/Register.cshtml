@@ -11,7 +11,6 @@
     <title>Registration</title>
     @Styles.Render("~/Content/css")
     <link href="~/Content/registration.css" rel="stylesheet" />
-    <script src="~/Scripts/registration.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.4.0/css/all.css">
 </head>
@@ -21,7 +20,7 @@
             <div class="card">
                 <article class="card-body mx-auto" style="max-width: 400px;">
                     <h4 class="card-title mt-3 text-center">Create Account</h4>
-                    <form class="d-flex flex-column justify-content-center">
+                    <form class="register-form d-flex flex-column justify-content-center">
                         <p class="divider-text">
                             <span class="bg-light">Account information</span>
                         </p>
@@ -30,37 +29,61 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fa fa-user"></i></span>
                             </div>
-                            <input name="" class="form-control" placeholder="Username (*)" type="text">
+                            <input id="username" class="form-control" placeholder="Username (*)" type="text">
                         </div> <!-- Username -->
 
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fa fa-lock"></i></span>
                             </div>
-                            <input class="form-control" placeholder="Password (*)" type="password">
+                            <input id="password" class="form-control" placeholder="Password (*)" type="password">
                         </div> <!-- Password -->
 
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fa fa-lock"></i></span>
                             </div>
-                            <input class="form-control" placeholder="Confirm password (*)" type="password">
+                            <input id="confirmPassword" class="form-control" placeholder="Confirm password (*)" type="password">
                         </div> <!-- Confirm password -->
 
-                        <div class="form-group input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fa fa-user-shield"></i></span>
-                            </div>
-                            <input class="form-control" placeholder="Password Recovery 1 (*)" type="password">
-                        </div> <!-- Password Recovery 1-->
+                        <div class="authQuestions form-group mt-3">
+                            <div class="form-group input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa-sharp fa-solid fa-circle-question"></i></span>
+                                </div>
+                                @Html.DropDownList("AuthQuestion", ViewBag.questions as SelectList, "Select the first authentication question (*)", new { @class = "form-control custom-select authQuestion", @id = "authQuestion1" })
+                            </div> <!-- Password Recovery Question 1-->
 
-                        <div class="form-group input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fa fa-user-shield"></i></span>
-                            </div>
-                            <input class="form-control" placeholder="Password Recovery 2 (*)" type="password">
-                        </div> <!-- Password Recovery 2 -->
+                            <div class="form-group input-group">
+                                <input id="answer1" name="" class="form-control" placeholder="Answer 1 (*)" type="text">
+                            </div> <!-- Answer 1 -->
+                        </div>
 
+                        <div class="authQuestions form-group">
+                            <div class="form-group input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa-sharp fa-solid fa-circle-question"></i></span>
+                                </div>
+                                @Html.DropDownList("AuthQuestion", ViewBag.questions as SelectList, "Select the second authentication question(*)", new { @class = "form-control custom-select authQuestion", @id = "authQuestion2" })
+                            </div> <!-- Password Recovery Question 2-->
+
+                            <div class="form-group input-group">
+                                <input id="answer2" name="" class="form-control" placeholder="Answer 2 (*)" type="text">
+                            </div> <!-- Answer 2 -->
+                        </div>
+
+                        <div class="authQuestions form-group">
+                            <div class="form-group input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa-sharp fa-solid fa-circle-question"></i></span>
+                                </div>
+                                @Html.DropDownList("AuthQuestion", ViewBag.questions as SelectList, "Select the third authentication question (*)", new { @class = "form-control custom-select authQuestion", @id = "authQuestion3" })
+                            </div> <!-- Password Recovery Question 3-->
+
+                            <div class="form-group input-group">
+                                <input id="answer3" name="" class="form-control" placeholder="Answer 3 (*)" type="text">
+                            </div> <!-- Answer 3 -->
+                        </div>
                         <p class="divider-text">
                             <span class="bg-light">Personal information</span>
                         </p>
@@ -69,57 +92,50 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fa fa-address-book"></i></span>
                             </div>
-                            <input name="" class="form-control" placeholder="Full name (*)" type="text">
+                            <input id="fullName" name="" class="form-control" placeholder="Full name (*)" type="text">
                         </div> <!-- Full name -->
 
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fa fa-envelope"></i></span>
                             </div>
-                            <input name="" class="form-control" placeholder="Email address (*)" type="email">
+                            <input id="email" name="" class="form-control" placeholder="Email address (*)" type="email">
                         </div> <!-- Email -->
 
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fa fa-address-card"></i></span>
                             </div>
-                            <input name="" class="form-control" placeholder="National ID (*)" type="text">
+                            <input id="nationalID" name="" class="form-control" placeholder="National ID (*)" type="text">
                         </div> <!-- National ID -->
-
 
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text"> <i class="fa fa-birthday-cake"></i> </span>
                             </div>
-                            <input placeholder="Date of birth (*)" class="form-control" type="text" onfocus="(this.type='date')" onblur="this.type='text'" id="date">
+                            <input placeholder="Date of birth (*)" class="form-control" type="text" onfocus="(this.type='date')" onblur="this.type='text'" id="dateOfBirth">
                         </div>  <!-- Date of birth -->
 
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fa fa-venus-mars"></i></span>
                             </div>
-                            <select class="form-control  custom-select">
-                                <option selected disabled hidden>Gender (*)</option>
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
-                                <option value="other">Other</option>
-                            </select>
+                            @Html.DropDownList("Gender", ViewBag.genders as SelectList, "Gender (*)", new { @class = "form-control custom-select gender", @id = "gender" })
                         </div> <!-- Gender -->
 
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fa fa-phone"></i></span>
                             </div>
-                            <input name="" class="form-control" placeholder="Phone number (*)" type="text" pattern="(84|0[3|5|7|8|9])+([0-9]{8})\b" maxlength="10">
+                            <input id="phoneNumber" name="" class="form-control" placeholder="Phone number (*)" type="text" pattern="(84|0[3|5|7|8|9])+([0-9]{8})\b" maxlength="10">
                         </div> <!-- Phone number -->
 
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fa fa-home"></i></span>
                             </div>
-                            <input name="" class="form-control" placeholder="Address (*)" type="text">
+                            <input id="address" name="" class="form-control" placeholder="Address (*)" type="text">
                         </div> <!-- Address -->
-
 
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
@@ -155,5 +171,6 @@
     <script src="~/Scripts/bootstrap.bundle.min.js"></script>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/Scripts/registration.js"></script>
 </body>
 </html>

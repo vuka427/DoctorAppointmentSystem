@@ -22,7 +22,7 @@ namespace DoctorAppointmentSystem.Models.DB
     
         public int APPOIMENTNO { get; set; }
         public int PATIENTID { get; set; }
-        public int MODE_ID { get; set; }
+        public int MODEID { get; set; }
         public int DOCTORID { get; set; }
         public System.DateTime WORKINGDAY { get; set; }
         public int CONSULTANTTYPEID { get; set; }

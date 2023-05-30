@@ -12,23 +12,17 @@ namespace DoctorAppointmentSystem.Models.DB
     using System;
     using System.Collections.Generic;
     
-    public partial class MODE_OF_CONSULTING
+    public partial class SYSTEM_PARA
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public MODE_OF_CONSULTING()
-        {
-            this.APPOINTMENTs = new HashSet<APPOINTMENT>();
-        }
-    
-        public int MODEID { get; set; }
-        public string MODENAME { get; set; }
+        public int ID { get; set; }
+        public string PARAID { get; set; }
+        public string GROUPID { get; set; }
+        public string PARAVAL { get; set; }
+        public string NOTE { get; set; }
         public string CREATEDBY { get; set; }
         public Nullable<System.DateTime> CREATEDDATE { get; set; }
         public string UPDATEDBY { get; set; }
         public Nullable<System.DateTime> UPDATEDDATE { get; set; }
-        public bool DELETEDFLAG { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<APPOINTMENT> APPOINTMENTs { get; set; }
+        public Nullable<bool> DELETEDFLAG { get; set; }
     }
 }

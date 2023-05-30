@@ -1,4 +1,5 @@
-﻿using DoctorAppointmentSystem.Models.DB;
+﻿using DoctorAppointmentSystem.Models.Account;
+using DoctorAppointmentSystem.Models.DB;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
