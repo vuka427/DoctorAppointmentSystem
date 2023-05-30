@@ -1,5 +1,7 @@
 ﻿using DoctorAppointmentSystem.Models;
 using DoctorAppointmentSystem.Models.Account;
+using DoctorAppointmentSystem.Models.Account.Login;
+using DoctorAppointmentSystem.Models.Account.Register;
 using DoctorAppointmentSystem.Models.DB;
 using System;
 using System.Collections.Generic;
@@ -14,18 +16,18 @@ namespace DoctorAppointmentSystem.Controllers
     public class AccountController : Controller
     {
         private string salt = "appointmentsystem";
-        private readonly UserIO db;
+        private readonly RegisterIO dbIO;
 
-        public AccountController(UserIO db)
+        public AccountController()
         {
-            this.db = db;
+            this.dbIO = new RegisterIO();
         }
 
         [HttpPost]
         public ActionResult Login(LoginViewModel model)
         {
             /*USER user = db.GetUser(username);
-            if(user != null && VerifyPassword(password, user.PASSWORDHASH))
+            if (user != null && VerifyPassword(password, user.PASSWORDHASH))
             {
                 return RedirectToAction("Index", "Home");
             }*/
@@ -41,7 +43,18 @@ namespace DoctorAppointmentSystem.Controllers
 
         public ActionResult Register()
         {
+            var questions = dbIO.GenerateAuthQuestion();
+            ViewBag.questions = new SelectList(questions, "id", "paraval");
+            var genders = dbIO.GenerateGender();
+            ViewBag.genders = new SelectList(genders, "id", "paraval");
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult RegisterAPI(UserViewModel user, PatientViewModel patient)
+        {
+
+            return Json(new { success = true, message = "test message!" }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Logout()

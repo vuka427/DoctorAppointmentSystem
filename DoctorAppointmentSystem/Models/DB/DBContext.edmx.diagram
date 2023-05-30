@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="51c6e05069b34fd8ba84f68bf4457eb5" Name="Diagram1">
+      <Diagram DiagramId="23e71cb17fb2481d8e189d0562197ea1" Name="Diagram1">
         <EntityTypeShape EntityType="AppointmentSystemModel.APPOINTMENT" Width="1.5" PointX="9.75" PointY="10.5" IsExpanded="true" />
         <EntityTypeShape EntityType="AppointmentSystemModel.APPOINTMENT_NOTE" Width="1.5" PointX="12" PointY="12.875" IsExpanded="true" />
         <EntityTypeShape EntityType="AppointmentSystemModel.CONSULTANT_TYPE" Width="1.5" PointX="7.5" PointY="14" IsExpanded="true" />
@@ -16,6 +16,7 @@
         <EntityTypeShape EntityType="AppointmentSystemModel.QUALIFICATION" Width="1.5" PointX="7.5" PointY="5.5" IsExpanded="true" />
         <EntityTypeShape EntityType="AppointmentSystemModel.ROLE" Width="1.5" PointX="0.75" PointY="7.75" IsExpanded="true" />
         <EntityTypeShape EntityType="AppointmentSystemModel.SCHEDULE" Width="1.5" PointX="7.5" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="AppointmentSystemModel.SYSTEM_PARA" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="AppointmentSystemModel.USER" Width="1.5" PointX="3" PointY="6.5" IsExpanded="true" />
         <AssociationConnector Association="AppointmentSystemModel.FK_APPOINTM_RELATIONS_APPOINTM" ManuallyRouted="false" />
         <AssociationConnector Association="AppointmentSystemModel.FK_APPOINTM_RELATIONS_CONSULTA" ManuallyRouted="false" />

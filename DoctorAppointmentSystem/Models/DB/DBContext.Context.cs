@@ -36,6 +36,7 @@ namespace DoctorAppointmentSystem.Models.DB
         public virtual DbSet<QUALIFICATION> QUALIFICATIONs { get; set; }
         public virtual DbSet<ROLE> ROLEs { get; set; }
         public virtual DbSet<SCHEDULE> SCHEDULEs { get; set; }
+        public virtual DbSet<SYSTEM_PARA> SYSTEM_PARA { get; set; }
         public virtual DbSet<USER> USERs { get; set; }
     }
 }
