@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using DoctorAppointmentSystem.Models.DB;
+using System.Web;
 using System.Web.Optimization;
 
 namespace DoctorAppointmentSystem
@@ -24,6 +25,7 @@ namespace DoctorAppointmentSystem
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
+                      "~/Content/responsive.bootstrap.min.css",
                       "~/Content/site.css"));
 
             //Config ScriptBundle and StyleBundle for jQuery Datatable
@@ -36,7 +38,12 @@ namespace DoctorAppointmentSystem
 
             //Config ScriptBundle doctor management
             bundles.Add(new ScriptBundle("~/bundles/admin/doctor").Include(
-                     "~/Scripts/admin/doctor/admin.doctor.js"));
+                     "~/Scripts/js/doctormanagement.js"));
+            //Config ScriptBundle patient management
+            bundles.Add(new ScriptBundle("~/bundles/admin/patient").Include(
+                     "~/Scripts/js/patientmanagement.js"));
+
+        
 
         }
     }
