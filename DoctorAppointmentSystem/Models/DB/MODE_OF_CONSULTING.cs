@@ -20,8 +20,8 @@ namespace DoctorAppointmentSystem.Models.DB
             this.APPOINTMENTs = new HashSet<APPOINTMENT>();
         }
     
-        public int MODE_ID { get; set; }
-        public string MODE_NAME { get; set; }
+        public int MODEID { get; set; }
+        public string MODENAME { get; set; }
         public string CREATEDBY { get; set; }
         public Nullable<System.DateTime> CREATEDDATE { get; set; }
         public string UPDATEDBY { get; set; }

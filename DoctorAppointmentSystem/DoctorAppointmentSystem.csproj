@@ -165,8 +165,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Account\LoginViewModel.cs" />
-    <Compile Include="Models\Account\UserIO.cs" />
+    <Compile Include="Models\Account\LoginIO.cs" />
+    <Compile Include="Models\Account\Login\LoginViewModel.cs" />
+    <Compile Include="Models\Account\RegisterIO.cs" />
+    <Compile Include="Models\Account\Register\AuthQuestionViewModel.cs" />
+    <Compile Include="Models\Account\Register\GenderViewModel.cs" />
+    <Compile Include="Models\Account\Register\PatientViewModel.cs" />
+    <Compile Include="Models\Account\Register\UserViewModel.cs" />
     <Compile Include="Models\DB\APPOINTMENT.cs">
       <DependentUpon>DBContext.tt</DependentUpon>
     </Compile>
@@ -213,6 +218,9 @@
       <DependentUpon>DBContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\SCHEDULE.cs">
+      <DependentUpon>DBContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DB\SYSTEM_PARA.cs">
       <DependentUpon>DBContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\USER.cs">
@@ -299,6 +307,7 @@
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
     <Content Include="Scripts\popper.min.js" />
+    <Content Include="Scripts\registration.js" />
     <Content Include="Scripts\umd\popper-utils.js" />
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
