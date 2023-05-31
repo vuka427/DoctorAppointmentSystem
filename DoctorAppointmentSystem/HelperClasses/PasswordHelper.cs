@@ -9,7 +9,7 @@ namespace DoctorAppointmentSystem.HelperClasses
 {
     public class PasswordHelper
     {
-        public string HashPassword(string password)
+        public static string HashPassword(string password)
         {
             Config.Salt = "doctorappointmentsystem";
             using (var sha256 = SHA256.Create())
@@ -25,10 +25,11 @@ namespace DoctorAppointmentSystem.HelperClasses
             }
         }
 
-        public bool VerifyPassword(string password, string hashedpassword)
+        public static bool VerifyPassword(string password, string hashedpassword)
         {
             bool verified = false;
-            if (HashPassword(password).Equals(hashedpassword))
+            password = HashPassword(password);
+            if (password.Equals(hashedpassword.Trim()))
             {
                 verified = true;
             }

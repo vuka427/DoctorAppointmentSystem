@@ -26,6 +26,13 @@ alter table APPOINTMENT
 go
 
 if exists (select 1
+            from  sysobjects
+           where  id = object_id('SYSTEM_PARA')
+            and   type = 'U')
+   drop table SYSTEM_PARA
+go
+
+if exists (select 1
    from sys.sysreferences r join sys.sysobjects o on (o.id = r.constid and o.type = 'F')
    where r.fkeyid = object_id('APPOINTMENT') and o.name = 'FK_APPOINTM_RELATIONS_MODE_OF_')
 alter table APPOINTMENT
@@ -281,6 +288,24 @@ if exists (select 1
 go
 
 /*==============================================================*/
+/* Table: SYSTEM_PARA                                           */
+/*==============================================================*/
+create table SYSTEM_PARA (
+   ID					int					 identity(1,1),
+   PARAID               nvarchar(256)        not null,
+   GROUPID              nvarchar(256)        not null,
+   PARAVAL              nvarchar(256)        not null,
+   NOTE                 nvarchar(256)        null,
+   CREATEDBY            nvarchar(50)         null,
+   CREATEDDATE          datetime             null,
+   UPDATEDBY            nvarchar(50)         null,
+   UPDATEDDATE          datetime             null,
+   DELETEDFLAG          bit                  null,
+   constraint PK_SYSTEM_PARA primary key nonclustered (ID)
+)
+go
+
+/*==============================================================*/
 /* Table: APPOINTMENT                                           */
 /*==============================================================*/
 create table APPOINTMENT (
@@ -465,15 +490,15 @@ go
 create table PATIENT (
    PATIENTID            int                  identity(1301101,1),
    USERID               int                  not null,
-   PATIENTNAME          nvarchar(50)          not null,
+   PATIENTNAME          nvarchar(50)         not null,
    PATIENTNATIONALID    char(20)             not null	unique,
-   PATIENTGENDER        nvarchar(20)          not null, 	
+   PATIENTGENDER        nvarchar(20)         not null, 	
    PATIENTMOBILENO      char(10)             not null,
    PATIENTDATEOFBIRTH   date	             not null,
    PATIENTADDRESS       char(256)            not null,
-   CREATEDBY            nvarchar(50)          null,
+   CREATEDBY            nvarchar(50)         null,
    CREATEDDATE          datetime             null,
-   UPDATEDBY            nvarchar(50)          null,
+   UPDATEDBY            nvarchar(50)         null,
    UPDATEDDATE          datetime             null,
    DELETEDFLAG          bit                  not null,
    constraint PK_PATIENT primary key nonclustered (PATIENTID)
@@ -493,15 +518,15 @@ go
 /*==============================================================*/
 create table PRESCRIPTION (
    PRECRIPTIONID        int                  identity(1101,1),
-   DRUG                 nvarchar(256)         not null,
-   NOTE                 nvarchar(256)         null,
-   PATIENTNAME          nvarchar(50)          not null,
+   DRUG                 nvarchar(256)        not null,
+   NOTE                 nvarchar(256)        null,
+   PATIENTNAME          nvarchar(50)         not null,
    MEDICATIONDAYS       int                  not null,
    QUANTITY             int                  not null,
-   UNIT                 nvarchar(50)          not null,
-   CREATEDBY            nvarchar(50)          null,
+   UNIT                 nvarchar(50)         not null,
+   CREATEDBY            nvarchar(50)         null,
    CREATEDDATE          datetime             null,
-   UPDATEDBY            nvarchar(50)          null,
+   UPDATEDBY            nvarchar(50)         null,
    UPDATEDDATE          datetime             null,
    DELETEDFLAG          bit                  not null,
    constraint PK_PRESCRIPTION primary key nonclustered (PRECRIPTIONID)
@@ -514,10 +539,10 @@ go
 create table QUALIFICATION (
    QUALIFICATIONID      int                  identity(1201,1),
    DOCTORID             int                  not null,
-   QUALIFICATIONNAME    nvarchar(256)         not null,
-   CREATEDBY            nvarchar(50)          null,
+   QUALIFICATIONNAME    nvarchar(256)        not null,
+   CREATEDBY            nvarchar(50)         null,
    CREATEDDATE          datetime             null,
-   UPDATEDBY            nvarchar(50)          null,
+   UPDATEDBY            nvarchar(50)         null,
    UPDATEDDATE          datetime             null,
    DELETEDFLAG          bit                  not null,
    constraint PK_QUALIFICATION primary key nonclustered (QUALIFICATIONID)
@@ -537,10 +562,10 @@ go
 /*==============================================================*/
 create table ROLE (
    ROLEID               int                  identity(1301,1),
-   ROLENAME             nvarchar(50)          not null,
-   CREATEDBY            nvarchar(50)          null,
+   ROLENAME             nvarchar(50)         not null,
+   CREATEDBY            nvarchar(50)         null,
    CREATEDDATE          datetime             null,
-   UPDATEDBY            nvarchar(50)          null,
+   UPDATEDBY            nvarchar(50)         null,
    UPDATEDDATE          datetime             null,
    DELETEDFLAG          bit                  not null,
    constraint PK_ROLE primary key nonclustered (ROLEID)
@@ -557,9 +582,9 @@ create table SCHEDULE (
    BREAKTIME            time	             not null,
    AVAILABLETIME        time	             not null,
    CONSULTANTTIME       time	             not null,
-   CREATEDBY            nvarchar(50)          null,
+   CREATEDBY            nvarchar(50)         null,
    CREATEDDATE          datetime             null,
-   UPDATEDBY            nvarchar(50)          null,
+   UPDATEDBY            nvarchar(50)         null,
    UPDATEDDATE          datetime             null,
    DELETEDFLAG          bit                  not null,
    constraint PK_SCHEDULE primary key nonclustered (DOCTORID, WORKINGDAY)
@@ -584,16 +609,20 @@ create table "USER" (
    PASSWORDHASH         char(256)            not null,
    EMAIL                char(50)             not null	unique,
    LASTLOGIN            datetime             null,
-   USERTYPE             nvarchar(100)         not null,
+   USERTYPE             nvarchar(100)        not null,
    AVATARURL            image                null,
-   PASSWORDRECOVERY1    char(256)            null,
-   PASSWORDRECOVERY2    char(256)            null,
-   STATUS               nvarchar(256)         not null,
+   PASSWORDRECOVERYQUE1    int            null,
+   PASSWORDRECOVERYQUE2    int            null,
+   PASSWORDRECOVERYQUE3    int            null,
+   PASSWORDRECOVERYANS1    nvarchar(256)            null,
+   PASSWORDRECOVERYANS2    nvarchar(256)            null,
+   PASSWORDRECOVERYANS3    nvarchar(256)            null,
+   STATUS               bit					 not null,
    LOGINRETRYCOUNT      int                  null,
    LOGINLOCKDATE        datetime             null,
-   CREATEDBY            nvarchar(50)          null,
+   CREATEDBY            nvarchar(50)         null,
    CREATEDDATE          datetime             null,
-   UPDATEDBY            nvarchar(50)          null,
+   UPDATEDBY            nvarchar(50)         null,
    UPDATEDDATE          datetime             null,
    DELETEDFLAG          bit                  not null,
    constraint PK_USER primary key nonclustered (USERID)
@@ -683,30 +712,32 @@ GO
 /*==============================================================*/
 
 --INSERT 20 USERs WITH THE ROLE OF PATIENT
+/*
 DECLARE @patient INT = 1;
 
 WHILE @patient <= 20
 BEGIN
- INSERT INTO [USER] VALUES(1302, 'patient'+CONVERT(nvarchar, @patient), '1234', 'patient'+CONVERT(nvarchar, @patient)+'@gmail.com', GETDATE(), 'Patient', NULL, 'passwrdrecovery1', 'passwrdrecovery2', 'active', 5, NULL, 'Admin', GETDATE(), 'Admin', GETDATE(), 'False')
+ INSERT INTO [USER] VALUES(1302, 'patient'+CONVERT(nvarchar, @patient), '1234', 'patient'+CONVERT(nvarchar, @patient)+'@gmail.com', GETDATE(), 'Patient', NULL, 'passwrdrecovery1', 'passwrdrecovery2', 'true', 5, NULL, 'Admin', GETDATE(), 'Admin', GETDATE(), 'False')
  SET @patient = @patient + 1;
 END;
 
 GO
-
+*/
 --INSERT 20 USERs WITH THE ROLE OF DOCTOR
-DECLARE @doctor INT = 1;
+/*DECLARE @doctor INT = 1;
 
 WHILE @doctor <= 20
 BEGIN
- INSERT INTO [USER] VALUES(1303, 'doctor'+CONVERT(nvarchar, @doctor), '1234', 'doctor'+CONVERT(nvarchar, @doctor)+'@gmail.com', GETDATE(), 'Patient', NULL, 'passwrdrecovery1', 'passwrdrecovery2', 'active', 5, NULL, 'Admin', GETDATE(), 'Admin', GETDATE(), 'False')
+ INSERT INTO [USER] VALUES(1303, 'doctor'+CONVERT(nvarchar, @doctor), '1234', 'doctor'+CONVERT(nvarchar, @doctor)+'@gmail.com', GETDATE(), 'Patient', NULL, 'passwrdrecovery1', 'passwrdrecovery2', 'true', 5, NULL, 'Admin', GETDATE(), 'Admin', GETDATE(), 'False')
  SET @doctor = @doctor + 1;
 END;
 
 GO
-
+*/
 --INSERT USER WITH THE ROLE OF ADMIN
-INSERT INTO [USER] VALUES(1301, 'Admin', '1234', 'admin'+'@gmail.com', GETDATE(), 'Admin', NULL, 'passwrdrecovery1', 'passwrdrecovery2', 'active', 5, NULL, 'Admin', GETDATE(), 'Admin', GETDATE(), 'False')
+/*INSERT INTO [USER] VALUES(1301, 'Admin', '1234', 'admin'+'@gmail.com', GETDATE(), 'Admin', NULL, 'passwrdrecovery1', 'passwrdrecovery2', 'true', 5, NULL, 'Admin', GETDATE(), 'Admin', GETDATE(), 'False')
 GO
+*/
 /* SYNTAX
 DECLARE @cnt INT = 2;
 
@@ -718,7 +749,7 @@ BEGIN
           WHEN RAND() < 0.6666 THEN 'Doctor'
           ELSE 'Patient'
         END,
-		NULL, 'passwrdrecovery1', 'passwrdrecovery2', 'active', 5, NULL, 'Admin', GETDATE(), 'Admin', GETDATE(), 'False'
+		NULL, 'passwrdrecovery1', 'passwrdrecovery2', 'true', 5, NULL, 'Admin', GETDATE(), 'Admin', GETDATE(), 'False'
  )
  SET @cnt = @cnt + 1;
 END;
@@ -728,6 +759,7 @@ END;
 /*==============================================================*/
 /* Add Data: PATIENT											*/
 /*==============================================================*/
+/*
 DECLARE @patient INT = 2, @usrid INT = 1402
 
 WHILE @patient <= 20
@@ -747,7 +779,7 @@ GO
 
 INSERT INTO [PATIENT] VALUES(1401,'Patient1', 'B190600', 'Male', '0946362123', CONVERT(DATE, GETDATE()), 'Can Tho City', 'Admin', GETDATE(),'Admin', GETDATE(), 'False')
 GO
-
+*/
 
 /*==============================================================*/
 /* Add Data: DEPARTMENT											*/
@@ -757,5 +789,24 @@ INSERT INTO [DEPARTMENT] VALUES('Pediatrics ', 'Admin', GETDATE(), 'Admin', GETD
 INSERT INTO [DEPARTMENT] VALUES('Surgery', 'Admin', GETDATE(), 'Admin', GETDATE(), 'False')
 INSERT INTO [DEPARTMENT] VALUES('Cardiology', 'Admin', GETDATE(), 'Admin', GETDATE(), 'False')
 INSERT INTO [DEPARTMENT] VALUES('Dermatology', 'Admin', GETDATE(), 'Admin', GETDATE(), 'False')
+
+GO
+
+/*==============================================================*/
+/*Insert System_para 											*/
+/*==============================================================*/
+INSERT INTO [SYSTEM_PARA] VALUES('M', 'Gender', 'Male', 'Gender is male', 'admin', GETDATE(), 'admin', GETDATE(), 'false')
+INSERT INTO [SYSTEM_PARA] VALUES('F', 'Gender', 'Female', 'Gender is female', 'admin', GETDATE(), 'admin', GETDATE(), 'false')
+INSERT INTO [SYSTEM_PARA] VALUES('O', 'Gender', 'Other', 'Other', 'admin', GETDATE(), 'admin', GETDATE(), 'false')
+INSERT INTO [SYSTEM_PARA] VALUES('Question1', 'AuthQuestion', 'What is your mother''s name?', NULL, 'admin', GETDATE(), 'admin', GETDATE(), 'false')
+INSERT INTO [SYSTEM_PARA] VALUES('Question2', 'AuthQuestion', 'What is your father''s name?', NULL, 'admin', GETDATE(), 'admin', GETDATE(), 'false')
+INSERT INTO [SYSTEM_PARA] VALUES('Question3', 'AuthQuestion', 'What is your classmate''s name?', NULL, 'admin', GETDATE(), 'admin', GETDATE(), 'false')
+INSERT INTO [SYSTEM_PARA] VALUES('Question4', 'AuthQuestion', 'What is your pet''s name?', NULL, 'admin', GETDATE(), 'admin', GETDATE(), 'false')
+INSERT INTO [SYSTEM_PARA] VALUES('Question5', 'AuthQuestion', 'How many people are there in your family?', NULL, 'admin', GETDATE(), 'admin', GETDATE(), 'false')
+INSERT INTO [SYSTEM_PARA] VALUES('Question6', 'AuthQuestion', 'What do you do in your free time?', NULL, 'admin', GETDATE(), 'admin', GETDATE(), 'false')
+INSERT INTO [SYSTEM_PARA] VALUES('Question7', 'AuthQuestion', 'What is your favorite movie?', NULL, 'admin', GETDATE(), 'admin', GETDATE(), 'false')
+INSERT INTO [SYSTEM_PARA] VALUES('Question8', 'AuthQuestion', 'What is the name of your first school?', NULL, 'admin', GETDATE(), 'admin', GETDATE(), 'false')
+INSERT INTO [SYSTEM_PARA] VALUES('Question9', 'AuthQuestion', 'In which city were you born?', NULL, 'admin', GETDATE(), 'admin', GETDATE(), 'false')
+INSERT INTO [SYSTEM_PARA] VALUES('Question10', 'AuthQuestion', 'What is your favorite book?', NULL, 'admin', GETDATE(), 'admin', GETDATE(), 'false')
 
 GO
