@@ -10,30 +10,39 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using DoctorAppointmentSystem.HelperClasses;
+using System.Web.Security;
 
 namespace DoctorAppointmentSystem.Controllers
 {
     public class AccountController : Controller
     {
-        private string salt = "appointmentsystem";
-        private readonly RegisterIO dbIO;
+        private readonly RegisterIO registerIO;
+        private readonly LoginIO loginIO;
 
         public AccountController()
         {
-            this.dbIO = new RegisterIO();
+            this.registerIO = new RegisterIO();
+            this.loginIO = new LoginIO();
         }
 
         [HttpPost]
         public ActionResult Login(LoginViewModel model)
         {
-            /*USER user = db.GetUser(username);
-            if (user != null && VerifyPassword(password, user.PASSWORDHASH))
+            USER user = loginIO.GetUser(model.Username);
+            if (user != null && PasswordHelper.VerifyPassword(model.Password, user.PASSWORDHASH))
             {
-                return RedirectToAction("Index", "Home");
-            }*/
-            if (model.Username.Equals("abc") && VerifyPassword("123", HashPassword("123")))
-                return RedirectToAction("Index", "Home");
-            return Json(new { error = 1, message = "Login failed! Username or password is incorrect!" });
+                if(user.STATUS)
+                {
+                    FormsAuthentication.SetAuthCookie(model.Username, false);
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    return Json(new { success = false, message = "Account have been locked!" });
+                }
+            }
+            return Json(new { success = false, message = "Login failed! Username or password is incorrect!" });
         }
 
         public ActionResult Login()
@@ -43,9 +52,9 @@ namespace DoctorAppointmentSystem.Controllers
 
         public ActionResult Register()
         {
-            var questions = dbIO.GenerateAuthQuestion();
+            var questions = registerIO.GenerateAuthQuestion();
             ViewBag.questions = new SelectList(questions, "id", "paraval");
-            var genders = dbIO.GenerateGender();
+            var genders = registerIO.GenerateGender();
             ViewBag.genders = new SelectList(genders, "id", "paraval");
             return View();
         }
@@ -53,42 +62,23 @@ namespace DoctorAppointmentSystem.Controllers
         [HttpPost]
         public ActionResult RegisterAPI(UserViewModel user, PatientViewModel patient)
         {
+            string message;
+            if(!registerIO.VerifyUserInfo(user, out message))
+            {
+                return Json(new { success = false, message }, JsonRequestBehavior.AllowGet);
+            }
+            if (!registerIO.VerifyPatientInfo(patient, out message))
+            {
+                return Json(new { success = false, message }, JsonRequestBehavior.AllowGet);
+            }
 
-            return Json(new { success = true, message = "test message!" }, JsonRequestBehavior.AllowGet);
+            registerIO.CreateNewAccount(user, patient, out message);
+            return Json(new { success = true, message }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Logout()
         {
             return RedirectToAction("Login");
-        }
-
-        [NonAction]
-        public string HashPassword(string password)
-        {
-            using (var sha256 = SHA256.Create())
-            {
-                password = password + salt;
-                // Convert the password string to byte array
-                byte[] passwordBytes = Encoding.UTF8.GetBytes(password);
-
-                // Compute the hash value of the password
-                byte[] hashBytes = sha256.ComputeHash(passwordBytes);
-
-                // Convert the hash bytes to a hexadecimal string
-                string hashedPassword = BitConverter.ToString(hashBytes).Replace("-", "");
-
-                return hashedPassword;
-            }
-        }
-        [NonAction]
-        public bool VerifyPassword(string password, string hashedpassword)
-        {
-            bool verified = false;
-            if (HashPassword(password).Equals(hashedpassword))
-            {
-                verified = true;
-            }
-            return verified;
         }
     }
 }

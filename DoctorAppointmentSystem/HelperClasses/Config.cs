@@ -7,15 +7,16 @@ namespace DoctorAppointmentSystem.HelperClasses
 {
     public class Config
     {
+        private static string salt;
         public static string Salt
         {
             get
             {
-                return Salt == null ? string.Empty : Salt;
+                return salt == null ? string.Empty : salt;
             }
             set
             {
-                Salt = value;
+                salt = value;
             }
         }
     }

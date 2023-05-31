@@ -39,63 +39,35 @@ $(document).ready(function () {
     });
 });
 
-function loadData() {
-
-}
-
-function registerUser(username, password, passwordRecoveryQue1, passwordRecoveryQue2, passwordRecoveryQue3, passwordRecoveryAns1, passwordRecoveryAns2, passwordRecoveryAns3) {
-    this.username = username;
-    this.password = password;
-    this.passwordRecoveryQue1 = passwordRecoveryQue1;
-    this.passwordRecoveryQue2 = passwordRecoveryQue2;
-    this.passwordRecoveryQue3 = passwordRecoveryQue3;
-    this.passwordRecoveryAns1 = passwordRecoveryAns1;
-    this.passwordRecoveryAns2 = passwordRecoveryAns2;
-    this.passwordRecoveryAns3 = passwordRecoveryAns3;
-}
-
-function registerPatient(fullName, email, nationalID, dateOfBirth, gender, phoneNumber, address, profilePicture) {
-    this.fullName = fullName;
-    this.email = email;
-    this.nationalID = nationalID;
-    this.dateOfBirth = dateOfBirth;
-    this.gender = gender;
-    this.phoneNumber = phoneNumber;
-    this.address = address;
-    this.profilePicture = profilePicture;
-}
-
 // Get registration data of User and Patient on form to send to AccountController
 $('.register-form').submit(function (event) {
     event.preventDefault();
+    var confirmPassword = $('#confirmPassword').val();
+    var password = $('#password').val();
 
     // Get User's info
-    var username = $('#username').val();
-    var password = $('#password').val();
-    var confirmPassword = $('#confirmPassword').val();
-    var passwordRecoveryQue1 = $('#authQuestion1').val();
-    var passwordRecoveryQue2 = $('#authQuestion2').val();
-    var passwordRecoveryQue3 = $('#authQuestion3').val();
-    var passwordRecoveryAns1 = $('#answer1').val();
-    var passwordRecoveryAns2 = $('#answer2').val();
-    var passwordRecoveryAns3 = $('#answer3').val();
-
+    var user = {
+        username : $('#username').val(),
+        password : password,
+        email : $('#email').val(),
+        passwordRecoveryQue1 : $('#authQuestion1').val(),
+        passwordRecoveryQue2 : $('#authQuestion2').val(),
+        passwordRecoveryQue3 : $('#authQuestion3').val(),
+        passwordRecoveryAns1 : $('#answer1').val(),
+        passwordRecoveryAns2 : $('#answer2').val(),
+        passwordRecoveryAns3 : $('#answer3').val(),
+        profilePicture : $('#profilePicture').val()
+    }
+    
     // Get Patient's info
-    var fullName = $('#fullName').val();
-    var email = $('#email').val();
-    var nationalID = $('#nationalID').val();
-    var dateOfBirth = $('#dateOfBirth').val();
-    var gender = $('#gender').val();
-    var phoneNumber = $('#phoneNumber').val();
-    var address = $('#address').val();
-    var profilePicture = $('#profilePicture').val();
-
-
-    var user = new registerUser(username, password, passwordRecoveryQue1, passwordRecoveryQue2, passwordRecoveryQue3, passwordRecoveryAns1, passwordRecoveryAns2, passwordRecoveryAns3)
-
-    var patient = new registerPatient(fullName, email, nationalID, dateOfBirth, gender, phoneNumber, address, profilePicture)
-
-    console.log(user, patient);
+    var patient = {
+        fullName : $('#fullName').val(),
+        nationalID : $('#nationalID').val(),
+        dateOfBirth : $('#dateOfBirth').val(),
+        gender : $('#gender').val(),
+        phoneNumber : $('#phoneNumber').val(),
+        address : $('#address').val()
+    }
 
     if (password !== confirmPassword) {
         alert("Confirm password do not matched with password!");
@@ -109,14 +81,17 @@ $('.register-form').submit(function (event) {
                 patient: patient
             },
             success: function (res) {
-                alert('successfully! ' + res.message);
+                if (res.success == true) {
+                    window.location.href = '/Account/Login';
+                    $('.register-form').trigger('reset');
+                }
+                alert(res.message);
             },
             error: function (err) {
-                alert('failed! ' +err);
+                alert('Failed! ' + err);
             }
         });
     }
-    alert('...');
 })
 
 // Focus on the answer when selected value onchange

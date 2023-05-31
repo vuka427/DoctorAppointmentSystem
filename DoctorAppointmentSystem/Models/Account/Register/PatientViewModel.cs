@@ -8,14 +8,10 @@ namespace DoctorAppointmentSystem.Models.Account.Register
     public class PatientViewModel
     {
         public string fullName { get; set; }
-        public string email { get; set; }
         public string nationalID { get; set; }
         public string dateOfBirth { get; set; }
         public string gender { get; set; }
         public string phoneNumber { get; set; }
         public string address { get; set; }
-        public string profilePicture { get; set; }
-
-
     }
 }
