@@ -21,7 +21,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
 {
     public class DoctorManageController : Controller
     {
-        private const string SATL = "dungvu";
+        
         private readonly DBContext _dbContext;
 
         public DoctorManageController(DBContext dbContext)
@@ -194,7 +194,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             {
                 return Json(new { error = 1, msg = "National ID is not null!" });
             }
-            if (model.DOCTORNAME.Length >= 20)
+            if (model.DOCTORNATIONALID.Length >= 20)
             {
                 return Json(new { error = 1, msg = "National ID charater max lenght is 20!" });
             }
@@ -326,7 +326,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
         {
             if (DoctorId == 0)
             {
-                return Json(new { error = 1, msg = "Error! do not delete doctor !" });
+                return Json(new { error = 1, msg = "Error! do not find doctor !" });
             }
             var doctor = _dbContext.DOCTOR.Where(d=>d.DOCTORID == DoctorId).Include("USER").FirstOrDefault();
             if (doctor == null)
@@ -472,7 +472,6 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             newDoctors.USERID = oldUser.USERID;
             newDoctors.CREATEDBY = oldDoctor.CREATEDBY;
             newDoctors.CREATEDDATE = oldDoctor.CREATEDDATE;
-            newDoctors.CREATEDDATE = oldDoctor.CREATEDDATE;
             newDoctors.UPDATEDBY = "Admin";
             newDoctors.UPDATEDDATE = date;
             newDoctors.DELETEDFLAG = false;
@@ -490,6 +489,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
 
         }
 
+        //delete doctor
         [HttpPost]
         public JsonResult DeleteDoctor(int DoctorId)
         {
@@ -497,15 +497,17 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             {
                 return Json(new { error = 1, msg = "Error! do not delete doctor !" });
             }
-            var doctor = _dbContext.DOCTOR.Find(DoctorId);
+            var doctor = _dbContext.DOCTOR.Where(d => d.DOCTORID == DoctorId).FirstOrDefault();
             if (doctor == null)
             {
                 return Json(new { error = 1, msg = "Error! do not find doctor !" });
             }
 
             doctor.DELETEDFLAG = true;
+            doctor.USER.DELETEDFLAG = true;
 
             _dbContext.DOCTOR.AddOrUpdate(doctor);
+            _dbContext.USER.AddOrUpdate(doctor.USER);
             _dbContext.SaveChanges();
 
             return Json(new { error = 0, msg = "ok" });
