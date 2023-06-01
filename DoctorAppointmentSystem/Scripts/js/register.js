@@ -84,11 +84,37 @@ $('.register-form').submit(function (event) {
                 if (res.success == true) {
                     window.location.href = '/Account/Login';
                     $('.register-form').trigger('reset');
+                    Swal.fire({
+                        position: 'top',
+                        icon: 'success',
+                        title: 'Congratulations!',
+                        text: res.message,
+                        showConfirmButton: false,
+                        timer: 1500,
+                        width: '30em'
+                    })
+                } else {
+                    Swal.fire({
+                        position: 'top',
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: res.message,
+                        showConfirmButton: false,
+                        timer: 1500,
+                        width: '30em'
+                    })
                 }
-                alert(res.message);
             },
             error: function (err) {
-                alert('Failed! ' + err);
+                Swal.fire({
+                    position: 'top',
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: res.message,
+                    showConfirmButton: false,
+                    timer: 1500,
+                    width: '30em'
+                })
             }
         });
     }

@@ -248,14 +248,16 @@
     <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\css\intro.css" />
     <Content Include="Content\jquery.dataTables.min.css" />
-    <Content Include="Content\login.css" />
-    <Content Include="Content\registration.css" />
+    <Content Include="Content\css\login.css" />
+    <Content Include="Content\css\register.css" />
     <Content Include="Content\responsive.bootstrap.min.css" />
     <Content Include="Database\crebas.sql" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="img\bg-intro.jpg" />
     <Content Include="img\bg-img.jpg" />
     <Content Include="img\login-intro-img.png" />
     <Content Include="lib\bootstrap-sweetalert\sweetalert.css" />
@@ -327,13 +329,13 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\login\login.js" />
+    <Content Include="Scripts\js\login.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
     <Content Include="Scripts\popper.min.js" />
-    <Content Include="Scripts\register\register.js" />
+    <Content Include="Scripts\js\register.js" />
     <Content Include="Scripts\umd\popper-utils.js" />
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
@@ -363,6 +365,7 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Home\Intro.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

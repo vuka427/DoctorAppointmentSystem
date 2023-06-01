@@ -50,7 +50,11 @@ namespace DoctorAppointmentSystem
             bundles.Add(new ScriptBundle("~/bundles/admin/patient").Include(
                      "~/Scripts/js/patientmanagement.js"));
 
-        
+            //Config ScriptBundle and StyleBundle for sweetalert lib
+            bundles.Add(new ScriptBundle("~/bundles/sweetalert/js").Include(
+                     "~/lib/sweetalert2/sweetalert2.all.min.js"));
+            bundles.Add(new StyleBundle("~/Content/sweetalert/css").Include(
+               "~/lib/sweetalert2/sweetalert2.min.css"));
 
         }
     }

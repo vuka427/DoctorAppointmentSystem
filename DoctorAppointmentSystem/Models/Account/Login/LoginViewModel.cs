@@ -13,8 +13,5 @@ namespace DoctorAppointmentSystem.Models.Account.Login
 
         [Required(ErrorMessage = "Vui lòng nhập mật khẩu.")]
         public string Password { get; set; }
-
-        [Display(Name = "Remember login")]
-        public bool RememberMe { get; set; }
     }
 }

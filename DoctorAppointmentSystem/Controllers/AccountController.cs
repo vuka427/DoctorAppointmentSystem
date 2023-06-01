@@ -35,14 +35,14 @@ namespace DoctorAppointmentSystem.Controllers
                 if(user.STATUS)
                 {
                     FormsAuthentication.SetAuthCookie(model.Username, false);
-                    return RedirectToAction("Index", "Home");
+                    return Json(new { success = true, message = "Login successfully!" });
                 }
                 else
                 {
                     return Json(new { success = false, message = "Account have been locked!" });
                 }
             }
-            return Json(new { success = false, message = "Login failed! Username or password is incorrect!" });
+            return Json(new { success = false, message = "Username or password is incorrect!" });
         }
 
         public ActionResult Login()
@@ -78,6 +78,7 @@ namespace DoctorAppointmentSystem.Controllers
 
         public ActionResult Logout()
         {
+            FormsAuthentication.SignOut();
             return RedirectToAction("Login");
         }
     }

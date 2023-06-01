@@ -6,10 +6,16 @@ using System.Web.Mvc;
 
 namespace DoctorAppointmentSystem.Controllers
 {
-    [Authorize]
+    
     public class HomeController : Controller
     {
+        [Authorize]
         public ActionResult Index()
+        {
+            return View();
+        }
+
+        public ActionResult Intro()
         {
             return View();
         }
