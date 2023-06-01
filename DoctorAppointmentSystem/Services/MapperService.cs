@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DoctorAppointmentSystem.Areas.Admin.Models.DoctorManage.Mapping;
+using DoctorAppointmentSystem.Areas.Admin.Models.PatientManage.Mapping;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,10 @@ namespace DoctorAppointmentSystem.Services
 
             var config = new MapperConfiguration(cfg =>
             {
+                //register mapper for doctor model
                 cfg.AddProfile( new MapDoctorProfile());
+                //register mapper for patient model
+                cfg.AddProfile(new MapPatientProfile());
             });
 
             var mapper = new Mapper(config);

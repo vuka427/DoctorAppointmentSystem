@@ -12,15 +12,15 @@
 <div class="">
     @* Create patient *@
     <div id="create-patient-page" style=" " class="container justify-content-center  bg-white">
-        <div id="error-message"> </div>
+        <div id="error-message"></div>
         <div class="row  justify-content-center">
-            <div class="col-8 card p-0 shadow">
-
-                <div class="card-header bg-primary ">
+            <div class="col-8 card p-0 shadow border border-primary">
+                <div class="card-header bg-primary p-0 ">
                     <h4 class="text-center text-light">Create Partient</h4>
                 </div>
+
                 <div class="card-body">
-                    <form id="form-create-doctor" class="form-group">
+                    <form id="form-create-patient" class="form-group">
                         <div class="form-group">
                             <label for="patientname" class="control-label">Patient Name</label>
                             <input type="text" class="form-control" id="patientname" placeholder="Patient name">
@@ -33,23 +33,12 @@
                             <label for="password" class="control-label">Password</label>
                             <input type="password" class="form-control" id="password" placeholder="Password">
                         </div>
+                        <label for="" class="control-label">Gender</label>
+
+                        @Html.DropDownList("Gender", ViewBag.genders as SelectList, new { @class = "form-control mb-3", @id = "gender" })
                         <div class="form-group">
                             <label for="nationalid" class="control-label">National ID</label>
                             <input type="text" class="form-control" id="nationalid" placeholder="National ID">
-                        </div>
-
-                        <label for="" class="control-label">Gender</label>
-                        <div class="form-group form-check">
-                            <input class="form-check-input radio-gender" type="radio" name="gender" id="Radios1" value="Male" checked>
-                            <label class="form-check-label" for="Radios1">
-                                Male
-                            </label>
-                        </div>
-                        <div class="form-group form-check">
-                            <input class="form-check-input radio-gender" type="radio" name="gender" id="Radios2" value="Female">
-                            <label class="form-check-label" for="eRadios2">
-                                Female
-                            </label>
                         </div>
                         <div class="form-group">
                             <label for="brithofdate" class="control-label">Date of birth</label>
@@ -81,7 +70,7 @@
     @* index patient *@
     <div id="list-patient-page" style=" " class="container justify-content-center  bg-white">
         <div class=" container-fluid " style="width: auto">
-            <btn id="btn-open-form" class=" btn btn-sm btn-primary mb-3 "> Add Partient </btn>
+            <btn id="btn-open-form" class=" btn btn-sm btn-primary mb-3 "> Add Partient </btn> có lỗi sấp xếp
             <div class="row">
                 <div class="col-12 card shadow p-3">
                     <table id="PatientTable" class=" dt-responsive  display nowrap" cellspacing="0" width="100%" style=" margin : auto">
@@ -93,65 +82,67 @@
 
     </div>
     @* Update patient *@
-    <div id="update-patient-page" style=" " class="container justify-content-center  bg-white">
-        <div id="error-message-update">
+<div id="update-patient-page" style=" " class="container justify-content-center  bg-white">
+    <div id="error-message-update">
 
-        </div>
-        <div class="row  justify-content-center">
-            <div class="col-8 card p-0 shadow">
-                <div class="card-header bg-primary">
-                    <h4 class="text-center text-light">Update Partient</h4>
-                </div>
-                <div class="card-body">
+    </div>
+    <div class="row  justify-content-center">
+        <div class="col-8 card p-0 shadow border border-primary">
+            <div class="card-header bg-primary p-0">
+                <h4 class="text-center text-light ">Update Partient</h4>
+            </div>
+            <div class="card-body">
 
-                </div>
+                <form id="form-update-patient" class="form-group">
+                    <input type="text" hidden id="upatientid" >
+                    <div class="form-group">
+                        <label for="upatientname" class="control-label">Patient Name</label>
+                        <input type="text" class="form-control" id="upatientname" placeholder="Patient name">
+                    </div>
+                    <div class="form-group">
+                        <label for="uusername" class="control-label">User Name</label>
+                        <input type="text" class="form-control" disabled id="uusername" placeholder="User name">
+                    </div>
+
+                    <label for="" class="control-label">Gender</label>
+
+                    @Html.DropDownList("ugender", ViewBag.genders as SelectList, new { @class = "form-control mb-3", @id = "ugender" })
+                    <div class="form-group">
+                        <label for="unationalid" class="control-label">National ID</label>
+                        <input type="text" class="form-control" id="unationalid" placeholder="National ID">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ubrithofdate" class="control-label">Date of birth</label>
+                        <input type="date" class="form-control" id="ubrithofdate" value="2000-01-01">
+                    </div>
+                    <div class="form-group">
+                        <label for="umobile" class="control-label">Mobile No</label>
+                        <input type="text" class="form-control" id="umobile" placeholder="Mobile No">
+                    </div>
+                    <div class="form-group">
+                        <label for="uemail" class="control-label">Email</label>
+                        <input type="email" class="form-control" id="uemail" placeholder="Email">
+                    </div>
+                    <div class="form-group">
+                        <label for="uaddress" class="control-label">Address</label>
+                        <textarea type="date" rows="4" class="form-control" id="uaddress" placeholder="Address"></textarea>
+                    </div>
+
+                    <div class="form-group text-center">
+                        <input type="submit" class="btn btn-primary" value="Update">
+                        <btn id="btn-close-form-update" class="btn btn-secondary">Cancel</btn>
+                    </div>
+                </form>
+                
+
             </div>
         </div>
     </div>
-
-
+   
 </div>
 
 
-<!-- Modal accept delete patient -->
-<div class="modal fade" id="accept-delete-patient" tabindex="-1" role="dialog" aria-labelledby="accept-delete-patientTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="accept-delete-patientTitle">Delete patient ?</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                You want to delete patient <strong id="patientname-delete"></strong> ?
-            </div>
-            <div class="modal-footer">
-                <button type="button" id="btn-accept-delete-doctor" data-dismiss="modal" class="btn btn-danger">Delete</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!--Message Modal -->
-<div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="messageModalLabel"></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p id="messageContent"></p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
 </div>
 
 @section scripts{

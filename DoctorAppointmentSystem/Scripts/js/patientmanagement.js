@@ -8,15 +8,15 @@ function setbtnonffoform() {
     //close form create
     $("#btn-close-form").on("click", function () {
         $("#create-patient-page").hide();
-        $("#update-patient-page").show();
-        $("#list-patient-page").hide();
+        $("#update-patient-page").hide();
+        $("#list-patient-page").show();
      
     });
     // close from update
     $("#btn-close-form-update").on("click", function () {
         $("#create-patient-page").hide();
-        $("#update-patient-page").show();
-        $("#list-patient-page").hide();
+        $("#update-patient-page").hide();
+        $("#list-patient-page").show();
        
     });
     
@@ -41,35 +41,49 @@ function setbtnonffoform() {
 //create patient
 function setSubmitFormByAjax() {
     $("#form-create-patient").submit(function (event) {
-        var gender = $(".radio-gender:checked").val();
-
+      
         var formData = {
 
-            
-            USERNAME: $("#username").val(), 
+            PATIENTNAME: $("#patientname").val() ,
+            USERNAME: $("#username").val(),
             PASSWORD: $("#password").val(),
-           
             EMAIL: $("#email").val(), 
-            SPECIALITY: $("#specialy").val(), 
-            WORKINGENDDATE: $("#workingenddate").val(),
-            WORKINGSTARTDATE: $("#workingstartdate").val(),
+            PATIENTNATIONALID: $("#nationalid").val(),
+            PATIENTGENDER: $("#gender").val(),
+            PATIENTMOBILENO: $("#mobile").val(),
+            PATIENTDATEOFBIRTH: $("#brithofdate").val(),
+            PATIENTADDRESS: $("#address").val(),
+
+           
         };
-       
+        console.log("Create =>patient");
         $.ajax({
             type: "POST",
-            url: "",
+            url: "/Admin/PatientManage/CreatePatient",
             data: formData,
             dataType: "json",
             encode: true,
         }).done(function (data) {
             console.log(data);
-            if (data.error == 1) { showMessage(data.msg, "Error !"); }
+            if (data.error == 1) {
+                //showMessage(data.msg, "Error !");
+                Swal.fire(
+                    'Failed!',
+                    data.msg,
+                    'error'
+                )
+            }
             if (data.error == 0) {
                 
-                $('#DoctorTable').DataTable().ajax.reload();
+                $('#PatientTable').DataTable().ajax.reload();
                 $("#create-patient-page").hide();
                 $("#list-patient-page").show();
-                showMessage("Create patient is success ", "Success !")
+                //showMessage("Create patient is success ", "Success !")
+                Swal.fire(
+                    'Success!',
+                    'Create patient is success !',
+                    'success'
+                )
 
             }
         });
@@ -78,147 +92,7 @@ function setSubmitFormByAjax() {
     });
 }
 
-// load data to form update
-function LoadDataToForm(doctorid) {
-
-    var formData = {
-        DoctorId: doctorid,
-    };
-
-    $.ajax({
-        type: "POST",
-        url: "",
-        data: formData,
-        dataType: "json",
-        encode: true,
-    }).done(function (data) {
-        console.log(data);
-        if (data.error == 1) { showMessageFormUpdate(data.msg); }
-        if (data.error == 0) {
-
-            console.log(data.doctor);
-
-
-            $("#udoctorid").val(data.doctor.DOCTORID);
-            $("#udoctorname").val(data.doctor.DOCTORNAME);
-            $("#uusername").val(data.doctor.USERNAME);
-            $("#upassword").val(data.doctor.PASSWORD);
-            $("#unationalid").val(data.doctor.DOCTORNATIONALID);
-            $("#uaddress").val(data.doctor.DOCTORADDRESS);
-            $("#udepartment").val(String(data.doctor.DEPARTMENTID));
-            $("#ubrithofdate").val(data.doctor.DOCTORDATEOFBIRTH);
-            $("#umobile").val(data.doctor.DOCTORMOBILENO);
-            $("#uworkingenddate").val(data.doctor.WORKINGENDDATE);
-            $("#uworkingstartdate").val(data.doctor.WORKINGSTARTDATE);
-            $("[name=ugender]").val([data.doctor.DOCTORGENDER]);
-            $("#uemail").val(data.doctor.EMAIL);
-            $("#uspecialy").val(data.doctor.SPECIALITY);
-
-
-        }
-    });
-
-
-}
-
-//Update patient
-function setSubmitFormUdateByAjax() {
-    $("#form-edit-doctor").submit(function (event) {
-        var gender = $(".uradio-gender:checked").val();
-
-        var formData = {
-            DOCTORID: $("#udoctorid").val(),
-            DOCTORNAME: $("#udoctorname").val(),
-            DOCTORNATIONALID: $("#unationalid").val(),
-            DOCTORGENDER: gender,
-            DOCTORADDRESS: $("#uaddress").val(),
-            DEPARTMENTID: $("#udepartment").val(),
-            DOCTORDATEOFBIRTH: $("#ubrithofdate").val(),
-            DOCTORMOBILENO: $("#umobile").val(),
-            EMAIL: $("#uemail").val(),
-            SPECIALITY: $("#uspecialy").val(),
-            WORKINGENDDATE: $("#uworkingenddate").val(),
-            WORKINGSTARTDATE: $("#uworkingstartdate").val(),
-
-
-        };
-        console.log($("#udoctorname").val());
-        $.ajax({
-            type: "POST",
-            url: "",
-            data: formData,
-            dataType: "json",
-            encode: true,
-        }).done(function (data) {
-            console.log(data);
-            if (data.error == 1) { showMessage(data.msg, "Error !"); }
-            if (data.error == 0) {
-                $('#DoctorTable').DataTable().ajax.reload();
-
-                $("#l-form-doctor").hide();
-                $("#table-list-doctor").show();
-                $("#form-update-doctor").hide();
-                showMessage("Update doctor is success ", "Success !")
-
-            }
-        });
-
-        event.preventDefault();
-    });
-}
-
-//show delete dialog
-function SetEventDeletePatientFoBtn() {
-    var table = $('#DoctorTable').DataTable();
-
-    table.on('draw', function () {
-
-        $(".btn-delete-doctor").on("click", function () {
-            var Button = $(this);
-            var ButtonAccept = $("#btn-accept-delete-doctor");
-            var doctorname = Button.data("doctorname");
-            var id = Button.data("id");
-            ButtonAccept.attr("data-id", id);
-            $("#doctorname-delete").html(doctorname);
-            console.log("db=>" + id);
-        });
-    });
-    
-    $("#btn-accept-delete-doctor").on("click", function () {
-        var Button = $(this);
-        var id = Button.attr("data-id");
-        console.log("dl=>" + id);
-        DeleteDocTorByAjax(id);// delete doctor by id
-    });
-
-}
-
-// delete patient
-function DeletePatientByAjax(doctorid) {
-
-    var formData = {
-        DoctorId: doctorid,
-    };
-
-    $.ajax({
-        type: "POST",
-        url: "",
-        data: formData,
-        dataType: "json",
-        encode: true,
-    }).done(function (data) {
-        console.log(data);
-        if (data.error == 1) {
-
-        }
-        if (data.error == 0) {
-            $('#DoctorTable').DataTable().ajax.reload();
-            showMessage("Delete doctor is success ", "Success !")
-        }
-    });
-}
-
-//show edit from
+//show update from
 function SetEventUpdatePatientFoBtn() {
     var table = $('#PatientTable').DataTable();
 
@@ -240,6 +114,211 @@ function SetEventUpdatePatientFoBtn() {
 
 }
 
+//load data to form update
+function LoadDataToForm(patientid) {
+
+    var formData = {
+        PatientId: patientid,
+    };
+
+    $.ajax({
+        type: "POST",
+        url: "/Admin/PatientManage/LoadPatient",
+        data: formData,
+        dataType: "json",
+        encode: true,
+    }).done(function (data) {
+        console.log(data);
+        if (data.error == 1) {
+            //showMessageFormUpdate(data.msg);
+            Swal.fire(
+                'Failed!',
+                data.msg,
+                'error'
+            )
+        }
+        if (data.error == 0) {
+
+            console.log(data.doctor);
+
+            $("#upatientid").val(data.patient.PATIENTID);
+            $("#upatientname").val(data.patient.PATIENTNAME);
+            $("#uusername").val(data.patient.USERNAME);
+            $("#unationalid").val(data.patient.PATIENTNATIONALID);
+            $("#uaddress").val(data.patient.PATIENTADDRESS);
+            $("#ubrithofdate").val(data.patient.PATIENTDATEOFBIRTH);
+            $("#umobile").val(data.patient.PATIENTMOBILENO);
+            $("[name=ugender]").val([data.patient.PATIENTGENDER]);
+            $("#uemail").val(data.patient.EMAIL);
+
+
+        }
+    });
+
+
+}
+
+//Update patient
+function setSubmitFormUdateByAjax() {
+    $("#form-update-patient").submit(function (event) {
+
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-success mr-2',
+                cancelButton: 'btn btn-danger'
+            },
+            buttonsStyling: false
+        })
+        swalWithBootstrapButtons.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, update it!',
+            cancelButtonText: 'No, cancel!',
+            reverseButtons: false
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+                var formData = {
+
+                    PATIENTID: $("#upatientid").val(),
+                    PATIENTNAME: $("#upatientname").val(),
+                    EMAIL: $("#uemail").val(),
+                    PATIENTNATIONALID: $("#unationalid").val(),
+                    PATIENTGENDER: $("#ugender").val(),
+                    PATIENTMOBILENO: $("#umobile").val(),
+                    PATIENTDATEOFBIRTH: $("#ubrithofdate").val(),
+                    PATIENTADDRESS: $("#uaddress").val(),
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Admin/PatientManage/UpdatePatient",
+                    data: formData,
+                    dataType: "json",
+                    encode: true,
+                }).done(function (data) {
+                    console.log(data);
+                    if (data.error == 1) {
+
+                        //showMessage(data.msg, "Error !");
+                        Swal.fire(
+                            'Failed!',
+                            data.msg,
+                            'error'
+                        )
+                    }
+                    if (data.error == 0) {
+                        $('#PatientTable').DataTable().ajax.reload();
+
+                        $("#create-patient-page").hide();
+                        $("#update-patient-page").hide();
+                        $("#list-patient-page").show();
+                        // showMessage("Update patient is success ", "Success !")
+
+                        Swal.fire(
+                            'Success!',
+                            'Update patient is success!',
+                            'success'
+                        )
+
+                    }
+                });
+
+
+
+            } else if (
+                /* Read more about handling dismissals below */
+                result.dismiss === Swal.DismissReason.cancel
+            ) {
+
+            }
+        })
+        
+       
+
+        event.preventDefault();
+    });
+}
+
+//show delete dialog
+function SetEventDeletePatientFoBtn() {
+    var table = $('#PatientTable').DataTable();
+
+    table.on('draw', function () {
+
+        $(".btn-delete-patient").on("click", function () {
+            var Button = $(this);
+            var id = Button.data("id");
+            console.log("db=>" + id);
+
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success mr-2',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            })
+            swalWithBootstrapButtons.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'No, cancel!',
+                reverseButtons: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    DeletePatientByAjax(id);// delete patient by id
+
+                } else if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    
+                }
+            })
+        });
+    });
+    
+}
+
+
+// delete patient
+function DeletePatientByAjax(patientid) {
+
+    var formData = {
+        PatientId: patientid,
+    };
+
+    $.ajax({
+        type: "POST",
+        url: "/Admin/PatientManage/DeletePatient",
+        data: formData,
+        dataType: "json",
+        encode: true,
+    }).done(function (data) {
+        console.log(data);
+        if (data.error == 1) {
+            Swal.fire(
+                'Failed!',
+                data.msg,
+                'error'
+            )
+        }
+        if (data.error == 0) {
+            $('#PatientTable').DataTable().ajax.reload();
+            //showMessage("Delete patient  is success ", "Success !")
+            Swal.fire(
+                'Deleted!',
+                'Delete Patient is success!',
+                'success'
+            )
+        }
+    });
+}
 
 
 //show message create from
@@ -382,7 +461,7 @@ function initJqueryDatatable() {
                 "render": function (data, type, row) {
                     console.log(data, type, row);
                     return "<btn class=\"btn-update-patient btn btn-sm btn-primary \" data-id=\"" + row.PATIENTID + "\" data-partientname=\"" + row.PATIENTNAME + "\"> Edit </btn>"
-                        + "<btn class=\"btn-delete-patient btn btn-sm btn-danger ml-2\" data-id=\"" + row.PATIENTID + "\" data-partientname=\"" + row.PATIENTNAME + "\" data-toggle=\"modal\" data-target=\"#accept-delete-patient\"> Delete </btn> "
+                        + "<btn class=\"btn-delete-patient btn btn-sm btn-danger ml-2\" data-id=\"" + row.PATIENTID + "\" data-partientname=\"" + row.PATIENTNAME + "\" > Delete </btn> "
                         
                 }
 
@@ -425,5 +504,5 @@ $("document").ready(function () {
     initJqueryDatatable();
     SetEventUpdatePatientFoBtn();
     SetEventDeletePatientFoBtn();
-    SetEventResetPaswdPatientFoBtn();
+    
 });

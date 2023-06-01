@@ -28,6 +28,13 @@ namespace DoctorAppointmentSystem
                       "~/Content/responsive.bootstrap.min.css",
                       "~/Content/site.css"));
 
+            //Config ScriptBundle and StyleBundle for sweetalert lib
+            bundles.Add(new ScriptBundle("~/bundles/sweetalert/js").Include(
+                     "~/lib/sweetalert2/sweetalert2.all.min.js"));
+            bundles.Add(new StyleBundle("~/Content/sweetalert/css").Include(
+               "~/lib/sweetalert2/sweetalert2.min.css"));
+
+
             //Config ScriptBundle and StyleBundle for jQuery Datatable
             bundles.Add(new ScriptBundle("~/bundles/datatable").Include(
                 "~/Scripts/jquery.dataTables.min.js",

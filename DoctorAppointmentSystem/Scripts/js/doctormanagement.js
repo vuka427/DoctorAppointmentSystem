@@ -82,13 +82,25 @@ function setSubmitFormByAjax() {
             encode: true,
         }).done(function (data) {
             console.log(data);
-            if (data.error == 1) { showMessage(data.msg, "Error !"); }
+            if (data.error == 1) {
+                //showMessage(data.msg, "Error !");
+                Swal.fire(
+                    'Failed!',
+                    data.msg,
+                    'error'
+                )
+            }
             if (data.error == 0) {
                 //$("#form-create-doctor").trigger('reset');
                 $('#DoctorTable').DataTable().ajax.reload();
                 $("#l-form-doctor").hide();
                 $("#table-list-doctor").show();
-                showMessage("Create doctor is success ", "Success !")
+                //showMessage("Create doctor is success ", "Success !")
+                Swal.fire(
+                    'Success!',
+                    'Create doctor is success !',
+                    'success'
+                )
 
             }
         });
@@ -112,7 +124,14 @@ function LoadDataToForm(doctorid) {
         encode: true,
     }).done(function (data) {
         console.log(data);
-        if (data.error == 1) { showMessageFormUpdate(data.msg); }
+        if (data.error == 1) {
+            //showMessageFormUpdate(data.msg);
+            Swal.fire(
+                'Failed!',
+                data.msg,
+                'error'
+            )
+        }
         if (data.error == 0) {
 
             console.log(data.doctor);
@@ -143,44 +162,82 @@ function LoadDataToForm(doctorid) {
 //Update doctor
 function setSubmitFormUdateByAjax() {
     $("#form-edit-doctor").submit(function (event) {
-        var gender = $(".uradio-gender:checked").val();
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-success mr-2',
+                cancelButton: 'btn btn-danger'
+            },
+            buttonsStyling: false
+        })
+        swalWithBootstrapButtons.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, update it!',
+            cancelButtonText: 'No, cancel!',
+            reverseButtons: false
+        }).then((result) => {
+            if (result.isConfirmed) {
 
-        var formData = {
-            DOCTORID: $("#udoctorid").val(),
-            DOCTORNAME: $("#udoctorname").val(),
-            DOCTORNATIONALID: $("#unationalid").val(),
-            DOCTORGENDER: gender,
-            DOCTORADDRESS: $("#uaddress").val(),
-            DEPARTMENTID: $("#udepartment").val(),
-            DOCTORDATEOFBIRTH: $("#ubrithofdate").val(),
-            DOCTORMOBILENO: $("#umobile").val(),
-            EMAIL: $("#uemail").val(),
-            SPECIALITY: $("#uspecialy").val(),
-            WORKINGENDDATE: $("#uworkingenddate").val(),
-            WORKINGSTARTDATE: $("#uworkingstartdate").val(),
+                var gender = $(".uradio-gender:checked").val();
+
+                var formData = {
+                    DOCTORID: $("#udoctorid").val(),
+                    DOCTORNAME: $("#udoctorname").val(),
+                    DOCTORNATIONALID: $("#unationalid").val(),
+                    DOCTORGENDER: gender,
+                    DOCTORADDRESS: $("#uaddress").val(),
+                    DEPARTMENTID: $("#udepartment").val(),
+                    DOCTORDATEOFBIRTH: $("#ubrithofdate").val(),
+                    DOCTORMOBILENO: $("#umobile").val(),
+                    EMAIL: $("#uemail").val(),
+                    SPECIALITY: $("#uspecialy").val(),
+                    WORKINGENDDATE: $("#uworkingenddate").val(),
+                    WORKINGSTARTDATE: $("#uworkingstartdate").val(),
+
+                };
+                console.log($("#udoctorname").val());
+                $.ajax({
+                    type: "POST",
+                    url: "/Admin/DoctorManage/UpdateDoctor",
+                    data: formData,
+                    dataType: "json",
+                    encode: true,
+                }).done(function (data) {
+                    console.log(data);
+                    if (data.error == 1) {
+                        //showMessage(data.msg, "Error !");
+                        Swal.fire(
+                            'Failed!',
+                            data.msg,
+                            'error'
+                        )
+                    }
+                    if (data.error == 0) {
+                        $('#DoctorTable').DataTable().ajax.reload();
+
+                        $("#l-form-doctor").hide();
+                        $("#table-list-doctor").show();
+                        $("#form-update-doctor").hide();
+                        //showMessage("Update doctor is success ", "Success !")
+                        Swal.fire(
+                            'Success!',
+                            'Update doctor is success !',
+                            'success'
+                        )
+
+                    }
+                });
 
 
-        };
-        console.log($("#udoctorname").val());
-        $.ajax({
-            type: "POST",
-            url: "/Admin/DoctorManage/UpdateDoctor",
-            data: formData,
-            dataType: "json",
-            encode: true,
-        }).done(function (data) {
-            console.log(data);
-            if (data.error == 1) { showMessage(data.msg, "Error !"); }
-            if (data.error == 0) {
-                $('#DoctorTable').DataTable().ajax.reload();
-
-                $("#l-form-doctor").hide();
-                $("#table-list-doctor").show();
-                $("#form-update-doctor").hide();
-                showMessage("Update doctor is success ", "Success !")
+            } else if (
+                /* Read more about handling dismissals below */
+                result.dismiss === Swal.DismissReason.cancel
+            ) {
 
             }
-        });
+        })
 
         event.preventDefault();
     });
