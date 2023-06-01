@@ -7,6 +7,7 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Styles.Render("~/Content/datatable")
+    @Styles.Render("~/Content/sweetalert/css")
     <link href="~/Content/login.css" rel="stylesheet" />
 </head>
 <body>
@@ -19,7 +20,7 @@
                     <span class="icon-bar"></span>
                 </button>
                 @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-                @Html.ActionLink("Management", "Index", "Manage", new { area = "Admin" }, new {  })
+                @Html.ActionLink("Management", "Index", "Manage", new { area = "Admin" }, new { })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -41,6 +42,7 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/datatable")
+    @Scripts.Render("~/bundles/sweetalert/js")
     @RenderSection("scripts", required: false)
 </body>
 </html>

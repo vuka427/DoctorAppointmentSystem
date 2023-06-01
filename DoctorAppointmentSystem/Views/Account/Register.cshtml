@@ -10,9 +10,10 @@
     <meta name="viewport" content="width=device-width" />
     <title>Registration</title>
     @Styles.Render("~/Content/css")
-    <link href="~/Content/registration.css" rel="stylesheet" />
+    <link href="~/Content/css/register.css" rel="stylesheet" />
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.4.0/css/all.css">
+    @Styles.Render("~/Content/sweetalert/css")
 </head>
 <body>
     <div id="register-wrapper">
@@ -171,6 +172,7 @@
     <script src="~/Scripts/bootstrap.bundle.min.js"></script>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-    <script src="~/Scripts/register/register.js"></script>
+    @Scripts.Render("~/bundles/sweetalert/js")
+    <script src="~/Scripts/js/register.js"></script>
 </body>
 </html>
