@@ -163,6 +163,9 @@
     <Compile Include="Areas\Admin\Models\DoctorManage\DoctorViewModel.cs" />
     <Compile Include="Areas\Admin\Models\DoctorManage\Mapping\MapDoctorProfile.cs" />
     <Compile Include="Areas\Admin\Models\PatientManage\Mapping\MapPatientProfile.cs" />
+    <Compile Include="Areas\Admin\Models\PatientManage\PatientCreateModel.cs" />
+    <Compile Include="Areas\Admin\Models\PatientManage\PatientEditModel.cs" />
+    <Compile Include="Areas\Admin\Models\PatientManage\PatientViewEditModel.cs" />
     <Compile Include="Areas\Admin\Models\PatientManage\PatientViewModel.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -257,6 +260,10 @@
     <Content Include="img\bg-intro.jpg" />
     <Content Include="img\bg-img.jpg" />
     <Content Include="img\login-intro-img.png" />
+    <Content Include="lib\bootstrap-sweetalert\sweetalert.css" />
+    <Content Include="lib\bootstrap-sweetalert\sweetalert.js" />
+    <Content Include="lib\bootstrap-sweetalert\sweetalert.min.css" />
+    <Content Include="lib\bootstrap-sweetalert\sweetalert.min.js" />
     <Content Include="lib\sweetalert2\sweetalert2.all.js" />
     <Content Include="lib\sweetalert2\sweetalert2.all.min.js" />
     <Content Include="lib\sweetalert2\sweetalert2.css" />
@@ -310,6 +317,7 @@
       <DependentUpon>DBContext.edmx</DependentUpon>
     </Content>
     <Content Include="libman.json" />
+    <Content Include="lib\bootstrap-sweetalert\sweetalert.min.css.map" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
