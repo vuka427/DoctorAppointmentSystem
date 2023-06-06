@@ -41,52 +41,54 @@ function setbtnonffoform() {
 //create patient
 function setSubmitFormByAjax() {
     $("#form-create-patient").submit(function (event) {
-      
-        var formData = {
+        if ($("#form-create-patient").valid()) {
+            var formData = {
 
-            PATIENTNAME: $("#patientname").val() ,
-            USERNAME: $("#username").val(),
-            PASSWORD: $("#password").val(),
-            EMAIL: $("#email").val(), 
-            PATIENTNATIONALID: $("#nationalid").val(),
-            PATIENTGENDER: $("#gender").val(),
-            PATIENTMOBILENO: $("#mobile").val(),
-            PATIENTDATEOFBIRTH: $("#brithofdate").val(),
-            PATIENTADDRESS: $("#address").val(),
+                PATIENTNAME: $("#patientname").val(),
+                USERNAME: $("#username").val(),
+                PASSWORD: $("#password").val(),
+                EMAIL: $("#email").val(),
+                PATIENTNATIONALID: $("#nationalid").val(),
+                PATIENTGENDER: $("#gender").val(),
+                PATIENTMOBILENO: $("#mobile").val(),
+                PATIENTDATEOFBIRTH: $("#brithofdate").val(),
+                PATIENTADDRESS: $("#address").val(),
 
-           
-        };
-        console.log("Create =>patient");
-        $.ajax({
-            type: "POST",
-            url: "/Admin/PatientManage/CreatePatient",
-            data: formData,
-            dataType: "json",
-            encode: true,
-        }).done(function (data) {
-            console.log(data);
-            if (data.error == 1) {
-                //showMessage(data.msg, "Error !");
-                Swal.fire(
-                    'Failed!',
-                    data.msg,
-                    'error'
-                )
-            }
-            if (data.error == 0) {
-                
-                $('#PatientTable').DataTable().ajax.reload();
-                $("#create-patient-page").hide();
-                $("#list-patient-page").show();
-                //showMessage("Create patient is success ", "Success !")
-                Swal.fire(
-                    'Success!',
-                    'Create patient is success !',
-                    'success'
-                )
 
-            }
-        });
+            };
+            console.log("Create =>patient");
+            $.ajax({
+                type: "POST",
+                url: "/Admin/PatientManage/CreatePatient",
+                data: formData,
+                dataType: "json",
+                encode: true,
+            }).done(function (data) {
+                console.log(data);
+                if (data.error == 1) {
+                    //showMessage(data.msg, "Error !");
+                    Swal.fire(
+                        'Failed!',
+                        data.msg,
+                        'error'
+                    )
+                }
+                if (data.error == 0) {
+
+                    $('#PatientTable').DataTable().ajax.reload();
+                    $("#create-patient-page").hide();
+                    $("#list-patient-page").show();
+                    //showMessage("Create patient is success ", "Success !")
+                    Swal.fire(
+                        'Success!',
+                        'Create patient is success !',
+                        'success'
+                    )
+
+                }
+            });
+        }
+        
 
         event.preventDefault();
     });
@@ -148,7 +150,7 @@ function LoadDataToForm(patientid) {
             $("#uaddress").val(data.patient.PATIENTADDRESS);
             $("#ubrithofdate").val(data.patient.PATIENTDATEOFBIRTH);
             $("#umobile").val(data.patient.PATIENTMOBILENO);
-            $("[name=ugender]").val([data.patient.PATIENTGENDER]);
+            $("#ugender").val([data.patient.PATIENTGENDER]);
             $("#uemail").val(data.patient.EMAIL);
 
 
@@ -161,80 +163,82 @@ function LoadDataToForm(patientid) {
 //Update patient
 function setSubmitFormUdateByAjax() {
     $("#form-update-patient").submit(function (event) {
+        if ($("#form-update-patient").valid()) {
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success mr-2',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            })
+            swalWithBootstrapButtons.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, update it!',
+                cancelButtonText: 'No, cancel!',
+                reverseButtons: false
+            }).then((result) => {
+                if (result.isConfirmed) {
 
-        const swalWithBootstrapButtons = Swal.mixin({
-            customClass: {
-                confirmButton: 'btn btn-success mr-2',
-                cancelButton: 'btn btn-danger'
-            },
-            buttonsStyling: false
-        })
-        swalWithBootstrapButtons.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, update it!',
-            cancelButtonText: 'No, cancel!',
-            reverseButtons: false
-        }).then((result) => {
-            if (result.isConfirmed) {
+                    var formData = {
 
-                var formData = {
+                        PATIENTID: $("#upatientid").val(),
+                        PATIENTNAME: $("#upatientname").val(),
+                        EMAIL: $("#uemail").val(),
+                        PATIENTNATIONALID: $("#unationalid").val(),
+                        PATIENTGENDER: $("#ugender").val(),
+                        PATIENTMOBILENO: $("#umobile").val(),
+                        PATIENTDATEOFBIRTH: $("#ubrithofdate").val(),
+                        PATIENTADDRESS: $("#uaddress").val(),
+                    };
 
-                    PATIENTID: $("#upatientid").val(),
-                    PATIENTNAME: $("#upatientname").val(),
-                    EMAIL: $("#uemail").val(),
-                    PATIENTNATIONALID: $("#unationalid").val(),
-                    PATIENTGENDER: $("#ugender").val(),
-                    PATIENTMOBILENO: $("#umobile").val(),
-                    PATIENTDATEOFBIRTH: $("#ubrithofdate").val(),
-                    PATIENTADDRESS: $("#uaddress").val(),
-                };
+                    $.ajax({
+                        type: "POST",
+                        url: "/Admin/PatientManage/UpdatePatient",
+                        data: formData,
+                        dataType: "json",
+                        encode: true,
+                    }).done(function (data) {
+                        console.log(data);
+                        if (data.error == 1) {
 
-                $.ajax({
-                    type: "POST",
-                    url: "/Admin/PatientManage/UpdatePatient",
-                    data: formData,
-                    dataType: "json",
-                    encode: true,
-                }).done(function (data) {
-                    console.log(data);
-                    if (data.error == 1) {
+                            //showMessage(data.msg, "Error !");
+                            Swal.fire(
+                                'Failed!',
+                                data.msg,
+                                'error'
+                            )
+                        }
+                        if (data.error == 0) {
+                            $('#PatientTable').DataTable().ajax.reload();
 
-                        //showMessage(data.msg, "Error !");
-                        Swal.fire(
-                            'Failed!',
-                            data.msg,
-                            'error'
-                        )
-                    }
-                    if (data.error == 0) {
-                        $('#PatientTable').DataTable().ajax.reload();
+                            $("#create-patient-page").hide();
+                            $("#update-patient-page").hide();
+                            $("#list-patient-page").show();
+                            // showMessage("Update patient is success ", "Success !")
 
-                        $("#create-patient-page").hide();
-                        $("#update-patient-page").hide();
-                        $("#list-patient-page").show();
-                        // showMessage("Update patient is success ", "Success !")
+                            Swal.fire(
+                                'Success!',
+                                'Update patient is success!',
+                                'success'
+                            )
 
-                        Swal.fire(
-                            'Success!',
-                            'Update patient is success!',
-                            'success'
-                        )
-
-                    }
-                });
+                        }
+                    });
 
 
 
-            } else if (
-                /* Read more about handling dismissals below */
-                result.dismiss === Swal.DismissReason.cancel
-            ) {
+                } else if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
 
-            }
-        })
+                }
+            })
+        }
+        
         
        
 
@@ -493,6 +497,282 @@ function ShowPass() {
 
     }
         
+//Validate form
+function ValidateFormDoctor() {
+    jQuery.validator.addMethod('valid_phone', function (value) {
+        var regex = /^(84|0[3|5|7|8|9])+([0-9]{8})\b$/;
+        return value.trim().match(regex);
+    });
+
+    jQuery.validator.addMethod('valid_password', function (value) {
+        var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,50}$/;
+        return value.trim().match(regex);
+    });
+    jQuery.validator.addMethod("greaterThan",
+        function (value, element, params) {
+
+            if (!/Invalid|NaN/.test(new Date(value))) {
+                return new Date(value) > new Date($(params).val());
+            }
+
+            return isNaN(value) && isNaN($(params).val())
+                || (Number(value) > Number($(params).val()));
+        }, 'Must be greater than {0}.');
+
+
+    //Validate form create
+    $("#form-create-patient").validate({
+        onfocusout: function (element) {
+            $(element).valid()
+        },
+       
+        rules: {
+            "patientname": {
+                required: true,
+                maxlength: 50
+            },
+            "username": {
+                required: true,
+                maxlength: 50,
+                minlength: 3
+            },
+            "password": {
+                required: true,
+                maxlength: 50,
+                minlength: 6,
+                valid_password: true
+
+            },
+            "nationalid": {
+                required: true,
+                maxlength: 20
+
+            },
+            "brithofdate": {
+                required: true,
+
+
+            },
+            "mobile": {
+                required: true,
+                valid_phone: true
+
+            },
+            "address": {
+                required: true,
+                maxlength: 256,
+
+            }
+            
+            ,
+            "email": {
+                required: true,
+                email: true
+            }
+            ,
+            "Gender": {
+                required: true
+
+            }
+        },
+        messages: {
+            "patientname": {
+                required: "Patient name is required",
+                maxlength: "Patient name charater max lenght is 50!",
+
+            },
+            "username": {
+                required: "User name is required",
+                maxlength: "Username charater lenght is 3 to 50!",
+                minlength: "Username charater lenght is 3 to 50!"
+            },
+            "password": {
+                required: "Password is required",
+                maxlength: "Password charater lenght is 6 to 50!",
+                minlength: "Password charater lenght is 6 to 50!",
+                valid_password: "Password charater at least one uppercase letter, one lowercase letter, one number and one special character: [a-z],[A-Z],[0-9],[@$!%*?&]"
+            },
+            "nationalid": {
+                required: "National ID is required",
+                maxlength: "National ID charater max lenght is 20!"
+            },
+            "brithofdate": {
+                required: "Birth of date is required",
+
+            },
+            "mobile": {
+                required: "Mobile is required",
+                valid_phone: "wrong phone number format"
+
+            },
+            "address": {
+                required: "Address is required",
+                maxlength: "Doctor address charater max lenght is 256 !"
+            }
+            ,
+            "email": {
+                required: "Email is required",
+                email: "wrong email format"
+            },
+            "Gender": {
+                required: "Gender is required"
+
+            }
+
+        },
+        highlight: function (element) {
+            var elem = $(element);
+            if (elem.hasClass("select2-hidden-accessible")) {
+                element = $(".select2-selection");
+
+                element.addClass('border-2 border-danger')
+            } else {
+                elem.addClass('border-2 border-danger ')
+            }
+
+        },
+        unhighlight: function (element) {
+            var elem = $(element);
+            if (elem.hasClass("select2-hidden-accessible")) {
+                element = $(".select2-selection");
+
+                element.removeClass('border-2 border-danger')
+            } else {
+                elem.removeClass('border-2 border-danger')
+            }
+
+        },
+        errorPlacement: function (error, element) {
+            var elem = $(element);
+            if (elem.hasClass("select2-hidden-accessible")) {
+                element = $("#department").parent();
+
+                error.insertAfter(element);
+            } else {
+                error.insertAfter(element);
+            }
+        }
+
+    });
+
+    //Validate form update
+    $("#form-update-patient").validate({
+        onfocusout: function (element) {
+            $(element).valid()
+        },
+
+        rules: {
+            "upatientname": {
+                required: true,
+                maxlength: 50
+            },
+            "unationalid": {
+                required: true,
+                maxlength: 20
+
+            },
+            "ubrithofdate": {
+                required: true,
+
+
+            },
+            "umobile": {
+                required: true,
+                valid_phone: true
+
+            },
+            "uaddress": {
+                required: true,
+                maxlength: 256,
+
+            }
+            ,
+            "uemail": {
+                required: true,
+                email: true
+            },
+            "uGender": {
+                required: true
+
+            }
+        },
+        messages: {
+            "upatientname": {
+                required: "Patient name is required",
+                maxlength: "Patient name charater max lenght is 50!",
+
+            },
+
+            "unationalid": {
+                required: "National ID is required",
+                maxlength: "National ID charater max lenght is 20!"
+            },
+            "ubrithofdate": {
+                required: "Birth of date is required",
+
+            },
+            "umobile": {
+                required: "Mobile is required",
+                valid_phone: "wrong phone number format"
+
+            },
+            "uaddress": {
+                required: "Address is required",
+                maxlength: "Doctor address charater max lenght is 256 !"
+            }
+            ,
+            "uemail": {
+                required: "Email is required",
+                email: "wrong email format"
+            },
+            "uGender": {
+                required: "Gender is required"
+
+            }
+        },
+        highlight: function (element) {
+            var elem = $(element);
+            if (elem.hasClass("select2-hidden-accessible")) {
+                element = $(".select2-selection");
+
+                element.addClass('border-2 border-danger')
+            } else {
+                elem.addClass('border-2 border-danger ')
+            }
+
+        },
+        unhighlight: function (element) {
+            var elem = $(element);
+            if (elem.hasClass("select2-hidden-accessible")) {
+                element = $(".select2-selection");
+
+                element.removeClass('border-2 border-danger')
+            } else {
+                elem.removeClass('border-2 border-danger')
+            }
+
+        },
+        errorPlacement: function (error, element) {
+            var elem = $(element);
+            if (elem.hasClass("select2-hidden-accessible")) {
+                element = $("#udepartment").parent();
+
+                error.insertAfter(element);
+            } else {
+                error.insertAfter(element);
+            }
+        }
+
+    });
+}
+
+function isNumberKey(evt) { // accept number 
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode != 46 && charCode > 31
+        && (charCode < 48 || charCode > 57))
+        return false;
+    return true;
+}      
 
         
 
@@ -504,5 +784,8 @@ $("document").ready(function () {
     initJqueryDatatable();
     SetEventUpdatePatientFoBtn();
     SetEventDeletePatientFoBtn();
+    ValidateFormDoctor();
+
+    
     
 });

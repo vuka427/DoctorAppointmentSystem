@@ -7,14 +7,14 @@ namespace DoctorAppointmentSystem.Areas.Admin.Models.DataTableModel
 {
     public class JqueryDatatableParam
     {
-        public string sEcho { get; set; } // số thứ tư yêu cầu
-        public string sSearch { get; set; } // chuổi tìm kiếm
-        public int iDisplayLength { get; set; } // số phần tử mổi page
-        public int iDisplayStart { get; set; } // vị trí bắt đầu
-        public int iColumns { get; set; } // số cột
-        public int iSortCol_0 { get; set; } // cột cần sấp xếp
-        public string sSortDir_0 { get; set; } // kiểu sấp sếp
-        public int iSortingCols { get; set; } // số cột dùng để sấp xếp
-        public string sColumns { get; set; } // danh sách các tên cột
+        public string sEcho { get; set; } 
+        public string sSearch { get; set; } 
+        public int iDisplayLength { get; set; } 
+        public int iDisplayStart { get; set; } 
+        public int iColumns { get; set; } 
+        public int iSortCol_0 { get; set; } 
+        public string sSortDir_0 { get; set; } 
+        public int iSortingCols { get; set; }
+        public string sColumns { get; set; }
     }
 }

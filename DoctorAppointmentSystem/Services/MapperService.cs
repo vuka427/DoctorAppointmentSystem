@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DoctorAppointmentSystem.Areas.Admin.Models.DoctorManage.Mapping;
 using DoctorAppointmentSystem.Areas.Admin.Models.PatientManage.Mapping;
+using DoctorAppointmentSystem.Models.DB;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,22 +9,43 @@ using System.Web;
 
 namespace DoctorAppointmentSystem.Services
 {
-    public class MapperService
+    public interface IMapper
     {
-        public static Mapper InitializeAutomapper()
+        Mapper GetMapper();
+    }
+
+    public class MapperService : IMapper
+    {
+        private readonly ISystemParamService _sysParam;
+        private Mapper _mapper;
+
+        public MapperService(ISystemParamService sysParam)
+        {
+            _sysParam = sysParam;
+            InitAutomapper();
+        }
+
+        private void InitAutomapper()
         {
 
             var config = new MapperConfiguration(cfg =>
             {
                 //register mapper for doctor model
-                cfg.AddProfile( new MapDoctorProfile());
+                cfg.AddProfile( new MapDoctorProfile(_sysParam));
                 //register mapper for patient model
                 cfg.AddProfile(new MapPatientProfile());
             });
 
-            var mapper = new Mapper(config);
-            return mapper;
+            _mapper = new Mapper(config);
+            
 
+        }
+
+        public Mapper GetMapper()
+        {
+            if (_mapper == null)
+                InitAutomapper();
+            return _mapper;
         }
     }          
 }

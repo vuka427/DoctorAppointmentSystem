@@ -4,11 +4,18 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
+
+@Styles.Render("~/Content/select2/css")
+@Styles.Render("~/Content/admin/doctor")
+
+
+
 <h3 class="text-center mt-2 font-weight-bold">Doctor Management</h3>
 
 <hr />
 
-<div class="">
+<div>
     @* Create doctor *@
     <div id="l-form-doctor" style=" " class="container justify-content-center  bg-white">
         <div id="error-message"> </div>
@@ -19,72 +26,93 @@
                     <h4 class="text-center text-light">Create Doctor</h4>
                 </div>
                 <div class="card-body">
-                    <form id="form-create-doctor" class="form-group">
-                        <div class="form-group">
-                            <label for="doctorname" class="control-label">Doctor Name</label>
-                            <input type="text" class="form-control" id="doctorname" placeholder="Doctor name">
-                        </div>
-                        <div class="form-group">
-                            <label for="username" class="control-label">User Name</label>
-                            <input type="text" class="form-control" id="username" placeholder="User name">
-                        </div>
-                        <div class="form-group">
-                            <label for="password" class="control-label">Password</label>
-                            <input type="password" class="form-control" id="password" placeholder="Password">
-                        </div>
-                        <div class="form-group">
-                            <label for="nationalid" class="control-label">National ID</label>
-                            <input type="text" class="form-control" id="nationalid" placeholder="National ID">
-                        </div>
-                        <div class="form-group">
-                            <label for="department" class="control-label">Department</label>
+                    <form id="form-create-doctor" class="form-group" autocomplete="off">
+                        <p class="divider-text">
+                            <span class="bg-light">Doctor account information</span>
+                        </p>
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text "><i class="fa fa-address-book"></i></span>
+                            </div>
+                            <input id="doctorname" name="doctorname" class="form-control" placeholder="Doctor Name (*)" type="text" pattern="^[a-zA-Z0-9]+$">
+                        </div><!-- Doctorname -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text "><i class="fa fa-user"></i></span>
+                            </div>
+                            <input type="text" class="form-control" id="username" name="username" placeholder="User name (*)">
+                        </div><!-- Username -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text "><i class="fa fa-lock"></i></span>
+                            </div>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Password (*)">
+                        </div><!-- Password -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text "><i class="fa fa-address-card"></i></span>
+                            </div>
+                            <input type="text" class="form-control" id="nationalid" name="nationalid" onkeypress="return isNumberKey(event)" placeholder="National ID (*)">
+                        </div><!-- Nationalid -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa-solid fa-building-user"></i></span>
+                            </div >
+                            <div class="form-control department-box" >
+                                @Html.DropDownList("Department", ViewBag.department as SelectList, "Department (*)", new { @class = "form-control custom-select deparment-select", @id = "department" })
+                            </div>
+                            <div id="department-error-message" ></div>
+                        </div> <!-- Department -->
 
-                            @Html.DropDownList("Department",
-                                 ViewBag.department as SelectList,
-                                 new { @class = "form-control", @id = "department" })
-
-                        </div>
-                        <label for="" class="control-label">Gender</label>
-                        <div class="form-group form-check">
-                            <input class="form-check-input radio-gender" type="radio" name="gender" id="Radios1" value="Male" checked>
-                            <label class="form-check-label" for="Radios1">
-                                Male
-                            </label>
-                        </div>
-                        <div class="form-group form-check">
-                            <input class="form-check-input radio-gender" type="radio" name="gender" id="Radios2" value="Female">
-                            <label class="form-check-label" for="eRadios2">
-                                Female
-                            </label>
-                        </div>
-                        <div class="form-group">
-                            <label for="brithofdate" class="control-label">Date of birth</label>
-                            <input type="date" class="form-control" id="brithofdate" value="2000-01-01">
-                        </div>
-                        <div class="form-group">
-                            <label for="mobile" class="control-label">Mobile No</label>
-                            <input type="text" class="form-control" id="mobile" placeholder="Mobile No">
-                        </div>
-                        <div class="form-group">
-                            <label for="email" class="control-label">Email</label>
-                            <input type="email" class="form-control" id="email" placeholder="Email">
-                        </div>
-                        <div class="form-group">
-                            <label for="address" class="control-label">Address</label>
-                            <textarea type="date" rows="4" class="form-control" id="address" placeholder="Address"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="specialy" class="control-label">Specialy</label>
-                            <input type="text" class="form-control" id="specialy" placeholder="Specialy">
-                        </div>
-                        <div class="form-group">
-                            <label for="workingstartdate" class="control-label">Working start date</label>
-                            <input type="date" class="form-control" id="workingstartdate" value="@DateTime.Now.ToString("yyyy-MM-dd")">
-                        </div>
-                        <div class="form-group">
-                            <label for="workingenddate" class="control-label">Working end date</label>
-                            <input type="date" class="form-control" id="workingenddate" value="@DateTime.Now.ToString("yyyy-MM-dd")">
-                        </div>
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-venus-mars"></i></span>
+                            </div>
+                            @Html.DropDownList("Gender", ViewBag.genders as SelectList, "Gender (*)", new { @class = "form-control custom-select ", @id = "gender" })
+                        </div> <!-- Gender -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text "><i class="fa fa-birthday-cake"></i></span>
+                            </div>
+                            <input placeholder="Date of birth (*)" class="form-control" type="text" onfocus="(this.type='date')" onblur="this.type='text'" id="brithofdate" name="brithofdate">
+                           
+                        </div> <!-- brithofdate -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text "><i class="fa fa-phone"></i></span>
+                            </div>
+                            <input type="text" class="form-control" id="mobile" name="mobile" onkeypress="return isNumberKey(event)" placeholder="Mobile No (*)">
+                        </div><!-- mobile -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text "><i class="fa-solid fa-envelope"></i></span>
+                            </div>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Email (*)">
+                        </div> <!-- email -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text "><i class="fa fa-home"></i></span>
+                            </div>
+                            <textarea rows="3" class="form-control" id="address" name="address" placeholder="Address (*)"></textarea>
+                        </div> <!-- address -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text "><i class="fa-solid fa-syringe"></i></span>
+                            </div>
+                            <input type="text" class="form-control" id="specialy" name="specialy" placeholder="Specialty (*)">
+                        </div> <!-- Specialty -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text "><i class="fa-sharp fa-solid fa-briefcase"></i></span>
+                            </div>
+                            <input placeholder="Working start date (*)" type="text" class="form-control" id="workingstartdate" name="workingstartdate" onfocus="(this.type='date')" onblur="this.type='text'"  >
+                        </div> <!-- workingstartdate -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text "><i class="fa-sharp fa-solid fa-briefcase"></i></span>
+                            </div>
+                            <input placeholder="Working end date (*)" type="text" class="form-control" id="workingenddate" name="workingenddate"  onfocus="(this.type='date')" onblur="this.type='text'" >
+                        </div> <!-- workingenddate -->
                         <div class="form-group text-center">
                             <input type="submit" class="btn btn-primary" value="Create">
                             <btn id="btn-close-form" class="btn btn-secondary"> Cancel </btn>
@@ -106,9 +134,7 @@
                     </table>
                 </div>
             </div>
-
         </div>
-
     </div>
     @* Update doctor *@
     <div id="form-update-doctor" style=" " class="container justify-content-center  bg-white">
@@ -121,74 +147,93 @@
                     <h4 class="text-center text-light">Update Doctor</h4>
                 </div>
                 <div class="card-body">
-                    <form id="form-edit-doctor" class="form-group">
+                    <form id="form-edit-doctor" class="form-group" autocomplete="off">
+                        <p class="divider-text">
+                            <span class="bg-light">Doctor account information</span>
+                        </p>
                         <div class="form-group">
 
                             <input type="text" class="form-control" hidden id="udoctorid">
-                        </div>
+                        </div><!--Update DoctorID -->
 
-                        <div class="form-group">
-                            <label for="udoctorname" class="control-label">Doctor Name</label>
-                            <input type="text" class="form-control" id="udoctorname" placeholder="Doctor name">
-                        </div>
-                        <div class="form-group">
-                            <label for="uusername" class="control-label">User Name</label>
-                            <input type="text" class="form-control disabled" disabled id="uusername" placeholder="Doctor name">
-                        </div>
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text login-input"><i class="fa fa-address-book"></i></span>
+                            </div>
+                            <input id="udoctorname" name="udoctorname" class="form-control" placeholder="Doctor Name (*)" type="text" pattern="^[a-zA-Z0-9]+$">
+                        </div><!--Update Doctorname -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text login-input"><i class="fa fa-user"></i></span>
+                            </div>
+                            <input type="text" class="form-control" id="uusername" disabled>
+                        </div><!--Update Username -->
 
-                        <div class="form-group">
-                            <label for="unationalid" class="control-label">National ID</label>
-                            <input type="text" class="form-control" id="unationalid" placeholder="National ID">
-                        </div>
-                        <div class="form-group">
-                            <label for="department" class="control-label">Department</label>
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text login-input"><i class="fa fa-address-card"></i></span>
+                            </div>
+                            <input type="text" class="form-control" id="unationalid" name="unationalid" onkeypress="return isNumberKey(event)" placeholder="National ID (*)">
+                        </div><!--Update Nationalid -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa-solid fa-building-user"></i></span>
+                            </div>
+                            <div class="form-control department-box">
+                                @Html.DropDownList("uDepartment", ViewBag.department as SelectList, new { @class = "form-control custom-select deparment-select", @id = "udepartment" })
+                            </div>
+                            <div id="udepartment-error-message"></div>
+                        </div> <!--Update Department -->
 
-                            @Html.DropDownList("Department",
-                                 ViewBag.department as SelectList,
-                                 new { @class = "form-control", @id = "udepartment" })
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-venus-mars"></i></span>
+                            </div>
+                            @Html.DropDownList("uGender", ViewBag.genders as SelectList, "Gender (*)", new { @class = "form-control custom-select ", @id = "ugender" })
+                        </div> <!--Update Gender -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text login-input"><i class="fa fa-birthday-cake"></i></span>
+                            </div>
+                            <input placeholder="Date of birth (*)" class="form-control" type="text" onfocus="(this.type='date')" onblur="this.type='text'" id="ubrithofdate" name="ubrithofdate">
 
-                        </div>
-                        <label for="" class="control-label">Gender</label>
-                        <div class="form-group form-check">
-                            <input class="form-check-input uradio-gender" type="radio" name="ugender" id="uRadios1" value="Male">
-                            <label class="form-check-label" for="uRadios1">
-                                Male
-                            </label>
-                        </div>
-                        <div class="form-group form-check">
-                            <input class="form-check-input uradio-gender" type="radio" name="ugender" id="uRadios2" value="Female">
-                            <label class="form-check-label" for="uRadios2">
-                                Female
-                            </label>
-                        </div>
-                        <div class="form-group">
-                            <label for="ubrithofdate" class="control-label">Date of birth</label>
-                            <input type="date" class="form-control" id="ubrithofdate" value="2000-01-01">
-                        </div>
-                        <div class="form-group">
-                            <label for="umobile" class="control-label">Mobile No</label>
-                            <input type="text" class="form-control" id="umobile" placeholder="...">
-                        </div>
-                        <div class="form-group">
-                            <label for="uemail" class="control-label">Email</label>
-                            <input type="email" class="form-control" id="uemail" placeholder="Email">
-                        </div>
-                        <div class="form-group">
-                            <label for="uaddress" class="control-label">Address</label>
-                            <textarea type="date" rows="4" class="form-control" id="uaddress" placeholder="..."></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="uspecialy" class="control-label">Specialy</label>
-                            <input type="text" class="form-control" id="uspecialy" placeholder="Specialy">
-                        </div>
-                        <div class="form-group">
-                            <label for="uworkingstartdate" class="control-label">Working start date</label>
-                            <input type="date" class="form-control" id="uworkingstartdate">
-                        </div>
-                        <div class="form-group">
-                            <label for="uworkingenddate" class="control-label">Working end date</label>
-                            <input type="date" class="form-control" id="uworkingenddate">
-                        </div>
+                        </div> <!--Update brithofdate -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text login-input"><i class="fa fa-phone"></i></span>
+                            </div>
+                            <input type="text" class="form-control" id="umobile" name="umobile" onkeypress="return isNumberKey(event)" placeholder="Mobile No (*)">
+                        </div><!--Update mobile -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text login-input"><i class="fa-solid fa-envelope"></i></span>
+                            </div>
+                            <input type="email" class="form-control" id="uemail" name="uemail" placeholder="Email (*)">
+                        </div> <!--Update email -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text login-input"><i class="fa fa-home"></i></span>
+                            </div>
+                            <textarea rows="3" class="form-control" id="uaddress" name="uaddress" placeholder="Address (*)"></textarea>
+                        </div> <!--Update address -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text login-input"><i class="fa-solid fa-syringe"></i></span>
+                            </div>
+                            <input type="text" class="form-control" id="uspecialy" name="uspecialy" placeholder="Specialty (*)">
+                        </div> <!--Update Specialty -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text login-input"><i class="fa-sharp fa-solid fa-briefcase"></i></span>
+                            </div>
+                            <input placeholder="Working start date (*)" type="text" class="form-control" id="uworkingstartdate" name="uworkingstartdate" onfocus="(this.type='date')" onblur="this.type='text'">
+                        </div> <!--Update workingstartdate -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text login-input"><i class="fa-sharp fa-solid fa-briefcase"></i></span>
+                            </div>
+                            <input placeholder="Working end date (*)" type="text" class="form-control" id="uworkingenddate" name="uworkingenddate" onfocus="(this.type='date')" onblur="this.type='text'">
+                        </div> <!--Update workingenddate -->
                         <div class="form-group text-center">
                             <input type="submit" class="btn btn-primary" value="Update">
                             <btn id="btn-close-form-update" class="btn btn-secondary">Cancel</btn>
@@ -198,89 +243,13 @@
             </div>
         </div>
     </div>
-    @* Reset password *@
-    <div id="resetpassword-doctor" style=" " class="container justify-content-center  bg-white">
-        <div id="error-message-resetpassword">
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-8 card p-0 shadow">
-                <div class="card-header bg-primary">
-                    <h4 class="text-center text-light">Reset Password </h4>
-                </div>
-                <div class="card-body">
-
-                    <form id="form-resetpassword-doctor" class="form-group">
-                        <div class="form-group">
-                            <input type="text" class="form-control" hidden id="rdoctorid">
-                        </div>
-                        <div class="form-group">
-                            <label for="rdoctorpaswd" class="control-label">New password</label>
-                            <input type="password" class="form-control paswd-on-off" id="rdoctorpaswd" placeholder="Password">
-                        </div>
-                        <div class="form-group">
-                            <label for="rdoctorname" class="control-label">Confirm password</label>
-                            <input type="password" class="form-control paswd-on-off" id="rdoctorname" placeholder="Password">
-                        </div>
-                        <div class="form-group">
-                            <input type="checkbox" id="check-show-pass" onclick="ShowPass()"> Show Password
-                        </div>
-                        <div class="form-group text-center">
-                            <input type="submit" class="btn btn-primary" value="Change">
-                            <btn id="btn-close-form-reset-password" class="btn btn-secondary">Cancel</btn>
-                        </div>
-                    </form>
-
-                </div>
-            </div>
-        </div>
-    </div>
-
 </div>
 
-
-<!-- Modal accept delete doctor -->
-<div class="modal fade" id="accept-delete-doctor" tabindex="-1" role="dialog" aria-labelledby="accept-delete-doctorTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="accept-delete-doctorTitle">Delete doctor ?</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                You want to delete doctor <strong id="doctorname-delete"></strong> ?
-            </div>
-            <div class="modal-footer">
-                <button type="button" id="btn-accept-delete-doctor" data-dismiss="modal" class="btn btn-danger">Delete</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!--Message Modal -->
-<div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="messageModalLabel"></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p id="messageContent"></p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 @section scripts{
 
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/select2/js")
     @Scripts.Render("~/bundles/admin/doctor")
 
 }

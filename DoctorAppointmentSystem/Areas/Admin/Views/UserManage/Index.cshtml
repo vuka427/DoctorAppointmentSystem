@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewBag.Title = "User Management";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@Styles.Render("~/Content/admin/user")
+
+
+<h3 class="text-center mt-2 font-weight-bold">User Management</h3>
+
+<div>
+    @* index page user *@
+    <div id="table-list-doctor" style=" " class="container justify-content-center  bg-white">
+        <div class=" container-fluid " style="width: auto">
+
+            <div class="row">
+                <div class="col-12 card shadow p-3">
+                    <table id="UserTable" class=" dt-responsive  display nowrap" cellspacing="0" width="100%" style=" margin : auto">
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+@section scripts{
+
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/admin/user")
+
+}

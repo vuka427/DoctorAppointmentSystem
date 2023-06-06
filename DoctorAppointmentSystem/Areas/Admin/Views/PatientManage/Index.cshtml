@@ -5,57 +5,79 @@
 }
 
 
+@Styles.Render("~/Content/select2/css")
+@Styles.Render("~/Content/admin/patient")
+
 <h3 class="text-center mt-2 font-weight-bold">Patient Management</h3>
 
 <hr />
 
 <div class="">
     @* Create patient *@
-    <div id="create-patient-page" style=" " class="container justify-content-center  bg-white">
+    <div id="create-patient-page" style="" class="container justify-content-center  bg-white">
         <div id="error-message"></div>
         <div class="row  justify-content-center">
             <div class="col-8 card p-0 shadow border border-primary">
                 <div class="card-header bg-primary p-0 ">
                     <h4 class="text-center text-light">Create Partient</h4>
                 </div>
-
                 <div class="card-body">
-                    <form id="form-create-patient" class="form-group">
-                        <div class="form-group">
-                            <label for="patientname" class="control-label">Patient Name</label>
-                            <input type="text" class="form-control" id="patientname" placeholder="Patient name">
-                        </div>
-                        <div class="form-group">
-                            <label for="username" class="control-label">User Name</label>
-                            <input type="text" class="form-control" id="username" placeholder="User name">
-                        </div>
-                        <div class="form-group">
-                            <label for="password" class="control-label">Password</label>
-                            <input type="password" class="form-control" id="password" placeholder="Password">
-                        </div>
-                        <label for="" class="control-label">Gender</label>
+                    <form id="form-create-patient" class="form-group" autocomplete="off">
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text "><i class="fa fa-address-book"></i></span>
+                            </div>
+                            <input type="text" class="form-control" id="patientname" name="patientname" placeholder="Patient name (*)">
+                        </div><!-- Patientname -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text "><i class="fa fa-user"></i></span>
+                            </div>
+                            <input type="text" class="form-control" id="username" name="username" placeholder="User name (*)">
+                        </div><!-- Username -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text "><i class="fa fa-lock"></i></span>
+                            </div>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Password (*)">
+                        </div><!-- Password -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-venus-mars"></i></span>
+                            </div>
+                            @Html.DropDownList("Gender", ViewBag.genders as SelectList, "Gender (*)", new { @class = "form-control custom-select  ", @id = "gender" })
+                        </div><!-- Gender -->
 
-                        @Html.DropDownList("Gender", ViewBag.genders as SelectList, new { @class = "form-control mb-3", @id = "gender" })
-                        <div class="form-group">
-                            <label for="nationalid" class="control-label">National ID</label>
-                            <input type="text" class="form-control" id="nationalid" placeholder="National ID">
-                        </div>
-                        <div class="form-group">
-                            <label for="brithofdate" class="control-label">Date of birth</label>
-                            <input type="date" class="form-control" id="brithofdate" value="2000-01-01">
-                        </div>
-                        <div class="form-group">
-                            <label for="mobile" class="control-label">Mobile No</label>
-                            <input type="text" class="form-control" id="mobile" placeholder="Mobile No">
-                        </div>
-                        <div class="form-group">
-                            <label for="email" class="control-label">Email</label>
-                            <input type="email" class="form-control" id="email" placeholder="Email">
-                        </div>
-                        <div class="form-group">
-                            <label for="address" class="control-label">Address</label>
-                            <textarea type="date" rows="4" class="form-control" id="address" placeholder="Address"></textarea>
-                        </div>
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text "><i class="fa fa-address-card"></i></span>
+                            </div>
+                            <input type="text" class="form-control" id="nationalid" name="nationalid" onkeypress="return isNumberKey(event)"  placeholder="National ID (*)">
+                        </div><!-- National id -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-birthday-cake"></i></span>
+                            </div>
+                            <input placeholder="Date of birth (*)" class="form-control" type="text" onfocus="(this.type='date')" onblur="this.type='text'"  id="brithofdate" name="brithofdate">
+                        </div><!-- brith of date -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text "><i class="fa fa-phone"></i></span>
+                            </div>
+                            <input type="text" class="form-control" id="mobile" name="mobile" onkeypress="return isNumberKey(event)"  placeholder="Mobile No (*)">
+                        </div><!-- mobile -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text "><i class="fa-solid fa-envelope"></i></span>
+                            </div>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Email (*)">
+                        </div><!-- Email -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text "><i class="fa fa-home"></i></span>
+                            </div>
+                            <textarea rows="3" class="form-control" id="address" name="address" placeholder="Address (*)"></textarea>
+                        </div><!-- Address -->
 
                         <div class="form-group text-center">
                             <input type="submit" class="btn btn-primary" value="Create">
@@ -70,7 +92,7 @@
     @* index patient *@
     <div id="list-patient-page" style=" " class="container justify-content-center  bg-white">
         <div class=" container-fluid " style="width: auto">
-            <btn id="btn-open-form" class=" btn btn-sm btn-primary mb-3 "> Add Partient </btn> có lỗi sấp xếp
+            <btn id="btn-open-form" class=" btn btn-sm btn-primary mb-3 "> Add Partient </btn>
             <div class="row">
                 <div class="col-12 card shadow p-3">
                     <table id="PatientTable" class=" dt-responsive  display nowrap" cellspacing="0" width="100%" style=" margin : auto">
@@ -82,71 +104,85 @@
 
     </div>
     @* Update patient *@
-<div id="update-patient-page" style=" " class="container justify-content-center  bg-white">
-    <div id="error-message-update">
+    <div id="update-patient-page" style=" " class="container justify-content-center  bg-white">
+        <div id="error-message-update">
 
-    </div>
-    <div class="row  justify-content-center">
-        <div class="col-8 card p-0 shadow border border-primary">
-            <div class="card-header bg-primary p-0">
-                <h4 class="text-center text-light ">Update Partient</h4>
-            </div>
-            <div class="card-body">
+        </div>
+        <div class="row  justify-content-center">
+            <div class="col-8 card p-0 shadow border border-primary">
+                <div class="card-header bg-primary p-0">
+                    <h4 class="text-center text-light ">Update Partient</h4>
+                </div>
+                <div class="card-body">
 
-                <form id="form-update-patient" class="form-group">
-                    <input type="text" hidden id="upatientid" >
-                    <div class="form-group">
-                        <label for="upatientname" class="control-label">Patient Name</label>
-                        <input type="text" class="form-control" id="upatientname" placeholder="Patient name">
-                    </div>
-                    <div class="form-group">
-                        <label for="uusername" class="control-label">User Name</label>
-                        <input type="text" class="form-control" disabled id="uusername" placeholder="User name">
-                    </div>
+                    <form id="form-update-patient" class="form-group">
+                        <input type="text" hidden id="upatientid">
+                        <!-- Patient ID -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text "><i class="fa fa-address-book"></i></span>
+                            </div>
+                            <input type="text" class="form-control" id="upatientname" name="upatientname" placeholder="Patient name (*)">
+                        </div><!-- Patientname -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text "><i class="fa fa-user"></i></span>
+                            </div>
+                            <input type="text" class="form-control" id="uusername" name="uusername" disabled>
+                        </div><!-- Username -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-venus-mars"></i></span>
+                            </div>
+                            @Html.DropDownList("uGender", ViewBag.genders as SelectList, "Gender (*)", new { @class = "form-control custom-select  ", @id = "ugender" })
+                        </div><!-- Gender -->
 
-                    <label for="" class="control-label">Gender</label>
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text "><i class="fa fa-address-card"></i></span>
+                            </div>
+                            <input type="text" class="form-control" id="unationalid" name="unationalid" onkeypress="return isNumberKey(event)" placeholder="National ID (*)">
+                        </div><!-- National id -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text "><i class="fa fa-birthday-cake"></i></span>
+                            </div>
+                            <input placeholder="Date of birth (*)" class="form-control" type="text" onfocus="(this.type='date')" onblur="this.type='text'" id="ubrithofdate" name="ubrithofdate">
+                        </div><!-- brith of date -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text "><i class="fa fa-phone"></i></span>
+                            </div>
+                            <input type="text" class="form-control" id="umobile" name="umobile" onkeypress="return isNumberKey(event)" placeholder="Mobile No (*)">
+                        </div><!-- mobile -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text "><i class="fa-solid fa-envelope"></i></span>
+                            </div>
+                            <input type="email" class="form-control" id="uemail" name="uemail" placeholder="Email (*)">
+                        </div><!-- Email -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text "><i class="fa fa-home"></i></span>
+                            </div>
+                            <textarea  rows="3" class="form-control" id="uaddress" name="uaddress" placeholder="Address (*)"></textarea>
+                        </div><!-- Address -->
 
-                    @Html.DropDownList("ugender", ViewBag.genders as SelectList, new { @class = "form-control mb-3", @id = "ugender" })
-                    <div class="form-group">
-                        <label for="unationalid" class="control-label">National ID</label>
-                        <input type="text" class="form-control" id="unationalid" placeholder="National ID">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="ubrithofdate" class="control-label">Date of birth</label>
-                        <input type="date" class="form-control" id="ubrithofdate" value="2000-01-01">
-                    </div>
-                    <div class="form-group">
-                        <label for="umobile" class="control-label">Mobile No</label>
-                        <input type="text" class="form-control" id="umobile" placeholder="Mobile No">
-                    </div>
-                    <div class="form-group">
-                        <label for="uemail" class="control-label">Email</label>
-                        <input type="email" class="form-control" id="uemail" placeholder="Email">
-                    </div>
-                    <div class="form-group">
-                        <label for="uaddress" class="control-label">Address</label>
-                        <textarea type="date" rows="4" class="form-control" id="uaddress" placeholder="Address"></textarea>
-                    </div>
-
-                    <div class="form-group text-center">
-                        <input type="submit" class="btn btn-primary" value="Update">
-                        <btn id="btn-close-form-update" class="btn btn-secondary">Cancel</btn>
-                    </div>
-                </form>
-                
-
+                        <div class="form-group text-center">
+                            <input type="submit" class="btn btn-primary" value="Update">
+                            <btn id="btn-close-form-update" class="btn btn-secondary">Cancel</btn>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-   
-</div>
-
-
 </div>
 
 @section scripts{
 
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/select2/js")
     @Scripts.Render("~/bundles/admin/patient")
 
 }

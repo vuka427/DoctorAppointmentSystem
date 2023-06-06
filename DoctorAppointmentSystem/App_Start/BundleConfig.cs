@@ -43,18 +43,34 @@ namespace DoctorAppointmentSystem
             bundles.Add(new StyleBundle("~/Content/datatable").Include(
                 "~/Content/jquery.dataTables.min.css"));
 
-            //Config ScriptBundle doctor management
+            //Config ScriptBundle and StyleBundle doctor management
             bundles.Add(new ScriptBundle("~/bundles/admin/doctor").Include(
                      "~/Scripts/js/doctormanagement.js"));
-            //Config ScriptBundle patient management
+            bundles.Add(new StyleBundle("~/Content/admin/doctor").Include(
+                    "~/Content/css/doctor-management.css"));
+
+            //Config ScriptBundle and StyleBundle patient management
             bundles.Add(new ScriptBundle("~/bundles/admin/patient").Include(
                      "~/Scripts/js/patientmanagement.js"));
+            bundles.Add(new StyleBundle("~/Content/admin/patient").Include(
+                    "~/Content/css/patient-management.css"));
 
-            //Config ScriptBundle and StyleBundle for sweetalert lib
-            bundles.Add(new ScriptBundle("~/bundles/sweetalert/js").Include(
-                     "~/lib/sweetalert2/sweetalert2.all.min.js"));
-            bundles.Add(new StyleBundle("~/Content/sweetalert/css").Include(
-               "~/lib/sweetalert2/sweetalert2.min.css"));
+            //Config ScriptBundle and StyleBundle user management
+            bundles.Add(new ScriptBundle("~/bundles/admin/user").Include(
+                     "~/Scripts/js/usermanagement.js"));
+            bundles.Add(new StyleBundle("~/Content/admin/user").Include(
+                    "~/Content/css/user-management.css"));
+
+            //Config ScriptBundle and StyleBundle for select2 lib
+            bundles.Add(new ScriptBundle("~/bundles/select2/js").Include(
+                     "~/lib/select2/js/select2.js"));
+            bundles.Add(new StyleBundle("~/Content/select2/css").Include(
+                    "~/lib/select2/css/select2.css"));
+
+            //Config ScriptBundle and StyleBundle for select2 lib
+
+            bundles.Add(new StyleBundle("~/Content/fontawesome/css").Include(
+                    "~/lib/font-awesome/css/all.min.css"));
 
         }
     }
