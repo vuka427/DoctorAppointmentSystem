@@ -10,15 +10,15 @@ namespace DoctorAppointmentSystem.Areas.Admin.Models.DoctorManage
         public int DOCTORID { get; set; } 
         public string DOCTORNAME { get; set; } 
         public string USERNAME { get; set; }
-        public string DEPARTMENT { get; set; } 
-        public string DOCTORGENDER { get; set; }
+        //public string DEPARTMENT { get; set; } 
+        public int DOCTORGENDER { get; set; }
         public string DOCTORDATEOFBIRTH { get; set; }
         public string DOCTORNATIONALID { get; set; }
         public string DOCTORMOBILENO { get; set; }
         public string EMAIL { get; set; }
         public string DOCTORADDRESS { get; set; }
         public string SPECIALITY { get; set; }
-        public string QUALIFICATION { get; set; } 
+        //public string QUALIFICATION { get; set; } 
         public string WORKINGSTARTDATE { get; set; }
         public string WORKINGENDDATE { get; set; }
         public string LOGINLOCKDATE { get; set; } 

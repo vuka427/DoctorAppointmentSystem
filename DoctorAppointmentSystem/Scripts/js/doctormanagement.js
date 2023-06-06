@@ -1,4 +1,4 @@
-﻿
+﻿'use strict'
  //show on off form
 function setbtnonffoform() {
     $("#l-form-doctor").hide();
@@ -55,61 +55,66 @@ function setbtnonffoform() {
 //create doctor
 function setSubmitFormByAjax() {
     $("#form-create-doctor").submit(function (event) {
-        var gender = $(".radio-gender:checked").val();
 
-        var formData = {
+        if ($("#form-create-doctor").valid()) {
 
-            DOCTORNAME: $("#doctorname").val(),
-            USERNAME: $("#username").val(), 
-            PASSWORD: $("#password").val(),
-            DOCTORNATIONALID: $("#nationalid").val(), 
-            DOCTORGENDER: gender,
-            DOCTORADDRESS: $("#address").val(),
-            DEPARTMENTID: $("#department").val(),
-            DOCTORDATEOFBIRTH: $("#brithofdate").val(),
-            DOCTORMOBILENO: $("#mobile").val(),
-            EMAIL: $("#email").val(), 
-            SPECIALITY: $("#specialy").val(), 
-            WORKINGENDDATE: $("#workingenddate").val(),
-            WORKINGSTARTDATE: $("#workingstartdate").val(),
-        };
-        console.log(formData);
-        $.ajax({
-            type: "POST",
-            url: "/Admin/DoctorManage/CreateDoctor",
-            data: formData,
-            dataType: "json",
-            encode: true,
-        }).done(function (data) {
-            console.log(data);
-            if (data.error == 1) {
-                //showMessage(data.msg, "Error !");
-                Swal.fire(
-                    'Failed!',
-                    data.msg,
-                    'error'
-                )
-            }
-            if (data.error == 0) {
-                //$("#form-create-doctor").trigger('reset');
-                $('#DoctorTable').DataTable().ajax.reload();
-                $("#l-form-doctor").hide();
-                $("#table-list-doctor").show();
-                //showMessage("Create doctor is success ", "Success !")
-                Swal.fire(
-                    'Success!',
-                    'Create doctor is success !',
-                    'success'
-                )
+            var gender = $(".radio-gender:checked").val();
 
-            }
-        });
+            var formData = {
+
+                DOCTORNAME: $("#doctorname").val(),
+                USERNAME: $("#username").val(),
+                PASSWORD: $("#password").val(),
+                DOCTORNATIONALID: $("#nationalid").val(),
+                DOCTORGENDER: $("#gender").val(), 
+                DOCTORADDRESS: $("#address").val(),
+                DEPARTMENTID: $("#department").val(),
+                DOCTORDATEOFBIRTH: $("#brithofdate").val(),
+                DOCTORMOBILENO: $("#mobile").val(),
+                EMAIL: $("#email").val(),
+                SPECIALITY: $("#specialy").val(),
+                WORKINGENDDATE: $("#workingenddate").val(),
+                WORKINGSTARTDATE: $("#workingstartdate").val(),
+            };
+            console.log(formData);
+            $.ajax({
+                type: "POST",
+                url: "/Admin/DoctorManage/CreateDoctor",
+                data: formData,
+                dataType: "json",
+                encode: true,
+            }).done(function (data) {
+                console.log(data);
+                if (data.error == 1) {
+                    //showMessage(data.msg, "Error !");
+                    Swal.fire(
+                        'Failed!',
+                        data.msg,
+                        'error'
+                    )
+                }
+                if (data.error == 0) {
+                    //$("#form-create-doctor").trigger('reset');
+                    $('#DoctorTable').DataTable().ajax.reload();
+                    $("#l-form-doctor").hide();
+                    $("#table-list-doctor").show();
+                    //showMessage("Create doctor is success ", "Success !")
+                    Swal.fire(
+                        'Success!',
+                        'Create doctor is success !',
+                        'success'
+                    )
+
+                }
+            });
+        }
+       
 
         event.preventDefault();
     });
 }
 
-// load data to form update
+//load data to form update
 function LoadDataToForm(doctorid) {
 
     var formData = {
@@ -144,11 +149,12 @@ function LoadDataToForm(doctorid) {
             $("#unationalid").val(data.doctor.DOCTORNATIONALID);
             $("#uaddress").val(data.doctor.DOCTORADDRESS);
             $("#udepartment").val(String(data.doctor.DEPARTMENTID));
+            $("#udepartment").trigger('change');
             $("#ubrithofdate").val(data.doctor.DOCTORDATEOFBIRTH);
             $("#umobile").val(data.doctor.DOCTORMOBILENO);
             $("#uworkingenddate").val(data.doctor.WORKINGENDDATE);
             $("#uworkingstartdate").val(data.doctor.WORKINGSTARTDATE);
-            $("[name=ugender]").val([data.doctor.DOCTORGENDER]);
+            $("#ugender").val([data.doctor.DOCTORGENDER]);
             $("#uemail").val(data.doctor.EMAIL);
             $("#uspecialy").val(data.doctor.SPECIALITY);
 
@@ -162,88 +168,92 @@ function LoadDataToForm(doctorid) {
 //Update doctor
 function setSubmitFormUdateByAjax() {
     $("#form-edit-doctor").submit(function (event) {
-        const swalWithBootstrapButtons = Swal.mixin({
-            customClass: {
-                confirmButton: 'btn btn-success mr-2',
-                cancelButton: 'btn btn-danger'
-            },
-            buttonsStyling: false
-        })
-        swalWithBootstrapButtons.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, update it!',
-            cancelButtonText: 'No, cancel!',
-            reverseButtons: false
-        }).then((result) => {
-            if (result.isConfirmed) {
+        if ($("#form-edit-doctor").valid()) {
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success mr-2',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            })
+            swalWithBootstrapButtons.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, update it!',
+                cancelButtonText: 'No, cancel!',
+                reverseButtons: false
+            }).then((result) => {
+                if (result.isConfirmed) {
 
-                var gender = $(".uradio-gender:checked").val();
+                    
 
-                var formData = {
-                    DOCTORID: $("#udoctorid").val(),
-                    DOCTORNAME: $("#udoctorname").val(),
-                    DOCTORNATIONALID: $("#unationalid").val(),
-                    DOCTORGENDER: gender,
-                    DOCTORADDRESS: $("#uaddress").val(),
-                    DEPARTMENTID: $("#udepartment").val(),
-                    DOCTORDATEOFBIRTH: $("#ubrithofdate").val(),
-                    DOCTORMOBILENO: $("#umobile").val(),
-                    EMAIL: $("#uemail").val(),
-                    SPECIALITY: $("#uspecialy").val(),
-                    WORKINGENDDATE: $("#uworkingenddate").val(),
-                    WORKINGSTARTDATE: $("#uworkingstartdate").val(),
+                    var formData = {
+                        DOCTORID: $("#udoctorid").val(),
+                        DOCTORNAME: $("#udoctorname").val(),
+                        DOCTORNATIONALID: $("#unationalid").val(),
+                        DOCTORGENDER: $("#ugender").val(),
+                        DOCTORADDRESS: $("#uaddress").val(),
+                        DEPARTMENTID: $("#udepartment").val(),
+                        DOCTORDATEOFBIRTH: $("#ubrithofdate").val(),
+                        DOCTORMOBILENO: $("#umobile").val(),
+                        EMAIL: $("#uemail").val(),
+                        SPECIALITY: $("#uspecialy").val(),
+                        WORKINGENDDATE: $("#uworkingenddate").val(),
+                        WORKINGSTARTDATE: $("#uworkingstartdate").val(),
 
-                };
-                console.log($("#udoctorname").val());
-                $.ajax({
-                    type: "POST",
-                    url: "/Admin/DoctorManage/UpdateDoctor",
-                    data: formData,
-                    dataType: "json",
-                    encode: true,
-                }).done(function (data) {
-                    console.log(data);
-                    if (data.error == 1) {
-                        //showMessage(data.msg, "Error !");
-                        Swal.fire(
-                            'Failed!',
-                            data.msg,
-                            'error'
-                        )
-                    }
-                    if (data.error == 0) {
-                        $('#DoctorTable').DataTable().ajax.reload();
+                    };
+                    console.log($("#udoctorname").val());
+                    $.ajax({
+                        type: "POST",
+                        url: "/Admin/DoctorManage/UpdateDoctor",
+                        data: formData,
+                        dataType: "json",
+                        encode: true,
+                    }).done(function (data) {
+                        console.log(data);
+                        if (data.error == 1) {
+                            //showMessage(data.msg, "Error !");
+                            Swal.fire(
+                                'Failed!',
+                                data.msg,
+                                'error'
+                            )
+                        }
+                        if (data.error == 0) {
+                            $('#DoctorTable').DataTable().ajax.reload();
 
-                        $("#l-form-doctor").hide();
-                        $("#table-list-doctor").show();
-                        $("#form-update-doctor").hide();
-                        //showMessage("Update doctor is success ", "Success !")
-                        Swal.fire(
-                            'Success!',
-                            'Update doctor is success !',
-                            'success'
-                        )
+                            $("#l-form-doctor").hide();
+                            $("#table-list-doctor").show();
+                            $("#form-update-doctor").hide();
+                            //showMessage("Update doctor is success ", "Success !")
+                            Swal.fire(
+                                'Success!',
+                                'Update doctor is success !',
+                                'success'
+                            )
 
-                    }
-                });
+                        }
+                    });
 
 
-            } else if (
-                /* Read more about handling dismissals below */
-                result.dismiss === Swal.DismissReason.cancel
-            ) {
+                } else if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
 
-            }
-        })
+                }
+            })
+        }
+
+        
 
         event.preventDefault();
     });
 }
 
-//show delete dialog
+//delete dialog
 function SetEventDeleteDoctorFoBtn() {
     var table = $('#DoctorTable').DataTable();
 
@@ -251,12 +261,38 @@ function SetEventDeleteDoctorFoBtn() {
 
         $(".btn-delete-doctor").on("click", function () {
             var Button = $(this);
-            var ButtonAccept = $("#btn-accept-delete-doctor");
             var doctorname = Button.data("doctorname");
             var id = Button.data("id");
-            ButtonAccept.attr("data-id", id);
-            $("#doctorname-delete").html(doctorname);
             console.log("db=>" + id);
+
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success mr-2',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            })
+            swalWithBootstrapButtons.fire({
+                title: 'Are you sure delete doctor ' + doctorname + ' ?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'No, cancel!',
+                reverseButtons: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    DeleteDocTorByAjax(id) // delete doctor by  id
+                    
+
+                } else if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+
+                }
+            })
         });
     });
     
@@ -269,7 +305,7 @@ function SetEventDeleteDoctorFoBtn() {
 
 }
 
-// delete doctor
+//delete doctor
 function DeleteDocTorByAjax(doctorid) {
 
     var formData = {
@@ -285,11 +321,20 @@ function DeleteDocTorByAjax(doctorid) {
     }).done(function (data) {
         console.log(data);
         if (data.error == 1) {
-
+            Swal.fire(
+                'Failed!',
+                data.msg,
+                'error'
+            )
         }
         if (data.error == 0) {
             $('#DoctorTable').DataTable().ajax.reload();
-            showMessage("Delete doctor is success ", "Success !")
+            //showMessage("Delete doctor is success ", "Success !")
+           Swal.fire(
+                'Deleted!',
+                'Delete doctor is success !',
+                'success'
+            )
         }
     });
 }
@@ -304,29 +349,6 @@ function SetEventUpdateDoctorFoBtn() {
             $("#l-form-doctor").hide();
             $("#table-list-doctor").hide();
             $("#form-update-doctor").show();
-
-            var Button = $(this);
-            var id = Button.data("id");
-            console.log(id);
-            LoadDataToForm(id);
-
-        });
-
-    });
-
-}
-
-//show Reset password from
-function SetEventResetPaswdDoctorFoBtn() {
-    var table = $('#DoctorTable').DataTable();
-
-    table.on('draw', function () {
-
-        $(".btn-resetpassword-doctor").on("click", function () {
-            $("#l-form-doctor").hide();
-            $("#table-list-doctor").hide();
-            $("#form-update-doctor").hide();
-            $("#resetpassword-doctor").show();
 
             var Button = $(this);
             var id = Button.data("id");
@@ -364,7 +386,7 @@ function initJqueryDatatable() {
         "bSearchable": true,
         "order": [[1, 'asc']],
         "language": {
-            "emptyTable": "No record found.",
+            "emptyTable": "There are no doctors in the list.",
             "processing":
                 '<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="color:#2a2b2b;"></i><span class="sr-only">Loading...</span> '
         },
@@ -507,7 +529,7 @@ function initJqueryDatatable() {
                 "render": function (data, type, row) {
                     console.log(data, type, row);
                     return "<btn class=\"btn-update-doctor btn btn-sm btn-primary \" data-id=\"" + row.DOCTORID + "\" data-doctorname=\"" + row.DOCTORNAME + "\"> Edit </btn>"
-                        + "<btn class=\"btn-delete-doctor btn btn-sm btn-danger ml-2\" data-id=\"" + row.DOCTORID + "\" data-doctorname=\"" + row.DOCTORNAME + "\" data-toggle=\"modal\" data-target=\"#accept-delete-doctor\"> Delete </btn> "
+                        + "<btn class=\"btn-delete-doctor btn btn-sm btn-danger ml-2\" data-id=\"" + row.DOCTORID + "\" data-doctorname=\"" + row.DOCTORNAME + "\" > Delete </btn> "
                         
                 }
 
@@ -538,9 +560,360 @@ function ShowPass() {
          });
 
     }
-        
 
-        
+
+//Validate form
+function ValidateFormDoctor() {
+    jQuery.validator.addMethod('valid_phone', function (value) {
+        var regex = /^(84|0[3|5|7|8|9])+([0-9]{8})\b$/;
+        return value.trim().match(regex);
+    });
+
+    jQuery.validator.addMethod('valid_password', function (value) {
+        var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,50}$/;
+        return value.trim().match(regex);
+    });
+    jQuery.validator.addMethod("greaterThan",
+        function (value, element, params) {
+
+            if (!/Invalid|NaN/.test(new Date(value))) {
+                return new Date(value) > new Date($(params).val());
+            }
+
+            return isNaN(value) && isNaN($(params).val())
+                || (Number(value) > Number($(params).val()));
+        }, 'Must be greater than {0}.');
+
+
+    //Validate form create
+    $("#form-create-doctor").validate({ 
+        onfocusout: function (element) {
+            $(element).valid()
+        },
+        ignore: ".ignore, .select2-input", 
+        rules: {
+            "doctorname": {
+                required: true,
+                maxlength: 50
+            },
+            "username": {
+                required: true,
+                maxlength: 50,
+                minlength: 3
+            },
+            "password": {
+                required: true,
+                maxlength: 50,
+                minlength: 6,
+                valid_password: true
+
+            },
+            "nationalid": {
+                required: true,
+                maxlength: 20
+                
+            },
+            "brithofdate": {
+                required: true,
+                
+
+            },
+            "mobile": {
+                required: true,
+                valid_phone:true
+               
+            },
+            "address": {
+                required: true,
+                maxlength: 256,
+               
+            }
+            ,
+            "specialy": {
+                required: true,
+                maxlength: 256,
+            }
+            ,
+            "email": {
+                required: true,
+                email: true
+            }
+            ,
+            "Gender": {
+                required: true
+               
+            },
+            "Department": {
+                required: true
+
+            }
+            ,
+            "workingstartdate": {
+                required: true
+
+            }
+            ,
+            "workingenddate": {
+                required: true,
+                greaterThan: "#workingstartdate"
+            }
+        },
+        messages: {
+            "doctorname": {
+                required: "Doctor name is required",
+                maxlength: "Doctor name charater max lenght is 50!",
+                
+            },
+            "username": {
+                required: "User name is required",
+                maxlength: "Username charater lenght is 3 to 50!",
+                minlength: "Username charater lenght is 3 to 50!"
+            },
+            "password": {
+                required: "Password is required",
+                maxlength: "Password charater lenght is 6 to 50!",
+                minlength: "Password charater lenght is 6 to 50!",
+                valid_password: "Password charater at least one uppercase letter, one lowercase letter, one number and one special character: [a-z],[A-Z],[0-9],[@$!%*?&]"
+            },
+            "nationalid": {
+                required: "National ID is required",
+                maxlength: "National ID charater max lenght is 20!"
+            },
+            "brithofdate": {
+                required: "Birth of date is required",
+                
+            },
+            "mobile": {
+                required: "Mobile is required",
+                valid_phone : "wrong phone number format"
+                
+            },
+            "address": {
+                required: "Address is required",
+                maxlength: "Doctor address charater max lenght is 256 !"
+            }
+            ,
+            "specialy": {
+                required: "Specialy is required",
+                maxlength: "Specialy charater max lenght is 256 !"
+            }
+            ,
+            "email": {
+                required: "Email is required",
+                email: "wrong email format"
+            },
+            "Gender": {
+                required: "Gender is required"
+
+            },
+            "Department": {
+                required: "Department is required"
+
+            }
+            ,
+            "workingstartdate": {
+                required: "Working start date is required"
+
+            }
+            ,
+            "workingenddate": {
+                required: "Working end date is required",
+                greaterThan:"Working start date smaller than Working end date"
+            }
+            
+        },
+        highlight: function (element) {
+            var elem = $(element);
+            if (elem.hasClass("select2-hidden-accessible")) {
+                element = $(".select2-selection");
+
+                element.addClass('border-2 border-danger')
+            } else {
+                elem.addClass('border-2 border-danger ')
+            }
+           
+        },
+        unhighlight: function (element) {
+            var elem = $(element);
+            if (elem.hasClass("select2-hidden-accessible")) {
+                element = $(".select2-selection");
+
+                element.removeClass('border-2 border-danger')
+            } else {
+                elem.removeClass('border-2 border-danger')
+            }
+            
+        },
+        errorPlacement: function (error, element) {
+            var elem = $(element);
+            if (elem.hasClass("select2-hidden-accessible")) {
+                element = $("#department").parent();
+
+                error.insertAfter(element);
+            } else {
+                error.insertAfter(element);
+            }
+        }
+       
+    });
+
+    //Validate form update
+    $("#form-edit-doctor").validate({
+        onfocusout: function (element) {
+            $(element).valid()
+        },
+
+        rules: {
+            "udoctorname": {
+                required: true,
+                maxlength: 50
+            },
+            "unationalid": {
+                required: true,
+                maxlength: 20
+
+            },
+            "ubrithofdate": {
+                required: true,
+
+
+            },
+            "umobile": {
+                required: true,
+                valid_phone: true
+
+            },
+            "uaddress": {
+                required: true,
+                maxlength: 256,
+
+            }
+            ,
+            "uspecialy": {
+                required: true,
+                maxlength: 256,
+            }
+            ,
+            "uemail": {
+                required: true,
+                email: true
+            },
+            "uGender": {
+                required: true
+
+            },
+            "uDepartment": {
+                required: true
+
+            }
+            ,
+            "uworkingstartdate": {
+                required: true
+
+            }
+            ,
+            "uworkingenddate": {
+                required: true,
+                greaterThan: "#uworkingstartdate"
+            }
+        },
+        messages: {
+            "udoctorname": {
+                required: "Doctor name is required",
+                maxlength: "Doctor name charater max lenght is 50!",
+
+            },
+            
+            "unationalid": {
+                required: "National ID is required",
+                maxlength: "National ID charater max lenght is 20!"
+            },
+            "ubrithofdate": {
+                required: "Birth of date is required",
+
+            },
+            "umobile": {
+                required: "Mobile is required",
+                valid_phone: "wrong phone number format"
+
+            },
+            "uaddress": {
+                required: "Address is required",
+                maxlength: "Doctor address charater max lenght is 256 !"
+            }
+            ,
+            "uspecialy": {
+                required: "Specialy is required",
+                maxlength: "Specialy charater max lenght is 256 !"
+            }
+            ,
+            "uemail": {
+                required: "Email is required",
+                email: "wrong email format"
+            },
+            "Gender": {
+                required: "Gender is required"
+
+            },
+            "Department": {
+                required: "Department is required"
+
+            }
+            ,
+            "workingstartdate": {
+                required: "Working start date is required"
+
+            }
+            ,
+            "workingenddate": {
+                required: "Working end date is required",
+                greaterThan: "Working start date smaller than Working end date"
+            }
+
+        },
+        highlight: function (element) {
+            var elem = $(element);
+            if (elem.hasClass("select2-hidden-accessible")) {
+                element = $(".select2-selection");
+
+                element.addClass('border-2 border-danger')
+            } else {
+                elem.addClass('border-2 border-danger ')
+            }
+
+        },
+        unhighlight: function (element) {
+            var elem = $(element);
+            if (elem.hasClass("select2-hidden-accessible")) {
+                element = $(".select2-selection");
+
+                element.removeClass('border-2 border-danger')
+            } else {
+                elem.removeClass('border-2 border-danger')
+            }
+
+        },
+        errorPlacement: function (error, element) {
+            var elem = $(element);
+            if (elem.hasClass("select2-hidden-accessible")) {
+                element = $("#udepartment").parent();
+
+                error.insertAfter(element);
+            } else {
+                error.insertAfter(element);
+            }
+        }
+
+    });
+}
+
+function isNumberKey(evt) { // accept number 
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode != 46 && charCode > 31
+        && (charCode < 48 || charCode > 57))
+        return false;
+    return true;
+}      
 
 
 $("document").ready(function () {
@@ -550,5 +923,16 @@ $("document").ready(function () {
     initJqueryDatatable();
     SetEventUpdateDoctorFoBtn();
     SetEventDeleteDoctorFoBtn();
-    SetEventResetPaswdDoctorFoBtn();
+    ValidateFormDoctor();
+
+    $("#department").select2();
+    
+    $("#department").on('select2:close', function (e) {
+        $(this).valid()
+    });
+
+    $("#udepartment").select2();
+    $("#udepartment").on('select2:close', function (e) {
+        $(this).valid()
+    });
 });

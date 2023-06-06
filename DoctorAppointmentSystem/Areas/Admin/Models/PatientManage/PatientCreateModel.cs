@@ -13,7 +13,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Models.PatientManage
         public string PASSWORD { get; set; }
         public string EMAIL { get; set; }
         public string PATIENTNATIONALID { get; set; }
-        public string PATIENTGENDER { get; set; }
+        public int PATIENTGENDER { get; set; }
         public string PATIENTMOBILENO { get; set; }
         public System.DateTime PATIENTDATEOFBIRTH { get; set; }
         public string PATIENTADDRESS { get; set; }

@@ -19,27 +19,33 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
     public class PatientManageController : Controller
     {
         private readonly DBContext _dbContext;
+        private readonly IMapper _mapper;
+        private readonly ISystemParamService _sysParam;
 
-        public PatientManageController(DBContext dbContext)
+        public PatientManageController(DBContext dbContext, IMapper mapper, ISystemParamService sysParam)
         {
             _dbContext = dbContext;
+            _mapper = mapper;
+            _sysParam = sysParam;
         }
 
         // GET: Admin/Partient
         public ActionResult Index()
         {
-            ViewBag.genders = new SelectList(_dbContext.SYSTEM_PARA.Where(s=>s.GROUPID == "Gender").ToList(), "ID", "PARAVAL");
+            var sysParam = _sysParam.GetAllParam();
+            ViewBag.genders = ViewBag.genders = new SelectList(sysParam.Where(c => c.GROUPID.Equals("Gender")).ToList(), "ID", "PARAVAL");
+            
 
             return View();
         }
 
         public async Task<ActionResult> LoadPatientData(JqueryDatatableParam param)
         {
-            var mapper = MapperService.InitializeAutomapper();
+            
             var patients = await _dbContext.PATIENT.Where(d => d.DELETEDFLAG == false).Include("USER").ToListAsync();
-            IEnumerable<PatientViewModel> Patients = patients.Select(dt => mapper.Map<PATIENT, PatientViewModel>(dt)).ToList();
+            IEnumerable<PatientViewModel> Patients = patients.Select(dt => _mapper.GetMapper().Map<PATIENT, PatientViewModel>(dt)).ToList();
 
-            if (!string.IsNullOrEmpty(param.sSearch)) //tìm kiếm
+            if (!string.IsNullOrEmpty(param.sSearch)) //search
             {
                 Patients = Patients.Where(x => x.PATIENTNAME.ToLower().Contains(param.sSearch.ToLower())
                                               || x.PATIENTID.ToString().Contains(param.sSearch.ToLower())
@@ -93,7 +99,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
                                                            e.UPDATEDBY;//11
 
                 Patients = sortDirection == "asc" ? Patients.OrderBy(orderingFunction) : Patients.OrderByDescending(orderingFunction);
-                //asc tăng dần  
+                 
             }
 
 
@@ -112,13 +118,10 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
 
         }
 
-
         // Create patient
         [HttpPost]
         public JsonResult CreatePatient(PatientCreateModel model)
         {
-
-
             model.PATIENTNAME = model.PATIENTNAME != null ? model.PATIENTNAME.Trim() : model.PATIENTNAME;
             model.PATIENTNATIONALID = model.PATIENTNATIONALID != null ? model.PATIENTNATIONALID.Trim() : model.PATIENTNATIONALID;
             model.PATIENTADDRESS = model.PATIENTADDRESS != null ? model.PATIENTADDRESS.Trim() : model.PATIENTADDRESS;
@@ -172,10 +175,20 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
 
                 return Json(new { error = 1, msg = "Password is not null!" });
             }
+
             // check PATIENTGENDER
-            if (String.IsNullOrEmpty(model.PATIENTGENDER) && (model.PATIENTGENDER != "1" || model.PATIENTGENDER != "2" || model.PATIENTGENDER != "3"))
+            var sysParam = _sysParam.GetAllParam();
+            if (model.PATIENTGENDER <= 0)
             {
                 return Json(new { error = 1, msg = "Gender not match!" });
+            }
+            else
+            {
+                var result = sysParam.Where(pr => pr.GROUPID == "Gender" && pr.ID == model.PATIENTGENDER).FirstOrDefault();
+                if (result == null)
+                {
+                    return Json(new { error = 1, msg = "Gender not match!" });
+                }
             }
 
             // check DOCTORNATIONALID
@@ -235,8 +248,8 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             }
            
             //map model bind to doctor
-            var mapper = MapperService.InitializeAutomapper();
-            PATIENT Patient = mapper.Map<PatientCreateModel, PATIENT>(model);
+            
+            PATIENT Patient = _mapper.GetMapper().Map<PatientCreateModel, PATIENT>(model);
 
             var date = DateTime.Now;
             Patient.CREATEDBY = "Admin";
@@ -257,7 +270,14 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
                     UPDATEDDATE = date,
                     DELETEDFLAG = false,
                 });
-                _dbContext.SaveChanges();
+                try { 
+                    _dbContext.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    //write error log
+                }
+
 
             }
 
@@ -281,12 +301,19 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             };
 
             var newuser = _dbContext.USER.Add(user);
-            _dbContext.SaveChanges();
+           
 
             Patient.USERID = newuser.USERID;
 
             _dbContext.PATIENT.Add(Patient);
-            _dbContext.SaveChanges();
+            try { 
+                _dbContext.SaveChanges(); 
+            }
+            catch (Exception ex)
+            {
+                //write error log
+            }
+
 
 
             return Json(new { error = 0, msg = "ok" });
@@ -307,14 +334,14 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
                 return Json(new { error = 1, msg = "Error! do not find patient !" });
             }
 
-            var mapper = MapperService.InitializeAutomapper();
-            PatientViewEditModel dt = mapper.Map<PATIENT, PatientViewEditModel>(patient);
+           
+            PatientViewEditModel dt = _mapper.GetMapper().Map<PATIENT, PatientViewEditModel>(patient);
 
             return Json(new { error = 0, msg = "ok", patient = dt });
         }
 
 
-        // Create patient
+        // Create patient 
         [HttpPost]
         public JsonResult UpdatePatient(PatientEditModel model)
         {
@@ -359,11 +386,20 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             {
                 return Json(new { error = 1, msg = "Patient name charater max lenght is 50!" });
             }
-            
+
             // check PATIENTGENDER
-            if (String.IsNullOrEmpty(model.PATIENTGENDER) && (model.PATIENTGENDER != "1" || model.PATIENTGENDER != "2" || model.PATIENTGENDER != "3"))
+            var sysParam = _sysParam.GetAllParam();
+            if (model.PATIENTGENDER <= 0)
             {
                 return Json(new { error = 1, msg = "Gender not match!" });
+            }
+            else
+            {
+                var result = sysParam.Where(pr => pr.GROUPID == "Gender" && pr.ID == model.PATIENTGENDER).FirstOrDefault();
+                if (result == null)
+                {
+                    return Json(new { error = 1, msg = "Gender not match!" });
+                }
             }
 
             // check DOCTORNATIONALID
@@ -423,8 +459,8 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             }
 
             //map model bind to doctor
-            var mapper = MapperService.InitializeAutomapper();
-            PATIENT newPatient = mapper.Map<PatientEditModel, PATIENT>(model);
+            
+            PATIENT newPatient = _mapper.GetMapper().Map<PatientEditModel, PATIENT>(model);
 
             //update old doctor info to new doctor  
             var date = DateTime.Now;
@@ -448,7 +484,6 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
 
             return Json(new { error = 0, msg = "ok" });
         }
-
         //delete patient
         [HttpPost]
         public JsonResult DeletePatient(int PatientId)
@@ -468,7 +503,14 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
 
             _dbContext.PATIENT.AddOrUpdate(patient);
             _dbContext.USER.AddOrUpdate(patient.USER);
-            _dbContext.SaveChanges();
+            try { 
+                _dbContext.SaveChanges(); 
+            }
+            catch (Exception ex)
+            {
+                //write error log
+            }
+
 
             return Json(new { error = 0, msg = "ok" });
         }

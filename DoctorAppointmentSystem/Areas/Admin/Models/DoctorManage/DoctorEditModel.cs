@@ -14,7 +14,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Models.DoctorManage
       
         public string USERNAME { get; set; }
         public string DOCTORNATIONALID { get; set; }
-        public string DOCTORGENDER { get; set; }
+        public int DOCTORGENDER { get; set; }
         public DateTime DOCTORDATEOFBIRTH { get; set; }
         public string DOCTORMOBILENO { get; set; }
         public string EMAIL { get; set; }

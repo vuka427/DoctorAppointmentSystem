@@ -1,4 +1,5 @@
-﻿using DoctorAppointmentSystem.Areas.Admin.Models.DataTableModel;
+﻿using Antlr.Runtime;
+using DoctorAppointmentSystem.Areas.Admin.Models.DataTableModel;
 using DoctorAppointmentSystem.Areas.Admin.Models.DoctorManage;
 using DoctorAppointmentSystem.HelperClasses;
 using DoctorAppointmentSystem.Models.DB;
@@ -10,7 +11,9 @@ using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Runtime.Remoting.Lifetime;
 using System.Security.Cryptography;
+using System.Security.Policy;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -23,16 +26,24 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
     {
         
         private readonly DBContext _dbContext;
+        private readonly ISystemParamService _sysParam;
+        private readonly IMapper _mapper;
 
-        public DoctorManageController(DBContext dbContext)
+        public DoctorManageController(DBContext dbContext, ISystemParamService sysParam, IMapper mapper)
         {
             _dbContext = dbContext;
+            _sysParam = sysParam;
+            _mapper = mapper;
         }
+
+
 
         // GET: Admin/DoctorManage
         public ActionResult Index()
         {
-            
+            var sysParam = _sysParam.GetAllParam();
+
+            ViewBag.genders = ViewBag.genders = new SelectList(sysParam.Where(c => c.GROUPID.Equals("Gender")).ToList(), "ID", "PARAVAL");
             ViewBag.department = new SelectList( _dbContext.DEPARTMENT.ToList(), "DEPARTMENTID", "DEPARTMENTNAME");
             return View();
         }
@@ -40,12 +51,10 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
         //load data doctors  to jquery datatable
         public async  Task<ActionResult> LoadDoctorData( JqueryDatatableParam param)
         {
-            var mapper = MapperService.InitializeAutomapper();
             var doctor = await _dbContext.DOCTOR.Where(d => d.DELETEDFLAG == false).Include("DEPARTMENT").Include("USER").ToListAsync();
-            IEnumerable<DoctorViewModel> Doctors = doctor.Select(dt => mapper.Map<DOCTOR, DoctorViewModel>(dt)).ToList();
+            IEnumerable<DoctorViewModel> Doctors = doctor.Select(dt => _mapper.GetMapper().Map<DOCTOR, DoctorViewModel>(dt)).ToList();
             
-
-            if (!string.IsNullOrEmpty(param.sSearch)) //tìm kiếm
+            if (!string.IsNullOrEmpty(param.sSearch)) //search
             {
                 Doctors = Doctors.Where(x => x.DOCTORNAME.ToLower().Contains(param.sSearch.ToLower())
                                               || x.DOCTORID.ToString().Contains(param.sSearch.ToLower())
@@ -60,7 +69,6 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             var sortDirection = param.sSortDir_0; // HttpContext.Request.QueryString["sSortDir_0"];
 
            
-
             if (sortColumnIndex == 1)
             {
                 Doctors = sortDirection == "asc" ? Doctors.OrderBy(c => c.DOCTORID) : Doctors.OrderByDescending(c => c.DOCTORID);
@@ -105,7 +113,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
                                                            e.UPDATEDBY;//20
 
                 Doctors = sortDirection == "asc" ? Doctors.OrderBy(orderingFunction) : Doctors.OrderByDescending(orderingFunction);
-                //asc tăng dần  
+                 
             }
 
 
@@ -128,24 +136,23 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
         [HttpPost]
         public JsonResult CreateDoctor(DoctorCreateModel model)
         {
-           
-
             model.DOCTORNAME = model.DOCTORNAME != null ? model.DOCTORNAME.Trim() : model.DOCTORNAME;
             model.DOCTORNATIONALID = model.DOCTORNATIONALID != null ? model.DOCTORNATIONALID.Trim() : model.DOCTORNATIONALID;
             model.DOCTORADDRESS = model.DOCTORADDRESS != null ? model.DOCTORADDRESS.Trim() : model.DOCTORADDRESS;
 
-            string formatString = @"^[\p{L}\p{N}\s]*$"; // re!   \|!#$%&/()=?»«@£§€{}.-;'<>_,
+            string patternName = @"^[\p{L}\p{N}\s]*$"; // re!   \|!#$%&/()=?»«@£§€{}.-;'<>_,
             string patternMobile = @"(84|0[3|5|7|8|9])+([0-9]{8})\b";
-            string patternUsername = @"^[a-z0-9-]*$"; 
+            string patternUsername = @"^[a-z0-9-]*$";
+            string patternPassword = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,50}$";
 
             // validation
             // check DOCTORNAME
             if (String.IsNullOrEmpty(model.DOCTORNAME))
             {
-                return Json(new { error = 1, msg = "Doctor name is not null !" });
+                return Json(new { error = 1, msg = "Doctor name is required !" });
             }
 
-            Match strname = Regex.Match(model.DOCTORNAME, formatString, RegexOptions.IgnoreCase);
+            Match strname = Regex.Match(model.DOCTORNAME, patternName, RegexOptions.IgnoreCase);
             if (!strname.Success)
             {
                 return Json(new { error = 1, msg = $"Doctor name does not contain any special characters !" });
@@ -158,7 +165,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             // check USERNAME
             if (String.IsNullOrEmpty(model.USERNAME))
             {
-                return Json(new { error = 1, msg = "Username is not null !" });
+                return Json(new { error = 1, msg = "Username is required !" });
             }
 
             Match strusername = Regex.Match(model.USERNAME, patternUsername, RegexOptions.IgnoreCase);
@@ -177,9 +184,19 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
                 return Json(new { error = 1, msg = "Username already exists!" });
             }
             // check DOCTORGENDER
-            if (String.IsNullOrEmpty(model.DOCTORGENDER) && (model.DOCTORGENDER != "Male" || model.DOCTORGENDER != "Female"))
+
+            var sysParam = _sysParam.GetAllParam();
+            if (model.DOCTORGENDER<=0)
             {
                 return Json(new { error = 1, msg = "Gender not match!" });
+            }
+            else
+            {
+                var result = sysParam.Where(pr => pr.GROUPID == "Gender" && pr.ID == model.DOCTORGENDER).FirstOrDefault();
+                if (result == null)
+                {
+                    return Json(new { error = 1, msg = "Gender not match!" });
+                }
             }
 
             // check PASSWORD
@@ -187,12 +204,18 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             if (String.IsNullOrEmpty(model.PASSWORD) )
             {
 
-                return Json(new { error = 1, msg = "Password is not null!" });
+                return Json(new { error = 1, msg = "Password is required!" });
+            }
+
+            Match strpawd = Regex.Match(model.PASSWORD, patternPassword, RegexOptions.IgnoreCase);
+            if (!strpawd.Success)
+            {
+                return Json(new { error = 1, msg = @"Password charater at least one uppercase letter, one lowercase letter, one number and one special character: [a - z],[A - Z],[0 - 9],[@$!%*?&]" });
             }
             // check DOCTORNATIONALID
             if (String.IsNullOrEmpty(model.DOCTORNATIONALID))
             {
-                return Json(new { error = 1, msg = "National ID is not null!" });
+                return Json(new { error = 1, msg = "National ID is required!" });
             }
             if (model.DOCTORNATIONALID.Length >= 20)
             {
@@ -201,7 +224,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             var nationidmatch = _dbContext.DOCTOR.Where(u => u.DOCTORNATIONALID == model.DOCTORNATIONALID).ToList();
             if (nationidmatch.Count > 0)
             {
-                return Json(new { error = 1, msg = "Nation ID already exists!" });
+                return Json(new { error = 1, msg = "Nation ID already exists !" });
             }
             //check DOCTORDATEOFBIRTH
             if (model.DOCTORDATEOFBIRTH > DateTime.Now)
@@ -215,18 +238,18 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
 
                 if (!m.Success) //mobile
                 {
-                    return Json(new { error = 1, msg = $"Mobile No error !" });
+                    return Json(new { error = 1, msg = $"Mobile number is required !" });
                 }
             }
             else
             {
-                return Json(new { error = 1, msg = "Mobile No is not null !" });
+                return Json(new { error = 1, msg = "Mobile number is required !" });
 
             }
             // check EMAIL
             if (String.IsNullOrEmpty(model.EMAIL))
             {
-                return Json(new { error = 1, msg = "Email is not null!" });
+                return Json(new { error = 1, msg = "Email is required!"});
             }
             var emailmatch = _dbContext.USER.Where(u => u.EMAIL == model.EMAIL).ToList();
             if (emailmatch.Count > 0)
@@ -238,7 +261,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             if (String.IsNullOrEmpty(model.DOCTORADDRESS))
             {
 
-                return Json(new { error = 1, msg = "Address is not null !" });
+                return Json(new { error = 1, msg = "Address is required !" });
             }
             if (model.DOCTORADDRESS.Length >= 265)
             {
@@ -247,10 +270,13 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             // check SPECIALITY
             if (String.IsNullOrEmpty(model.SPECIALITY))
             {
-                return Json(new { error = 1, msg = "Specialy is not null!" });
+                return Json(new { error = 1, msg = "Specialy is required!" });
             }
-           
-            
+            if (model.SPECIALITY.Length >= 265)
+            {
+                return Json(new { error = 1, msg = "Specialy charater max lenght is 256 !" });
+            }
+
             // check WORKINGSTARTDATE , WORKINGENDDATE
             if (model.WORKINGSTARTDATE >= model.WORKINGENDDATE)
             {
@@ -258,8 +284,8 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             }
 
             //map model bind to doctor
-            var mapper = MapperService.InitializeAutomapper();
-            DOCTOR Doctors = mapper.Map<DoctorCreateModel, DOCTOR>(model);
+           
+            DOCTOR Doctors = _mapper.GetMapper().Map<DoctorCreateModel, DOCTOR>(model);
 
             var department = _dbContext.DEPARTMENT.Find(Doctors.DEPARTMENTID);
             if (department == null) { return Json(new { error = 1, msg = "Error ! Can`t find Department !" }); }
@@ -284,8 +310,16 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
                     UPDATEDDATE = date,
                     DELETEDFLAG = false,
                 });
-                _dbContext.SaveChanges();
-               
+
+                try
+                {
+                    _dbContext.SaveChanges();
+
+                }
+                catch (Exception ex)
+                {
+                    //write error log
+                }
             }
 
             var hashcode = PasswordHelper.HashPassword(model.PASSWORD);
@@ -306,19 +340,27 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
                 DELETEDFLAG = false,
             };
 
+
             var newuser = _dbContext.USER.Add(user);
-            _dbContext.SaveChanges();
-
-
-
             Doctors.USERID = newuser.USERID;
-
             _dbContext.DOCTOR.Add(Doctors);
-            _dbContext.SaveChanges();
+
+            try
+            { 
+               
+                _dbContext.SaveChanges();
+
+            }catch(Exception ex)
+            {
+                //write error log
+            }
+
+          
 
 
             return Json(new { error = 0, msg = "ok" });
         }
+
 
         [HttpPost]
         //load doctor data for update 
@@ -334,8 +376,8 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
                 return Json(new { error = 1, msg = "Error! do not find doctor!" });
             }
 
-            var mapper = MapperService.InitializeAutomapper();
-            DoctorViewEditModel dt = mapper.Map<DOCTOR, DoctorViewEditModel>(doctor);
+           
+            DoctorViewEditModel dt = _mapper.GetMapper().Map<DOCTOR, DoctorViewEditModel>(doctor);
 
             return Json(new { error = 0, msg = "ok", doctor = dt });
         }
@@ -371,7 +413,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             // check DOCTORNAME
             if (String.IsNullOrEmpty(model.DOCTORNAME))
             {
-                return Json(new { error = 1, msg = "Doctor name is not null !" });
+                return Json(new { error = 1, msg = "Doctor name is required !" });
             }
 
             Match strname = Regex.Match(model.DOCTORNAME, formatString, RegexOptions.IgnoreCase);
@@ -385,16 +427,26 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
                 return Json(new { error = 1, msg = "Doctor name charater max lenght is 50!" });
             }
             // check DOCTORGENDER
-            if (String.IsNullOrEmpty(model.DOCTORGENDER) && (model.DOCTORGENDER != "Male" || model.DOCTORGENDER != "Female"))
+
+            var sysParam = _sysParam.GetAllParam();
+            if (model.DOCTORGENDER <= 0)
             {
                 return Json(new { error = 1, msg = "Gender not match!" });
+            }
+            else
+            {
+                var result = sysParam.Where(pr => pr.GROUPID == "Gender" && pr.ID == model.DOCTORGENDER).FirstOrDefault();
+                if (result == null)
+                {
+                    return Json(new { error = 1, msg = "Gender not match!" });
+                }
             }
 
 
             // check DOCTORNATIONALID
             if (String.IsNullOrEmpty(model.DOCTORNATIONALID))
             {
-                return Json(new { error = 1, msg = "National ID is not null!" });
+                return Json(new { error = 1, msg = "National ID is required!" });
             }
             if (model.DOCTORNAME.Length >= 20)
             {
@@ -422,13 +474,13 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             }
             else
             {
-                return Json(new { error = 1, msg = "Mobile No is not null !" });
+                return Json(new { error = 1, msg = "Mobile No is required !" });
 
             }
             // check EMAIL
             if (String.IsNullOrEmpty(model.EMAIL))
             {
-                return Json(new { error = 1, msg = "Email is not null!" });
+                return Json(new { error = 1, msg = "Email is required !" });
             }
             var emailmatch = _dbContext.USER.Where(u => u.EMAIL == model.EMAIL && u.EMAIL != oldUser.EMAIL).ToList();
             if (emailmatch.Count > 0)
@@ -440,7 +492,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             if (String.IsNullOrEmpty(model.DOCTORADDRESS))
             {
 
-                return Json(new { error = 1, msg = "Address is not null !" });
+                return Json(new { error = 1, msg = "Address is required !" });
             }
             if (model.DOCTORADDRESS.Length >= 265)
             {
@@ -449,18 +501,17 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             // check SPECIALITY
             if (String.IsNullOrEmpty(model.SPECIALITY))
             {
-                return Json(new { error = 1, msg = "Specialy is not null!" });
+                return Json(new { error = 1, msg = "Specialy is required !" });
             }
            
-
             // check WORKINGSTARTDATE , WORKINGENDDATE
             if (model.WORKINGSTARTDATE >= model.WORKINGENDDATE)
             {
                 return Json(new { error = 1, msg = "Working start date smaller than Working end date !" });
             }
             //map model bind to doctor
-            var mapper = MapperService.InitializeAutomapper();
-            DOCTOR newDoctors = mapper.Map<DoctorEditModel, DOCTOR>(model);
+            
+            DOCTOR newDoctors = _mapper.GetMapper().Map<DoctorEditModel, DOCTOR>(model);
 
             var department = _dbContext.DEPARTMENT.Find(newDoctors.DEPARTMENTID);
             if (department == null) { return Json(new { error = 1, msg = "Error ! Can`t find Department !" }); }
@@ -483,7 +534,14 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
 
             _dbContext.USER.AddOrUpdate(oldUser);
             _dbContext.DOCTOR.AddOrUpdate(newDoctors);
-            _dbContext.SaveChanges();
+            try
+            {
+                _dbContext.SaveChanges();
+            } catch(Exception ex)
+            {
+                //write error log
+            }
+            
 
             return Json(new { error = 0, msg = "ok" });
 
@@ -508,19 +566,26 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
 
             _dbContext.DOCTOR.AddOrUpdate(doctor);
             _dbContext.USER.AddOrUpdate(doctor.USER);
-            _dbContext.SaveChanges();
+            try {
+                _dbContext.SaveChanges(); 
+            }
+            catch (Exception ex)
+            {
+                //write error log
+            }
+
 
             return Json(new { error = 0, msg = "ok" });
         }
 
-        // chưa cần 
-        public JsonResult ResetPassword(int DoctorId, string Password )
+
+        public JsonResult ResetPassword(int DoctorId, string Password)
         {
             if (DoctorId == 0)
             {
                 return Json(new { error = 1, msg = "Error! do not delete doctor !" });
             }
-            var doctor = _dbContext.DOCTOR.Where( d => d.DOCTORID == DoctorId ).Include("USER").FirstOrDefault();
+            var doctor = _dbContext.DOCTOR.Where(d => d.DOCTORID == DoctorId).Include("USER").FirstOrDefault();
             if (doctor == null && doctor.USER == null)
             {
                 return Json(new { error = 1, msg = "Error! do not find doctor !" });
@@ -531,12 +596,21 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
                 return Json(new { error = 1, msg = "Password is not null!" });
             }
 
-            var hashcode = PasswordHelper.HashPassword(Password); 
+            var hashcode = PasswordHelper.HashPassword(Password);
 
             doctor.USER.PASSWORDHASH = hashcode;
 
             _dbContext.USER.AddOrUpdate(doctor.USER);
-           // _dbContext.SaveChanges();
+            try
+            {
+                // _dbContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                //write error log
+            }
+
+
 
             return Json( new {error = 0, msg ="ok"}  );
         }
