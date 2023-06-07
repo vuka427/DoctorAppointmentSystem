@@ -501,6 +501,7 @@
     <Content Include="Scripts\js\login.js" />
     <Content Include="Scripts\bootstrap-lib-js\popper.min.js" />
     <Content Include="Scripts\js\register.js" />
+    <Content Include="Scripts\js\validateInput.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

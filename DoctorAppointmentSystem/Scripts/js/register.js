@@ -1,6 +1,4 @@
-﻿// const { type } = require("jquery");
-
-var firstOptions = document.getElementsByClassName('gender');
+﻿var firstOptions = document.getElementsByClassName('gender');
 for (var i = 0; i < firstOptions.length; i++) {
     var option = firstOptions[i].getElementsByTagName('option')[0];
     option.setAttribute('hidden', true);
@@ -97,7 +95,7 @@ $('.register-form').submit(function (event) {
                     Swal.fire({
                         position: 'top',
                         icon: 'error',
-                        title: 'Oops...',
+                        title: 'Error!',
                         text: res.message,
                         showConfirmButton: false,
                         timer: 1500,

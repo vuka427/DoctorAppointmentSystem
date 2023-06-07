@@ -22,8 +22,5 @@ namespace DoctorAppointmentSystem.Models.Account
         {
             return dbContext.USER.Where(u => u.USERNAME.Equals(username)).FirstOrDefault();
         }
-
-
-
     }
 }

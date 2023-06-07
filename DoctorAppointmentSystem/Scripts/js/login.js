@@ -1,4 +1,4 @@
-﻿$('#login-form').submit(function (event) {
+﻿var submit = $('#login-form').submit(function (event) {
     event.preventDefault();
     var user = {
         username: $('#username').val(),
@@ -18,10 +18,10 @@
                 Swal.fire({
                     position: 'top',
                     icon: 'error',
-                    title: 'Oops...',
+                    title: 'Error',
                     text: res.message,
                     showConfirmButton: false,
-                    timer: 1500,
+                    timer: 1800,
                     width: '30em'
                 })
             }
@@ -30,12 +30,60 @@
             Swal.fire({
                 position: 'top',
                 icon: 'error',
-                title: 'Oops...',
+                title: 'Connect to Sever failed!',
                 text: res.message,
                 showConfirmButton: false,
-                timer: 1500,
+                timer: 3000,
                 width: '30em'
             })
         }
     });
+})
+
+var validData = $('#login-form').validate({
+    onfocusout: function (element) {
+        $(element).valid()
+    },
+    rules: {
+        "Username": {
+            required: true
+        },
+        "Password": {
+            required: true
+        }
+    },
+    messages: {
+        "Username": {
+            required: "Username is required."
+        },
+        "Password": {
+            required: "Password is required."
+        }
+    },
+    highlight: function (element) {
+        var elem = $(element);
+        if (elem.hasClass("select2-hidden-accessible")) {
+            element = $(".select2-selection");
+
+            element.addClass('border-2 border-danger')
+        } else {
+            elem.addClass('border-2 border-danger ')
+        }
+
+    },
+    unhighlight: function (element) {
+        var elem = $(element);
+        if (elem.hasClass("select2-hidden-accessible")) {
+            element = $(".select2-selection");
+
+            element.removeClass('border-2 border-danger')
+        } else {
+            elem.removeClass('border-2 border-danger')
+        }
+    },
+})
+
+$(document).ready(function () {
+    submit()
+    validData()
 })

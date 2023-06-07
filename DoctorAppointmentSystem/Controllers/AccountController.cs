@@ -35,6 +35,7 @@ namespace DoctorAppointmentSystem.Controllers
                 if(user.STATUS)
                 {
                     FormsAuthentication.SetAuthCookie(model.Username, false);
+                    user.LASTLOGIN = DateTime.Now;
                     return Json(new { success = true, message = "Login successfully!" });
                 }
                 else
