@@ -7,17 +7,21 @@ namespace DoctorAppointmentSystem.Menu
 {
     public class RenderPatientMenu
     {
+        public void RenderAvatar(string username) 
+        {
+            
+        }
         public List<MenuItem> RenderMenu(string idActive)
         {
             List<MenuItem> menu = new List<MenuItem>();
-            menu.Add(new MenuItem("home", "Home", "fas fa-home", false, "", "", ""));
-            menu.Add(new MenuItem("viewDoctor", "All Doctor", "far fa-hospital-user", false, "", "", ""));
-            menu.Add(new MenuItem("scheduleSessions", "Home", "fas fa-calendar-plus", false, "", "", ""));
-            menu.Add(new MenuItem("booking", "My Booking", "far fa-bookmark", false, "", "", ""));
+            menu.Add(new MenuItem("Home", "fas fa-home", false, "", "Home", "Index"));
+            menu.Add(new MenuItem("Make Appointment", "fas fa-calendar-plus", false, "", "", ""));
+            menu.Add(new MenuItem("Appointment History", "fas fa-calendar-alt", false, "", "", ""));
+            menu.Add(new MenuItem("Log out", "fas fa-sign-out-alt", false, "", "", ""));
 
             foreach(MenuItem item in menu)
             {
-                if (item.id.Equals(idActive))
+                if (item.title.Equals(idActive))
                 {
                     item.active = true;
                     break;

@@ -7,9 +7,8 @@ namespace DoctorAppointmentSystem.Menu
 {
     public class MenuItem
     {
-        public MenuItem(string id, string title, string icon, bool active, string area, string controller, string action)
+        public MenuItem(string title, string icon, bool active, string area, string controller, string action)
         {
-            this.id = id;
             this.title = title;
             this.icon = icon;
             this.active = active;
@@ -17,8 +16,6 @@ namespace DoctorAppointmentSystem.Menu
             this.controller = controller;
             this.action = action;
         }
-
-        public string id { get; set; }
         public string title { get; set; }
         public string icon { get; set; }
         public bool active { get; set; }
