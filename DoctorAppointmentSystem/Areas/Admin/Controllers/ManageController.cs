@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DoctorAppointmentSystem.Menu;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,6 +12,8 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
         // GET: Admin/Manage
         public ActionResult Index()
         {
+            RenderAdminMenu menu = new RenderAdminMenu();
+            ViewBag.menu = menu.RenderMenu("Home");
             return View();
         }
     }

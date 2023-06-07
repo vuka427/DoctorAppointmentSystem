@@ -29,3 +29,12 @@ textarea {
     justify-content: center;
     align-items: center;
 }
+
+form .error {
+    font-family: Arial, sans-serif;
+    color: #f94a4a;
+    font-size: 0.8em;
+    width: 100%;
+    display: block;
+    margin-left: 46px;
+}

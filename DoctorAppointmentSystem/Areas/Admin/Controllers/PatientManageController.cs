@@ -2,6 +2,7 @@
 using DoctorAppointmentSystem.Areas.Admin.Models.DoctorManage;
 using DoctorAppointmentSystem.Areas.Admin.Models.PatientManage;
 using DoctorAppointmentSystem.HelperClasses;
+using DoctorAppointmentSystem.Menu;
 using DoctorAppointmentSystem.Models.DB;
 using DoctorAppointmentSystem.Services;
 using System;
@@ -32,6 +33,8 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
         // GET: Admin/Partient
         public ActionResult Index()
         {
+            RenderAdminMenu menu = new RenderAdminMenu();
+            ViewBag.menu = menu.RenderMenu("Patient management");
             var sysParam = _sysParam.GetAllParam();
             ViewBag.genders = ViewBag.genders = new SelectList(sysParam.Where(c => c.GROUPID.Equals("Gender")).ToList(), "ID", "PARAVAL");
             

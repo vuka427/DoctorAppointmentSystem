@@ -1,11 +1,16 @@
 ﻿using DoctorAppointmentSystem.Areas.Admin.Models.DataTableModel;
 using DoctorAppointmentSystem.Areas.Admin.Models.DoctorManage;
+using DoctorAppointmentSystem.Areas.Admin.Models.UserManage;
+using DoctorAppointmentSystem.HelperClasses;
+using DoctorAppointmentSystem.Menu;
 using DoctorAppointmentSystem.Models.DB;
 using DoctorAppointmentSystem.Services;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -29,81 +34,59 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
         // GET: Admin/UserManage
         public ActionResult Index()
         {
+            RenderAdminMenu menu = new RenderAdminMenu();
+            ViewBag.menu = menu.RenderMenu("User management");
             return View();
         }
 
+        //load data user to jquery datatable
         public async Task<ActionResult> LoadUserData(JqueryDatatableParam param)
         {
-            var Doctors = _dbContext.USER.Where(d => d.DELETEDFLAG == false).Include("DOCTOR").Include("PATIENT");
+            var users = await _dbContext.USER.Where(d => d.DELETEDFLAG == false).Include("DOCTOR").Include("PATIENT").ToListAsync();
 
+            IEnumerable<UserViewModel> Users =  users.Select(dt => _mapper.GetMapper().Map<USER, UserViewModel>(dt)).ToList();
 
+            
 
-            /*if (!string.IsNullOrEmpty(param.sSearch)) //search
+            if (!string.IsNullOrEmpty(param.sSearch)) //search
             {
-                Doctors = Doctors.Where(x => x.EMAIL.ToLower().Contains(param.sSearch.ToLower())
-                                              || x.DOCTORID.ToString().Contains(param.sSearch.ToLower())
-                                              || x.DOCTORGENDER.ToLower().Contains(param.sSearch.ToLower())
-                                              || x.DOCTORDATEOFBIRTH.ToLower().Contains(param.sSearch.ToLower())
-                                              || x.DOCTORMOBILENO.ToString().Contains(param.sSearch.ToLower())
-                                              || x.DOCTORADDRESS.ToLower().Contains(param.sSearch.ToLower())
+                Users = Users.Where(x => x.EMAIL.ToLower().Contains(param.sSearch.ToLower())
+                                              || x.USERID.ToString().Contains(param.sSearch.ToLower())
+                                              || x.FULLNAME.ToLower().Contains(param.sSearch.ToLower())
+                                              || x.USERNAME.ToLower().Contains(param.sSearch.ToLower())
+                                              || x.USERTYPE.ToLower().Contains(param.sSearch.ToLower())
+                                              || x.EMAIL.ToLower().Contains(param.sSearch.ToLower())
+                                              || x.MOBILENO.ToLower().Contains(param.sSearch.ToLower())
                                                ).ToList();
             }
             var sortColumnIndex = param.iSortCol_0;// Convert.ToInt32(HttpContext.Request.QueryString["iSortCol_0"]);
             var sortDirection = param.sSortDir_0; // HttpContext.Request.QueryString["sSortDir_0"];
 
-
-
             if (sortColumnIndex == 1)
             {
-                Doctors = sortDirection == "asc" ? Doctors.OrderBy(c => c.DOCTORID) : Doctors.OrderByDescending(c => c.DOCTORID);
-            }
-            else if (sortColumnIndex == 6)
-            {
-                Doctors = sortDirection == "asc" ? Doctors.OrderBy(c => c.DOCTORDATEOFBIRTH) : Doctors.OrderByDescending(c => c.DOCTORDATEOFBIRTH);
-            }
-            else if (sortColumnIndex == 16)
-            {
-                Doctors = sortDirection == "asc" ? Doctors.OrderBy(c => c.LOGINRETRYCOUNT) : Doctors.OrderByDescending(c => c.LOGINRETRYCOUNT);
-            }
-            else if (sortColumnIndex == 13)
-            {
-                Doctors = sortDirection == "asc" ? Doctors.OrderBy(c => c.WORKINGSTARTDATE) : Doctors.OrderByDescending(c => c.WORKINGSTARTDATE);
-            }
-            else if (sortColumnIndex == 14)
-            {
-                Doctors = sortDirection == "asc" ? Doctors.OrderBy(c => c.WORKINGENDDATE) : Doctors.OrderByDescending(c => c.WORKINGENDDATE);
-            }
-            else if (sortColumnIndex == 18)
-            {
-                Doctors = sortDirection == "asc" ? Doctors.OrderBy(c => c.CREATEDDATE) : Doctors.OrderByDescending(c => c.CREATEDDATE);
-            }
-            else if (sortColumnIndex == 20)
-            {
-                Doctors = sortDirection == "asc" ? Doctors.OrderBy(c => c.UPDATEDDATE) : Doctors.OrderByDescending(c => c.CREATEDDATE);
+                Users = (sortDirection == "asc" ? Users.OrderBy(c => c.USERID) : Users.OrderByDescending(c => c.USERID));
             }
             else
             {
-                Func<DoctorViewModel, string> orderingFunction = e =>
-                                                           sortColumnIndex == 2 ? e.DOCTORNAME :
-                                                           sortColumnIndex == 3 ? e.DOCTORGENDER :
-                                                           sortColumnIndex == 5 ? e.DOCTORMOBILENO :
-                                                           sortColumnIndex == 7 ? e.DOCTORADDRESS :
-                                                           sortColumnIndex == 8 ? e.DEPARTMENT :
-                                                           sortColumnIndex == 9 ? e.EMAIL :
-                                                           sortColumnIndex == 10 ? e.DOCTORADDRESS :
-                                                           sortColumnIndex == 11 ? e.SPECIALITY :
-                                                           sortColumnIndex == 12 ? e.QUALIFICATION :
-                                                           sortColumnIndex == 17 ? e.CREATEDBY :
-                                                           e.UPDATEDBY;//20
+                Func<UserViewModel, string> orderingFunction = e =>
+                                                           sortColumnIndex == 2 ? e.FULLNAME :
+                                                           sortColumnIndex == 3 ? e.USERNAME :
+                                                           sortColumnIndex == 4 ? e.USERTYPE :
+                                                           sortColumnIndex == 5 ? e.GENDER :
+                                                           sortColumnIndex == 6 ? e.MOBILENO :
+                                                           sortColumnIndex == 7 ? e.EMAIL:
+                                                           sortColumnIndex == 8 ? e.LASTLOGIN :
+                                                           e.CREATEDBY
+                                                           ;
 
-                Doctors = sortDirection == "asc" ? Doctors.OrderBy(orderingFunction) : Doctors.OrderByDescending(orderingFunction);
+                Users = (sortDirection == "asc" ? Users.OrderBy(orderingFunction) : Users.OrderByDescending(orderingFunction));
 
             }
 
 
-            var displayResult = Doctors.Skip(param.iDisplayStart)
+            var displayResult = Users.Skip(param.iDisplayStart)
                 .Take(param.iDisplayLength).ToList();
-            var totalRecords = Doctors.Count();
+            var totalRecords = Users.Count();
 
 
             return Json(new
@@ -112,9 +95,108 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
                 iTotalRecords = totalRecords,
                 iTotalDisplayRecords = totalRecords,
                 aaData = displayResult
-            }, JsonRequestBehavior.AllowGet);*/
+            }, JsonRequestBehavior.AllowGet);
 
-            return Json(new { });
+            
         }
+
+
+
+        //delete user
+        [HttpPost]
+        public JsonResult DeleteUser(int USERID)
+        {
+            if (USERID == 0)
+            {
+                return Json(new { error = 1, msg = "Failed ! do not delete user !" });
+            }
+            var user = _dbContext.USER.Where(d => d.USERID == USERID).Include("DOCTOR").Include("PATIENT").FirstOrDefault();
+            if (user == null)
+            {
+                return Json(new { error = 1, msg = "Failed ! do not delete user !" });
+            }
+            
+            user.DELETEDFLAG = true; 
+            _dbContext.USER.AddOrUpdate(user);
+
+            if (user.USERTYPE == "Doctor")
+            {
+                if(user.DOCTOR.FirstOrDefault() != null)
+                {
+                    var doctor = user.DOCTOR.FirstOrDefault();
+                    doctor.DELETEDFLAG = true;
+                    _dbContext.DOCTOR.AddOrUpdate(doctor);
+                }
+            }
+            if (user.USERTYPE == "Patient")
+            {
+                if (user.PATIENT.FirstOrDefault() != null)
+                {
+                    var patient = user.PATIENT.FirstOrDefault();
+                    patient.DELETEDFLAG = true;
+                    _dbContext.PATIENT.AddOrUpdate(patient);
+                }
+            }
+           
+            try
+            {
+                _dbContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                //write error log
+                return Json(new { error = 1, msg = ex.ToString() });
+            }
+
+            return Json(new { error = 0, msg = "ok" });
+        }
+
+        //reset password user
+        [HttpPost]
+        public JsonResult ResetPassword(ResetPasswordModel model)
+        {
+            string patternPassword = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,50}$";
+
+            if (model.USERID == 0)
+            {
+                return Json(new { error = 1, msg = "Can't reset password for user !" });
+            }
+            var user = _dbContext.USER.Where(d => d.USERID == model.USERID).FirstOrDefault();
+            if (user == null)
+            {
+                return Json(new { error = 1, msg = "Can't reset password for user! do not find user !" });
+            }
+           
+            if (String.IsNullOrEmpty(model.PASSWORD))
+            {
+
+                return Json(new { error = 1, msg = "Password is required!" });
+            }
+
+            Match strpawd = Regex.Match(model.PASSWORD, patternPassword, RegexOptions.IgnoreCase);
+            if (!strpawd.Success)
+            {
+                return Json(new { error = 1, msg = @"Password charater at least one uppercase letter, one lowercase letter, one number and one special character: [a - z],[A - Z],[0 - 9],[@$!%*?&]" });
+            }
+
+            var hashcode = PasswordHelper.HashPassword(model.PASSWORD);
+
+            user.PASSWORDHASH = hashcode;
+
+            _dbContext.USER.AddOrUpdate(user);
+            try
+            {
+                _dbContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { error = 1, msg = ex.ToString() });
+                //write error log
+            }
+
+
+            return Json(new { error = 0, msg = "ok" });
+        }
+
     }
 }

@@ -1,6 +1,6 @@
 ﻿
  //show on off form
-function setbtnonffoform() {
+function setButtonOnOffForm() {
     $("#create-patient-page").hide();
     $("#update-patient-page").hide();
     $("#list-patient-page").show();
@@ -84,6 +84,7 @@ function setSubmitFormByAjax() {
                         'Create patient is success !',
                         'success'
                     )
+                    $("#form-create-patient").trigger('reset');
 
                 }
             });
@@ -95,7 +96,7 @@ function setSubmitFormByAjax() {
 }
 
 //show update from
-function SetEventUpdatePatientFoBtn() {
+function setEventUpdatePatientFoBtn() {
     var table = $('#PatientTable').DataTable();
 
     table.on('draw', function () {
@@ -108,7 +109,7 @@ function SetEventUpdatePatientFoBtn() {
             var Button = $(this);
             var id = Button.data("id");
             console.log(id);
-            LoadDataToForm(id);
+            loadDataToForm(id);
 
         });
 
@@ -117,7 +118,7 @@ function SetEventUpdatePatientFoBtn() {
 }
 
 //load data to form update
-function LoadDataToForm(patientid) {
+function loadDataToForm(patientid) {
 
     var formData = {
         PatientId: patientid,
@@ -153,11 +154,8 @@ function LoadDataToForm(patientid) {
             $("#ugender").val([data.patient.PATIENTGENDER]);
             $("#uemail").val(data.patient.EMAIL);
 
-
         }
     });
-
-
 }
 
 //Update patient
@@ -224,11 +222,9 @@ function setSubmitFormUdateByAjax() {
                                 'Update patient is success!',
                                 'success'
                             )
-
+                            $("#form-update-patient").trigger('reset');
                         }
                     });
-
-
 
                 } else if (
                     /* Read more about handling dismissals below */
@@ -247,7 +243,7 @@ function setSubmitFormUdateByAjax() {
 }
 
 //show delete dialog
-function SetEventDeletePatientFoBtn() {
+function setEventDeletePatientFoBtn() {
     var table = $('#PatientTable').DataTable();
 
     table.on('draw', function () {
@@ -289,9 +285,8 @@ function SetEventDeletePatientFoBtn() {
     
 }
 
-
 // delete patient
-function DeletePatientByAjax(patientid) {
+function deletePatientByAjax(patientid) {
 
     var formData = {
         PatientId: patientid,
@@ -323,7 +318,6 @@ function DeletePatientByAjax(patientid) {
         }
     });
 }
-
 
 //show message create from
 function showMessage(msg, title) {
@@ -479,7 +473,7 @@ function initJqueryDatatable() {
 }
 
 // show hihe pass
-function ShowPass() {
+function showPass() {
     
       
         $(".paswd-on-off").each(function () {
@@ -498,7 +492,7 @@ function ShowPass() {
     }
         
 //Validate form
-function ValidateFormDoctor() {
+function validateFormPatient() {
     jQuery.validator.addMethod('valid_phone', function (value) {
         var regex = /^(84|0[3|5|7|8|9])+([0-9]{8})\b$/;
         return value.trim().match(regex);
@@ -778,13 +772,13 @@ function isNumberKey(evt) { // accept number
 
 
 $("document").ready(function () {
-    setbtnonffoform();
+    setButtonOnOffForm();
     setSubmitFormByAjax();
     setSubmitFormUdateByAjax();
     initJqueryDatatable();
-    SetEventUpdatePatientFoBtn();
-    SetEventDeletePatientFoBtn();
-    ValidateFormDoctor();
+    setEventUpdatePatientFoBtn();
+    setEventDeletePatientFoBtn();
+    validateFormPatient();
 
     
     

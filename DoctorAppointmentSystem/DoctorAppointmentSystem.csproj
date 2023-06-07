@@ -169,6 +169,7 @@
     <Compile Include="Areas\Admin\Models\PatientManage\PatientViewEditModel.cs" />
     <Compile Include="Areas\Admin\Models\PatientManage\PatientViewModel.cs" />
     <Compile Include="Areas\Admin\Models\UserManage\Mapping\MapUserProfile.cs" />
+    <Compile Include="Areas\Admin\Models\UserManage\ResetPasswordModel.cs" />
     <Compile Include="Areas\Admin\Models\UserManage\UserViewModel.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AppointmentController.cs" />
@@ -464,6 +465,13 @@
     <Content Include="Scripts\bootstrap-lib-js\jquery-3.4.1.js" />
     <Content Include="Scripts\bootstrap-lib-js\bootstrap.js.map" />
     <Content Include="Scripts\bootstrap-lib-js\bootstrap.bundle.min.js.map" />
+    <EntityDeploy Include="Models\DB\DBContext.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>DBContext.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\DB\DBContext.edmx.diagram">
+      <DependentUpon>DBContext.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\bootstrap-lib-js\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\bootstrap-lib-js\jquery.dataTables.min.js" />
     <Content Include="Scripts\bootstrap-lib-js\jquery.validate.js" />
@@ -481,13 +489,6 @@
     <Content Include="lib\bootstrap-sweetalert\sweetalert.min.css.map" />
     <Content Include="Areas\Admin\Views\PartientManage\Index.cshtml" />
     <Content Include="Areas\Admin\Views\UserManage\Index.cshtml" />
-    <EntityDeploy Include="Models\DB\DBContext.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>DBContext.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\DB\DBContext.edmx.diagram">
-      <DependentUpon>DBContext.edmx</DependentUpon>
-    </Content>
     <Content Include="lib\font-awesome\webfonts\fa-brands-400.ttf" />
     <Content Include="lib\font-awesome\webfonts\fa-brands-400.woff2" />
     <Content Include="lib\font-awesome\webfonts\fa-regular-400.ttf" />
@@ -501,6 +502,7 @@
     <Content Include="Scripts\js\login.js" />
     <Content Include="Scripts\bootstrap-lib-js\popper.min.js" />
     <Content Include="Scripts\js\register.js" />
+    <Content Include="Scripts\js\usermanagement.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
