@@ -10,23 +10,23 @@ namespace DoctorAppointmentSystem
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js"));
+                        "~/Scripts/bootstrap-lib-js/jquery-{version}.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
-                        "~/Scripts/jquery.validate*"));
+                        "~/Scripts/bootstrap-lib-js/jquery.validate*"));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at https://modernizr.com to pick only the tests you need.
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
-                        "~/Scripts/modernizr-*"));
+                        "~/Scripts/bootstrap-lib-js/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.js"));
+                      "~/Scripts/bootstrap-lib-js/bootstrap.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
-                      "~/Content/responsive.bootstrap.min.css",
-                      "~/Content/site.css"));
+                      "~/Content/bootstrap-lib/bootstrap.min.css",
+                      "~/Content/bootstrap-lib/responsive.bootstrap.min.css",
+                      "~/Content/css/site.css"));
 
             //Config ScriptBundle and StyleBundle for sweetalert lib
             bundles.Add(new ScriptBundle("~/bundles/sweetalert/js").Include(
@@ -37,11 +37,11 @@ namespace DoctorAppointmentSystem
 
             //Config ScriptBundle and StyleBundle for jQuery Datatable
             bundles.Add(new ScriptBundle("~/bundles/datatable").Include(
-                "~/Scripts/jquery.dataTables.min.js",
-                 "~/Scripts/dataTables.responsive.js"));
+                "~/Scripts/bootstrap-lib-js/jquery.dataTables.min.js",
+                 "~/Scripts/bootstrap-lib-js/dataTables.responsive.js"));
 
             bundles.Add(new StyleBundle("~/Content/datatable").Include(
-                "~/Content/jquery.dataTables.min.css"));
+                "~/Content/bootstrap-lib/jquery.dataTables.min.css"));
 
             //Config ScriptBundle and StyleBundle doctor management
             bundles.Add(new ScriptBundle("~/bundles/admin/doctor").Include(
@@ -67,10 +67,13 @@ namespace DoctorAppointmentSystem
             bundles.Add(new StyleBundle("~/Content/select2/css").Include(
                     "~/lib/select2/css/select2.css"));
 
-            //Config ScriptBundle and StyleBundle for select2 lib
-
+            //Config StyleBundle for fontawesome lib
             bundles.Add(new StyleBundle("~/Content/fontawesome/css").Include(
                     "~/lib/font-awesome/css/all.min.css"));
+
+            //Config StyleBundle for layout
+            bundles.Add(new StyleBundle("~/Content/layout/css").Include(
+                    "~/Content/css/layout.css"));
 
         }
     }

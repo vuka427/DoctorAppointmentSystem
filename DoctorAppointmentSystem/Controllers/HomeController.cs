@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DoctorAppointmentSystem.Menu;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -12,6 +13,7 @@ namespace DoctorAppointmentSystem.Controllers
         [Authorize]
         public ActionResult Index()
         {
+            RenderNavbar("Home");
             return View();
         }
 
@@ -32,6 +34,13 @@ namespace DoctorAppointmentSystem.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        public ActionResult RenderNavbar(string activePage)
+        {
+            RenderPatientMenu menu = new RenderPatientMenu();
+            ViewBag.menu = menu.RenderMenu(activePage);
+            return PartialView("_MenuView");
         }
     }
 }
