@@ -2,6 +2,7 @@
 using DoctorAppointmentSystem.Areas.Admin.Models.DataTableModel;
 using DoctorAppointmentSystem.Areas.Admin.Models.DoctorManage;
 using DoctorAppointmentSystem.HelperClasses;
+using DoctorAppointmentSystem.Menu;
 using DoctorAppointmentSystem.Models.DB;
 using DoctorAppointmentSystem.Services;
 using System;
@@ -41,6 +42,8 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
         // GET: Admin/DoctorManage
         public ActionResult Index()
         {
+            RenderAdminMenu menu = new RenderAdminMenu();
+            ViewBag.menu = menu.RenderMenu("Doctor management");
             var sysParam = _sysParam.GetAllParam();
 
             ViewBag.genders = ViewBag.genders = new SelectList(sysParam.Where(c => c.GROUPID.Equals("Gender")).ToList(), "ID", "PARAVAL");
@@ -579,42 +582,6 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
         }
 
 
-        public JsonResult ResetPassword(int DoctorId, string Password)
-        {
-            if (DoctorId == 0)
-            {
-                return Json(new { error = 1, msg = "Error! do not delete doctor !" });
-            }
-            var doctor = _dbContext.DOCTOR.Where(d => d.DOCTORID == DoctorId).Include("USER").FirstOrDefault();
-            if (doctor == null && doctor.USER == null)
-            {
-                return Json(new { error = 1, msg = "Error! do not find doctor !" });
-            }
-
-            if (String.IsNullOrEmpty(Password))
-            {
-                return Json(new { error = 1, msg = "Password is not null!" });
-            }
-
-            var hashcode = PasswordHelper.HashPassword(Password);
-
-            doctor.USER.PASSWORDHASH = hashcode;
-
-            _dbContext.USER.AddOrUpdate(doctor.USER);
-            try
-            {
-                // _dbContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                //write error log
-            }
-
-
-
-            return Json( new {error = 0, msg ="ok"}  );
-        }
-        
 
     }
 }
