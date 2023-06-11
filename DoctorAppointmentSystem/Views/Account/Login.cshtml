@@ -22,20 +22,20 @@
                 </div>
                 <form id="login-form" class="login100-form validate-form d-flex flex-column justify-content-center">
                     <span class="login100-form-title font-weight-bold">
-                        Login Now
+                        Welcome to CUSC
                     </span>
                     <div class="form-group input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text login-input"><i class="fa fa-user"></i></span>
                         </div>
-                        <input id="username" class="form-control" name="Username" onkeypress="validateUsername(this)" placeholder="Username" type="text" pattern="^[a-zA-Z0-9]+$"  maxlength="50">
+                        <input id="username" class="form-control" name="Username" onkeypress="return validateUsername(event)" placeholder="Username" type="text" pattern="^[a-zA-Z0-9]+$"  maxlength="50" autocomplete="off">
                     </div> <!-- Username -->
 
                     <div class="form-group input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text login-input"><i class="fa fa-lock"></i></span>
                         </div>
-                        <input id="password" class="form-control" name="Password" onkeypress="validatePassword(this)" placeholder="Password" type="password" pattern="^\S+$"  maxlength="256">
+                        <input id="password" class="form-control" name="Password" onkeypress="return validatePassword(event)" placeholder="Password" type="password" pattern="^\S+$"  maxlength="256" autocomplete="off">
                     </div> <!-- Password -->
 
                     <div class="form-group">

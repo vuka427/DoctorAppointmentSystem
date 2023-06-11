@@ -1,4 +1,5 @@
-﻿using DoctorAppointmentSystem.Menu;
+﻿using DoctorAppointmentSystem.HelperClasses;
+using DoctorAppointmentSystem.Menu;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,37 +11,17 @@ namespace DoctorAppointmentSystem.Controllers
     
     public class HomeController : Controller
     {
-        [Authorize]
         public ActionResult Index()
         {
-            RenderNavbar("Home");
+            ViewBag.menu = RenderMenu.RenderPatientMenu("Home");
+            ViewBag.name = GetInfo.GetFullName(User.Identity.Name);
+            ViewBag.avatar = GetInfo.GetImgPath(User.Identity.Name);
             return View();
         }
 
         public ActionResult Intro()
         {
             return View();
-        }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
-
-        public ActionResult RenderNavbar(string activePage)
-        {
-            RenderPatientMenu menu = new RenderPatientMenu();
-            ViewBag.menu = menu.RenderMenu(activePage);
-            return PartialView("_MenuView");
         }
     }
 }

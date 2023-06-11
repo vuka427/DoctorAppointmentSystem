@@ -26,7 +26,7 @@ namespace DoctorAppointmentSystem
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap-lib/bootstrap.min.css",
                       "~/Content/bootstrap-lib/responsive.bootstrap.min.css",
-                      "~/Content/css/site.css"));
+                      "~/Content/css/Site.css"));
 
             //Config ScriptBundle and StyleBundle for sweetalert lib
             bundles.Add(new ScriptBundle("~/bundles/sweetalert/js").Include(

@@ -6,38 +6,50 @@
     }
 
     console.log(user);
-    $.ajax({
-        url: '/Account/Login',
-        method: 'POST',
-        data: { model: user },
-        success: function (res) {
-            if (res.success == true) {
-                window.location.href = '/Home/Index';
-                $('#login-form').trigger('reset');
-            } else {
+    if ($('#login-form').valid()) {
+        $.ajax({
+            url: '/Account/Login',
+            method: 'POST',
+            data: { model: user },
+            success: function (res) {
+                if (res.success == true) {
+                    window.location.href = res.url;
+                    $('#login-form').trigger('reset');
+                } else {
+                    Swal.fire({
+                        position: 'top',
+                        icon: 'error',
+                        title: 'Error',
+                        text: res.message,
+                        showConfirmButton: false,
+                        timer: 2000,
+                        width: '30em'
+                    })
+                }
+            },
+            error: function (err) {
                 Swal.fire({
                     position: 'top',
                     icon: 'error',
-                    title: 'Error',
+                    title: 'Connect to Sever failed!',
                     text: res.message,
                     showConfirmButton: false,
-                    timer: 1800,
+                    timer: 3000,
                     width: '30em'
                 })
             }
-        },
-        error: function (err) {
-            Swal.fire({
-                position: 'top',
-                icon: 'error',
-                title: 'Connect to Sever failed!',
-                text: res.message,
-                showConfirmButton: false,
-                timer: 3000,
-                width: '30em'
-            })
-        }
-    });
+        });
+    } else {
+        Swal.fire({
+            position: 'top',
+            icon: 'error',
+            title: 'Error',
+            text: 'Please fill out the form completely!',
+            showConfirmButton: false,
+            timer: 2000,
+            width: '30em'
+        })
+    }
 })
 
 var validData = $('#login-form').validate({

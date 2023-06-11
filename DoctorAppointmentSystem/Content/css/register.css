@@ -31,7 +31,7 @@ input, select {
     max-width: 100%;
 }
 
-span {
+.input-group-prepend span {
     min-width: 46px;
 }
 

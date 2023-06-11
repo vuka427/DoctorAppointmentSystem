@@ -73,7 +73,7 @@ namespace DoctorAppointmentSystem.Models.Account
             }
             else if (username_exists)
             {
-                message = "The name already exists! Please choose another!";
+                message = "Username already exists! Please choose another!";
             }
             else if (String.IsNullOrEmpty(user.password))
             {
@@ -85,7 +85,7 @@ namespace DoctorAppointmentSystem.Models.Account
             }
             else if (email_exists)
             {
-                message = "The email address already exists! Please choose another!";
+                message = "Email address already exists! Please choose another!";
             }
             else if (user.passwordRecoveryQue1.ToString().Trim() == "0" || user.passwordRecoveryQue2.ToString().Trim() == "0"|| user.passwordRecoveryQue3.ToString().Trim() == "0")
             {
@@ -123,7 +123,7 @@ namespace DoctorAppointmentSystem.Models.Account
             }
             else if (nationalID_exists)
             {
-                message = "The national ID already exists! Please choose another!";
+                message = "National ID already exists! Please choose another!";
             }
             else if (String.IsNullOrEmpty(patient.dateOfBirth))
             {
@@ -162,7 +162,7 @@ namespace DoctorAppointmentSystem.Models.Account
             user.PASSWORDHASH = PasswordHelper.HashPassword(uvm.password);
             user.EMAIL = uvm.email;
             user.LASTLOGIN = DateTime.Now;
-            user.USERTYPE = "patient";
+            user.USERTYPE = "Patient";
             user.PASSWORDRECOVERYQUE1 = uvm.passwordRecoveryQue1;
             user.PASSWORDRECOVERYANS1 = uvm.passwordRecoveryAns1;
             user.PASSWORDRECOVERYQUE2 = uvm.passwordRecoveryQue2;
@@ -177,10 +177,25 @@ namespace DoctorAppointmentSystem.Models.Account
             user.UPDATEDBY = uvm.username;
             user.UPDATEDDATE = DateTime.Now;
             user.DELETEDFLAG = false;
-            user.AVATARURL = null;
+            if(uvm.profilePicture != null)
+            {
+                user.AVATARURL = RenameProfilePicture(uvm.username, uvm.profilePicture);
+            }
+            else
+            {
+                user.AVATARURL = null;
+            }
 
             dbContext.USER.Add(user);
             dbContext.SaveChanges();
+        }
+
+        string RenameProfilePicture(string username, string path)
+        {
+            string fileName = "";
+            string imgFormat = path.Substring(path.LastIndexOf("."));
+            fileName = username + "_avatar" + imgFormat;
+            return fileName;
         }
 
         void CreateNewPatient(PatientViewModel pvm, string username)

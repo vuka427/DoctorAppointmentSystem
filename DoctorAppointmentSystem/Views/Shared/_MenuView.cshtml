@@ -1,6 +1,6 @@
 ﻿<div class="custom-site-header">
     <div class="mb-3 mx-auto custom-site-logo">
-        <img src="/img/person-avatar-02.png" alt="" />
+        <img src=@ViewBag.avatar />
     </div>
     <div class="dropdown custom-logo-badges">
         <a class="custom-btn-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
@@ -8,67 +8,46 @@
             <i class="fa fa-cogs text-muted" style="font-size: 1.7rem;"></i>
         </a>
         <div class="dropdown-menu custom-dropdown-meunu" aria-labelledby="dropdownMenuLink">
-            <a class="dropdown-item custom-dropdown-item" href="#">Edit profile</a>
+            <a class="dropdown-item custom-dropdown-item" href=@Url.Action("EditProfile", "Account")>View Profile</a>
             <a class="dropdown-item custom-dropdown-item" href="#">Change Password</a>
         </div>
     </div>
-    <h2 class="text-center">Lalisa Monoban</h2>
+    <h2 class="text-center" id="label-fullName">@ViewBag.Name</h2>
 </div>
 
 <nav class="custom-nav" id="custom-nav">
     <ul>
         @{
             var menu = ViewBag.menu;
-            foreach (var item in menu)
+            if (menu != null)
             {
-                var area = item.area;
-                var controller = item.controller;
-                var action = item.action;
-                if (item.active == true)
+                foreach (var item in menu)
                 {
-                    <li class="custom-nav-item active">
-                        <a href="@Url.Action(action, controller, new { area = area })" class="custom-nav-link">
-                            <i class="@item.icon"></i>
-                            @item.title
-                        </a>
-                    </li>
-                }
-                else
-                {
-                    <li class="custom-nav-item">
-                        <a href="@Url.Action(action, controller, new { area = area })" class="custom-nav-link">
-                            <i class="@item.icon"></i>
-                            @item.title
-                        </a>
-                    </li>
-                }
+                    var area = item.area;
+                    var controller = item.controller;
+                    var action = item.action;
+                    if (item.active == true)
+                    {
+                        <li class="custom-nav-item active">
+                            <a href="@Url.Action(action, controller, new { area = area })" class="custom-nav-link">
+                                <i class="@item.icon"></i>
+                                @item.title
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="custom-nav-item">
+                            <a href="@Url.Action(action, controller, new { area = area })" class="custom-nav-link">
+                                <i class="@item.icon"></i>
+                                @item.title
+                            </a>
+                        </li>
+                    }
 
+                }
             }
-        }
 
-        @*<li class="custom-nav-item active">
-            <a href="index.html" class="custom-nav-link">
-                <i class="fas fa-home"></i>
-                Home
-            </a>
-        </li>
-        <li class="custom-nav-item">
-            <a href="post.html" class="custom-nav-link">
-                <i class="fas fa-calendar-plus"></i>
-                Make Appointment
-            </a>
-        </li>
-        <li class="custom-nav-item">
-            <a href="about.html" class="custom-nav-link">
-                <i class="fas fa-calendar-alt"></i>
-                Appointment History
-            </a>
-        </li>
-        <li class="custom-nav-item">
-            <a href="contact.html" class="custom-nav-link">
-                <i class="fas fa-sign-out-alt"></i>
-                Log out
-            </a>
-        </li>*@
+        }
     </ul>
 </nav>
