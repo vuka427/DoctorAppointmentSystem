@@ -1,6 +1,6 @@
 ﻿
  //show on off form
-function setButtonOnOffForm() {
+function setbtnonffoform() {
     $("#create-patient-page").hide();
     $("#update-patient-page").hide();
     $("#list-patient-page").show();
@@ -10,11 +10,6 @@ function setButtonOnOffForm() {
         $("#create-patient-page").hide();
         $("#update-patient-page").hide();
         $("#list-patient-page").show();
-        $("#form-create-patient").trigger('reset');
-        $(".paswd-on-off").each(function () {
-            var inp = this;
-            inp.type = "password";
-        });
      
     });
     // close from update
@@ -89,7 +84,6 @@ function setSubmitFormByAjax() {
                         'Create patient is success !',
                         'success'
                     )
-                    $("#form-create-patient").trigger('reset');
 
                 }
             });
@@ -101,7 +95,7 @@ function setSubmitFormByAjax() {
 }
 
 //show update from
-function setEventUpdatePatientFoBtn() {
+function SetEventUpdatePatientFoBtn() {
     var table = $('#PatientTable').DataTable();
 
     table.on('draw', function () {
@@ -114,7 +108,7 @@ function setEventUpdatePatientFoBtn() {
             var Button = $(this);
             var id = Button.data("id");
             console.log(id);
-            loadDataToForm(id);
+            LoadDataToForm(id);
 
         });
 
@@ -123,7 +117,7 @@ function setEventUpdatePatientFoBtn() {
 }
 
 //load data to form update
-function loadDataToForm(patientid) {
+function LoadDataToForm(patientid) {
 
     var formData = {
         PatientId: patientid,
@@ -131,7 +125,7 @@ function loadDataToForm(patientid) {
 
     $.ajax({
         type: "POST",
-        url: "/Admin/PatientManage/LoadPatientInfo",
+        url: "/Admin/PatientManage/LoadPatient",
         data: formData,
         dataType: "json",
         encode: true,
@@ -159,8 +153,11 @@ function loadDataToForm(patientid) {
             $("#ugender").val([data.patient.PATIENTGENDER]);
             $("#uemail").val(data.patient.EMAIL);
 
+
         }
     });
+
+
 }
 
 //Update patient
@@ -227,9 +224,11 @@ function setSubmitFormUdateByAjax() {
                                 'Update patient is success!',
                                 'success'
                             )
-                            $("#form-update-patient").trigger('reset');
+
                         }
                     });
+
+
 
                 } else if (
                     /* Read more about handling dismissals below */
@@ -248,7 +247,7 @@ function setSubmitFormUdateByAjax() {
 }
 
 //show delete dialog
-function setEventDeletePatientFoBtn() {
+function SetEventDeletePatientFoBtn() {
     var table = $('#PatientTable').DataTable();
 
     table.on('draw', function () {
@@ -256,7 +255,6 @@ function setEventDeletePatientFoBtn() {
         $(".btn-delete-patient").on("click", function () {
             var Button = $(this);
             var id = Button.data("id");
-            var username = Button.data("partientname");
             console.log("db=>" + id);
 
             const swalWithBootstrapButtons = Swal.mixin({
@@ -267,7 +265,7 @@ function setEventDeletePatientFoBtn() {
                 buttonsStyling: false
             })
             swalWithBootstrapButtons.fire({
-                title: 'Are you sure delete patient '+ username+ ' ?',
+                title: 'Are you sure?',
                 text: "You won't be able to revert this!",
                 icon: 'warning',
                 showCancelButton: true,
@@ -277,7 +275,7 @@ function setEventDeletePatientFoBtn() {
             }).then((result) => {
                 if (result.isConfirmed) {
 
-                    deletePatientByAjax(id);// delete patient by id
+                    DeletePatientByAjax(id);// delete patient by id
 
                 } else if (
                     /* Read more about handling dismissals below */
@@ -291,8 +289,9 @@ function setEventDeletePatientFoBtn() {
     
 }
 
+
 // delete patient
-function deletePatientByAjax(patientid) {
+function DeletePatientByAjax(patientid) {
 
     var formData = {
         PatientId: patientid,
@@ -325,6 +324,7 @@ function deletePatientByAjax(patientid) {
     });
 }
 
+
 //show message create from
 function showMessage(msg, title) {
     $("#messageModalLabel").text(title);
@@ -350,7 +350,7 @@ function initJqueryDatatable() {
         "bSearchable": true,
         "order": [[1, 'asc']],
         "language": {
-            "emptyTable": "There are no patient in the list.",
+            "emptyTable": "No record found.",
             "processing":
                 '<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="color:#2a2b2b;"></i><span class="sr-only">Loading...</span> '
         },
@@ -459,13 +459,13 @@ function initJqueryDatatable() {
             },
             {
                 "data": null,
-                "title": "Action",
+                "title": "Task",
                 "responsivePriority": 1,
                 "searchable": true,
                 "render": function (data, type, row) {
                     console.log(data, type, row);
-                    return "<btn class=\"btn-update-patient btn btn-sm btn-outline-primary btn-action\" data-id=\"" + row.PATIENTID + "\" data-partientname=\"" + row.PATIENTNAME + "\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Edit user\"> <i class=\"fa-solid fa-user-pen\"></i> </btn>"
-                        + "<btn class=\"btn-delete-patient btn btn-sm btn-outline-danger btn-action  ml-2\" data-id=\"" + row.PATIENTID + "\" data-partientname=\"" + row.PATIENTNAME + "\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Delete user\" > <i class=\"fa-solid fa-trash\"></i></btn> "
+                    return "<btn class=\"btn-update-patient btn btn-sm btn-primary \" data-id=\"" + row.PATIENTID + "\" data-partientname=\"" + row.PATIENTNAME + "\"> Edit </btn>"
+                        + "<btn class=\"btn-delete-patient btn btn-sm btn-danger ml-2\" data-id=\"" + row.PATIENTID + "\" data-partientname=\"" + row.PATIENTNAME + "\" > Delete </btn> "
                         
                 }
 
@@ -479,7 +479,7 @@ function initJqueryDatatable() {
 }
 
 // show hihe pass
-function showPass() {
+function ShowPass() {
     
       
         $(".paswd-on-off").each(function () {
@@ -498,7 +498,7 @@ function showPass() {
     }
         
 //Validate form
-function validateFormPatient() {
+function ValidateFormDoctor() {
     jQuery.validator.addMethod('valid_phone', function (value) {
         var regex = /^(84|0[3|5|7|8|9])+([0-9]{8})\b$/;
         return value.trim().match(regex);
@@ -778,13 +778,13 @@ function isNumberKey(evt) { // accept number
 
 
 $("document").ready(function () {
-    setButtonOnOffForm();
+    setbtnonffoform();
     setSubmitFormByAjax();
     setSubmitFormUdateByAjax();
     initJqueryDatatable();
-    setEventUpdatePatientFoBtn();
-    setEventDeletePatientFoBtn();
-    validateFormPatient();
+    SetEventUpdatePatientFoBtn();
+    SetEventDeletePatientFoBtn();
+    ValidateFormDoctor();
 
     
     

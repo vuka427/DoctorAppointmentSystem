@@ -1,14 +1,17 @@
 ﻿using DoctorAppointmentSystem.Models.DB;
-using DoctorAppointmentSystem.Services.ServiceInterface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Unity;
 
 namespace DoctorAppointmentSystem.Services
 {
- 
+    public interface ISystemParamService
+    {
+        List<SYSTEM_PARA> GetAllParam();
+        
+    }
+
     public class SystemParamService : ISystemParamService
     {
         private readonly DBContext _dbContext;
@@ -21,15 +24,7 @@ namespace DoctorAppointmentSystem.Services
         public List<SYSTEM_PARA> GetAllParam() {
 
             if(_syprama == null)
-                try
-                {
-                     _syprama = _dbContext.SYSTEM_PARA.ToList();
-
-                }catch (Exception ex)
-                {
-                   
-                }
-                
+                _syprama = _dbContext.SYSTEM_PARA.ToList();
             if(_syprama == null) 
                 return new List<SYSTEM_PARA>();
             return _syprama;

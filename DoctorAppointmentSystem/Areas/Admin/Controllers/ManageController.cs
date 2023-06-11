@@ -1,7 +1,4 @@
-﻿using DoctorAppointmentSystem.Menu;
-using DoctorAppointmentSystem.Models.DB;
-using Microsoft.Ajax.Utilities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,25 +8,10 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
 {
     public class ManageController : Controller
     {
-        private readonly DBContext _dbContext;
-
-        public ManageController(DBContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
-
         // GET: Admin/Manage
         public ActionResult Index()
         {
-            RenderAdminMenu menu = new RenderAdminMenu();
-            ViewBag.menu = menu.RenderMenu("Home");
-
-            ViewBag.DoctorCount = _dbContext.DOCTOR.Count(d => d.DELETEDFLAG == false);
-            ViewBag.PatientCount = _dbContext.PATIENT.Count(d => d.DELETEDFLAG == false);
-            
             return View();
         }
-
-        
     }
 }

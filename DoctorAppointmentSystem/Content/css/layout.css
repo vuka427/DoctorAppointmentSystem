@@ -8,7 +8,7 @@ body {
     font-family: 'Source Sans Pro', sans-serif;
     font-size: 19px;
     line-height: 2em;
-    overflow-x: hidden;
+    /*overflow-x: hidden;*/
 }
 
 p, span {
@@ -109,8 +109,10 @@ hr {
 }
 
 .custom-main {
+    position: relative;
+    min-height: 100vh;
     margin-left: 300px;
-    padding: 60px 30px 20px;
+    padding: 60px 0 10px 20px;
 }
 
 .custom-post {
@@ -118,7 +120,8 @@ hr {
 }
 
 .custom-row {
-    max-width: 980px;
+    width: 96%;
+    padding-bottom: 20px;
     justify-content: space-between;
 }
 
@@ -456,6 +459,16 @@ ul {
     text-align: right;
 }
 
+#footer {
+    position: absolute;
+    top: 100%;
+    right: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+
 /* Single Post page */
 hr.custom-hr-primary {
     border-top: 5px solid #9292AE;
@@ -695,6 +708,12 @@ a:hover {
     .navbar-toggler:hover {
         color: #393A62;
     }
+
+#label-fullName{
+    font-size: 1.2em;
+    font-weight: 700;
+    white-space: nowrap;
+}
 
 @media (max-width: 1540px) {
     .custom-header {

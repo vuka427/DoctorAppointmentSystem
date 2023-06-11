@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using DoctorAppointmentSystem.Models.DB;
-
-using DoctorAppointmentSystem.Services.ServiceInterface;
+using DoctorAppointmentSystem.Services;
 using Microsoft.Ajax.Utilities;
 using System;
 using System.Collections.Generic;

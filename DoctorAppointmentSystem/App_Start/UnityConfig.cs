@@ -1,7 +1,6 @@
 ﻿using DoctorAppointmentSystem.Models.Account;
 using DoctorAppointmentSystem.Models.DB;
 using DoctorAppointmentSystem.Services;
-using DoctorAppointmentSystem.Services.ServiceInterface;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -21,8 +20,7 @@ namespace DoctorAppointmentSystem.App_Start
             var container = new UnityContainer();
             container.RegisterType<DbContext, DBContext>(TypeLifetime.Transient);
             container.RegisterType<ISystemParamService, SystemParamService>(TypeLifetime.Singleton);
-            container.RegisterType<IMapperService, MapperService>(TypeLifetime.Transient);
-            container.RegisterType<IloggerService, LoggerService>(TypeLifetime.Transient);
+            container.RegisterType<IMapper, MapperService>(TypeLifetime.Transient);
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }
     }

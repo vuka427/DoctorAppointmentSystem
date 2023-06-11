@@ -11,6 +11,7 @@
 
 
 
+
 <h3 class="text-center mt-2 font-weight-bold">Doctor Management</h3>
 
 <hr />
@@ -34,38 +35,34 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text custom-symbol"><i class="fa fa-address-book"></i></span>
                             </div>
-                            <input id="doctorname" name="doctorname" class="form-control " placeholder="Doctor Name (*)" type="text" pattern="^[a-zA-Z0-9]+$" maxlength="50">
+                            <input id="doctorname" name="doctorname" class="form-control" placeholder="Doctor Name (*)" type="text" pattern="^[a-zA-Z0-9]+$">
                         </div><!-- Doctorname -->
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text custom-symbol"><i class="fa fa-user"></i></span>
                             </div>
-                            <input type="text" class="form-control" id="username" name="username" placeholder="User name (*)" maxlength="256">
+                            <input type="text" class="form-control" id="username" name="username" placeholder="User name (*)">
                         </div><!-- Username -->
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text custom-symbol"><i class="fa fa-lock"></i></span>
                             </div>
-                            <input type="password" class="form-control paswd-on-off" id="password" name="password" placeholder="Password (*)" maxlength="50">
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Password (*)">
                         </div><!-- Password -->
-                        <div class="form-check form-group  input-group">
-                            <input type="checkbox" class="form-check-input" id="check-show-password" onclick="showPass()">
-                            <label class="form-check-label mt-0 pt-0 h6 text-secondary" for="check-show-password">Show password</label>
-                        </div><!-- Check Box Show Password  -->
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text custom-symbol"><i class="fa fa-address-card"></i></span>
                             </div>
-                            <input type="text" class="form-control" id="nationalid" name="nationalid" onkeypress="return isNumberKey(event)" placeholder="National ID (*)" maxlength="20">
+                            <input type="text" class="form-control" id="nationalid" name="nationalid" onkeypress="return isNumberKey(event)" placeholder="National ID (*)">
                         </div><!-- Nationalid -->
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
-                                <span class="input-group-text custom-symbol"><i class="fa-solid fa-building-user"></i></span>
-                            </div>
-                            <div class="form-control department-box">
+                                <span class="input-group-text"><i class="fa-solid fa-building-user"></i></span>
+                            </div >
+                            <div class="form-control department-box" >
                                 @Html.DropDownList("Department", ViewBag.department as SelectList, "Department (*)", new { @class = "form-control custom-select deparment-select", @id = "department" })
                             </div>
-                            <div id="department-error-message"></div>
+                            <div id="department-error-message" ></div>
                         </div> <!-- Department -->
 
                         <div class="form-group input-group">
@@ -79,7 +76,7 @@
                                 <span class="input-group-text custom-symbol"><i class="fa fa-birthday-cake"></i></span>
                             </div>
                             <input placeholder="Date of birth (*)" class="form-control" type="text" onfocus="(this.type='date')" onblur="this.type='text'" id="brithofdate" name="brithofdate">
-
+                           
                         </div> <!-- brithofdate -->
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
@@ -97,25 +94,25 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text custom-symbol"><i class="fa fa-home"></i></span>
                             </div>
-                            <textarea rows="3" class="form-control" id="address" name="address" placeholder="Address (*)" maxlength="256"></textarea>
+                            <textarea rows="3" class="form-control" id="address" name="address" placeholder="Address (*)"></textarea>
                         </div> <!-- address -->
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text custom-symbol"><i class="fa-solid fa-syringe"></i></span>
                             </div>
-                            <input type="text" class="form-control" id="specialy" name="specialy" placeholder="Specialty (*)" maxlength="256">
+                            <input type="text" class="form-control" id="specialy" name="specialy" placeholder="Specialty (*)">
                         </div> <!-- Specialty -->
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text custom-symbol"><i class="fa-sharp fa-solid fa-briefcase"></i></span>
                             </div>
-                            <input placeholder="Working start date (*)" type="text" class="form-control" id="workingstartdate" name="workingstartdate" onfocus="(this.type='date')" onblur="this.type='text'">
+                            <input placeholder="Working start date (*)" type="text" class="form-control" id="workingstartdate" name="workingstartdate" onfocus="(this.type='date')" onblur="this.type='text'"  >
                         </div> <!-- workingstartdate -->
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text custom-symbol"><i class="fa-sharp fa-solid fa-briefcase"></i></span>
                             </div>
-                            <input placeholder="Working end date (*)" type="text" class="form-control" id="workingenddate" name="workingenddate" onfocus="(this.type='date')" onblur="this.type='text'">
+                            <input placeholder="Working end date (*)" type="text" class="form-control" id="workingenddate" name="workingenddate"  onfocus="(this.type='date')" onblur="this.type='text'" >
                         </div> <!-- workingenddate -->
                         <div class="form-group text-center">
                             <input type="submit" class="btn btn-primary" value="Create">
@@ -157,31 +154,31 @@
                         </p>
                         <div class="form-group">
 
-                            <input type="text" class="form-control " hidden id="udoctorid">
+                            <input type="text" class="form-control" hidden id="udoctorid">
                         </div><!--Update DoctorID -->
 
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
-                                <span class="input-group-text lcustom-symbol"><i class="fa fa-address-book"></i></span>
+                                <span class="input-group-text login-input"><i class="fa fa-address-book"></i></span>
                             </div>
-                            <input id="udoctorname" name="udoctorname" class="form-control" placeholder="Doctor Name (*)" type="text" pattern="^[a-zA-Z0-9]+$" maxlength="50">
+                            <input id="udoctorname" name="udoctorname" class="form-control" placeholder="Doctor Name (*)" type="text" pattern="^[a-zA-Z0-9]+$">
                         </div><!--Update Doctorname -->
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
-                                <span class="input-group-text custom-symbol"><i class="fa fa-user"></i></span>
+                                <span class="input-group-text login-input"><i class="fa fa-user"></i></span>
                             </div>
                             <input type="text" class="form-control" id="uusername" disabled>
                         </div><!--Update Username -->
 
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
-                                <span class="input-group-text custom-symbol"><i class="fa fa-address-card"></i></span>
+                                <span class="input-group-text login-input"><i class="fa fa-address-card"></i></span>
                             </div>
-                            <input type="text" class="form-control" id="unationalid" name="unationalid" onkeypress="return isNumberKey(event)" placeholder="National ID (*)" maxlength="20">
+                            <input type="text" class="form-control" id="unationalid" name="unationalid" onkeypress="return isNumberKey(event)" placeholder="National ID (*)">
                         </div><!--Update Nationalid -->
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
-                                <span class="input-group-text custom-symbol"><i class="fa-solid fa-building-user"></i></span>
+                                <span class="input-group-text"><i class="fa-solid fa-building-user"></i></span>
                             </div>
                             <div class="form-control department-box">
                                 @Html.DropDownList("uDepartment", ViewBag.department as SelectList, new { @class = "form-control custom-select deparment-select", @id = "udepartment" })
@@ -191,50 +188,50 @@
 
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
-                                <span class="input-group-text custom-symbol"><i class="fa fa-venus-mars"></i></span>
+                                <span class="input-group-text"><i class="fa fa-venus-mars"></i></span>
                             </div>
                             @Html.DropDownList("uGender", ViewBag.genders as SelectList, "Gender (*)", new { @class = "form-control custom-select ", @id = "ugender" })
                         </div> <!--Update Gender -->
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
-                                <span class="input-group-text custom-symbol"><i class="fa fa-birthday-cake"></i></span>
+                                <span class="input-group-text login-input"><i class="fa fa-birthday-cake"></i></span>
                             </div>
                             <input placeholder="Date of birth (*)" class="form-control" type="text" onfocus="(this.type='date')" onblur="this.type='text'" id="ubrithofdate" name="ubrithofdate">
 
                         </div> <!--Update brithofdate -->
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
-                                <span class="input-group-text custom-symbol"><i class="fa fa-phone"></i></span>
+                                <span class="input-group-text login-input"><i class="fa fa-phone"></i></span>
                             </div>
                             <input type="text" class="form-control" id="umobile" name="umobile" onkeypress="return isNumberKey(event)" placeholder="Mobile No (*)">
                         </div><!--Update mobile -->
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
-                                <span class="input-group-text custom-symbol"><i class="fa-solid fa-envelope"></i></span>
+                                <span class="input-group-text login-input"><i class="fa-solid fa-envelope"></i></span>
                             </div>
-                            <input type="email" class="form-control" id="uemail" name="uemail" placeholder="Email (*)" maxlength="50">
+                            <input type="email" class="form-control" id="uemail" name="uemail" placeholder="Email (*)">
                         </div> <!--Update email -->
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
-                                <span class="input-group-text custom-symbol"><i class="fa fa-home"></i></span>
+                                <span class="input-group-text login-input"><i class="fa fa-home"></i></span>
                             </div>
-                            <textarea rows="3" class="form-control" id="uaddress" name="uaddress" placeholder="Address (*)" maxlength="256"></textarea>
+                            <textarea rows="3" class="form-control" id="uaddress" name="uaddress" placeholder="Address (*)"></textarea>
                         </div> <!--Update address -->
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
-                                <span class="input-group-text custom-symbol"><i class="fa-solid fa-syringe"></i></span>
+                                <span class="input-group-text login-input"><i class="fa-solid fa-syringe"></i></span>
                             </div>
-                            <input type="text" class="form-control" id="uspecialy" name="uspecialy" placeholder="Specialty (*)" maxlength="256">
+                            <input type="text" class="form-control" id="uspecialy" name="uspecialy" placeholder="Specialty (*)">
                         </div> <!--Update Specialty -->
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
-                                <span class="input-group-text custom-symbol"><i class="fa-sharp fa-solid fa-briefcase"></i></span>
+                                <span class="input-group-text login-input"><i class="fa-sharp fa-solid fa-briefcase"></i></span>
                             </div>
                             <input placeholder="Working start date (*)" type="text" class="form-control" id="uworkingstartdate" name="uworkingstartdate" onfocus="(this.type='date')" onblur="this.type='text'">
                         </div> <!--Update workingstartdate -->
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
-                                <span class="input-group-text custom-symbol"><i class="fa-sharp fa-solid fa-briefcase"></i></span>
+                                <span class="input-group-text login-input"><i class="fa-sharp fa-solid fa-briefcase"></i></span>
                             </div>
                             <input placeholder="Working end date (*)" type="text" class="form-control" id="uworkingenddate" name="uworkingenddate" onfocus="(this.type='date')" onblur="this.type='text'">
                         </div> <!--Update workingenddate -->

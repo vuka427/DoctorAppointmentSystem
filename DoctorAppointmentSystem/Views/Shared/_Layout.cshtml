@@ -5,12 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
-    @Styles.Render("~/Content/fontawesome/css")
     @Scripts.Render("~/bundles/modernizr")
     @Styles.Render("~/Content/datatable")
     @Styles.Render("~/Content/sweetalert/css")
     @Styles.Render("~/Content/layout/css")
-
+    @Styles.Render("~/Content/fontawesome/css")
 </head>
 <body>
     <!-- Header -->
@@ -25,14 +24,12 @@
     <div class="container-fluid">
         <main class="custom-main">
             @RenderBody()
+
             <!-- Footer -->
-            <footer class="row custom-row">
+            <footer class="row custom-row" id="footer">
                 <hr class="col-12" />
-                <div class="col-md-6 col-12 custom-color-gray">
-                    Design: Huynh Chi Dung & Nguyen Van Vu
-                </div>
-                <div class="col-md-6 col-12 custom-color-gray custom-copyright">
-                    &copy Online Doctor Appointment System
+                <div class="custom-color-gray custom-copyright">
+                    &copy2023 Online Doctor Appointment System
                 </div>
             </footer>
         </main>

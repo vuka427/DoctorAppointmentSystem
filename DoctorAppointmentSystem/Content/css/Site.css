@@ -38,3 +38,15 @@ form .error {
     display: block;
     margin-left: 46px;
 }
+
+.btn-action{
+    margin: 0 10px;
+}
+
+.btn-action:first-child {
+    margin-left: 0;
+}
+
+.btn-action:last-child {
+    margin-right: 0;
+}
