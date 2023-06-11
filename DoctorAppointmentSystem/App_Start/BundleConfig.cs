@@ -21,7 +21,8 @@ namespace DoctorAppointmentSystem
                         "~/Scripts/bootstrap-lib-js/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap-lib-js/bootstrap.js"));
+                      "~/Scripts/bootstrap-lib-js/bootstrap.js"
+                      ));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap-lib/bootstrap.min.css",
@@ -60,6 +61,9 @@ namespace DoctorAppointmentSystem
                      "~/Scripts/js/usermanagement.js"));
             bundles.Add(new StyleBundle("~/Content/admin/user").Include(
                     "~/Content/css/user-management.css"));
+            //Config ScriptBundle and StyleBundle admin management
+            bundles.Add(new ScriptBundle("~/bundles/admin/adminuser").Include(
+                     "~/Scripts/js/adminmanagement.js"));
 
             //Config ScriptBundle and StyleBundle for select2 lib
             bundles.Add(new ScriptBundle("~/bundles/select2/js").Include(

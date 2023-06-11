@@ -5,6 +5,7 @@ using DoctorAppointmentSystem.HelperClasses;
 using DoctorAppointmentSystem.Menu;
 using DoctorAppointmentSystem.Models.DB;
 using DoctorAppointmentSystem.Services;
+using DoctorAppointmentSystem.Services.ServiceInterface;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -20,10 +21,10 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
     public class PatientManageController : Controller
     {
         private readonly DBContext _dbContext;
-        private readonly IMapper _mapper;
+        private readonly IMapperService _mapper;
         private readonly ISystemParamService _sysParam;
 
-        public PatientManageController(DBContext dbContext, IMapper mapper, ISystemParamService sysParam)
+        public PatientManageController(DBContext dbContext, IMapperService mapper, ISystemParamService sysParam)
         {
             _dbContext = dbContext;
             _mapper = mapper;
@@ -132,6 +133,12 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             string formatString = @"^[\p{L}\p{N}\s]*$"; // re!   \|!#$%&/()=?»«@£§€{}.-;'<>_,
             string patternMobile = @"(84|0[3|5|7|8|9])+([0-9]{8})\b";
             string patternUsername = @"^[a-z0-9-]*$";
+            
+            USER CurentUser = GetCurrentUser();
+            if (CurentUser == null)
+            {
+                return Json(new { error = 1, msg = "Can't find current user !" });
+            }
 
             // validation
             // check PATIENTNAME
@@ -255,9 +262,9 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             PATIENT Patient = _mapper.GetMapper().Map<PatientCreateModel, PATIENT>(model);
 
             var date = DateTime.Now;
-            Patient.CREATEDBY = "Admin";
+            Patient.CREATEDBY = CurentUser.USERNAME;
             Patient.CREATEDDATE = date;
-            Patient.UPDATEDBY = "Admin";
+            Patient.UPDATEDBY = CurentUser.USERNAME;
             Patient.UPDATEDDATE = date;
 
             //check role exists
@@ -267,8 +274,8 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
                 role = _dbContext.ROLE.Add(new ROLE()
                 {
                     ROLENAME = "Patient",
-                    CREATEDBY = "Admin",
-                    UPDATEDBY = "Admin",
+                    CREATEDBY = CurentUser.USERNAME,
+                    UPDATEDBY = CurentUser.USERNAME,
                     CREATEDDATE = date,
                     UPDATEDDATE = date,
                     DELETEDFLAG = false,
@@ -279,6 +286,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
                 catch (Exception ex)
                 {
                     //write error log
+                    return Json(new { error = 1, msg = ex.ToString() });
                 }
 
 
@@ -296,8 +304,8 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
                 USERTYPE = "Patient",//Patient, Doctor , Admin 
                 LOGINRETRYCOUNT = 0,
                 STATUS = true,
-                CREATEDBY = "Admin",
-                UPDATEDBY = "Admin",
+                CREATEDBY = CurentUser.USERNAME,
+                UPDATEDBY = CurentUser.USERNAME,
                 CREATEDDATE = date,
                 UPDATEDDATE = date,
                 DELETEDFLAG = false,
@@ -315,6 +323,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 //write error log
+                return Json(new { error = 1, msg = ex.ToString() });
             }
 
 
@@ -322,16 +331,15 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             return Json(new { error = 0, msg = "ok" });
         }
 
-
         [HttpPost]
         //load patient data for update 
-        public JsonResult LoadPatient(int PatientId)
+        public JsonResult LoadPatientInfo(int PatientId)
         {
             if (PatientId == 0)
             {
                 return Json(new { error = 1, msg = "Error! do not find patient !" });
             }
-            var patient = _dbContext.PATIENT.Where(p=>p.PATIENTID == PatientId).Include("USER").FirstOrDefault();
+            var patient = _dbContext.PATIENT.Where(p=>p.PATIENTID == PatientId && p.DELETEDFLAG == false).Include("USER").FirstOrDefault();
             if (patient == null)
             {
                 return Json(new { error = 1, msg = "Error! do not find patient !" });
@@ -343,12 +351,16 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             return Json(new { error = 0, msg = "ok", patient = dt });
         }
 
-
         // Create patient 
         [HttpPost]
         public JsonResult UpdatePatient(PatientEditModel model)
         {
-            var oldPatient = _dbContext.PATIENT.Where(p=>p.PATIENTID == model.PATIENTID).Include("USER").FirstOrDefault();
+            USER CurentUser = GetCurrentUser();
+            if (CurentUser == null)
+            {
+                return Json(new { error = 1, msg = "Can't find current user !" });
+            }
+            var oldPatient = _dbContext.PATIENT.Where(p=>p.PATIENTID == model.PATIENTID && p.DELETEDFLAG == false).Include("USER").FirstOrDefault();
             USER oldUser = null;
 
             if (oldPatient == null)
@@ -370,7 +382,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
 
             string formatString = @"^[\p{L}\p{N}\s]*$"; // re!   \|!#$%&/()=?»«@£§€{}.-;'<>_,
             string patternMobile = @"(84|0[3|5|7|8|9])+([0-9]{8})\b";
-            string patternUsername = @"^[a-z0-9-]*$";
+            
 
             // validation
             // check PATIENTNAME
@@ -470,13 +482,13 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             newPatient.USERID = oldPatient.USERID;
             newPatient.CREATEDBY = oldPatient.CREATEDBY;
             newPatient.CREATEDDATE =oldPatient.CREATEDDATE;
-            newPatient.UPDATEDBY = "Admin";
+            newPatient.UPDATEDBY = CurentUser.USERNAME;
             newPatient.UPDATEDDATE = date;
             newPatient.DELETEDFLAG = oldPatient.DELETEDFLAG;
 
             //update user info
             oldUser.EMAIL = model.EMAIL;
-            oldUser.UPDATEDBY = "Admin";
+            oldUser.UPDATEDBY = CurentUser.USERNAME;
             oldUser.UPDATEDDATE = date;
            
 
@@ -491,18 +503,27 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
         [HttpPost]
         public JsonResult DeletePatient(int PatientId)
         {
+            USER CurentUser = GetCurrentUser();
+            if (CurentUser == null)
+            {
+                return Json(new { error = 1, msg = "Can't find current user !" });
+            }
             if (PatientId == 0)
             {
                 return Json(new { error = 1, msg = "Error! do not delete patient !" });
             }
-            var patient = _dbContext.PATIENT.Where(p=>p.PATIENTID == PatientId).Include("USER").FirstOrDefault();
+            var patient = _dbContext.PATIENT.Where(p=>p.PATIENTID == PatientId && p.DELETEDFLAG == false).Include("USER").FirstOrDefault();
             if (patient == null)
             {
                 return Json(new { error = 1, msg = "Error! do not find patienr !" });
             }
 
+            patient.UPDATEDBY = CurentUser.USERNAME;
+            patient.UPDATEDDATE = DateTime.Now;
             patient.DELETEDFLAG = true;
+            patient.UPDATEDDATE = DateTime.Now;
             patient.USER.DELETEDFLAG = true;
+            patient.USER.UPDATEDBY = CurentUser.USERNAME;
 
             _dbContext.PATIENT.AddOrUpdate(patient);
             _dbContext.USER.AddOrUpdate(patient.USER);
@@ -512,12 +533,28 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 //write error log
+                return Json(new { error = 1, msg = ex.ToString() });
             }
 
 
             return Json(new { error = 0, msg = "ok" });
         }
 
+        [NonAction]
+        private USER GetCurrentUser()
+        {
+            if (User.Identity.IsAuthenticated == true)
+            {
+                var userName = User.Identity.Name;
+                if (userName != null)
+                {
+                    var currentUser = _dbContext.USER.Where(u => u.USERNAME == userName && u.DELETEDFLAG == false).FirstOrDefault();
+                    return currentUser;
+                }
+            }
 
+
+            return null;
+        }
     }
 }
