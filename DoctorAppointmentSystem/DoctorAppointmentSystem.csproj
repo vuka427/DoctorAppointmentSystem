@@ -156,7 +156,13 @@
     <Compile Include="Areas\Admin\Controllers\DoctorManageController.cs" />
     <Compile Include="Areas\Admin\Controllers\ManageController.cs" />
     <Compile Include="Areas\Admin\Controllers\PatientManageController.cs" />
+    <Compile Include="Areas\Admin\Controllers\AdminUserManageController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserManageController.cs" />
+    <Compile Include="Areas\Admin\Models\AdminUser\AdminUserCreateModel.cs" />
+    <Compile Include="Areas\Admin\Models\AdminUser\AdminUserEditModel.cs" />
+    <Compile Include="Areas\Admin\Models\AdminUser\AdminUserViewEditModel.cs" />
+    <Compile Include="Areas\Admin\Models\AdminUser\AdminUserViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\AdminUser\Mapping\MapAdminUserProfile.cs" />
     <Compile Include="Areas\Admin\Models\DataTableModel\JqueryDatatableParam.cs" />
     <Compile Include="Areas\Admin\Models\DoctorManage\DoctorCreateModel.cs" />
     <Compile Include="Areas\Admin\Models\DoctorManage\DoctorEditModel.cs" />
@@ -171,6 +177,8 @@
     <Compile Include="Areas\Admin\Models\UserManage\Mapping\MapUserProfile.cs" />
     <Compile Include="Areas\Admin\Models\UserManage\ResetPasswordModel.cs" />
     <Compile Include="Areas\Admin\Models\UserManage\UserViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\Validation\ValidationInput.cs" />
+    <Compile Include="Areas\Admin\Models\Validation\ValidationResult.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AppointmentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -222,6 +230,9 @@
     <Compile Include="Models\DB\DOCTOR.cs">
       <DependentUpon>DBContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DB\LOG.cs">
+      <DependentUpon>DBContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DB\MODE_OF_CONSULTING.cs">
       <DependentUpon>DBContext.tt</DependentUpon>
     </Compile>
@@ -231,16 +242,10 @@
     <Compile Include="Models\DB\PRESCRIPTION.cs">
       <DependentUpon>DBContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\DB\QUALIFICATION.cs">
-      <DependentUpon>DBContext.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\DB\ROLE.cs">
       <DependentUpon>DBContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\SCHEDULE.cs">
-      <DependentUpon>DBContext.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\DB\sysdiagrams.cs">
       <DependentUpon>DBContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\SYSTEM_PARA.cs">
@@ -250,7 +255,11 @@
       <DependentUpon>DBContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\LoggerServices.cs" />
     <Compile Include="Services\MapperService.cs" />
+    <Compile Include="Services\ServiceInterface\IloggerService.cs" />
+    <Compile Include="Services\ServiceInterface\IMapperService.cs" />
+    <Compile Include="Services\ServiceInterface\ISystemParamService.cs" />
     <Compile Include="Services\SystemParamService.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -465,6 +474,7 @@
     <Content Include="Scripts\bootstrap-lib-js\jquery-3.4.1.js" />
     <Content Include="Scripts\bootstrap-lib-js\bootstrap.js.map" />
     <Content Include="Scripts\bootstrap-lib-js\bootstrap.bundle.min.js.map" />
+    <Content Include="Areas\Admin\Views\AdminUserManage\Index.cshtml" />
     <EntityDeploy Include="Models\DB\DBContext.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>DBContext.Designer.cs</LastGenOutput>
@@ -479,6 +489,7 @@
     <Content Include="Scripts\bootstrap-lib-js\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\bootstrap-lib-js\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\bootstrap-lib-js\modernizr-2.8.3.js" />
+    <Content Include="Scripts\js\adminmanagement.js" />
     <Content Include="Scripts\js\doctormanagement.js" />
     <Content Include="Scripts\js\layout.js" />
     <Content Include="Scripts\js\patientmanagement.js" />
@@ -487,7 +498,6 @@
     <Content Include="Areas\Admin\Views\PatientManage\Index.cshtml" />
     <Content Include="Areas\Admin\Views\web.config" />
     <Content Include="lib\bootstrap-sweetalert\sweetalert.min.css.map" />
-    <Content Include="Areas\Admin\Views\PartientManage\Index.cshtml" />
     <Content Include="Areas\Admin\Views\UserManage\Index.cshtml" />
     <Content Include="lib\font-awesome\webfonts\fa-brands-400.ttf" />
     <Content Include="lib\font-awesome\webfonts\fa-brands-400.woff2" />
@@ -527,6 +537,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Uploads\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

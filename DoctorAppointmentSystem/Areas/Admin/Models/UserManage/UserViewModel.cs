@@ -1,11 +1,13 @@
-﻿using System;
+﻿using DoctorAppointmentSystem.Menu;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace DoctorAppointmentSystem.Areas.Admin.Models.UserManage
 {
-    public class UserViewModel
+    public class UserViewModel 
     {
         public int USERID { get; set; } //1
         public string FULLNAME { get; set; } //2
@@ -22,6 +24,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Models.UserManage
         public string UPDATEDBY { get; set; }//13
         public string UPDATEDDATE { get; set; }//14
         public string AVATARURL { get; set; }//15
+        public bool STATUS { get; set; }//16
 
     }
 }
