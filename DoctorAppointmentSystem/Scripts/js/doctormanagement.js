@@ -1,6 +1,6 @@
 ﻿'use strict'
  //show on off form
-function setbtnonffoform() {
+function setButtonOnOffForm() {
     $("#l-form-doctor").hide();
     $("#form-update-doctor").hide();
     $("#resetpassword-doctor").hide();
@@ -12,6 +12,12 @@ function setbtnonffoform() {
         $("#table-list-doctor").show();
         $("#form-update-doctor").hide();
         $("#resetpassword-doctor").hide();
+        $("#form-create-doctor").trigger('reset');
+        $(".paswd-on-off").each(function () {
+            var inp = this;
+            inp.type = "password";
+
+        });
     });
     // close from update
     $("#btn-close-form-update").on("click", function () {
@@ -104,7 +110,7 @@ function setSubmitFormByAjax() {
                         'Create doctor is success !',
                         'success'
                     )
-
+                    $("#form-create-doctor").trigger('reset');
                 }
             });
         }
@@ -115,7 +121,7 @@ function setSubmitFormByAjax() {
 }
 
 //load data to form update
-function LoadDataToForm(doctorid) {
+function loadDataToForm(doctorid) {
 
     var formData = {
         DoctorId: doctorid,
@@ -123,7 +129,7 @@ function LoadDataToForm(doctorid) {
 
     $.ajax({
         type: "POST",
-        url: "/Admin/DoctorManage/LoadDoctor",
+        url: "/Admin/DoctorManage/LoadDoctorInfo",
         data: formData,
         dataType: "json",
         encode: true,
@@ -233,6 +239,7 @@ function setSubmitFormUdateByAjax() {
                                 'Update doctor is success !',
                                 'success'
                             )
+                            $("#form-edit-doctor").trigger('reset');
 
                         }
                     });
@@ -254,7 +261,7 @@ function setSubmitFormUdateByAjax() {
 }
 
 //delete dialog
-function SetEventDeleteDoctorFoBtn() {
+function setEventDeleteDoctorFoBtn() {
     var table = $('#DoctorTable').DataTable();
 
     table.on('draw', function () {
@@ -283,7 +290,7 @@ function SetEventDeleteDoctorFoBtn() {
             }).then((result) => {
                 if (result.isConfirmed) {
 
-                    DeleteDocTorByAjax(id) // delete doctor by  id
+                    deleteDocTorByAjax(id) // delete doctor by  id
                     
 
                 } else if (
@@ -306,7 +313,7 @@ function SetEventDeleteDoctorFoBtn() {
 }
 
 //delete doctor
-function DeleteDocTorByAjax(doctorid) {
+function deleteDocTorByAjax(doctorid) {
 
     var formData = {
         DoctorId: doctorid,
@@ -339,8 +346,8 @@ function DeleteDocTorByAjax(doctorid) {
     });
 }
 
-//show edit from
-function SetEventUpdateDoctorFoBtn() {
+//show update from
+function setEventUpdateDoctorFoBtn() {
     var table = $('#DoctorTable').DataTable();
 
     table.on('draw', function () {
@@ -353,7 +360,7 @@ function SetEventUpdateDoctorFoBtn() {
             var Button = $(this);
             var id = Button.data("id");
             console.log(id);
-            LoadDataToForm(id);
+            loadDataToForm(id);
 
         });
 
@@ -523,13 +530,13 @@ function initJqueryDatatable() {
             },
             {
                 "data": null,
-                "title": "Task",
+                "title": "Action",
                 "responsivePriority": 1,
                 "searchable": true,
                 "render": function (data, type, row) {
                     console.log(data, type, row);
-                    return "<btn class=\"btn-update-doctor btn btn-sm btn-primary \" data-id=\"" + row.DOCTORID + "\" data-doctorname=\"" + row.DOCTORNAME + "\"> Edit </btn>"
-                        + "<btn class=\"btn-delete-doctor btn btn-sm btn-danger ml-2\" data-id=\"" + row.DOCTORID + "\" data-doctorname=\"" + row.DOCTORNAME + "\" > Delete </btn> "
+                    return "<btn class=\"btn-update-doctor btn btn-sm btn-outline-primary btn-action\" data-id=\"" + row.DOCTORID + "\" data-doctorname=\"" + row.DOCTORNAME + "\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Edit user\"> <i class=\"fa-solid fa-user-pen\"></i></btn>"
+                        + "<btn class=\"btn-delete-doctor btn btn-sm btn-outline-danger btn-action ml-2\" data-id=\"" + row.DOCTORID + "\" data-doctorname=\"" + row.DOCTORNAME + "\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Delete user\" ><i class=\"fa-solid fa-trash\"></i></btn> "
                         
                 }
 
@@ -543,8 +550,7 @@ function initJqueryDatatable() {
 }
 
 // show hihe pass
-function ShowPass() {
-    
+function showPass() {
       
         $(".paswd-on-off").each(function () {
 
@@ -561,9 +567,8 @@ function ShowPass() {
 
     }
 
-
 //Validate form
-function ValidateFormDoctor() {
+function validateFormDoctor() {
     jQuery.validator.addMethod('valid_phone', function (value) {
         var regex = /^(84|0[3|5|7|8|9])+([0-9]{8})\b$/;
         return value.trim().match(regex);
@@ -917,13 +922,13 @@ function isNumberKey(evt) { // accept number
 
 
 $("document").ready(function () {
-    setbtnonffoform();
+    setButtonOnOffForm();
     setSubmitFormByAjax();
     setSubmitFormUdateByAjax();
     initJqueryDatatable();
-    SetEventUpdateDoctorFoBtn();
-    SetEventDeleteDoctorFoBtn();
-    ValidateFormDoctor();
+    setEventUpdateDoctorFoBtn();
+    setEventDeleteDoctorFoBtn();
+    validateFormDoctor();
 
     $("#department").select2();
     

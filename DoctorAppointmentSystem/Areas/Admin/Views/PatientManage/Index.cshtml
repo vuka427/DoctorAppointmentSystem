@@ -23,60 +23,66 @@
                 </div>
                 <div class="card-body">
                     <form id="form-create-patient" class="form-group" autocomplete="off">
+                        <p class="divider-text">
+                            <span class="bg-light">Patient account information</span>
+                        </p>
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
-                                <span class="input-group-text "><i class="fa fa-address-book"></i></span>
+                                <span class="input-group-text custom-symbol"><i class="fa fa-address-book"></i></span>
                             </div>
-                            <input type="text" class="form-control" id="patientname" name="patientname" placeholder="Patient name (*)">
+                            <input type="text" class="form-control" id="patientname" name="patientname" placeholder="Patient name (*)" maxlength="50">
                         </div><!-- Patientname -->
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
-                                <span class="input-group-text "><i class="fa fa-user"></i></span>
+                                <span class="input-group-text custom-symbol"><i class="fa fa-user"></i></span>
                             </div>
-                            <input type="text" class="form-control" id="username" name="username" placeholder="User name (*)">
+                            <input type="text" class="form-control" id="username" name="username" placeholder="User name (*)" maxlength="256">
                         </div><!-- Username -->
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
-                                <span class="input-group-text "><i class="fa fa-lock"></i></span>
+                                <span class="input-group-text custom-symbol"><i class="fa fa-lock"></i></span>
                             </div>
-                            <input type="password" class="form-control" id="password" name="password" placeholder="Password (*)">
+                            <input type="password" class="form-control paswd-on-off" id="password" name="password" placeholder="Password (*)" maxlength="50">
                         </div><!-- Password -->
+                        <div class="form-check form-group  input-group">
+                            <input type="checkbox" class="form-check-input" id="check-show-password" onclick="showPass()">
+                            <label class="form-check-label mt-0 pt-0 h6 text-secondary" for="check-show-password">Show password</label>
+                        </div><!-- Check Box Show Password  -->
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fa fa-venus-mars"></i></span>
+                                <span class="input-group-text custom-symbol"><i class="fa fa-venus-mars"></i></span>
                             </div>
                             @Html.DropDownList("Gender", ViewBag.genders as SelectList, "Gender (*)", new { @class = "form-control custom-select  ", @id = "gender" })
                         </div><!-- Gender -->
-
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
-                                <span class="input-group-text "><i class="fa fa-address-card"></i></span>
+                                <span class="input-group-text custom-symbol"><i class="fa fa-address-card"></i></span>
                             </div>
-                            <input type="text" class="form-control" id="nationalid" name="nationalid" onkeypress="return isNumberKey(event)"  placeholder="National ID (*)">
+                            <input type="text" class="form-control" id="nationalid" name="nationalid" onkeypress="return isNumberKey(event)" placeholder="National ID (*)" maxlength="20">
                         </div><!-- National id -->
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fa fa-birthday-cake"></i></span>
+                                <span class="input-group-text custom-symbol"><i class="fa fa-birthday-cake"></i></span>
                             </div>
-                            <input placeholder="Date of birth (*)" class="form-control" type="text" onfocus="(this.type='date')" onblur="this.type='text'"  id="brithofdate" name="brithofdate">
+                            <input placeholder="Date of birth (*)" class="form-control" type="text" onfocus="(this.type='date')" onblur="this.type='text'" id="brithofdate" name="brithofdate">
                         </div><!-- brith of date -->
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
-                                <span class="input-group-text "><i class="fa fa-phone"></i></span>
+                                <span class="input-group-text custom-symbol"><i class="fa fa-phone"></i></span>
                             </div>
-                            <input type="text" class="form-control" id="mobile" name="mobile" onkeypress="return isNumberKey(event)"  placeholder="Mobile No (*)">
+                            <input type="text" class="form-control" id="mobile" name="mobile" onkeypress="return isNumberKey(event)" placeholder="Mobile No (*)">
                         </div><!-- mobile -->
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
-                                <span class="input-group-text "><i class="fa-solid fa-envelope"></i></span>
+                                <span class="input-group-text custom-symbol"><i class="fa-solid fa-envelope"></i></span>
                             </div>
-                            <input type="email" class="form-control" id="email" name="email" placeholder="Email (*)">
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Email (*)" maxlength="50">
                         </div><!-- Email -->
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
-                                <span class="input-group-text "><i class="fa fa-home"></i></span>
+                                <span class="input-group-text custom-symbol"><i class="fa fa-home"></i></span>
                             </div>
-                            <textarea rows="3" class="form-control" id="address" name="address" placeholder="Address (*)"></textarea>
+                            <textarea rows="3" class="form-control" id="address" name="address" placeholder="Address (*)" maxlength="256"></textarea>
                         </div><!-- Address -->
 
                         <div class="form-group text-center">
@@ -115,14 +121,17 @@
                 </div>
                 <div class="card-body">
 
-                    <form id="form-update-patient" class="form-group">
+                    <form id="form-update-patient" class="form-group" autocomplete="off">
+                        <p class="divider-text">
+                            <span class="bg-light">Patient account information</span>
+                        </p>
                         <input type="text" hidden id="upatientid">
                         <!-- Patient ID -->
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text "><i class="fa fa-address-book"></i></span>
                             </div>
-                            <input type="text" class="form-control" id="upatientname" name="upatientname" placeholder="Patient name (*)">
+                            <input type="text" class="form-control" id="upatientname" name="upatientname" placeholder="Patient name (*)" maxlength="50">
                         </div><!-- Patientname -->
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
@@ -141,7 +150,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text "><i class="fa fa-address-card"></i></span>
                             </div>
-                            <input type="text" class="form-control" id="unationalid" name="unationalid" onkeypress="return isNumberKey(event)" placeholder="National ID (*)">
+                            <input type="text" class="form-control" id="unationalid" name="unationalid" onkeypress="return isNumberKey(event)" placeholder="National ID (*)" maxlength="20">
                         </div><!-- National id -->
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
@@ -159,13 +168,13 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text "><i class="fa-solid fa-envelope"></i></span>
                             </div>
-                            <input type="email" class="form-control" id="uemail" name="uemail" placeholder="Email (*)">
+                            <input type="email" class="form-control" id="uemail" name="uemail" placeholder="Email (*)" maxlength="50">
                         </div><!-- Email -->
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text "><i class="fa fa-home"></i></span>
                             </div>
-                            <textarea  rows="3" class="form-control" id="uaddress" name="uaddress" placeholder="Address (*)"></textarea>
+                            <textarea rows="3" class="form-control" id="uaddress" name="uaddress" placeholder="Address (*)" maxlength="256"></textarea>
                         </div><!-- Address -->
 
                         <div class="form-group text-center">

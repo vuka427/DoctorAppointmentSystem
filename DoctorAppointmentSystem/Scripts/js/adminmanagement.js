@@ -1,77 +1,67 @@
 ﻿
- //show on off form
+//show on off form
 function setButtonOnOffForm() {
-    $("#create-patient-page").hide();
-    $("#update-patient-page").hide();
-    $("#list-patient-page").show();
+    $("#create-admin-page").hide();
+    $("#update-admin-page").hide();
+    $("#list-admin-page").show();
 
     //close form create
     $("#btn-close-form").on("click", function () {
-        $("#create-patient-page").hide();
-        $("#update-patient-page").hide();
-        $("#list-patient-page").show();
-        $("#form-create-patient").trigger('reset');
-        $(".paswd-on-off").each(function () {
-            var inp = this;
-            inp.type = "password";
-        });
-     
+        $("#create-admin-page").hide();
+        $("#update-admin-page").hide();
+        $("#list-admin-page").show();
+
     });
     // close from update
     $("#btn-close-form-update").on("click", function () {
-        $("#create-patient-page").hide();
-        $("#update-patient-page").hide();
-        $("#list-patient-page").show();
-       
+        $("#create-admin-page").hide();
+        $("#update-admin-page").hide();
+        $("#list-admin-page").show();
+
     });
-    
+
     //open from create
     $("#btn-open-form").on("click", function () {
-        $("#create-patient-page").show();
-        $("#update-patient-page").hide();
-        $("#list-patient-page").hide();
-       
+        $("#create-admin-page").show();
+        $("#update-admin-page").hide();
+        $("#list-admin-page").hide();
+
     });
     //open from update
     $(".btn-update-patient").on("click", function () {
         $("#create-patient-page").hide();
         $("#create-patient-page").hide();
         $("#list-patient-page").show();
-     
+
 
     });
-   
+
 }
 
-//create patient
+//create admin
 function setSubmitFormByAjax() {
-    $("#form-create-patient").submit(function (event) {
-        if ($("#form-create-patient").valid()) {
+    $("#form-create-admin").submit(function (event) {
+        if ($("#form-create-admin").valid()) {
             var formData = {
 
-                PATIENTNAME: $("#patientname").val(),
                 USERNAME: $("#username").val(),
                 PASSWORD: $("#password").val(),
                 EMAIL: $("#email").val(),
-                PATIENTNATIONALID: $("#nationalid").val(),
-                PATIENTGENDER: $("#gender").val(),
-                PATIENTMOBILENO: $("#mobile").val(),
-                PATIENTDATEOFBIRTH: $("#brithofdate").val(),
-                PATIENTADDRESS: $("#address").val(),
+                
 
 
             };
-            console.log("Create =>patient");
+           
             $.ajax({
                 type: "POST",
-                url: "/Admin/PatientManage/CreatePatient",
+                url: "/Admin/AdminUserManage/CreateAdmin",
                 data: formData,
                 dataType: "json",
                 encode: true,
             }).done(function (data) {
                 console.log(data);
                 if (data.error == 1) {
-                    //showMessage(data.msg, "Error !");
+                   
                     Swal.fire(
                         'Failed!',
                         data.msg,
@@ -80,36 +70,36 @@ function setSubmitFormByAjax() {
                 }
                 if (data.error == 0) {
 
-                    $('#PatientTable').DataTable().ajax.reload();
-                    $("#create-patient-page").hide();
-                    $("#list-patient-page").show();
-                    //showMessage("Create patient is success ", "Success !")
+                    $('#AdminTable').DataTable().ajax.reload();
+                    $("#create-admin-page").hide();
+                    $("#list-admin-page").show();
+                   
                     Swal.fire(
                         'Success!',
-                        'Create patient is success !',
+                        'Create admin account is success !',
                         'success'
                     )
-                    $("#form-create-patient").trigger('reset');
+                    $("#form-create-admin").trigger('reset');
 
                 }
             });
         }
-        
+
 
         event.preventDefault();
     });
 }
 
 //show update from
-function setEventUpdatePatientFoBtn() {
-    var table = $('#PatientTable').DataTable();
+function setEventUpdateAdminForBtn() {
+    var table = $('#AdminTable').DataTable();
 
     table.on('draw', function () {
 
-        $(".btn-update-patient").on("click", function () {
-            $("#create-patient-page").hide();
-            $("#list-patient-page").hide();
-            $("#update-patient-page").show();
+        $(".btn-update-admin").on("click", function () {
+            $("#create-admin-page").hide();
+            $("#list-admin-page").hide();
+            $("#update-admin-page").show();
 
             var Button = $(this);
             var id = Button.data("id");
@@ -123,22 +113,22 @@ function setEventUpdatePatientFoBtn() {
 }
 
 //load data to form update
-function loadDataToForm(patientid) {
+function loadDataToForm(adminid) {
 
     var formData = {
-        PatientId: patientid,
+        USERID: adminid,
     };
 
     $.ajax({
         type: "POST",
-        url: "/Admin/PatientManage/LoadPatientInfo",
+        url: "/Admin/AdminUserManage/LoadAdminInfo",
         data: formData,
         dataType: "json",
         encode: true,
     }).done(function (data) {
         console.log(data);
         if (data.error == 1) {
-            //showMessageFormUpdate(data.msg);
+            
             Swal.fire(
                 'Failed!',
                 data.msg,
@@ -149,24 +139,18 @@ function loadDataToForm(patientid) {
 
             console.log(data.doctor);
 
-            $("#upatientid").val(data.patient.PATIENTID);
-            $("#upatientname").val(data.patient.PATIENTNAME);
-            $("#uusername").val(data.patient.USERNAME);
-            $("#unationalid").val(data.patient.PATIENTNATIONALID);
-            $("#uaddress").val(data.patient.PATIENTADDRESS);
-            $("#ubrithofdate").val(data.patient.PATIENTDATEOFBIRTH);
-            $("#umobile").val(data.patient.PATIENTMOBILENO);
-            $("#ugender").val([data.patient.PATIENTGENDER]);
-            $("#uemail").val(data.patient.EMAIL);
+            $("#uadminid").val(data.admin.USERID);
+            $("#uusername").val(data.admin.USERNAME);
+            $("#uemail").val(data.admin.EMAIL);
 
         }
     });
 }
 
-//Update patient
+//Update admin
 function setSubmitFormUdateByAjax() {
-    $("#form-update-patient").submit(function (event) {
-        if ($("#form-update-patient").valid()) {
+    $("#form-update-admin").submit(function (event) {
+        if ($("#form-update-admin").valid()) {
             const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
                     confirmButton: 'btn btn-success mr-2',
@@ -186,20 +170,13 @@ function setSubmitFormUdateByAjax() {
                 if (result.isConfirmed) {
 
                     var formData = {
-
-                        PATIENTID: $("#upatientid").val(),
-                        PATIENTNAME: $("#upatientname").val(),
-                        EMAIL: $("#uemail").val(),
-                        PATIENTNATIONALID: $("#unationalid").val(),
-                        PATIENTGENDER: $("#ugender").val(),
-                        PATIENTMOBILENO: $("#umobile").val(),
-                        PATIENTDATEOFBIRTH: $("#ubrithofdate").val(),
-                        PATIENTADDRESS: $("#uaddress").val(),
+                        USERID: $("#uadminid").val(),
+                        EMAIL: $("#uemail").val()
                     };
 
                     $.ajax({
                         type: "POST",
-                        url: "/Admin/PatientManage/UpdatePatient",
+                        url: "/Admin/AdminUserManage/UpdateAdmin",
                         data: formData,
                         dataType: "json",
                         encode: true,
@@ -207,7 +184,7 @@ function setSubmitFormUdateByAjax() {
                         console.log(data);
                         if (data.error == 1) {
 
-                            //showMessage(data.msg, "Error !");
+                           
                             Swal.fire(
                                 'Failed!',
                                 data.msg,
@@ -215,19 +192,19 @@ function setSubmitFormUdateByAjax() {
                             )
                         }
                         if (data.error == 0) {
-                            $('#PatientTable').DataTable().ajax.reload();
+                            $('#AdminTable').DataTable().ajax.reload();
 
-                            $("#create-patient-page").hide();
-                            $("#update-patient-page").hide();
-                            $("#list-patient-page").show();
-                            // showMessage("Update patient is success ", "Success !")
+                            $("#create-admin-page").hide();
+                            $("#update-admin-page").hide();
+                            $("#list-admin-page").show();
+                            
 
                             Swal.fire(
                                 'Success!',
-                                'Update patient is success!',
+                                'Update admin account is success!',
                                 'success'
                             )
-                            $("#form-update-patient").trigger('reset');
+                            $("#form-update-admin").trigger('reset');
                         }
                     });
 
@@ -239,9 +216,9 @@ function setSubmitFormUdateByAjax() {
                 }
             })
         }
-        
-        
-       
+
+
+
 
         event.preventDefault();
     });
@@ -249,14 +226,14 @@ function setSubmitFormUdateByAjax() {
 
 //show delete dialog
 function setEventDeletePatientFoBtn() {
-    var table = $('#PatientTable').DataTable();
+    var table = $('#AdminTable').DataTable();
 
     table.on('draw', function () {
 
-        $(".btn-delete-patient").on("click", function () {
+        $(".btn-delete-admin").on("click", function () {
             var Button = $(this);
             var id = Button.data("id");
-            var username = Button.data("partientname");
+            var username = Button.data("username");
             console.log("db=>" + id);
 
             const swalWithBootstrapButtons = Swal.mixin({
@@ -267,7 +244,7 @@ function setEventDeletePatientFoBtn() {
                 buttonsStyling: false
             })
             swalWithBootstrapButtons.fire({
-                title: 'Are you sure delete patient '+ username+ ' ?',
+                title: 'Are you sure delete admin ' + username +'?',
                 text: "You won't be able to revert this!",
                 icon: 'warning',
                 showCancelButton: true,
@@ -277,30 +254,30 @@ function setEventDeletePatientFoBtn() {
             }).then((result) => {
                 if (result.isConfirmed) {
 
-                    deletePatientByAjax(id);// delete patient by id
+                    deleteAdminByAjax(id);// delete admin by id
 
                 } else if (
                     /* Read more about handling dismissals below */
                     result.dismiss === Swal.DismissReason.cancel
                 ) {
-                    
+
                 }
             })
         });
     });
-    
+
 }
 
-// delete patient
-function deletePatientByAjax(patientid) {
+// delete admin
+function deleteAdminByAjax(adminid) {
 
     var formData = {
-        PatientId: patientid,
+        USERID: adminid,
     };
 
     $.ajax({
         type: "POST",
-        url: "/Admin/PatientManage/DeletePatient",
+        url: "/Admin/AdminUserManage/DeleteAdmin",
         data: formData,
         dataType: "json",
         encode: true,
@@ -314,35 +291,22 @@ function deletePatientByAjax(patientid) {
             )
         }
         if (data.error == 0) {
-            $('#PatientTable').DataTable().ajax.reload();
-            //showMessage("Delete patient  is success ", "Success !")
+            $('#AdminTable').DataTable().ajax.reload();
+            
             Swal.fire(
                 'Deleted!',
-                'Delete Patient is success!',
+                'Delete admin account is success!',
                 'success'
             )
         }
     });
 }
 
-//show message create from
-function showMessage(msg, title) {
-    $("#messageModalLabel").text(title);
-    $("#messageContent").text(msg);
-    $('#messageModal').modal('show');
-
-    console.log(msg);
-    document.body.scrollTop = 0; // For Safari
-    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-
-
-}
-
 // Jquery datatable
 function initJqueryDatatable() {
-    var table = $('#PatientTable').DataTable({
-        
-        "sAjaxSource": "/Admin/PatientManage/LoadPatientData",
+    var table = $('#AdminTable').DataTable({
+
+        "sAjaxSource": "/Admin/AdminUserManage/LoadAdminData",
         "sServerMethod": "POST",
         "bServerSide": true,
         "bProcessing": true,
@@ -350,7 +314,7 @@ function initJqueryDatatable() {
         "bSearchable": true,
         "order": [[1, 'asc']],
         "language": {
-            "emptyTable": "There are no patient in the list.",
+            "emptyTable": "There are no admin account in the list.",
             "processing":
                 '<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="color:#2a2b2b;"></i><span class="sr-only">Loading...</span> '
         },
@@ -362,15 +326,8 @@ function initJqueryDatatable() {
                 "defaultContent": '',
             },
             {
-                "data": "PATIENTID",
+                "data": "USERID",
                 "title": 'ID',
-
-                "searchable": true
-
-            },
-            {
-                "data": "PATIENTNAME",
-                "title": "Name",
 
                 "searchable": true
 
@@ -381,46 +338,14 @@ function initJqueryDatatable() {
 
                 "searchable": true
 
-            },
-           
-            {
-                "data": "PATIENTGENDER",
-                "title": "Gender",
-
-                "searchable": true
-            },
-           
-            {
-                "data": "PATIENTDATEOFBIRTH",
-                "title": "BrithDate",
-
-                "searchable": true
-            },
-            {
-                "data": "PATIENTNATIONALID",
-                "title": "Nation ID",
-
-                "searchable": true
-            },
-            {
-                "data": "PATIENTMOBILENO",
-                "title": "Mobile NO",
-
-                "searchable": true
-            },
+            }
+            ,
             {
                 "data": "EMAIL",
                 "title": "Email",
 
                 "searchable": true
             },
-            {
-                "data": "PATIENTADDRESS",
-                "title": "Address",
-
-                "searchable": true
-            },
-            
             {
                 "data": "LOGINLOCKDATE",
                 "title": "Login lock date",
@@ -461,12 +386,12 @@ function initJqueryDatatable() {
                 "data": null,
                 "title": "Action",
                 "responsivePriority": 1,
-                "searchable": true,
+                "searchable": false,
                 "render": function (data, type, row) {
                     console.log(data, type, row);
-                    return "<btn class=\"btn-update-patient btn btn-sm btn-outline-primary btn-action\" data-id=\"" + row.PATIENTID + "\" data-partientname=\"" + row.PATIENTNAME + "\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Edit user\"> <i class=\"fa-solid fa-user-pen\"></i> </btn>"
-                        + "<btn class=\"btn-delete-patient btn btn-sm btn-outline-danger btn-action  ml-2\" data-id=\"" + row.PATIENTID + "\" data-partientname=\"" + row.PATIENTNAME + "\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Delete user\" > <i class=\"fa-solid fa-trash\"></i></btn> "
-                        
+                    return "<btn class=\"btn-update-admin btn btn-sm btn-outline-primary btn-action \" data-id=\"" + row.USERID + "\" data-username=\"" + row.USERNAME + "\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Edit user\"> <i class=\"fa-solid fa-user-pen\"></i> </btn>"
+                        + "<btn class=\"btn-delete-admin btn btn-sm btn-outline-danger btn-action ml-2\" data-id=\"" + row.USERID + "\" data-username=\"" + row.USERNAME + "\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Delete user\"> <i class=\"fa-solid fa-trash\"></i> </btn> "
+
                 }
 
             },
@@ -480,57 +405,38 @@ function initJqueryDatatable() {
 
 // show hihe pass
 function showPass() {
-    
-      
-        $(".paswd-on-off").each(function () {
 
-             var inp = this;
 
-            if (inp.type == "password"){
-                inp.type = "text";
-            }
-            else {
-                inp.type = "password";
-            }
+    $(".paswd-on-off").each(function () {
 
-         });
+        var inp = this;
 
-    }
-        
-//Validate form
-function validateFormPatient() {
-    jQuery.validator.addMethod('valid_phone', function (value) {
-        var regex = /^(84|0[3|5|7|8|9])+([0-9]{8})\b$/;
-        return value.trim().match(regex);
+        if (inp.type == "password") {
+            inp.type = "text";
+        }
+        else {
+            inp.type = "password";
+        }
+
     });
 
+}
+
+//Validate form
+function validateFormAdminUser() {
+   
     jQuery.validator.addMethod('valid_password', function (value) {
         var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,50}$/;
         return value.trim().match(regex);
     });
-    jQuery.validator.addMethod("greaterThan",
-        function (value, element, params) {
-
-            if (!/Invalid|NaN/.test(new Date(value))) {
-                return new Date(value) > new Date($(params).val());
-            }
-
-            return isNaN(value) && isNaN($(params).val())
-                || (Number(value) > Number($(params).val()));
-        }, 'Must be greater than {0}.');
-
-
+    
     //Validate form create
-    $("#form-create-patient").validate({
+    $("#form-create-admin").validate({
         onfocusout: function (element) {
             $(element).valid()
         },
-       
+
         rules: {
-            "patientname": {
-                required: true,
-                maxlength: 50
-            },
             "username": {
                 required: true,
                 maxlength: 50,
@@ -543,44 +449,14 @@ function validateFormPatient() {
                 valid_password: true
 
             },
-            "nationalid": {
-                required: true,
-                maxlength: 20
-
-            },
-            "brithofdate": {
-                required: true,
-
-
-            },
-            "mobile": {
-                required: true,
-                valid_phone: true
-
-            },
-            "address": {
-                required: true,
-                maxlength: 256,
-
-            }
             
-            ,
             "email": {
                 required: true,
                 email: true
             }
-            ,
-            "Gender": {
-                required: true
-
-            }
+            
         },
         messages: {
-            "patientname": {
-                required: "Patient name is required",
-                maxlength: "Patient name charater max lenght is 50!",
-
-            },
             "username": {
                 required: "User name is required",
                 maxlength: "Username charater lenght is 3 to 50!",
@@ -592,31 +468,10 @@ function validateFormPatient() {
                 minlength: "Password charater lenght is 6 to 50!",
                 valid_password: "Password charater at least one uppercase letter, one lowercase letter, one number and one special character: [a-z],[A-Z],[0-9],[@$!%*?&]"
             },
-            "nationalid": {
-                required: "National ID is required",
-                maxlength: "National ID charater max lenght is 20!"
-            },
-            "brithofdate": {
-                required: "Birth of date is required",
-
-            },
-            "mobile": {
-                required: "Mobile is required",
-                valid_phone: "wrong phone number format"
-
-            },
-            "address": {
-                required: "Address is required",
-                maxlength: "Doctor address charater max lenght is 256 !"
-            }
-            ,
+            
             "email": {
                 required: "Email is required",
                 email: "wrong email format"
-            },
-            "Gender": {
-                required: "Gender is required"
-
             }
 
         },
@@ -656,79 +511,22 @@ function validateFormPatient() {
     });
 
     //Validate form update
-    $("#form-update-patient").validate({
+    $("#form-update-admin").validate({
         onfocusout: function (element) {
             $(element).valid()
         },
 
         rules: {
-            "upatientname": {
-                required: true,
-                maxlength: 50
-            },
-            "unationalid": {
-                required: true,
-                maxlength: 20
-
-            },
-            "ubrithofdate": {
-                required: true,
-
-
-            },
-            "umobile": {
-                required: true,
-                valid_phone: true
-
-            },
-            "uaddress": {
-                required: true,
-                maxlength: 256,
-
-            }
-            ,
             "uemail": {
                 required: true,
                 email: true
-            },
-            "uGender": {
-                required: true
-
             }
         },
         messages: {
-            "upatientname": {
-                required: "Patient name is required",
-                maxlength: "Patient name charater max lenght is 50!",
-
-            },
-
-            "unationalid": {
-                required: "National ID is required",
-                maxlength: "National ID charater max lenght is 20!"
-            },
-            "ubrithofdate": {
-                required: "Birth of date is required",
-
-            },
-            "umobile": {
-                required: "Mobile is required",
-                valid_phone: "wrong phone number format"
-
-            },
-            "uaddress": {
-                required: "Address is required",
-                maxlength: "Doctor address charater max lenght is 256 !"
-            }
-            ,
             "uemail": {
                 required: "Email is required",
                 email: "wrong email format"
             },
-            "uGender": {
-                required: "Gender is required"
-
-            }
         },
         highlight: function (element) {
             var elem = $(element);
@@ -766,26 +564,15 @@ function validateFormPatient() {
     });
 }
 
-function isNumberKey(evt) { // accept number 
-    var charCode = (evt.which) ? evt.which : evt.keyCode;
-    if (charCode != 46 && charCode > 31
-        && (charCode < 48 || charCode > 57))
-        return false;
-    return true;
-}      
-
-        
 
 
 $("document").ready(function () {
     setButtonOnOffForm();
-    setSubmitFormByAjax();
-    setSubmitFormUdateByAjax();
     initJqueryDatatable();
-    setEventUpdatePatientFoBtn();
-    setEventDeletePatientFoBtn();
-    validateFormPatient();
+    setSubmitFormByAjax();
+    setEventUpdateAdminForBtn();
+    setSubmitFormUdateByAjax()
+    validateFormAdminUser();
+    setEventDeletePatientFoBtn()
 
-    
-    
 });
