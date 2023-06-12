@@ -9,10 +9,10 @@
 
 
 <h3 class="text-center mt-2 font-weight-bold">User Management</h3>
-
+<hr />
 <div>
     @* index page user *@
-    <div id="table-list-doctor" style=" " class="container justify-content-center  bg-white">
+    <div id="table-list-user" style=" " class="container justify-content-center  bg-white">
         <div class=" container-fluid " style="width: auto">
 
             <div class="row">
@@ -23,11 +23,49 @@
             </div>
         </div>
     </div>
+    @*Reset password*@
+    <div id="reset-password-page" style=" " class="container justify-content-center  bg-white">
+        <div id="error-message"> </div>
+        <div class="row  justify-content-center">
+            <div class="col-8 card p-0 shadow border border-primary">
+
+                <div class="card-header bg-primary p-0">
+                    <h4 class="text-center text-light ">Reset Password</h4>
+                </div>
+                <div class="card-body">
+                    <form id="form-reset-password-user" class="form-group" autocomplete="off">
+                        <p class="divider-text">
+                            <span class="bg-light">Reset password for user <strong id="username-account-reset"> </strong></span>
+                        </p>
+                        <input id="userid" name="userid" type="text" hidden>
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text "><i class="fa fa-lock"></i></span>
+                            </div>
+                            <input type="password" class="form-control paswd-on-off" id="password" name="password" placeholder="Password (*)" maxlength="50">
+                        </div> <!-- Password -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text "><i class="fa fa-lock"></i></span>
+                            </div>
+                            <input type="password" class="form-control paswd-on-off" id="passwordconfirm" name="passwordconfirm" placeholder="Password confirm (*)" maxlength="50">
+                        </div> <!-- Password Confirm -->
+                        <div class="form-check form-group  input-group">
+                            <input type="checkbox" class="form-check-input" id="check-show-password" onclick="showPass()">
+                            <label class="form-check-label mt-0 pt-0 h6 text-secondary" for="check-show-password">Show password</label>
+                        </div><!-- Check Box Show Password  -->
+                        <div class="form-group text-center">
+                            <input type="submit" class="btn btn-primary" value="Update">
+                            <btn id="btn-close-form-reset-password" class="btn btn-secondary"> Cancel </btn>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </div>
-
-
-
 
 
 
