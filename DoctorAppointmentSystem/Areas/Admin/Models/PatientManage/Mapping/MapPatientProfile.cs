@@ -14,7 +14,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Models.PatientManage.Mapping
             CreateMap<PATIENT, PatientViewModel>()
                
                 .ForMember(dest => dest.PATIENTDATEOFBIRTH, act => act.MapFrom(src => src.PATIENTDATEOFBIRTH.ToShortDateString()))
-                .ForMember(dest => dest.PATIENTGENDER, act => act.MapFrom(src =>  (src.PATIENTGENDER == "1")? "Male" : (src.PATIENTGENDER == "2") ? "Female" : "Other" ))
+                .ForMember(dest => dest.PATIENTGENDER, act => act.MapFrom(src =>  (src.PATIENTGENDER == 1)? "Male" : (src.PATIENTGENDER == 2) ? "Female" : "Other" ))
                 .ForMember(dest => dest.CREATEDDATE, act => act.MapFrom(src => src.CREATEDDATE.Value.ToShortDateString()))
                 .ForMember(dest => dest.UPDATEDDATE, act => act.MapFrom(src => src.UPDATEDDATE.Value.ToShortDateString()))
                 .ForMember(dest => dest.EMAIL, act => act.MapFrom(src => src.USER != null ? src.USER.EMAIL : "none"))

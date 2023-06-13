@@ -3,16 +3,124 @@
     ViewBag.Title = "Appointment";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<link href="~/Content/css/makeAppointment.css" rel="stylesheet" />
+<link href="~/Content/css/appointment.css" rel="stylesheet" />
 @Html.Partial("_CarouselView")
 
-<h3 class="text-center mt-3 mb-3 font-weight-bold">Make Appointment</h3>
+<h3 class="text-center mt-3 mb-3 font-weight-bold">Schedule of Doctors</h3>
 <div class="container-fluid content-wrapper table-responsive">
-    <table id="makeAppointmentTbl" class="dt-responsive display nowrap">
+    <table id="scheduleTbl" class="dt-responsive display nowrap">
         <thead></thead>
         <tbody></tbody>
     </table>
 </div>
+
+
+<div class="modalWrapper" style="font-size: 16px;">
+    <!-- Modal -->
+    <div class="modal fade" id="makeAppointmentModal" tabindex="-1" role="dialog" aria-labelledby="makeAppointmentModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title font-weight-bold" id="makeAppointmentModalLabel">Make Appointment</h5>
+                </div>
+                <div class="modal-body">
+                    <form class="col-12 col-sm-12 col-md-12">
+                        <div class="col-12 col-sm-12 col-md-12 mb-4 p-0 d-flex justify-content-between flex-wrap">
+
+                            <!--Doctor's Info-->
+                            <div class="col-12 col-sm-12 col-md-6 info-wrapper">
+                                <span class="info-label">Doctor's Info</span>
+                                <div class="input-box">
+                                    <span>Full Name</span>
+                                    <p>Male</p>
+                                </div>
+                                <div class="input-box">
+                                    <span>Gender</span>
+                                    <p>Male</p>
+                                </div>
+                                <div class="input-box">
+                                    <span>Speciality</span>
+                                    <p>Male</p>
+                                </div>
+                                
+                            </div>
+
+                            <!--Patient's Info-->
+                            <div class="col-12 col-sm-12 col-md-5 info-wrapper">
+                                <span class="info-label">Patient's Info</span>
+                                <div class="input-box">
+                                    <span>Full Name</span>
+                                    <p>Male</p>
+                                </div>
+                                <div class="input-box">
+                                    <span>Date of Birth</span>
+                                    <p>Male</p>
+                                </div>
+                                <div class="input-box">
+                                    <span>Gender</span>
+                                    <p>Male</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Appointment Details-->
+                        <div class="col-12 col-sm-12 col-md-12 mb-4 info-wrapper row">
+                            <span class="info-label">Appointment Details</span>
+                            <div class="col-12 col-sm-6 col-md-6">
+                                <div class="input-box">
+                                    <span class="ml-3 pr-2 pl-2">Mode of Consultant</span>
+                                    <select class="custom-select">
+                                        <option selected disabled hidden>Select mode of consultant</option>
+                                        <option value="value">Audio</option>
+                                        <option value="value">Video</option>
+                                    </select>
+                                </div>
+                                <div class="input-box">
+                                    <span class="ml-3 pr-2 pl-2">Consultan Type</span>
+                                    <select class="custom-select">
+                                        <option selected disabled hidden>Select type of consultant</option>
+                                        <option value="value">Tele Consultant</option>
+                                        <option value="value">Virtual Consultant</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-6">
+                                <div class="input-box">
+                                    <span>Consultan Time</span>
+                                    <p>Male</p>
+                                </div>
+                                <div class="input-box">
+                                    <span>Appointment Date</span>
+                                    <p>Male</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-12 info-wrapper">
+                            <span class="info-label">Medical History Notes</span>
+                            <div class="input-box">
+                                <span class="ml-3 pr-2 pl-2">Symtoms</span>
+                                <textarea class="form-control" id="message-text" placeholder="Note down here any current symptoms (if any).."></textarea>
+                            </div>
+                            <div class="input-box">
+                                <span class="ml-3 pr-2 pl-2">Existing Illness</span>
+                                <textarea class="form-control" id="message-text" placeholder="Note down here any existing illness (if any)."></textarea>
+                            </div>
+                            <div class="input-box">
+                                <span class="ml-3 pr-2 pl-2">Drug Alergies</span>
+                                <textarea class="form-control" id="message-text" placeholder="Note down here any drug allergies or allergies to any components of medications (if any)."></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary">Appointment</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 @section scripts{
-    <script src="~/Scripts/js/makeAppointment.js"></script>
+    <script src="~/Scripts/js/appointment.js"></script>
 }

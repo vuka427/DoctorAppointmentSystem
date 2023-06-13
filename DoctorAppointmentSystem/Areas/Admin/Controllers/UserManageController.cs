@@ -5,6 +5,7 @@ using DoctorAppointmentSystem.HelperClasses;
 using DoctorAppointmentSystem.Menu;
 using DoctorAppointmentSystem.Models.DB;
 using DoctorAppointmentSystem.Services;
+using DoctorAppointmentSystem.Services.ServiceInterface;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -22,9 +23,9 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
 
         private readonly DBContext _dbContext;
         private readonly ISystemParamService _sysParam;
-        private readonly IMapper _mapper;
+        private readonly IMapperService _mapper;
 
-        public UserManageController(DBContext dbContext, ISystemParamService sysParam, IMapper mapper)
+        public UserManageController(DBContext dbContext, ISystemParamService sysParam, IMapperService mapper)
         {
             _dbContext = dbContext;
             _sysParam = sysParam;
@@ -46,8 +47,6 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
 
             IEnumerable<UserViewModel> Users =  users.Select(dt => _mapper.GetMapper().Map<USER, UserViewModel>(dt)).ToList();
 
-            
-
             if (!string.IsNullOrEmpty(param.sSearch)) //search
             {
                 Users = Users.Where(x => x.EMAIL.ToLower().Contains(param.sSearch.ToLower())
@@ -66,6 +65,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             {
                 Users = (sortDirection == "asc" ? Users.OrderBy(c => c.USERID) : Users.OrderByDescending(c => c.USERID));
             }
+           
             else
             {
                 Func<UserViewModel, string> orderingFunction = e =>
@@ -100,12 +100,15 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             
         }
 
-
-
         //delete user
         [HttpPost]
         public JsonResult DeleteUser(int USERID)
         {
+            USER CurentUser = GetCurrentUser();
+            if (CurentUser == null)
+            {
+                return Json(new { error = 1, msg = "Can't find current user !" });
+            }
             if (USERID == 0)
             {
                 return Json(new { error = 1, msg = "Failed ! do not delete user !" });
@@ -117,6 +120,8 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             }
             
             user.DELETEDFLAG = true; 
+            user.UPDATEDDATE= DateTime.Now;
+            user.UPDATEDBY = CurentUser.USERNAME;
             _dbContext.USER.AddOrUpdate(user);
 
             if (user.USERTYPE == "Doctor")
@@ -125,6 +130,8 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
                 {
                     var doctor = user.DOCTOR.FirstOrDefault();
                     doctor.DELETEDFLAG = true;
+                    doctor.UPDATEDBY= CurentUser.USERNAME;
+                    doctor.UPDATEDDATE = DateTime.Now;
                     _dbContext.DOCTOR.AddOrUpdate(doctor);
                 }
             }
@@ -134,6 +141,8 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
                 {
                     var patient = user.PATIENT.FirstOrDefault();
                     patient.DELETEDFLAG = true;
+                    patient.UPDATEDBY = CurentUser.USERNAME;
+                    patient.UPDATEDDATE = DateTime.Now;
                     _dbContext.PATIENT.AddOrUpdate(patient);
                 }
             }
@@ -156,6 +165,12 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
         public JsonResult ResetPassword(ResetPasswordModel model)
         {
             string patternPassword = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,50}$";
+
+            USER CurentUser = GetCurrentUser();
+            if (CurentUser == null)
+            {
+                return Json(new { error = 1, msg = "Can't find current user !" });
+            }
 
             if (model.USERID == 0)
             {
@@ -182,6 +197,8 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             var hashcode = PasswordHelper.HashPassword(model.PASSWORD);
 
             user.PASSWORDHASH = hashcode;
+            user.UPDATEDDATE = DateTime.Now;
+            user.UPDATEDBY = CurentUser.USERNAME;
 
             _dbContext.USER.AddOrUpdate(user);
             try
@@ -198,5 +215,86 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             return Json(new { error = 0, msg = "ok" });
         }
 
+        //delete user
+        [HttpPost]
+        public JsonResult LockUser(int USERID , bool LOCK)
+        {
+            USER CurentUser = GetCurrentUser();
+            if (CurentUser == null)
+            {
+                return Json(new { error = 1, msg = "Can't find current user !" });
+            }
+            if (USERID == 0)
+            {
+                return Json(new { error = 1, msg = "Failed ! do not lock user !" });
+            }
+            var user = _dbContext.USER.Where(d => d.USERID == USERID).Include("DOCTOR").Include("PATIENT").FirstOrDefault();
+            if (user == null)
+            {
+                return Json(new { error = 1, msg = "Failed ! do not lock user !" });
+            }
+            if (LOCK)
+            {
+                user.STATUS = false;
+            }
+            else
+            {
+                user.STATUS = true;
+            }
+           
+            user.UPDATEDDATE = DateTime.Now;
+            user.UPDATEDBY = CurentUser.USERNAME;
+            _dbContext.USER.AddOrUpdate(user);
+
+            if (user.USERTYPE == "Doctor")
+            {
+                if (user.DOCTOR.FirstOrDefault() != null)
+                {
+                    var doctor = user.DOCTOR.FirstOrDefault();
+                    doctor.UPDATEDBY = CurentUser.USERNAME;
+                    doctor.UPDATEDDATE = DateTime.Now;
+                    _dbContext.DOCTOR.AddOrUpdate(doctor);
+                }
+            }
+            if (user.USERTYPE == "Patient")
+            {
+                if (user.PATIENT.FirstOrDefault() != null)
+                {
+                    var patient = user.PATIENT.FirstOrDefault();
+                    patient.UPDATEDBY = CurentUser.USERNAME;
+                    patient.UPDATEDDATE = DateTime.Now;
+                    _dbContext.PATIENT.AddOrUpdate(patient);
+                }
+            }
+
+            try
+            {
+                _dbContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                //write error log
+                return Json(new { error = 1, msg = ex.ToString() });
+            }
+
+            return Json(new { error = 0,  msg = "ok" ,islock = LOCK });
+        }
+
+        [NonAction]
+        private USER GetCurrentUser()
+        {
+            if (User.Identity.IsAuthenticated == true)
+            {
+                var userName = User.Identity.Name;
+                if (userName != null)
+                {
+                    var currentUser = _dbContext.USER.Where(u => u.USERNAME == userName && u.DELETEDFLAG == false).FirstOrDefault();
+                    return currentUser;
+                }
+            }
+
+
+            return null;
+        }
     }
 }

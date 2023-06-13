@@ -7,8 +7,14 @@ function setButtonOnOffForm() {
     
     // close from reset password
     $("#btn-close-form-reset-password").on("click", function () {
+        $("#form-reset-password-user").trigger('reset');
         $("#reset-password-page").hide();
         $("#table-list-user").show();
+        $(".paswd-on-off").each(function () {
+            var inp = this;
+            inp.type = "password";
+            
+        });
     });
   
     //open from reset password
@@ -17,7 +23,6 @@ function setButtonOnOffForm() {
         $("#table-list-user").hide();
     });
 }
-
 
 //reset password
 function setSubmitFormResetPasswordByAjax() {
@@ -56,7 +61,7 @@ function setSubmitFormResetPasswordByAjax() {
                         
                         if (data.error == 1) {
                             $("#form-reset-password-user").trigger('reset');
-                            //showMessage(data.msg, "Error !");
+                            
                             Swal.fire(
                                 'Failed!',
                                 data.msg,
@@ -64,11 +69,11 @@ function setSubmitFormResetPasswordByAjax() {
                             )
                         }
                         if (data.error == 0) {
-                            $('#DoctorTable').DataTable().ajax.reload();
+                            $('#UserTable').DataTable().ajax.reload();
 
                             $("#reset-password-page").hide();
                             $("#table-list-user").show();
-                            //showMessage("Update doctor is success ", "Success !")
+                            
                             $("#form-reset-password-user").trigger('reset');
                             Swal.fire(
                                 'Success!',
@@ -104,6 +109,8 @@ function setEventResetPasswordForBtn() {
 
             var Button = $(this);
             var id = Button.data("id");
+            var username = Button.data("username");
+            $("#username-account-reset").text(username);
             $("#userid").val(id);
             
         });
@@ -144,7 +151,7 @@ function setEventDeleteUserForBtn() {
             }).then((result) => {
                 if (result.isConfirmed) {
 
-                    DeleteUserByAjax(id) // delete user by  id
+                    deleteUserByAjax(id) // delete user by  id
                     
 
                 } else if (
@@ -188,9 +195,139 @@ function deleteUserByAjax(doctorid) {
             //showMessage("Delete doctor is success ", "Success !")
            Swal.fire(
                 'Deleted!',
-                'Delete doctor is success !',
+                'Delete user is success !',
                 'success'
             )
+        }
+    });
+}
+
+//lock & unlock user dialog
+function setEventLockUserForBtn() {
+    var table = $('#UserTable').DataTable();
+
+    table.on('draw', function () {
+        //lock
+        $(".btn-lock-user").on("click", function () {
+
+            var Button = $(this);
+            var username = Button.data("username");
+            var id = Button.data("id");
+
+
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success mr-2',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            })
+            swalWithBootstrapButtons.fire({
+                title: 'Are you sure lock user ' + username + ' ?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, lock it!',
+                cancelButtonText: 'No, cancel!',
+                reverseButtons: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    // lock user by  id
+                    lockOnOffUserByAjax(id, true) 
+
+                } else if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+
+                }
+            })
+        });
+        //unlock
+        $(".btn-unlock-user").on("click", function () {
+
+            var Button = $(this);
+            var username = Button.data("username");
+            var id = Button.data("id");
+
+
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success mr-2',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            })
+            swalWithBootstrapButtons.fire({
+                title: 'Are you sure unlock user ' + username + ' ?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, unlock it!',
+                cancelButtonText: 'No, cancel!',
+                reverseButtons: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    // lock user by  id
+                    lockOnOffUserByAjax(id, false);
+
+                } else if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+
+                }
+            })
+        });
+    });
+
+
+
+}
+
+//lock & unlock user
+//lock : true or false
+function lockOnOffUserByAjax(doctorid, lock) {
+
+    var formData = {
+        USERID: doctorid,
+        LOCK: lock,
+    };
+
+    $.ajax({
+        type: "POST",
+        url: "/Admin/UserManage/LockUser",
+        data: formData,
+        dataType: "json",
+        encode: true,
+    }).done(function (data) {
+        console.log(data);
+        if (data.error == 1) {
+            Swal.fire(
+                'Failed!',
+                data.msg,
+                'error'
+            )
+        }
+        if (data.error == 0) {
+            $('#UserTable').DataTable().ajax.reload();
+            //showMessage("Delete doctor is success ", "Success !")
+            if (data.islock) {
+                Swal.fire(
+                    'Locked!',
+                    'Lock User is success !',
+                    'success'
+                )
+            } else {
+                Swal.fire(
+                    'UnLocked!',
+                    'UnLock User is success !',
+                    'success'
+                )
+            }
+            
         }
     });
 }
@@ -308,13 +445,17 @@ function initJqueryDatatable() {
             },
             {
                 "data": null,
-                "title": "Task",
+                "title": "Action",
                 "responsivePriority": 1,
                 "searchable": true,
                 "render": function (data, type, row) {
-                    console.log(data, type, row);
-                    return "<btn class=\"btn-reset-password-user btn btn-sm btn-success \" data-id=\"" + row.USERID + "\" data-username=\"" + row.USERNAME + "\"> Reset password </btn>"
-                        + "<btn class=\"btn-delete-user btn btn-sm btn-danger ml-2\" data-id=\"" + row.USERID + "\" data-username=\"" + row.USERNAME + "\"> Delete </btn> "
+                    var lockbtn = "";
+                    var html = "<btn class=\"btn-reset-password-user btn btn-sm btn-outline-primary btn-action ml-2\" data-id=\"" + row.USERID + "\" data-username=\"" + row.USERNAME + "\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Reset password\" > <i class=\"fa-solid fa-key\"></i></btn>"
+                        + "<btn class=\"btn-delete-user btn btn-sm btn-outline-danger btn-action ml-2 \" data-id=\"" + row.USERID + "\" data-username=\"" + row.USERNAME + "\"  data-toggle=\"tooltip\" data-placement=\"top\" title=\"Delete user\"> <i class=\"fa-solid fa-trash\" ></i> </btn> "
+                    if (row.STATUS) lockbtn = "<btn class=\"btn-lock-user btn btn-sm btn-outline-success btn-action  \" data-id=\"" + row.USERID + "\" data-username=\"" + row.USERNAME + "\"  data-toggle=\"tooltip\" data-placement=\"top\" title=\"Lock account\"> <i class=\"fa-solid fa-lock-open  \"></i> </btn>"
+                    else lockbtn = "<btn class=\"btn-unlock-user btn btn-sm btn-outline-danger btn-action  \" data-id=\"" + row.USERID + "\" data-username=\"" + row.USERNAME + "\"  data-toggle=\"tooltip\" data-placement=\"top\" title=\"Unlock account\"> <i class=\"fa-solid fa-lock  \"></i> </btn>"
+
+                    return lockbtn + html;
                         
                 }
 
@@ -329,8 +470,7 @@ function initJqueryDatatable() {
 
 // show hihe pass
 function showPass() {
-    
-      
+
         $(".paswd-on-off").each(function () {
 
              var inp = this;
@@ -343,7 +483,6 @@ function showPass() {
             }
 
          });
-
     }
 
 //Validate form
@@ -436,5 +575,9 @@ $("document").ready(function () {
     setSubmitFormResetPasswordByAjax();
     validateFormResetPassword();
     setEventDeleteUserForBtn();
+    setEventLockUserForBtn();
+
    
+    $('[data-toggle="tooltip"]').tooltip()
+    
 });

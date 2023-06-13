@@ -1,6 +1,7 @@
 ﻿using DoctorAppointmentSystem.HelperClasses;
 using DoctorAppointmentSystem.Menu;
 using DoctorAppointmentSystem.Models.Appointment;
+using DoctorAppointmentSystem.Models.Appointment.MakeAppointment;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,12 @@ namespace DoctorAppointmentSystem.Controllers
     [Authorize]
     public class AppointmentController : Controller
     {
-        // GET: Appointment
+        private readonly AppointmentIO appointmentIO;
+        public AppointmentController()
+        {
+            appointmentIO = new AppointmentIO();
+        }
+
         public ActionResult Index()
         {
             ViewBag.menu = RenderMenu.RenderPatientMenu("Make Appointment");
@@ -37,10 +43,16 @@ namespace DoctorAppointmentSystem.Controllers
             return View();
         }
 
-        public ActionResult GetData()
+        public ActionResult LoadSchedules()
         {
-            var doctorList = new AppointmentIO().GetData();
-            return Json(new { data = doctorList }, JsonRequestBehavior.AllowGet);
+            var schedules = appointmentIO.LoadSchedules();
+            return Json(new { data = schedules }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult LoadAppointment(string selectedDoctorID, string selectedScheduleID)
+        {
+            AppointmentViewModel data = appointmentIO.LoadAppointment(Convert.ToInt32(selectedDoctorID), User.Identity.Name, Convert.ToInt32(selectedScheduleID));
+            return Json(new { data = data}, JsonRequestBehavior.AllowGet);
         }
     }
 }

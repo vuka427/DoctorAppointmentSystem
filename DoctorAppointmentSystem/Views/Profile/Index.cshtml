@@ -14,13 +14,16 @@
     @Styles.Render("~/Content/fontawesome/css")
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/sweetalert/css")
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link href="~/Content/css/profile.css" rel="stylesheet" />
+    <script src="~/Scripts/js/validateInput.js"></script>
+    <script src="~/Scripts/bootstrap-lib-js/ajax.googleapis.com_ajax_libs_jquery_1.11.3_jquery.min.js"></script>
 </head>
 
 <body>
-    <div class="container rounded bg-white mt-5 mb-5">
-        <a href="" role="button" class="text-muted btn-back-to-home">
-            <i class="fas fa-home"></i> <span class="text-weight-light">Back to home</span>
+    <div class="container rounded bg-white mt-5 mb-5 pt-2">
+        <a id="btnGoToHome" role="button" class="text-muted btn-back-to-home">
+            <i class="fa-solid fa-long-arrow-left"></i> <span class="text-weight-light">Go to back</span>
         </a>
         <div class="row custom-profile-wrapper">
             <div class="col-12 col-md-12">
@@ -29,12 +32,12 @@
                         <h4 class="text-right">Profile Settings</h4>
                     </div>
                     <div class="mt-2">
-                        <form class="col-12 col-md-12">
+                        <form class="col-12 col-md-12" id="profileForm">
                             <div class="content-wrapper row">
                                 <div class="form-group avatar-wrapper col-12 col-sm-12 col-md-4">
                                     <div class=" d-flex flex-wrap justify-content-center align-items-center flex-column custom-logo-wrapper">
                                         <div class="custom-site-logo">
-                                            <img src="/img/person-avatar-02.png" alt="" class="img-avatar" />
+                                            <img id="profilePicture" src="" alt="Your profile picture" class="img-avatar" />
                                         </div>
                                         <p class="mt-4 pr-5 pl-5 text-center" style="line-height: 1.2;">
                                             <small>
@@ -45,11 +48,8 @@
                                                 </i>
                                             </small>
                                         </p>
-                                        <button class="btn btn-secondary btn-m mt-3 btn-change-img">
-                                            Change
-                                            photo
-                                        </button>
-
+                                        <a id="btnChangePhoto" class="btn btn-secondary btn-m mt-3 text-light btn-change-img" role="button" onclick="document.getElementById('inputProfilePicture').click()">Change Photo</a>
+                                        <input name="" id="inputProfilePicture" class="form-control" type="file" accept="image/*" style="display:none"> <!-- Profile picture -->
                                     </div>
                                 </div>
                                 <div class="info-wrapper col-12 col-sm-12 col-md-8">
@@ -57,7 +57,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text custom-symbol"><i class="fa fa-address-book"></i></span>
                                         </div>
-                                        <input id="fullName" name="" class="form-control custom-input" disabled autocomplete="off"
+                                        <input id="fullName" name="FullName" class="form-control custom-input" disabled autocomplete="off"
                                                placeholder="Full name (*)" type="text" pattern="^[\p{L}\p{N}\s]*$">
                                     </div> <!-- Full name -->
 
@@ -65,7 +65,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text custom-symbol"><i class="fa fa-envelope"></i></span>
                                         </div>
-                                        <input id="email" name="" class="form-control custom-input" disabled autocomplete="off"
+                                        <input id="email" name="Email" class="form-control custom-input" disabled autocomplete="off"
                                                placeholder="Email address (*)" type="email">
                                     </div> <!-- Email -->
 
@@ -73,7 +73,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text custom-symbol"><i class="fa fa-address-card"></i></span>
                                         </div>
-                                        <input id="nationalID" name="" class="form-control custom-input" disabled autocomplete="off"
+                                        <input id="nationalID" name="NationalID" class="form-control custom-input" disabled autocomplete="off"
                                                placeholder="National ID (*)" type="text" pattern="^[a-zA-Z0-9]+$">
                                     </div> <!-- National ID -->
 
@@ -81,24 +81,23 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text custom-symbol"> <i class="fa fa-birthday-cake"></i> </span>
                                         </div>
-                                        <input placeholder="Date of birth (*)" class="form-control custom-input" disabled autocomplete="off"
+                                        <input name="DataOfBirth" placeholder="Date of birth (*)" class="form-control custom-input" disabled autocomplete="off"
                                                type="text" id="dateOfBirth">
                                     </div><!-- Date of birth -->
 
                                     <div class="form-group input-group">
                                         <div class="input-group-prepend">
-                                            <span class="input-group-text custom-symbol"><i class="fa fa-venus-mars"></i></span>
+                                            <span class="input-group-text"><i class="fa fa-venus-mars"></i></span>
                                         </div>
-                                        <input id="gender" type="text" class="form-control custom-input" placeholder="Enter gender" disabled autocomplete="off">
+                                        @Html.DropDownList("Gender", ViewBag.genders as SelectList, "Gender (*)", new { @class = "form-control custom-select gender", @id = "gender", @disabled = "disabled" })
                                     </div> <!-- Gender -->
 
                                     <div class="form-group input-group">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text custom-symbol"><i class="fa fa-phone"></i></span>
                                         </div>
-                                        <input id="phoneNumber" name="" class="form-control custom-input" disabled autocomplete="off"
-                                               placeholder="Phone number (*)" type="text"
-                                               pattern="(84|0[3|5|7|8|9])+([0-9]{8})\b" maxlength="10">
+                                        <input id="phoneNumber" name="PhoneNumber" class="form-control custom-input" disabled autocomplete="off"
+                                               onkeypress="return validateNumber(event)" placeholder="Phone number (*)" type="text" maxlength="10">
                                     </div> <!-- Phone number -->
 
                                     <div class="form-group input-group">
@@ -112,7 +111,7 @@
                                 <div class="col-12 col-sm-12 col-md-12 mt-5 d-flex justify-content-center">
                                     <a id="btnCancel" class="btn btn-danger mr-4 text-light" role="button">Cancel</a>
                                     <a id="btnSave" class="btn btn-success text-light" role="button">Save Changes</a>
-                                    <a id="btnEdit" class="btn btn-primary text-light" role="button">Edit</a>
+                                    <a id="btnEdit" class="btn btn-primary text-light" role="button">Edit Profile</a>
                                 </div>
                             </div>
                         </form>
@@ -121,9 +120,11 @@
             </div>
         </div>
     </div>
+    <script src="~/Scripts/bootstrap-lib-js/bootstrap.bundle.min.js"></script>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/sweetalert/js")
+    @Scripts.Render("~/bundles/jqueryval")
     <script src="~/Scripts/js/profile.js"></script>
 </body>
 </html>

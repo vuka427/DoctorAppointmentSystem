@@ -13,7 +13,6 @@ using System.Web.Mvc;
 using DoctorAppointmentSystem.HelperClasses;
 using System.Web.Security;
 using System.IO;
-using DoctorAppointmentSystem.Models.Account.Profile;
 
 namespace DoctorAppointmentSystem.Controllers
 {
@@ -21,13 +20,11 @@ namespace DoctorAppointmentSystem.Controllers
     {
         private readonly RegisterIO registerIO;
         private readonly LoginIO loginIO;
-        private readonly ProfileIO profileIO;
 
         public AccountController()
         {
             this.registerIO = new RegisterIO();
             this.loginIO = new LoginIO();
-            this.profileIO = new ProfileIO();
         }
 
         [HttpPost]
@@ -59,9 +56,9 @@ namespace DoctorAppointmentSystem.Controllers
 
         public ActionResult Register()
         {
-            var questions = registerIO.GenerateAuthQuestion();
+            var questions = SystemParaHelper.GenerateAuthQuestion();
             ViewBag.questions = new SelectList(questions, "id", "paraval");
-            var genders = registerIO.GenerateGender();
+            var genders = SystemParaHelper.GenerateGender();
             ViewBag.genders = new SelectList(genders, "id", "paraval");
             return View();
         }
@@ -87,6 +84,7 @@ namespace DoctorAppointmentSystem.Controllers
         [HttpPost]
         public ActionResult UploadFiles(string username)
         {
+            username = String.IsNullOrEmpty(username.Trim()) ? User.Identity.Name : username;
             if (Request.Files.Count > 0)
             {
                 try
@@ -97,7 +95,19 @@ namespace DoctorAppointmentSystem.Controllers
                         HttpPostedFileBase file = files[i];
                         string imgFormat = file.FileName.Substring(file.FileName.LastIndexOf("."));
                         string fileName = username + "_avatar" + imgFormat;
-                        fileName = Path.Combine(Server.MapPath("~/Uploads/"), fileName);
+                        using (DBContext dbContext = new DBContext())
+                        {
+                            if(!String.IsNullOrEmpty(User.Identity.Name))
+                            {
+                                USER user = dbContext.USER.Where(u=>u.USERNAME.Equals(User.Identity.Name)).FirstOrDefault();
+                                if(user != null)
+                                {
+                                    user.AVATARURL = fileName;
+                                    dbContext.SaveChanges();
+                                }
+                            }
+                        }
+                            fileName = Path.Combine(Server.MapPath("~/Uploads/"), fileName);
                         file.SaveAs(fileName);
                     }
 
@@ -112,17 +122,6 @@ namespace DoctorAppointmentSystem.Controllers
             {
                 return Json(new { success = false, message = " No files selected." }); 
             }
-        }
-
-        public ActionResult EditProfile()
-        {
-            return View();
-        }
-
-        public ActionResult EditProfileAPI()
-        {
-            ProfileViewModel profile = profileIO.GetProfile(User.Identity.Name);
-            return Json(new { data = profile }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Logout()

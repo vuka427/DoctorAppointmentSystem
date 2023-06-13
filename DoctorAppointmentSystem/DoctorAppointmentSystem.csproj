@@ -153,10 +153,16 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\AdminUserManageController.cs" />
     <Compile Include="Areas\Admin\Controllers\DoctorManageController.cs" />
     <Compile Include="Areas\Admin\Controllers\ManageController.cs" />
     <Compile Include="Areas\Admin\Controllers\PatientManageController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserManageController.cs" />
+    <Compile Include="Areas\Admin\Models\AdminUser\AdminUserCreateModel.cs" />
+    <Compile Include="Areas\Admin\Models\AdminUser\AdminUserEditModel.cs" />
+    <Compile Include="Areas\Admin\Models\AdminUser\AdminUserViewEditModel.cs" />
+    <Compile Include="Areas\Admin\Models\AdminUser\AdminUserViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\AdminUser\Mapping\MapAdminUserProfile.cs" />
     <Compile Include="Areas\Admin\Models\DataTableModel\JqueryDatatableParam.cs" />
     <Compile Include="Areas\Admin\Models\DoctorManage\DoctorCreateModel.cs" />
     <Compile Include="Areas\Admin\Models\DoctorManage\DoctorEditModel.cs" />
@@ -171,15 +177,19 @@
     <Compile Include="Areas\Admin\Models\UserManage\Mapping\MapUserProfile.cs" />
     <Compile Include="Areas\Admin\Models\UserManage\ResetPasswordModel.cs" />
     <Compile Include="Areas\Admin\Models\UserManage\UserViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\Validation\ValidationInput.cs" />
+    <Compile Include="Areas\Admin\Models\Validation\ValidationResult.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AppointmentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="HelperClasses\Config.cs" />
     <Compile Include="HelperClasses\GetInfo.cs" />
     <Compile Include="HelperClasses\PasswordHelper.cs" />
+    <Compile Include="HelperClasses\SystemParaHelper.cs" />
     <Compile Include="Menu\MenuItem.cs" />
     <Compile Include="Menu\AdminMenu.cs" />
     <Compile Include="Menu\DoctorMenu.cs" />
@@ -189,22 +199,18 @@
     <Compile Include="Models\Account\ChangePassword\ChangePasswordViewModel.cs" />
     <Compile Include="Models\Account\LoginIO.cs" />
     <Compile Include="Models\Account\Login\LoginViewModel.cs" />
-    <Compile Include="Models\Account\ProfileIO.cs" />
-    <Compile Include="Models\Account\Profile\ProfileViewModel.cs" />
     <Compile Include="Models\Account\RegisterIO.cs" />
     <Compile Include="Models\Account\Register\AuthQuestionViewModel.cs" />
     <Compile Include="Models\Account\Register\GenderViewModel.cs" />
     <Compile Include="Models\Account\Register\PatientViewModel.cs" />
     <Compile Include="Models\Account\Register\UserViewModel.cs" />
     <Compile Include="Models\Appointment\AppointmentIO.cs" />
+    <Compile Include="Models\Appointment\MakeAppointment\AppointmentViewModel.cs" />
     <Compile Include="Models\Appointment\MakeAppointment\ScheduleViewModel.cs" />
     <Compile Include="Models\DB\APPOINTMENT.cs">
       <DependentUpon>DBContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\APPOINTMENT_NOTE.cs">
-      <DependentUpon>DBContext.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\DB\CONSULTANT_TYPE.cs">
       <DependentUpon>DBContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\DBContext.Context.cs">
@@ -231,16 +237,10 @@
     <Compile Include="Models\DB\LOG.cs">
       <DependentUpon>DBContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\DB\MODE_OF_CONSULTING.cs">
-      <DependentUpon>DBContext.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\DB\PATIENT.cs">
       <DependentUpon>DBContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\PRESCRIPTION.cs">
-      <DependentUpon>DBContext.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\DB\QUALIFICATION.cs">
       <DependentUpon>DBContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\ROLE.cs">
@@ -258,8 +258,14 @@
     <Compile Include="Models\DB\USER.cs">
       <DependentUpon>DBContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Profile\ProfileIO.cs" />
+    <Compile Include="Models\Profile\ProfileViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\LoggerServices.cs" />
     <Compile Include="Services\MapperService.cs" />
+    <Compile Include="Services\ServiceInterface\IloggerService.cs" />
+    <Compile Include="Services\ServiceInterface\IMapperService.cs" />
+    <Compile Include="Services\ServiceInterface\ISystemParamService.cs" />
     <Compile Include="Services\SystemParamService.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -270,7 +276,7 @@
     <Content Include="Content\css\doctor-management.css" />
     <Content Include="Content\css\intro.css" />
     <Content Include="Content\css\layout.css" />
-    <Content Include="Content\css\makeAppointment.css" />
+    <Content Include="Content\css\appointment.css" />
     <Content Include="Content\css\patient-management.css" />
     <Content Include="Content\css\profile.css" />
     <Content Include="Content\css\Site.css" />
@@ -478,6 +484,7 @@
     <Content Include="Scripts\bootstrap-lib-js\jquery-3.4.1.js" />
     <Content Include="Scripts\bootstrap-lib-js\bootstrap.js.map" />
     <Content Include="Scripts\bootstrap-lib-js\bootstrap.bundle.min.js.map" />
+    <Content Include="Areas\Admin\Views\AdminUserManage\Index.cshtml" />
     <EntityDeploy Include="Models\DB\DBContext.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>DBContext.Designer.cs</LastGenOutput>
@@ -492,9 +499,10 @@
     <Content Include="Scripts\bootstrap-lib-js\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\bootstrap-lib-js\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\bootstrap-lib-js\modernizr-2.8.3.js" />
+    <Content Include="Scripts\js\adminmanagement.js" />
     <Content Include="Scripts\js\doctormanagement.js" />
     <Content Include="Scripts\js\layout.js" />
-    <Content Include="Scripts\js\makeAppointment.js" />
+    <Content Include="Scripts\js\appointment.js" />
     <Content Include="Scripts\js\patientmanagement.js" />
     <Content Include="Areas\Admin\Views\DoctorManage\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Manage\Index.cshtml" />
@@ -541,7 +549,7 @@
     <Content Include="Views\Appointment\MakeAppointment.cshtml" />
     <Content Include="Views\Appointment\History.cshtml" />
     <Content Include="Views\Shared\_CarouselView.cshtml" />
-    <Content Include="Views\Account\EditProfile.cshtml" />
+    <Content Include="Views\Profile\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

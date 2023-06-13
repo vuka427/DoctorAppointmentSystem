@@ -10,7 +10,7 @@ namespace DoctorAppointmentSystem.Models.Account.Register
         public string fullName { get; set; }
         public string nationalID { get; set; }
         public string dateOfBirth { get; set; }
-        public string gender { get; set; }
+        public int gender { get; set; }
         public string phoneNumber { get; set; }
         public string address { get; set; }
     }

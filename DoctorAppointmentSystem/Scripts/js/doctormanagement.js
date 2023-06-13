@@ -12,6 +12,12 @@ function setButtonOnOffForm() {
         $("#table-list-doctor").show();
         $("#form-update-doctor").hide();
         $("#resetpassword-doctor").hide();
+        $("#form-create-doctor").trigger('reset');
+        $(".paswd-on-off").each(function () {
+            var inp = this;
+            inp.type = "password";
+
+        });
     });
     // close from update
     $("#btn-close-form-update").on("click", function () {
@@ -123,7 +129,7 @@ function loadDataToForm(doctorid) {
 
     $.ajax({
         type: "POST",
-        url: "/Admin/DoctorManage/LoadDoctor",
+        url: "/Admin/DoctorManage/LoadDoctorInfo",
         data: formData,
         dataType: "json",
         encode: true,
@@ -284,7 +290,7 @@ function setEventDeleteDoctorFoBtn() {
             }).then((result) => {
                 if (result.isConfirmed) {
 
-                    DeleteDocTorByAjax(id) // delete doctor by  id
+                    deleteDocTorByAjax(id) // delete doctor by  id
                     
 
                 } else if (
@@ -524,13 +530,13 @@ function initJqueryDatatable() {
             },
             {
                 "data": null,
-                "title": "Task",
+                "title": "Action",
                 "responsivePriority": 1,
                 "searchable": true,
                 "render": function (data, type, row) {
                     console.log(data, type, row);
-                    return "<btn class=\"btn-update-doctor btn btn-sm btn-primary \" data-id=\"" + row.DOCTORID + "\" data-doctorname=\"" + row.DOCTORNAME + "\"> Edit </btn>"
-                        + "<btn class=\"btn-delete-doctor btn btn-sm btn-danger ml-2\" data-id=\"" + row.DOCTORID + "\" data-doctorname=\"" + row.DOCTORNAME + "\" > Delete </btn> "
+                    return "<btn class=\"btn-update-doctor btn btn-sm btn-outline-primary btn-action\" data-id=\"" + row.DOCTORID + "\" data-doctorname=\"" + row.DOCTORNAME + "\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Edit user\"> <i class=\"fa-solid fa-user-pen\"></i></btn>"
+                        + "<btn class=\"btn-delete-doctor btn btn-sm btn-outline-danger btn-action ml-2\" data-id=\"" + row.DOCTORID + "\" data-doctorname=\"" + row.DOCTORNAME + "\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Delete user\" ><i class=\"fa-solid fa-trash\"></i></btn> "
                         
                 }
 
@@ -545,7 +551,6 @@ function initJqueryDatatable() {
 
 // show hihe pass
 function showPass() {
-    
       
         $(".paswd-on-off").each(function () {
 
