@@ -1,6 +1,7 @@
 ﻿using DoctorAppointmentSystem.Areas.Admin.Models.DataTableModel;
 using DoctorAppointmentSystem.Areas.Admin.Models.DoctorManage;
 using DoctorAppointmentSystem.Areas.Admin.Models.UserManage;
+using DoctorAppointmentSystem.Authorization;
 using DoctorAppointmentSystem.HelperClasses;
 using DoctorAppointmentSystem.Menu;
 using DoctorAppointmentSystem.Models.DB;
@@ -18,6 +19,7 @@ using System.Web.Mvc;
 
 namespace DoctorAppointmentSystem.Areas.Admin.Controllers
 {
+    [AppAuthorize("Admin")]
     public class UserManageController : Controller
     {
 

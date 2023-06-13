@@ -1,0 +1,66 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h3 class="text-center mt-2 font-weight-bold">Admin Management</h3>
+
+<hr />
+
+<div class="content-wrapper">
+    @*  *@
+    <div id="" style=" " class="container justify-content-center  bg-white">
+        <div class="row  justify-content-center">
+            <div class="col-8 card p-0 shadow border border-primary">
+                <div class="card-header bg-primary p-0">
+                    <h4 class="text-center text-light"></h4>
+                </div>
+                <div class="card-body">
+                    <form id="" class="form-group" autocomplete="off">
+                    </form>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    @* index  *@
+    <div id="list--page" style=" " class="container justify-content-center  bg-white">
+        <div class=" container-fluid " style="width: auto">
+            <btn id="btn-open-form" class=" btn btn-sm btn-primary mb-3 "> ... </btn>
+            <div class="row">
+                <div class="col-12 card shadow p-3">
+                    <table id="Table" class=" dt-responsive  display nowrap" cellspacing="0" width="100%" style=" margin : auto">
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*  *@
+    <div id="" style=" " class="container justify-content-center  bg-white">
+
+        <div class="row  justify-content-center">
+            <div class="col-8 card p-0 shadow border border-primary">
+                <div class="card-header bg-primary p-0">
+                    <h4 class="text-center text-light"></h4>
+                </div>
+                <div class="card-body">
+                    <form id="" class="form-group" autocomplete="off">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/select2/js")
+    @Scripts.Render("~/bundles/admin/appnointment")
+
+
+}

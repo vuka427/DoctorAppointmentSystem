@@ -35,7 +35,6 @@ namespace DoctorAppointmentSystem
             bundles.Add(new StyleBundle("~/Content/sweetalert/css").Include(
                "~/lib/sweetalert2/sweetalert2.min.css"));
 
-
             //Config ScriptBundle and StyleBundle for jQuery Datatable
             bundles.Add(new ScriptBundle("~/bundles/datatable").Include(
                 "~/Scripts/bootstrap-lib-js/jquery.dataTables.min.js",
@@ -79,6 +78,15 @@ namespace DoctorAppointmentSystem
             bundles.Add(new StyleBundle("~/Content/layout/css").Include(
                     "~/Content/css/layout.css"));
 
+            //Config ScriptBundle and StyleBundle doctor schedule management for admin
+            bundles.Add(new ScriptBundle("~/bundles/admin/doctorschedule").Include(
+                     "~/Scripts/js/doctorScheduleManagment.admin.js"));
+            bundles.Add(new StyleBundle("~/Content/admin/doctorschedule").Include(
+                   "~/Content/css/doctor-schedule-mgt.css"));
+
+            //Config ScriptBundle and StyleBundle appointment management for admin
+            bundles.Add(new ScriptBundle("~/bundles/admin/appointment").Include(
+                     "~/Scripts/js/appointmentManagement.admin.js"));
         }
     }
 }

@@ -12,7 +12,7 @@
 
 <hr />
 
-<div class="">
+<div class="content-wrapper">
     @* Create patient *@
     <div id="create-patient-page" style="" class="container justify-content-center  bg-white">
         <div id="error-message"></div>
@@ -58,13 +58,13 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text custom-symbol"><i class="fa fa-address-card"></i></span>
                             </div>
-                            <input type="text" class="form-control" id="nationalid" name="nationalid" onkeypress="return isNumberKey(event)" placeholder="National ID (*)" maxlength="20">
+                            <input type="text" class="form-control" id="nationalid" name="nationalid" onkeypress="return isNumberKey(event)" placeholder="National ID (*)" maxlength="10">
                         </div><!-- National id -->
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text custom-symbol"><i class="fa fa-birthday-cake"></i></span>
                             </div>
-                            <input placeholder="Date of birth (*)" class="form-control" type="text" onfocus="(this.type='date')" onblur="this.type='text'" id="brithofdate" name="brithofdate">
+                            <input placeholder="Date of birth (*)" class="form-control" type="text" onfocus="(this.type='date')" onblur="this.type='text'" id="brithofdate" name="brithofdate" maxlength="10">
                         </div><!-- brith of date -->
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
@@ -150,7 +150,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text "><i class="fa fa-address-card"></i></span>
                             </div>
-                            <input type="text" class="form-control" id="unationalid" name="unationalid" onkeypress="return isNumberKey(event)" placeholder="National ID (*)" maxlength="20">
+                            <input type="text" class="form-control" id="unationalid" name="unationalid" onkeypress="return isNumberKey(event)" placeholder="National ID (*)" maxlength="10">
                         </div><!-- National id -->
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
@@ -162,7 +162,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text "><i class="fa fa-phone"></i></span>
                             </div>
-                            <input type="text" class="form-control" id="umobile" name="umobile" onkeypress="return isNumberKey(event)" placeholder="Mobile No (*)">
+                            <input type="text" class="form-control" id="umobile" name="umobile" onkeypress="return isNumberKey(event)" placeholder="Mobile No (*)" maxlength="10">
                         </div><!-- mobile -->
                         <div class="form-group input-group">
                             <div class="input-group-prepend">

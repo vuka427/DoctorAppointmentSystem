@@ -154,7 +154,9 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminUserManageController.cs" />
+    <Compile Include="Areas\Admin\Controllers\AppointmentManageController.cs" />
     <Compile Include="Areas\Admin\Controllers\DoctorManageController.cs" />
+    <Compile Include="Areas\Admin\Controllers\DoctorScheduleManageController.cs" />
     <Compile Include="Areas\Admin\Controllers\ManageController.cs" />
     <Compile Include="Areas\Admin\Controllers\PatientManageController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserManageController.cs" />
@@ -169,6 +171,10 @@
     <Compile Include="Areas\Admin\Models\DoctorManage\DoctorViewEditModel.cs" />
     <Compile Include="Areas\Admin\Models\DoctorManage\DoctorViewModel.cs" />
     <Compile Include="Areas\Admin\Models\DoctorManage\Mapping\MapDoctorProfile.cs" />
+    <Compile Include="Areas\Admin\Models\DoctorScheduleManage\DoctorScheduleCreateModel.cs" />
+    <Compile Include="Areas\Admin\Models\DoctorScheduleManage\DoctorScheduleViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\DoctorScheduleManage\DoctorScheduleViewEditModel.cs" />
+    <Compile Include="Areas\Admin\Models\DoctorScheduleManage\Mapping\MappDoctorScheduleProfile.cs" />
     <Compile Include="Areas\Admin\Models\PatientManage\Mapping\MapPatientProfile.cs" />
     <Compile Include="Areas\Admin\Models\PatientManage\PatientCreateModel.cs" />
     <Compile Include="Areas\Admin\Models\PatientManage\PatientEditModel.cs" />
@@ -179,8 +185,10 @@
     <Compile Include="Areas\Admin\Models\UserManage\UserViewModel.cs" />
     <Compile Include="Areas\Admin\Models\Validation\ValidationInput.cs" />
     <Compile Include="Areas\Admin\Models\Validation\ValidationResult.cs" />
+    <Compile Include="Authorization\AppAuthorizeAttribute.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AppointmentController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -212,9 +220,6 @@
     <Compile Include="Models\DB\APPOINTMENT_NOTE.cs">
       <DependentUpon>DBContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\DB\CONSULTANT_TYPE.cs">
-      <DependentUpon>DBContext.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\DB\DBContext.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -239,9 +244,6 @@
     <Compile Include="Models\DB\LOG.cs">
       <DependentUpon>DBContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\DB\MODE_OF_CONSULTING.cs">
-      <DependentUpon>DBContext.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\DB\PATIENT.cs">
       <DependentUpon>DBContext.tt</DependentUpon>
     </Compile>
@@ -252,6 +254,9 @@
       <DependentUpon>DBContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\SCHEDULE.cs">
+      <DependentUpon>DBContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DB\sysdiagrams.cs">
       <DependentUpon>DBContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\SYSTEM_PARA.cs">
@@ -274,6 +279,7 @@
     <Content Include="Content\bootstrap-lib\responsive.bootstrap.min.css" />
     <Content Include="Content\css\custom-input.css" />
     <Content Include="Content\css\doctor-management.css" />
+    <Content Include="Content\css\doctor-schedule-mgt.css" />
     <Content Include="Content\css\intro.css" />
     <Content Include="Content\css\layout.css" />
     <Content Include="Content\css\makeAppointment.css" />
@@ -484,6 +490,9 @@
     <Content Include="Scripts\bootstrap-lib-js\jquery-3.4.1.js" />
     <Content Include="Scripts\bootstrap-lib-js\bootstrap.js.map" />
     <Content Include="Scripts\bootstrap-lib-js\bootstrap.bundle.min.js.map" />
+    <Content Include="Areas\Admin\Views\AdminUserManage\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\DoctorScheduleManage\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\AppointmentManage\Index.cshtml" />
     <EntityDeploy Include="Models\DB\DBContext.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>DBContext.Designer.cs</LastGenOutput>
@@ -491,7 +500,6 @@
     <Content Include="Models\DB\DBContext.edmx.diagram">
       <DependentUpon>DBContext.edmx</DependentUpon>
     </Content>
-    <Content Include="Areas\Admin\Views\AdminUserManage\Index.cshtml" />
     <None Include="Scripts\bootstrap-lib-js\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\bootstrap-lib-js\jquery.dataTables.min.js" />
     <Content Include="Scripts\bootstrap-lib-js\jquery.validate.js" />
@@ -500,7 +508,9 @@
     <Content Include="Scripts\bootstrap-lib-js\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\bootstrap-lib-js\modernizr-2.8.3.js" />
     <Content Include="Scripts\js\adminmanagement.js" />
+    <Content Include="Scripts\js\appointmentManagement.admin.js" />
     <Content Include="Scripts\js\doctormanagement.js" />
+    <Content Include="Scripts\js\doctorScheduleManagment.admin.js" />
     <Content Include="Scripts\js\layout.js" />
     <Content Include="Scripts\js\makeAppointment.js" />
     <Content Include="Scripts\js\patientmanagement.js" />
@@ -509,7 +519,6 @@
     <Content Include="Areas\Admin\Views\PatientManage\Index.cshtml" />
     <Content Include="Areas\Admin\Views\web.config" />
     <Content Include="lib\bootstrap-sweetalert\sweetalert.min.css.map" />
-    <Content Include="Areas\Admin\Views\PartientManage\Index.cshtml" />
     <Content Include="Areas\Admin\Views\UserManage\Index.cshtml" />
     <Content Include="lib\font-awesome\webfonts\fa-brands-400.ttf" />
     <Content Include="lib\font-awesome\webfonts\fa-brands-400.woff2" />
@@ -550,6 +559,7 @@
     <Content Include="Views\Appointment\History.cshtml" />
     <Content Include="Views\Shared\_CarouselView.cshtml" />
     <Content Include="Views\Account\EditProfile.cshtml" />
+    <Content Include="Views\Error\AccessDenied.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
