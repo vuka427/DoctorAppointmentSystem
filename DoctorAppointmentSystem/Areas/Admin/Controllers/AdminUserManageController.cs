@@ -2,6 +2,7 @@
 using DoctorAppointmentSystem.Areas.Admin.Models.DataTableModel;
 using DoctorAppointmentSystem.Areas.Admin.Models.DoctorManage;
 using DoctorAppointmentSystem.Areas.Admin.Models.Validation;
+using DoctorAppointmentSystem.Authorization;
 using DoctorAppointmentSystem.HelperClasses;
 using DoctorAppointmentSystem.Menu;
 using DoctorAppointmentSystem.Models.DB;
@@ -20,6 +21,7 @@ using System.Web.Mvc;
 
 namespace DoctorAppointmentSystem.Areas.Admin.Controllers
 {
+    [AppAuthorize("Admin")]
     public class AdminUserManageController : Controller
     {
 
@@ -35,8 +37,6 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             _mapper = mapper;
             _logger = logger;
         }
-
-
 
         // GET: Admin/UserAdminManage
         public ActionResult Index()
@@ -104,7 +104,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
         public JsonResult CreateAdmin (AdminUserCreateModel model)
         {
             USER CurentUser = GetCurrentUser();
-            if (CurentUser == null)
+            if (CurentUser != null)
             {
                return Json(new { error = 1, msg = "Can't find current user !" });
             }
@@ -182,8 +182,8 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
                 USERTYPE = "Admin",//Partient , Doctor
                 LOGINRETRYCOUNT = 0,
                 STATUS = true,
-                CREATEDBY = CurentUser.USERNAME ,
-                UPDATEDBY = CurentUser.USERNAME ,
+                CREATEDBY = CurentUser.USERNAME,
+                UPDATEDBY = CurentUser.USERNAME,
                 CREATEDDATE = date,
                 UPDATEDDATE = date,
                 DELETEDFLAG = false,

@@ -40,6 +40,15 @@ namespace DoctorAppointmentSystem.HelperClasses
             }
         }
 
+        public static List<SYSTEM_PARA> GenerateByGroup(string groupID)
+        {
+            using (DBContext dbContext = new DBContext()) 
+            {
+                List<SYSTEM_PARA> list = dbContext.SYSTEM_PARA.Where(l => l.GROUPID.Equals(groupID)).ToList();
+                return list;
+            }
+        }
+
         public static List<AuthQuestionViewModel> GenerateAuthQuestion()
         {
             using (DBContext dbContext = new DBContext())

@@ -1,8 +1,10 @@
 ﻿using DoctorAppointmentSystem.HelperClasses;
+using DoctorAppointmentSystem.Models.Appointment.History;
 using DoctorAppointmentSystem.Models.Appointment.MakeAppointment;
 using DoctorAppointmentSystem.Models.DB;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
@@ -10,7 +12,7 @@ namespace DoctorAppointmentSystem.Models.Appointment
 {
     public class AppointmentIO
     {
-        public List<ScheduleViewModel> LoadSchedules()
+        public List<ScheduleViewModel> LoadScheduleList()
         {
             using (DBContext dbContext = new DBContext())
             {
@@ -34,6 +36,12 @@ namespace DoctorAppointmentSystem.Models.Appointment
                 List<ScheduleViewModel> results = new List<ScheduleViewModel>();
                 foreach (var item in list)
                 {
+                    // Skip past days
+                    if (item.WORKINGDAY.CompareTo(DateTime.Now.Date) < 0 || (item.WORKINGDAY.CompareTo(DateTime.Now.Date) == 0 && item.BREAKTIME.CompareTo(DateTime.Now.TimeOfDay) < 0))
+                    {
+                        continue;
+                    }
+
                     ScheduleViewModel row = new ScheduleViewModel();
                     row.scheduleID = item.SCHEDULEID;
                     row.doctorID = item.DOCTORID;
@@ -42,21 +50,22 @@ namespace DoctorAppointmentSystem.Models.Appointment
                     row.speciality = item.SPECIALITY;
                     int gender = item.DOCTORGENDER;
                     row.gender = dbContext.SYSTEM_PARA.Find(gender).PARAVAL;
-                    row.consultantTime = item.CONSULTANTTIME.ToString()+ "'";
+                    row.consultantTime = SystemParaHelper.GetParaval(item.CONSULTANTTIME).ToString() + " minutes";
 
                     // Get the list of scheduled appointments
                     var bookedList = from appointment in dbContext.APPOINTMENT
-                                      join schedule in dbContext.SCHEDULE on new { appointment.SCHEDULEID, appointment.DOCTORID } equals new { schedule.SCHEDULEID, schedule.DOCTORID }
-                                      select new { appointment.APPOINTMENTID };
+                                     join schedule in dbContext.SCHEDULE on new { appointment.SCHEDULEID, appointment.DOCTORID } equals new { schedule.SCHEDULEID, schedule.DOCTORID }
+                                     where schedule.SCHEDULEID == item.SCHEDULEID
+                                     select new { appointment.APPOINTMENTID };
 
                     // Count the number of scheduled appointments
                     int bookedTimes = bookedList.Count();
 
                     // Total time spent on scheduled appointments
-                    TimeSpan totalTimeBooked = TimeSpan.FromMilliseconds(bookedTimes * item.CONSULTANTTIME);
-
+                    TimeSpan totalTimeBooked = TimeSpan.FromMinutes(bookedTimes * Convert.ToInt32(SystemParaHelper.GetParaval(item.CONSULTANTTIME)));
                     TimeSpan startAvailableTimeline = item.SHIFTTIME.Add(totalTimeBooked);
-                    row.availableTime = startAvailableTimeline.Hours + ":" + startAvailableTimeline.Minutes + " - " +  item.BREAKTIME.Hours + ":" + item.BREAKTIME.Minutes;
+
+                    row.availableTime = startAvailableTimeline.ToString(@"hh\:mm") + " - " + item.BREAKTIME.ToString(@"hh\:mm");
                     results.Add(row);
 
                 }
@@ -64,6 +73,100 @@ namespace DoctorAppointmentSystem.Models.Appointment
                 return results;
             }
         }
+
+        public List<HistoryViewModel> GetAllAppointment(string username)
+        {
+            using (DBContext dbContext = new DBContext())
+            {
+                int userID = GetInfo.GetUserID(username);
+                int patientID = GetInfo.GetPatientID(userID);
+
+                List<APPOINTMENT> appointmentList = dbContext.APPOINTMENT.Where(a => a.PATIENTID.Equals(patientID)).ToList();
+                List<HistoryViewModel> result = new List<HistoryViewModel>();
+
+                foreach (APPOINTMENT appointment in appointmentList)
+                {
+                    HistoryViewModel row = new HistoryViewModel();
+                    row.appointmentID = appointment.APPOINTMENTID;
+
+                    int doctorID = appointment.DOCTORID;
+                    DOCTOR doctor = dbContext.DOCTOR.Find(doctorID);
+
+                    row.doctorName = doctor.DOCTORNAME;
+                    row.appointmentStatus = appointment.APPOIMENTSTATUS;
+                    row.appointmentDate = appointment.APPOINTMENTDATE.Date.ToString("yyyy-MM-dd");
+                    row.appointmentTime = appointment.APPOINTMENTDATE.TimeOfDay.ToString(@"hh\:mm");
+                    row.appointmentDay = appointment.APPOINTMENTDATE.DayOfWeek.ToString();
+
+                    result.Add(row);
+                }
+                return result;
+            }
+        }
+
+        public List<ScheduleViewModel> LoadScheduleOfDoctor(int doctorID)
+        {
+            using (DBContext dbContext = new DBContext())
+            {
+                var query = from doctor in dbContext.DOCTOR
+                            join schedule in dbContext.SCHEDULE on doctor.DOCTORID equals schedule.DOCTORID
+                            where doctor.DOCTORID == doctorID
+                            select new
+                            {
+                                doctor.DOCTORID,
+                                doctor.DOCTORNAME,
+                                doctor.SPECIALITY,
+                                doctor.DOCTORGENDER,
+                                schedule.SCHEDULEID,
+                                schedule.BREAKTIME,
+                                schedule.SHIFTTIME,
+                                schedule.WORKINGDAY,
+                                schedule.CONSULTANTTIME
+                            };
+
+                var list = query.ToList();
+
+                List<ScheduleViewModel> results = new List<ScheduleViewModel>();
+                foreach (var item in list)
+                {
+                    // Skip past days
+                    if (item.WORKINGDAY.CompareTo(DateTime.Now.Date) < 0 || (item.WORKINGDAY.CompareTo(DateTime.Now.Date) == 0 && item.BREAKTIME.CompareTo(DateTime.Now.TimeOfDay) < 0))
+                    {
+                        continue;
+                    }
+
+                    ScheduleViewModel row = new ScheduleViewModel();
+                    row.scheduleID = item.SCHEDULEID;
+                    row.doctorID = item.DOCTORID;
+                    row.workingDay = item.WORKINGDAY.ToString("yyyy-MM-dd");
+                    row.doctorName = item.DOCTORNAME;
+                    row.speciality = item.SPECIALITY;
+                    int gender = item.DOCTORGENDER;
+                    row.gender = dbContext.SYSTEM_PARA.Find(gender).PARAVAL;
+                    row.consultantTime = SystemParaHelper.GetParaval(item.CONSULTANTTIME).ToString() + " minutes";
+
+                    // Get the list of scheduled appointments
+                    var bookedList = from appointment in dbContext.APPOINTMENT
+                                     join schedule in dbContext.SCHEDULE on new { appointment.SCHEDULEID, appointment.DOCTORID } equals new { schedule.SCHEDULEID, schedule.DOCTORID }
+                                     where schedule.SCHEDULEID == item.SCHEDULEID
+                                     select new { appointment.APPOINTMENTID };
+
+                    // Count the number of scheduled appointments
+                    int bookedTimes = bookedList.Count();
+
+                    // Total time spent on scheduled appointments
+                    TimeSpan totalTimeBooked = TimeSpan.FromMinutes(bookedTimes * Convert.ToInt32(SystemParaHelper.GetParaval(item.CONSULTANTTIME)));
+                    TimeSpan startAvailableTimeline = item.SHIFTTIME.Add(totalTimeBooked);
+
+                    row.availableTime = startAvailableTimeline.ToString(@"hh\:mm") + " - " + item.BREAKTIME.ToString(@"hh\:mm");
+                    results.Add(row);
+
+                }
+
+                return results;
+            }
+        }
+
         public AppointmentViewModel LoadAppointment(int doctorID, string username, int scheduleID)
         {
             using (DBContext dbContext = new DBContext())
@@ -103,12 +206,117 @@ namespace DoctorAppointmentSystem.Models.Appointment
                     avm.patientName = patient.PATIENTNAME;
                     avm.patientGender = SystemParaHelper.GetParaval(patient.PATIENTGENDER);
                     avm.patientDateOfBirth = patient.PATIENTDATEOFBIRTH.ToString("yyyy-MM-dd");
-                    avm.schuduleID = scheduleID;
-                    avm.consultantTime = SystemParaHelper.GetParaval(schedule.CONSULTANTTIME) + "Minutes";
+                    avm.scheduleID = scheduleID;
+                    avm.consultantTime = SystemParaHelper.GetParaval(schedule.CONSULTANTTIME) + " minutes";
                     avm.workingDay = schedule.WORKINGDAY.ToString("yyyy-MM-dd");
                 }
 
                 return avm;
+            }
+        }
+
+        public List<DOCTOR> GetAvailableDoctors()
+        {
+            using(DBContext dbContext = new DBContext())
+            {
+                List<DOCTOR> doctorList = new List<DOCTOR>();
+                DateTime today = DateTime.Now.Date;
+                TimeSpan now = DateTime.Now.TimeOfDay;
+                List<SCHEDULE> scheduleList = dbContext.SCHEDULE.Where(s => s.WORKINGDAY.CompareTo(today) > 0 || (s.WORKINGDAY.CompareTo(today) == 0 && s.BREAKTIME.CompareTo(now) > 0)).OrderBy(s => s.DOCTORID).ToList();
+
+                int doctorID = 0;
+                foreach (SCHEDULE s in scheduleList)
+                {
+                    if (doctorID == s.DOCTORID) continue;
+                    doctorID = s.DOCTORID;
+                    DOCTOR doctor = dbContext.DOCTOR.Find(doctorID);
+
+                    doctorList.Add(doctor);
+                }
+
+                return doctorList;
+            }
+        }
+
+        // Get a list of doctors with corresponding work schedules
+        public List<DoctorViewModel> GetDoctors(DateTime dateOfConsultation, TimeSpan time)
+        {
+            using (DBContext dbContext = new DBContext())
+            {
+                List<DoctorViewModel> result = new List<DoctorViewModel>();
+                List<SCHEDULE> schedules = dbContext.SCHEDULE
+                    .Where(s => s.WORKINGDAY.Equals(dateOfConsultation) && s.SHIFTTIME.CompareTo(time) <= 0 && s.BREAKTIME.CompareTo(time) > 0)
+                    .OrderBy(s => s.DOCTORID)
+                    .ToList();
+
+                int doctorID = 0;
+                foreach (SCHEDULE s in schedules)
+                {
+                    if (s.DOCTORID == doctorID) continue;
+
+                    doctorID = s.DOCTORID;
+                    DOCTOR doctor = dbContext.DOCTOR.Find(doctorID);
+
+                    DoctorViewModel dvm = new DoctorViewModel();
+                    dvm.doctorID = doctor.DOCTORID;
+                    dvm.doctorName = doctor.DOCTORNAME;
+                    dvm.scheduleID = s.SCHEDULEID;
+
+                    result.Add(dvm);
+                }
+
+                return result;
+            }
+        }
+
+        public bool MakeAppointment(AppointmentViewModel avm, string username)
+        {
+            using (DBContext dbContext = new DBContext())
+            {
+                int userID = GetInfo.GetUserID(username);
+                int patientID = GetInfo.GetPatientID(userID);
+                TimeSpan appointmentTime = TimeSpan.Parse(avm.appointmentTime);
+                DateTime appointmentDate = Convert.ToDateTime(avm.appointmentDate) + appointmentTime;
+
+                DateTime truncatedDate = appointmentDate.Date;
+                List<APPOINTMENT> validList = dbContext.APPOINTMENT
+                    .Where(a => a.PATIENTID.Equals(patientID) && DbFunctions.TruncateTime(a.APPOINTMENTDATE) == truncatedDate)
+                    .ToList();
+
+
+                foreach (APPOINTMENT a in validList)
+                {
+                    TimeSpan hihi = a.APPOINTMENTDATE.TimeOfDay.Add(TimeSpan.FromMinutes(30));
+                    if (a.APPOINTMENTDATE.Date.Equals(appointmentDate.Date) && (appointmentDate.TimeOfDay.CompareTo(a.APPOINTMENTDATE.TimeOfDay.Add(TimeSpan.FromMinutes(30))) <= 0 && appointmentDate.TimeOfDay.CompareTo(a.APPOINTMENTDATE.TimeOfDay.Subtract(TimeSpan.FromMinutes(30))) >= 0 ))
+                    {
+                        return false;
+                    }
+
+                }
+
+
+                APPOINTMENT appointment = new APPOINTMENT();
+                appointment.DOCTORID = avm.doctorID;
+                appointment.PATIENTID = patientID;
+                appointment.MODEOFCONSULTANT = avm.modeOfConsultant;
+                appointment.CONSULTANTTYPE = avm.consultantType;
+                appointment.SYMTOMS = avm.symtoms;
+                appointment.EXISTINGILLNESS = avm.existingIllness;
+                appointment.DRUGALLERGIES = avm.drugAlergies;
+                appointment.SCHEDULEID = avm.scheduleID;
+
+                appointment.APPOINTMENTDATE = appointmentDate;
+                appointment.APPOIMENTSTATUS = "Pending";
+
+                appointment.CREATEDBY = username;
+                appointment.CREATEDDATE = DateTime.Now;
+                appointment.UPDATEDBY = username;
+                appointment.UPDATEDDATE = DateTime.Now;
+                appointment.DELETEDFLAG = false;
+
+                dbContext.APPOINTMENT.Add(appointment);
+                dbContext.SaveChanges();
+                return true;
             }
         }
 

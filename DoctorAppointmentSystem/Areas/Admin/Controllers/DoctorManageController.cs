@@ -2,6 +2,7 @@
 using DoctorAppointmentSystem.Areas.Admin.Models.DataTableModel;
 using DoctorAppointmentSystem.Areas.Admin.Models.DoctorManage;
 using DoctorAppointmentSystem.Areas.Admin.Models.Validation;
+using DoctorAppointmentSystem.Authorization;
 using DoctorAppointmentSystem.HelperClasses;
 using DoctorAppointmentSystem.Menu;
 using DoctorAppointmentSystem.Models.DB;
@@ -14,17 +15,15 @@ using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Runtime.Remoting.Lifetime;
-using System.Security.Cryptography;
-using System.Security.Policy;
-using System.Text;
-using System.Text.RegularExpressions;
+
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
 namespace DoctorAppointmentSystem.Areas.Admin.Controllers
 {
+    
+    [AppAuthorize("Admin")]
     public class DoctorManageController : Controller
     {
         
@@ -40,6 +39,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
         }
 
         // GET: Admin/DoctorManage
+      
         public ActionResult Index()
         {
             AdminMenu menu = new AdminMenu();
@@ -52,7 +52,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             return View();
         }
 
-        //load data doctors  to jquery datatable
+        //load data doctors to jquery datatable
         public async  Task<ActionResult> LoadDoctorData( JqueryDatatableParam param)
         {
             var doctor = await _dbContext.DOCTOR.Where(d => d.DELETEDFLAG == false).Include("DEPARTMENT").Include("USER").ToListAsync();
@@ -548,8 +548,6 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
                     return currentUser;
                 }
             }
-
-
             return null;
         }
 

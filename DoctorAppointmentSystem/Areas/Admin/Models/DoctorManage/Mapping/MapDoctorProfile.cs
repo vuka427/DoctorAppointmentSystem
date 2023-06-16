@@ -28,7 +28,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Models.DoctorManage.Mapping
                 .ForMember(dest => dest.USERNAME, act => act.MapFrom(src => src.USER != null ? src.USER.USERNAME : "none"))
                 .ForMember(dest => dest.LOGINLOCKDATE, act => act.MapFrom(src => (src.USER != null) ? ((src.USER.LOGINLOCKDATE != null) ? src.USER.LOGINLOCKDATE.Value.ToShortDateString() : "none") : "none"))
                 .ForMember(dest => dest.LOGINRETRYCOUNT, act => act.MapFrom(src => (src.USER != null) ? ((src.USER.LOGINRETRYCOUNT != null) ? src.USER.LOGINRETRYCOUNT.Value : 0) : 0))
-                .ForMember(dest => dest.DOCTORGENDER, act => act.MapFrom(src => sysParam.GetAllParam().Where( s=>s.ID == Convert.ToInt32(src.DOCTORGENDER) && s.GROUPID == "Gender" ).Select(s=>s.PARAVAL).FirstOrDefault()))
+                .ForMember(dest => dest.DOCTORGENDER, act => act.MapFrom(src => sysParam.GetAllParam().Where( s=>s.ID == src.DOCTORGENDER && s.GROUPID == "Gender" ).Select(s=>s.PARAVAL).FirstOrDefault()))
                 ;
 
             CreateMap<DoctorCreateModel, DOCTOR>()

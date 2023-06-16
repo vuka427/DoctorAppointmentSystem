@@ -15,7 +15,9 @@ namespace DoctorAppointmentSystem.Menu
             menu.Add(new MenuItem("Doctor management", "fa-solid fa-user-doctor", false, "Admin", "DoctorManage", "Index"));
             menu.Add(new MenuItem("Patient management", "fa-solid fa-bed-pulse", false, "Admin", "PatientManage", "Index"));
             menu.Add(new MenuItem("Admin management", "fa-solid fa-person-military-pointing", false, "Admin", "AdminUserManage", "Index"));
-            menu.Add(new MenuItem("Log out", "fas fa-sign-out-alt", false, "", "", ""));
+            menu.Add(new MenuItem("Doctor Schedule", "fa-solid fa-user-clock", false, "Admin", "DoctorScheduleManage", "Index"));
+            menu.Add(new MenuItem("Appointment", "fa-solid fa-clipboard", false, "Admin", "AppointmentManage", "Index"));
+            menu.Add(new MenuItem("Log out", "fas fa-sign-out-alt", false, "", "Account", "Logout"));
 
             foreach (MenuItem item in menu)
             {

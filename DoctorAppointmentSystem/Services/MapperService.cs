@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DoctorAppointmentSystem.Areas.Admin.Models.AdminUser.Mapping;
 using DoctorAppointmentSystem.Areas.Admin.Models.DoctorManage.Mapping;
+using DoctorAppointmentSystem.Areas.Admin.Models.DoctorSchedule.Mapping;
 using DoctorAppointmentSystem.Areas.Admin.Models.PatientManage.Mapping;
 using DoctorAppointmentSystem.Areas.Admin.Models.UserManage.Mapping;
 using DoctorAppointmentSystem.Services.ServiceInterface;
@@ -36,7 +37,9 @@ namespace DoctorAppointmentSystem.Services
                 cfg.AddProfile(new MapUserProfile(_sysParam));
                 //register mapper for admin user model
                 cfg.AddProfile(new MapAdminUserProfile());
-               
+                //register mapper for doctor schedule
+                cfg.AddProfile(new MappDoctorScheduleProfile());
+
             });
 
             _mapper = new Mapper(config);

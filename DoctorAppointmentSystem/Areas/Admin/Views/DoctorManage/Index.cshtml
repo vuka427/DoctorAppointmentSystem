@@ -15,7 +15,7 @@
 
 <hr />
 
-<div>
+<div class="content-wrapper">
     @* Create doctor *@
     <div id="l-form-doctor" style=" " class="container justify-content-center  bg-white">
         <div id="error-message"> </div>
@@ -56,7 +56,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text custom-symbol"><i class="fa fa-address-card"></i></span>
                             </div>
-                            <input type="text" class="form-control" id="nationalid" name="nationalid" onkeypress="return isNumberKey(event)" placeholder="National ID (*)" maxlength="20">
+                            <input type="text" class="form-control" id="nationalid" name="nationalid" onkeypress="return isNumberKey(event)" placeholder="National ID (*)" maxlength="10">
                         </div><!-- Nationalid -->
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
@@ -85,7 +85,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text custom-symbol"><i class="fa fa-phone"></i></span>
                             </div>
-                            <input type="text" class="form-control" id="mobile" name="mobile" onkeypress="return isNumberKey(event)" placeholder="Mobile No (*)">
+                            <input type="text" class="form-control" id="mobile" name="mobile" onkeypress="return isNumberKey(event)" placeholder="Mobile No (*)" maxlength="10">
                         </div><!-- mobile -->
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
@@ -123,10 +123,8 @@
                         </div>
                     </form>
                 </div>
-
             </div>
         </div>
-
     </div>
     @* index doctor *@
     <div id="table-list-doctor" style=" " class="container justify-content-center  bg-white">
@@ -177,7 +175,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text custom-symbol"><i class="fa fa-address-card"></i></span>
                             </div>
-                            <input type="text" class="form-control" id="unationalid" name="unationalid" onkeypress="return isNumberKey(event)" placeholder="National ID (*)" maxlength="20">
+                            <input type="text" class="form-control" id="unationalid" name="unationalid" onkeypress="return isNumberKey(event)" placeholder="National ID (*)" maxlength="10">
                         </div><!--Update Nationalid -->
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
@@ -206,7 +204,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text custom-symbol"><i class="fa fa-phone"></i></span>
                             </div>
-                            <input type="text" class="form-control" id="umobile" name="umobile" onkeypress="return isNumberKey(event)" placeholder="Mobile No (*)">
+                            <input type="text" class="form-control" id="umobile" name="umobile" onkeypress="return isNumberKey(event)" placeholder="Mobile No (*)" maxlength="10">
                         </div><!--Update mobile -->
                         <div class="form-group input-group">
                             <div class="input-group-prepend">

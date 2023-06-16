@@ -1,4 +1,5 @@
-﻿using DoctorAppointmentSystem.Menu;
+﻿using DoctorAppointmentSystem.Authorization;
+using DoctorAppointmentSystem.Menu;
 using DoctorAppointmentSystem.Models.DB;
 using Microsoft.Ajax.Utilities;
 using System;
@@ -9,6 +10,7 @@ using System.Web.Mvc;
 
 namespace DoctorAppointmentSystem.Areas.Admin.Controllers
 {
+    [AppAuthorize("Admin")]
     public class ManageController : Controller
     {
         private readonly DBContext _dbContext;

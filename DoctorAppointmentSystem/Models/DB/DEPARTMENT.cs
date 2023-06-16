@@ -17,7 +17,7 @@ namespace DoctorAppointmentSystem.Models.DB
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public DEPARTMENT()
         {
-            this.DOCTORs = new HashSet<DOCTOR>();
+            this.DOCTOR = new HashSet<DOCTOR>();
         }
     
         public int DEPARTMENTID { get; set; }
@@ -29,6 +29,6 @@ namespace DoctorAppointmentSystem.Models.DB
         public bool DELETEDFLAG { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DOCTOR> DOCTORs { get; set; }
+        public virtual ICollection<DOCTOR> DOCTOR { get; set; }
     }
 }

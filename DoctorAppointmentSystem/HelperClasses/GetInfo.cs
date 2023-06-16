@@ -34,6 +34,32 @@ namespace DoctorAppointmentSystem.HelperClasses
             }
         }
 
+        public static int GetUserID(string username)
+        {
+            using (DBContext dbContext = new DBContext())
+            {
+                USER user = dbContext.USER.Where(u => u.USERNAME.Equals(username)).FirstOrDefault();
+                if(user != null)
+                {
+                    return user.USERID;
+                }
+                return 0;
+            }
+        }
+
+        public static int GetPatientID(int userID)
+        {
+            using (DBContext dbContext = new DBContext())
+            {
+                PATIENT patient = dbContext.PATIENT.Where(p => p.USERID.Equals(userID)).FirstOrDefault();
+                if (patient != null)
+                {
+                    return patient.PATIENTID;
+                }
+                return 0;
+            }
+        }
+
         public static string GetImgPath(string username)
         {
             using (DBContext dbContext = new DBContext())

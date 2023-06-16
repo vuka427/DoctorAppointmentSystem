@@ -2,11 +2,20 @@
     ViewBag.Title = "Home Page";
 }
 
+<style>
+    .dataTables_wrapper .dataTables_filter input {
+        max-height: 30px;
+    }
+    .dataTables_wrapper .dataTables_paginate .paginate_button{
+        padding: 3px 1em;
+    }
+</style>
+
 <!-- Carousel -->
 @Html.Partial("_CarouselView")
 
 <!-- Search form -->
-<div class="row custom-row">
+<div>
     <div class="col-12">
         <form method="GET" class="form-inline custom-mb-80 custom-search-form">
             <input class="form-control custom-search-input" name="query" type="text" placeholder="Search..."
@@ -18,17 +27,17 @@
     </div>
 </div>
 
-<div class="row custom-row">
+<div class="row">
     <!-- Status -->
-    <article class="col-12 col-md-6 custom-post">
+    <article class="col-12 col-md-5 custom-post">
         <hr class="custom-hr-primary" />
-        <h3>Status</h3>
+        <h4>Status</h4>
         <div class="custom-status-wrapper d-flex flex-wrap justify-content-center">
             <div class="custom-card">
-                <div class="row custom-card-body d-flex flex-wrap justify-content-between align-items-center">
+                <div class="custom-card-body d-flex flex-nowrap justify-content-between align-items-center">
                     <div class="col-8 col-md-8">
-                        <p>1</p>
-                        <h5 class="custom-card-title">All Doctors</h5>
+                        <p id="allDoctors">@ViewBag.allDoctors</p>
+                        <span class="custom-card-title">All Doctors</span>
                     </div>
                     <span class="col-3 col-md-3 custom-card-icon text-center">
                         <i class="fas fa-users"></i>
@@ -37,10 +46,10 @@
             </div>
 
             <div class="custom-card">
-                <div class="row custom-card-body d-flex flex-wrap justify-content-between align-items-center">
+                <div class="custom-card-body d-flex flex-nowrap justify-content-between align-items-center">
                     <div class="col-8 col-md-8">
-                        <p>1</p>
-                        <h5 class="custom-card-title">All Patients</h5>
+                        <p id="allBooking">@ViewBag.allBooking</p>
+                        <span class="custom-card-title">All Booking</span>
                     </div>
                     <span class="col-3 col-md-3 custom-card-icon text-center">
                         <i class="fas fa-wheelchair"></i>
@@ -49,10 +58,10 @@
             </div>
 
             <div class="custom-card">
-                <div class="row custom-card-body d-flex flex-wrap justify-content-between align-items-center">
+                <div class="custom-card-body d-flex flex-nowrap justify-content-between align-items-center">
                     <div class="col-8 col-md-8">
-                        <p>1</p>
-                        <h5 class="custom-card-title">New Booking</h5>
+                        <p id="newBooking">@ViewBag.newBooking</p>
+                        <span class="custom-card-title">New Booking</span>
                     </div>
                     <span class="col-3 col-md-3 custom-card-icon text-center">
                         <i class="far fa-bookmark"></i>
@@ -61,10 +70,10 @@
             </div>
 
             <div class="custom-card">
-                <div class="row custom-card-body d-flex flex-wrap justify-content-between align-items-center">
+                <div class="custom-card-body d-flex flex-nowrap justify-content-between align-items-center">
                     <div class="col-8 col-md-8">
-                        <p>1</p>
-                        <h5 class="custom-card-title">Today Sessions</h5>
+                        <p id="todaySessions">@ViewBag.todaySessions</p>
+                        <span class="custom-card-title">Today Sessions</span>
                     </div>
                     <span class="col-3 col-md-3 custom-card-icon text-center">
                         <i class="fas fa-calendar-alt"></i>
@@ -74,9 +83,87 @@
         </div>
     </article>
 
-    <article class="col-12 col-md-6 custom-post">
+    <article class="col-12 col-md-7 custom-post">
         <hr class="custom-hr-primary" />
-        <h3>Your Upcoming Booking</h3>
-
+        <h4>Your Upcoming Booking</h4>
+        <div class="container-fluid pt-3 content-wrapper table-responsive" style="font-size: 1em">
+            <table id="upcomingTbl" class="dt-responsive display nowrap">
+                <thead></thead>
+                <tbody></tbody>
+            </table>
+        </div>
     </article>
 </div>
+
+@section scripts{
+    <script type="text/javascript">
+        /*Using AJAX to display data of DEPARTMENT TABLE*/
+        var table = $("#upcomingTbl").DataTable({
+            "ajax": {
+                "responsive": true,
+                "url": '/Appointment/LoadAllSchedule',
+                "type": "GET",
+                "datatype": "json"
+            },
+            "columns": [
+                {
+                    "className": 'dt-control',
+                    "orderable": false,
+                    "data": null,
+                    "defaultContent": '',
+                },
+                {
+                    "data": "doctorName",
+                    "title": 'Doctor Name',
+                    "autoWidth": true,
+                    "searchable": true
+                },
+                {
+                    "data": "speciality",
+                    "title": 'Speciality',
+                    "autoWidth": true,
+                    "searchable": true
+                },
+                {
+                    "data": "gender",
+                    "title": 'Gender',
+                    "autoWidth": true,
+                    "searchable": true
+                },
+                {
+                    "data": "workingDay",
+                    "title": 'Appointment Day',
+                    "autoWidth": true,
+                    "searchable": true
+                },
+                {
+                    "data": "availableTime",
+                    "title": 'Available Time',
+                    "autoWidth": true,
+                    "searchable": true
+                },
+                {
+                    "data": "consultantTime",
+                    "title": 'Consultant Time',
+                    "autoWidth": true,
+                    "searchable": true
+                },
+                {
+                    "responsivePriority": 1,
+                    "data": "scheduleID",
+                    "title": "Action",
+                    "autoWidth": true,
+                    "searchable": true,
+                    "render": function (data, type, row) {
+                        return type === 'display' ? '<a data-doctorid="' + row.doctorID + '" data-scheduleid="' + data + '" class="btn btn-outline-primary btn-sm ml-1 btn-appointment" role="button" data-toggle="modal" data-target="#makeAppointmentModal"><i class="fa-regular fa-calendar-plus"></i></div>' : data;
+                    }
+                }
+            ]
+        });
+
+        // Get schedule of doctors to display on screen
+        function loadSchedule() {
+            table.ajax.reload();
+        }
+    </script>
+}

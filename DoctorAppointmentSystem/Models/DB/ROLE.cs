@@ -17,7 +17,7 @@ namespace DoctorAppointmentSystem.Models.DB
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public ROLE()
         {
-            this.USERs = new HashSet<USER>();
+            this.USER = new HashSet<USER>();
         }
     
         public int ROLEID { get; set; }
@@ -29,6 +29,6 @@ namespace DoctorAppointmentSystem.Models.DB
         public bool DELETEDFLAG { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<USER> USERs { get; set; }
+        public virtual ICollection<USER> USER { get; set; }
     }
 }
