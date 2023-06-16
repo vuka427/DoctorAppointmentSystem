@@ -48,8 +48,6 @@ function setSubmitFormByAjax() {
                 PASSWORD: $("#password").val(),
                 EMAIL: $("#email").val(),
                 
-
-
             };
            
             $.ajax({
@@ -74,11 +72,14 @@ function setSubmitFormByAjax() {
                     $("#create-admin-page").hide();
                     $("#list-admin-page").show();
                    
-                    Swal.fire(
-                        'Success!',
-                        'Create admin account is success !',
-                        'success'
-                    )
+                    Swal.fire({
+                        position: 'top',
+                        icon: 'success',
+                        title: 'Success !',
+                        text: 'Create admin account is success !',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
                     $("#form-create-admin").trigger('reset');
 
                 }
@@ -198,12 +199,14 @@ function setSubmitFormUdateByAjax() {
                             $("#update-admin-page").hide();
                             $("#list-admin-page").show();
                             
-
-                            Swal.fire(
-                                'Success!',
-                                'Update admin account is success!',
-                                'success'
-                            )
+                            Swal.fire({
+                                position: 'top',
+                                icon: 'success',
+                                title: 'Success !',
+                                text: 'Update admin account is success!',
+                                showConfirmButton: false,
+                                timer: 2000
+                            });
                             $("#form-update-admin").trigger('reset');
                         }
                     });
@@ -348,13 +351,13 @@ function initJqueryDatatable() {
             },
             {
                 "data": "LOGINLOCKDATE",
-                "title": "Login lock date",
+                "title": "Login Lock Date",
 
                 "searchable": true
             },
             {
                 "data": "LOGINRETRYCOUNT",
-                "title": "Login retry count",
+                "title": "Login Retry Count",
 
                 "searchable": true
             },
@@ -426,9 +429,10 @@ function showPass() {
 function validateFormAdminUser() {
    
     jQuery.validator.addMethod('valid_password', function (value) {
-        var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,50}$/;
+        var regex = /^ (?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,30}$/;
         return value.trim().match(regex);
     });
+  
     
     //Validate form create
     $("#form-create-admin").validate({
@@ -444,10 +448,9 @@ function validateFormAdminUser() {
             },
             "password": {
                 required: true,
-                maxlength: 50,
-                minlength: 6,
-                valid_password: true
-
+                maxlength: 30,
+                minlength: 8,
+                valid_password_num: true,
             },
             
             "email": {
@@ -464,9 +467,10 @@ function validateFormAdminUser() {
             },
             "password": {
                 required: "Password is required",
-                maxlength: "Password charater lenght is 6 to 50!",
-                minlength: "Password charater lenght is 6 to 50!",
-                valid_password: "Password charater at least one uppercase letter, one lowercase letter, one number and one special character: [a-z],[A-Z],[0-9],[@$!%*?&]"
+                maxlength: "Maximum 30 characters",
+                minlength: "Minimum 8 characters",
+                valid_password: "Password charater at least one uppercase letter, one lowercase letter, one number and one special character",
+               
             },
             
             "email": {
@@ -515,7 +519,6 @@ function validateFormAdminUser() {
         onfocusout: function (element) {
             $(element).valid()
         },
-
         rules: {
             "uemail": {
                 required: true,
@@ -571,8 +574,8 @@ $("document").ready(function () {
     initJqueryDatatable();
     setSubmitFormByAjax();
     setEventUpdateAdminForBtn();
-    setSubmitFormUdateByAjax()
+    setSubmitFormUdateByAjax();
     validateFormAdminUser();
-    setEventDeletePatientFoBtn()
+    setEventDeletePatientFoBtn();
 
 });

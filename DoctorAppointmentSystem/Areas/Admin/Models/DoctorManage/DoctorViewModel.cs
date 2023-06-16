@@ -18,17 +18,16 @@ namespace DoctorAppointmentSystem.Areas.Admin.Models.DoctorManage
         public string EMAIL { get; set; }//9
         public string DOCTORADDRESS { get; set; }//10
         public string SPECIALITY { get; set; }//11
-        public string QUALIFICATION { get; set; } //12
-        public string WORKINGSTARTDATE { get; set; }//13
-        public string WORKINGENDDATE { get; set; }//14
-        public string LOGINLOCKDATE { get; set; } //15
-        public int LOGINRETRYCOUNT { get; set; } //16
-        public string CREATEDBY { get; set; }//17
-        public string CREATEDDATE { get; set; }//18
-        public string UPDATEDBY { get; set; }//19
-        public string UPDATEDDATE { get; set; }//20
-        public string AVATARURL { get; set; }//21
-        public int DEPARTMENTID { get; set; }//22
+        public string WORKINGSTARTDATE { get; set; }//12
+        public string WORKINGENDDATE { get; set; }//13
+        public string LOGINLOCKDATE { get; set; } //14
+        public int LOGINRETRYCOUNT { get; set; } //15
+        public string CREATEDBY { get; set; }//16
+        public string CREATEDDATE { get; set; }//17
+        public string UPDATEDBY { get; set; }//18
+        public string UPDATEDDATE { get; set; }//19
+        public string AVATARURL { get; set; }//20
+        public int DEPARTMENTID { get; set; }//21
 
 
     }
