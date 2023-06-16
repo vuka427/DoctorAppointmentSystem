@@ -71,7 +71,7 @@ function setSubmitFormByAjax() {
             }).done(function (data) {
                 console.log(data);
                 if (data.error == 1) {
-                    //showMessage(data.msg, "Error !");
+                   
                     Swal.fire(
                         'Failed!',
                         data.msg,
@@ -83,12 +83,16 @@ function setSubmitFormByAjax() {
                     $('#PatientTable').DataTable().ajax.reload();
                     $("#create-patient-page").hide();
                     $("#list-patient-page").show();
-                    //showMessage("Create patient is success ", "Success !")
-                    Swal.fire(
-                        'Success!',
-                        'Create patient is success !',
-                        'success'
-                    )
+                    
+                   
+                    Swal.fire({
+                        position: 'top',
+                        icon: 'success',
+                        title: 'Success !',
+                        text: 'Create patient is success !',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
                     $("#form-create-patient").trigger('reset');
 
                 }
@@ -207,7 +211,7 @@ function setSubmitFormUdateByAjax() {
                         console.log(data);
                         if (data.error == 1) {
 
-                            //showMessage(data.msg, "Error !");
+                            
                             Swal.fire(
                                 'Failed!',
                                 data.msg,
@@ -220,13 +224,15 @@ function setSubmitFormUdateByAjax() {
                             $("#create-patient-page").hide();
                             $("#update-patient-page").hide();
                             $("#list-patient-page").show();
-                            // showMessage("Update patient is success ", "Success !")
-
-                            Swal.fire(
-                                'Success!',
-                                'Update patient is success!',
-                                'success'
-                            )
+                            
+                            Swal.fire({
+                                position: 'top',
+                                icon: 'success',
+                                title: 'Success !',
+                                text: 'Update patient is success!',
+                                showConfirmButton: false,
+                                timer: 2000
+                            });
                             $("#form-update-patient").trigger('reset');
                         }
                     });
@@ -325,18 +331,6 @@ function deletePatientByAjax(patientid) {
     });
 }
 
-//show message create from
-function showMessage(msg, title) {
-    $("#messageModalLabel").text(title);
-    $("#messageContent").text(msg);
-    $('#messageModal').modal('show');
-
-    console.log(msg);
-    document.body.scrollTop = 0; // For Safari
-    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-
-
-}
 
 // Jquery datatable
 function initJqueryDatatable() {
@@ -404,7 +398,7 @@ function initJqueryDatatable() {
             },
             {
                 "data": "PATIENTMOBILENO",
-                "title": "Mobile NO",
+                "title": "Mobile",
 
                 "searchable": true
             },
@@ -423,13 +417,13 @@ function initJqueryDatatable() {
             
             {
                 "data": "LOGINLOCKDATE",
-                "title": "Login lock date",
+                "title": "Login Lock Date",
 
                 "searchable": true
             },
             {
                 "data": "LOGINRETRYCOUNT",
-                "title": "Login retry count",
+                "title": "Login Retry Count",
 
                 "searchable": true
             },

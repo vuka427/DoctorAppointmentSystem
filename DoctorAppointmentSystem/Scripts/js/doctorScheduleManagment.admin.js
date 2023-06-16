@@ -73,12 +73,18 @@ function setSubmitFormByAjax() {
                     $("#create-doctor-schedule-page").hide();
                     $("#update-doctor-schedule-page").hide();
                     $("#list-doctor-schedule-page").show();
-                    Swal.fire(
-                        'Success!',
-                        'Create doctor schedule is success !',
-                        'success'
-                    )
+
+                    Swal.fire({
+                        position: 'top',
+                        icon: 'success',
+                        title: 'Success !',
+                        text: 'Create doctor schedule is success !',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+
                     $("#form-doctor-schedule").trigger('reset');
+                    $("#doctor").trigger('change');
                 }
             });
         }
@@ -113,12 +119,13 @@ function loadDataToForm(Scheduleid) {
         if (data.error == 0) {
 
             console.log(data.doctor);
-            $("#uscheduleid").val(data.schedule.SCHEDULEID)
-            $("#udoctor").val(data.schedule.DOCTORID)
-            $("#uscheduledate").val(data.schedule.WORKINGDAY)
-            $("#ustarttime").val(data.schedule.SHIFTTIME)
-            $("#uendtime").val(data.schedule.BREAKTIME)
-            $("#uconsultanttime").val(data.schedule.CONSULTANTTIME)
+            $("#uscheduleid").val(data.schedule.SCHEDULEID);
+            $("#udoctor").val(data.schedule.DOCTORID);
+            $("#udoctor").trigger('change');
+            $("#uscheduledate").val(data.schedule.WORKINGDAY);
+            $("#ustarttime").val(data.schedule.SHIFTTIME);
+            $("#uendtime").val(data.schedule.BREAKTIME);
+            $("#uconsultanttime").val(data.schedule.CONSULTANTTIME);
         }
     });
 
@@ -126,8 +133,8 @@ function loadDataToForm(Scheduleid) {
 
 //Update doctor schedule
 function setSubmitFormUdateByAjax() {
-    $("#form-edit-doctor").submit(function (event) {
-        if ($("#form-edit-doctor").valid()) {
+    $("#from-update-doctor-schedule").submit(function (event) {
+        if ($("#from-update-doctor-schedule").valid()) {
             const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
                     confirmButton: 'btn btn-success mr-2',
@@ -135,6 +142,7 @@ function setSubmitFormUdateByAjax() {
                 },
                 buttonsStyling: false
             })
+
             swalWithBootstrapButtons.fire({
                 title: 'Are you sure?',
                 text: "You won't be able to revert this!",
@@ -146,34 +154,27 @@ function setSubmitFormUdateByAjax() {
             }).then((result) => {
                 if (result.isConfirmed) {
 
-
-
                     var formData = {
-                        DOCTORID: $("#udoctorid").val(),
-                        DOCTORNAME: $("#udoctorname").val(),
-                        DOCTORNATIONALID: $("#unationalid").val(),
-                        DOCTORGENDER: $("#ugender").val(),
-                        DOCTORADDRESS: $("#uaddress").val(),
-                        DEPARTMENTID: $("#udepartment").val(),
-                        DOCTORDATEOFBIRTH: $("#ubrithofdate").val(),
-                        DOCTORMOBILENO: $("#umobile").val(),
-                        EMAIL: $("#uemail").val(),
-                        SPECIALITY: $("#uspecialy").val(),
-                        WORKINGENDDATE: $("#uworkingenddate").val(),
-                        WORKINGSTARTDATE: $("#uworkingstartdate").val(),
-
+                        SCHEDULEID: $("#uscheduleid").val(),
+                        DOCTORID: $("#udoctor").val(),
+                        WORKINGDAY: $("#uscheduledate").val(),
+                        SHIFTTIME: $("#ustarttime").val(),
+                        BREAKTIME: $("#uendtime").val(),
+                        CONSULTANTTIME: $("#uconsultanttime").val()
                     };
-                    console.log($("#udoctorname").val());
+                
+                    console.log($("#uscheduleid").val());
+
                     $.ajax({
                         type: "POST",
-                        url: "/Admin/DoctorManage/UpdateDoctor",
+                        url: "/Admin/DoctorScheduleManage/UpdateDoctorSchedule",
                         data: formData,
                         dataType: "json",
                         encode: true,
                     }).done(function (data) {
                         console.log(data);
                         if (data.error == 1) {
-                            //showMessage(data.msg, "Error !");
+
                             Swal.fire(
                                 'Failed!',
                                 data.msg,
@@ -181,34 +182,26 @@ function setSubmitFormUdateByAjax() {
                             )
                         }
                         if (data.error == 0) {
-                            $('#DoctorTable').DataTable().ajax.reload();
-
-                            $("#l-form-doctor").hide();
-                            $("#table-list-doctor").show();
-                            $("#form-update-doctor").hide();
-                            //showMessage("Update doctor is success ", "Success !")
-                            Swal.fire(
-                                'Success!',
-                                'Update doctor is success !',
-                                'success'
-                            )
-                            $("#form-edit-doctor").trigger('reset');
+                            $('#doctor-schedule-table').DataTable().ajax.reload();
+                            $("#create-doctor-schedule-page").hide();
+                            $("#update-doctor-schedule-page").hide();
+                            $("#list-doctor-schedule-page").show();
+                           
+                            Swal.fire({
+                                position: 'top',
+                                icon: 'success',
+                                title: 'Success !',
+                                text: 'Update Schedule is success !',
+                                showConfirmButton: false,
+                                timer: 2000
+                            });
+                            $("#from-update-doctor-schedule").trigger('reset');
 
                         }
                     });
-
-
-                } else if (
-                    /* Read more about handling dismissals below */
-                    result.dismiss === Swal.DismissReason.cancel
-                ) {
-
-                }
+                } else if (result.dismiss === Swal.DismissReason.cancel) {/* Read more about handling dismissals below */ }
             })
         }
-
-
-
         event.preventDefault();
     });
 }
@@ -234,6 +227,83 @@ function setEventUpdateDoctorScheduleForBtn() {
     });
 
 }
+
+//delete dialog
+function setEventDeleteScheduleBtn() {
+    var table = $('#doctor-schedule-table').DataTable();
+
+    table.on('draw', function () {
+
+        $(".btn-delete-schedule").on("click", function () {
+            var Button = $(this);
+            var id = Button.data("id");
+            console.log("db=>" + id);
+
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success mr-2',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            })
+            swalWithBootstrapButtons.fire({
+                title: 'Are you sure delete this schedule ?',
+                text: "This will delete the appointments contained in this schedule, You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'No, cancel!',
+                reverseButtons: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    deleteScheduleByAjax(id) // delete schedule by  id
+
+                } else if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+
+                }
+            })
+        });
+    });
+
+}
+
+//delete schedule
+function deleteScheduleByAjax(sheduleid) {
+
+    var formData = {
+        scheduleid: sheduleid,
+    };
+
+    $.ajax({
+        type: "POST",
+        url: "/Admin/DoctorScheduleManage/DeleteSchedule",
+        data: formData,
+        dataType: "json",
+        encode: true,
+    }).done(function (data) {
+        console.log(data);
+        if (data.error == 1) {
+            Swal.fire(
+                'Failed!',
+                data.msg,
+                'error'
+            )
+        }
+        if (data.error == 0) {
+            $('#doctor-schedule-table').DataTable().ajax.reload();
+            
+            Swal.fire(
+                'Deleted!',
+                'Delete schedule is success !',
+                'success'
+            )
+        }
+    });
+}
+
 
 // Jquery datatable
 function initJqueryDatatable() {
@@ -272,31 +342,31 @@ function initJqueryDatatable() {
             },
             {
                 "data": "DOCTORNAME",
-                "title": 'Doctor name',
+                "title": 'Doctor Name',
                 "searchable": true
 
             },
             {
                 "data": "WORKINGDAY",
-                "title": 'Shecdule Day',
+                "title": 'Schedule Date',
                 "searchable": true
 
             },
             {
                 "data": "SHIFTTIME",
-                "title": 'Starttime',
+                "title": 'Start Time',
                 "searchable": true
 
             },
             {
                 "data": "BREAKTIME",
-                "title": 'End time',
+                "title": 'End Time',
                 "searchable": true
 
             },
             {
                 "data": "CONSULTANTTIME",
-                "title": 'Consultant time',
+                "title": 'Consultant Time',
                 "searchable": true
 
             },
@@ -397,7 +467,7 @@ function validateForm() {
             },
             "endtime": {
                 required: "End time is required",
-                greaterThan: "Start time smaller than end time"
+                greaterThan: "Start time is smaller than end time"
             },
             "Consultanttime": {
                 required: "Consultant time is required"
@@ -438,6 +508,84 @@ function validateForm() {
         }
 
     });
+
+    //Validate form Update
+    $("#from-update-doctor-schedule").validate({
+        onfocusout: function (element) {
+            $(element).valid()
+        },
+        ignore: ".ignore, .select2-input",
+        rules: {
+            "uDoctor": {
+                required: true
+            },
+            "uscheduledate": {
+                required: true
+            },
+            "ustarttime": {
+                required: true
+            },
+            "uendtime": {
+                required: true,
+                greaterThan: "#ustarttime"
+            },
+            "uConsultanttime": {
+                required: true
+            }
+        },
+        messages: {
+            "uDoctor": {
+                required: "Doctor is required"
+            },
+            "uscheduledate": {
+                required: "Schedule date is required"
+            },
+            "ustarttime": {
+                required: "Start time is required"
+            },
+            "uendtime": {
+                required: "End time is required",
+                greaterThan: "Start time is smaller than end time"
+            },
+            "uConsultanttime": {
+                required: "Consultant time is required"
+            }
+
+        },
+        highlight: function (element) {
+            var elem = $(element);
+            if (elem.hasClass("select2-hidden-accessible")) {
+                element = $(".select2-selection");
+
+                element.addClass('border-2 border-danger')
+            } else {
+                elem.addClass('border-2 border-danger ')
+            }
+
+        },
+        unhighlight: function (element) {
+            var elem = $(element);
+            if (elem.hasClass("select2-hidden-accessible")) {
+                element = $(".select2-selection");
+
+                element.removeClass('border-2 border-danger')
+            } else {
+                elem.removeClass('border-2 border-danger')
+            }
+
+        },
+        errorPlacement: function (error, element) {
+            var elem = $(element);
+            if (elem.hasClass("select2-hidden-accessible")) {
+                element = $("#udoctor").parent();
+
+                error.insertAfter(element);
+            } else {
+                error.insertAfter(element);
+            }
+        }
+
+    });
 }
 
 
@@ -447,12 +595,14 @@ function validateForm() {
         setSubmitFormByAjax();
         setEventUpdateDoctorScheduleForBtn()
         setSubmitFormUdateByAjax();
+        setEventDeleteScheduleBtn();
         validateForm();
 
         $("#doctor").select2();
         $("#doctor").on('select2:close', function (e) {
             $(this).valid()
         });
+
         $("#udoctor").select2();
         $("#udoctor").on('select2:close', function (e) {
             $(this).valid()

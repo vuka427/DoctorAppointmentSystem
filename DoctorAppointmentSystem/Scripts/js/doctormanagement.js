@@ -64,7 +64,7 @@ function setSubmitFormByAjax() {
 
         if ($("#form-create-doctor").valid()) {
 
-            var gender = $(".radio-gender:checked").val();
+            
 
             var formData = {
 
@@ -92,7 +92,7 @@ function setSubmitFormByAjax() {
             }).done(function (data) {
                 console.log(data);
                 if (data.error == 1) {
-                    //showMessage(data.msg, "Error !");
+                   
                     Swal.fire(
                         'Failed!',
                         data.msg,
@@ -100,16 +100,19 @@ function setSubmitFormByAjax() {
                     )
                 }
                 if (data.error == 0) {
-                    //$("#form-create-doctor").trigger('reset');
+                    
                     $('#DoctorTable').DataTable().ajax.reload();
                     $("#l-form-doctor").hide();
                     $("#table-list-doctor").show();
-                    //showMessage("Create doctor is success ", "Success !")
-                    Swal.fire(
-                        'Success!',
-                        'Create doctor is success !',
-                        'success'
-                    )
+                   
+                    Swal.fire({
+                        position: 'top',
+                        icon: 'success',
+                        title: 'Success !',
+                        text: 'Create doctor is success !',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
                     $("#form-create-doctor").trigger('reset');
                 }
             });
@@ -146,8 +149,6 @@ function loadDataToForm(doctorid) {
         if (data.error == 0) {
 
             console.log(data.doctor);
-
-
             $("#udoctorid").val(data.doctor.DOCTORID);
             $("#udoctorname").val(data.doctor.DOCTORNAME);
             $("#uusername").val(data.doctor.USERNAME);
@@ -182,6 +183,7 @@ function setSubmitFormUdateByAjax() {
                 },
                 buttonsStyling: false
             })
+
             swalWithBootstrapButtons.fire({
                 title: 'Are you sure?',
                 text: "You won't be able to revert this!",
@@ -192,8 +194,6 @@ function setSubmitFormUdateByAjax() {
                 reverseButtons: false
             }).then((result) => {
                 if (result.isConfirmed) {
-
-                    
 
                     var formData = {
                         DOCTORID: $("#udoctorid").val(),
@@ -220,7 +220,7 @@ function setSubmitFormUdateByAjax() {
                     }).done(function (data) {
                         console.log(data);
                         if (data.error == 1) {
-                            //showMessage(data.msg, "Error !");
+                           
                             Swal.fire(
                                 'Failed!',
                                 data.msg,
@@ -233,28 +233,22 @@ function setSubmitFormUdateByAjax() {
                             $("#l-form-doctor").hide();
                             $("#table-list-doctor").show();
                             $("#form-update-doctor").hide();
-                            //showMessage("Update doctor is success ", "Success !")
-                            Swal.fire(
-                                'Success!',
-                                'Update doctor is success !',
-                                'success'
-                            )
+                           
+                            Swal.fire({
+                                position: 'top',
+                                icon: 'success',
+                                title: 'Success !',
+                                text: 'Update doctor is success !',
+                                showConfirmButton: false,
+                                timer: 2000
+                            });
                             $("#form-edit-doctor").trigger('reset');
 
                         }
                     });
-
-
-                } else if (
-                    /* Read more about handling dismissals below */
-                    result.dismiss === Swal.DismissReason.cancel
-                ) {
-
-                }
+                } else if (result.dismiss === Swal.DismissReason.cancel ) {/* Read more about handling dismissals below */}
             })
         }
-
-        
 
         event.preventDefault();
     });
@@ -440,7 +434,7 @@ function initJqueryDatatable() {
            
             {
                 "data": "DOCTORDATEOFBIRTH",
-                "title": "BrithDate",
+                "title": "Brith of Date",
 
                 "searchable": true
             },
@@ -475,12 +469,6 @@ function initJqueryDatatable() {
                 "searchable": true
             },
             {
-                "data": "QUALIFICATION",
-                "title": "Qualification",
-
-                "searchable": true
-            },
-            {
                 "data": "WORKINGSTARTDATE",
                 "title": "Working Start Date",
 
@@ -494,13 +482,13 @@ function initJqueryDatatable() {
             },
             {
                 "data": "LOGINLOCKDATE",
-                "title": "Login lock date",
+                "title": "Login Lock Date",
 
                 "searchable": true
             },
             {
                 "data": "LOGINRETRYCOUNT",
-                "title": "Login retry count",
+                "title": "Login Retry Count",
 
                 "searchable": true
             },
@@ -678,7 +666,7 @@ function validateFormDoctor() {
                 required: "Password is required",
                 maxlength: "Password charater lenght is 6 to 50!",
                 minlength: "Password charater lenght is 6 to 50!",
-                valid_password: "Password charater at least one uppercase letter, one lowercase letter, one number and one special character: [a-z],[A-Z],[0-9],[@$!%*?&]"
+                valid_password: "Password charater at least one uppercase letter, one lowercase letter, one number and one special character"
             },
             "nationalid": {
                 required: "National ID is required",

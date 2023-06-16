@@ -1,17 +1,23 @@
-﻿using DoctorAppointmentSystem.Areas.Admin.Models.AdminUser;
+﻿using DoctorAppointmentSystem.Areas.Admin.Models;
+using DoctorAppointmentSystem.Areas.Admin.Models.AdminUser;
 using DoctorAppointmentSystem.Areas.Admin.Models.DataTableModel;
 using DoctorAppointmentSystem.Areas.Admin.Models.DoctorSchedule;
 using DoctorAppointmentSystem.Areas.Admin.Models.DoctorScheduleManage;
+using DoctorAppointmentSystem.Areas.Admin.Models.Validation;
 using DoctorAppointmentSystem.Menu;
 using DoctorAppointmentSystem.Models.DB;
 using DoctorAppointmentSystem.Services.ServiceInterface;
+using Microsoft.Ajax.Utilities;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Services.Description;
+using Unity;
 
 namespace DoctorAppointmentSystem.Areas.Admin.Controllers
 {
@@ -21,14 +27,18 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
         private readonly ISystemParamService _sysParam;
         private readonly IMapperService _mapper;
         private readonly IloggerService _logger;
+        private readonly DoctorScheduleIO _doctorSchedule;
 
-        public DoctorScheduleManageController(DBContext dbContext, ISystemParamService sysParam, IMapperService mapper, IloggerService logger)
+        public DoctorScheduleManageController(DBContext dbContext, ISystemParamService sysParam, IMapperService mapper, IloggerService logger, DoctorScheduleIO doctorSchedule)
         {
             _dbContext = dbContext;
             _sysParam = sysParam;
             _mapper = mapper;
             _logger = logger;
+            _doctorSchedule = doctorSchedule;
         }
+
+
 
         // GET: Admin/DoctorSchedule
         public ActionResult Index()
@@ -38,16 +48,23 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             var listDoctor = _dbContext.DOCTOR.Where(d => d.DELETEDFLAG == false).ToList();
             var ListConsultantTime = _sysParam.GetAllParam().Where(p => p.GROUPID == "ConsultantTime").ToList();
             ViewBag.doctor = new SelectList(listDoctor, "DOCTORID", "DOCTORNAME");
-            ViewBag.consultanttime = new SelectList(ListConsultantTime, "PARAVAL", "NOTE");
+            ViewBag.consultanttime = new SelectList(ListConsultantTime, "ID", "NOTE");
             return View();
         }
 
         //load data doctor schedule to jquery datatable
-        public async Task<ActionResult> LoadDoctorScheduleData(JqueryDatatableParam param)
+        public ActionResult LoadDoctorScheduleData(JqueryDatatableParam param)
         {
-            var schedule = await _dbContext.SCHEDULE.Where(d => d.DELETEDFLAG == false ).ToListAsync();
-
-            IEnumerable<DoctorScheduleViewModel> Schedules = schedule.Select(dt => _mapper.GetMapper().Map<SCHEDULE, DoctorScheduleViewModel>(dt)).ToList();
+            var schedule = _doctorSchedule.GetAllSchedule();
+            IEnumerable<DoctorScheduleViewModel> Schedules = new List<DoctorScheduleViewModel>();
+            try {
+                 Schedules = schedule.Select(dt => _mapper.GetMapper().Map<SCHEDULE, DoctorScheduleViewModel>(dt)).ToList();
+            }
+            catch
+            {
+                USER CurentUser = GetCurrentUser();
+                _logger.InsertLog("ADMIN PORTAL", "Map data SCHEDULE to DoctorScheduleViewModel is failed", nameof(LoadDoctorScheduleData), "R", CurentUser != null ? CurentUser.USERNAME : "");
+            }
 
             if (!string.IsNullOrEmpty(param.sSearch)) //search
             {
@@ -56,6 +73,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
                                               || x.WORKINGDAY.ToLower().Contains(param.sSearch.ToLower())
                                                ).ToList();
             }
+
             var sortColumnIndex = param.iSortCol_0;
             var sortDirection = param.sSortDir_0;
 
@@ -112,7 +130,6 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
                 .Take(param.iDisplayLength).ToList();
             var totalRecords = Schedules.Count();
 
-
             return Json(new
             {
                 param.sEcho,
@@ -132,73 +149,19 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             {
                 return Json(new { error = 1, msg = "Can't find current user !" });
             }
-
-            var datenow = DateTime.Now;
-
-            // check doctor
-            if(model.DOCTORID <= 0)
-            {
-                return Json(new { error = 1, msg = "Doctor is repuired" });
-            }
-            var doctor = _dbContext.DOCTOR.Where(d => d.DOCTORID == model.DOCTORID && d.DELETEDFLAG == false).FirstOrDefault();
-            if(doctor == null)
-            {
-                return Json(new { error = 1, msg = "Can't find doctor !" });
-            }
-
-            //check working day
-            if(model.WORKINGDAY == null)
-            {
-                return Json(new { error = 1, msg = "Schedule date is repuired" });
-            }
-            if(model.WORKINGDAY < datenow)
-            {
-                return Json(new { error = 1, msg = "Schedule date greater than current date" });
-            }
-            //check shift time
-            if(model.SHIFTTIME == null)
-            {
-                return Json(new { error = 1, msg = "Start time is repuired" });
-            }
-            //check break time
-            if (model.BREAKTIME == null)
-            {
-                return Json(new { error = 1, msg = "End time is repuired" });
-            }
-            if (model.BREAKTIME <= model.SHIFTTIME )
-            {
-                return Json(new { error = 1, msg = "Start time smaller than end time" });
-            }
-            //check consutant time
-            if (model.CONSULTANTTIME <= 0)
-            {
-                return Json(new { error = 1, msg = "Consutant time is required" });
-            }
-
-            var schedule = new SCHEDULE()
-            {
-                DOCTORID = model.DOCTORID,
-                WORKINGDAY = model.WORKINGDAY,
-                SHIFTTIME = model.SHIFTTIME,
-                BREAKTIME = model.BREAKTIME,
-                CONSULTANTTIME = model.CONSULTANTTIME,
-                CREATEDBY= CurentUser.USERNAME,
-                CREATEDDATE = datenow,
-                UPDATEDBY = CurentUser.USERNAME,
-                UPDATEDDATE = datenow,
-                DELETEDFLAG = false,
-            };
-
+            SCHEDULE schedule = null;
             try
             {
-                _dbContext.SCHEDULE.Add(schedule);
-                _dbContext.SaveChanges();
+                schedule = _mapper.GetMapper().Map<DoctorScheduleCreateModel, SCHEDULE>(model);
             }
-            catch 
+            catch
             {
-                return Json(new { error = 1, msg = "Create doctor is failed!" });
+                _logger.InsertLog("ADMIN POTAL", "Map data DoctorScheduleCreateModel to SCHEDULEl is failed", nameof(CreateDoctorSchedule), "R", CurentUser != null ? CurentUser.USERNAME : "");
+                return Json(new { error = 1, msg = "Create doctor schedule is failed!" });
             }
-
+           
+            ValidationResult result = _doctorSchedule.CreateSchedule(schedule,CurentUser.USERNAME);
+            if (!result.Success) { return Json(new { error = 1, msg = result.ErrorMessage }); }
 
             return Json(new {error = 0, msg = "ok"});
         }
@@ -206,15 +169,24 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
         //load Schedule data 
         public JsonResult LoadDoctorScheduleInfo(int scheduleid)
         {
-
-            var schedule = _dbContext.SCHEDULE.Where(s => s.SCHEDULEID == scheduleid && s.DELETEDFLAG == false).FirstOrDefault();
-            var scheduleView = _mapper.GetMapper().Map<SCHEDULE, DoctorScheduleViewEditModel>(schedule);
-
+            var schedule = _doctorSchedule.GetScheduleById(scheduleid);
+            DoctorScheduleViewEditModel scheduleView = null;
+            try
+            {
+                scheduleView = _mapper.GetMapper().Map<SCHEDULE, DoctorScheduleViewEditModel>(schedule);
+            }
+            catch
+            {
+                USER CurentUser = GetCurrentUser();
+                _logger.InsertLog("", "Map data SCHEDULE to DoctorScheduleViewEditModel is failed", nameof(LoadDoctorScheduleInfo),"R",CurentUser!=null?CurentUser.USERNAME: "");
+                return Json(new { error = 1, msg = "Get schedule info is failed!" });
+            }
+         
             return Json(new {error = 0, msg ="ok", schedule = scheduleView });
         }
 
         //update doctor schedule
-        public JsonResult UpdateDoctorSchedule(DoctorScheduleCreateModel model)
+        public JsonResult UpdateDoctorSchedule(DoctorScheduleEditModel model)
         {
 
             USER CurentUser = GetCurrentUser();
@@ -222,75 +194,35 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             {
                 return Json(new { error = 1, msg = "Can't find current user !" });
             }
-
-            var datenow = DateTime.Now;
-
-            // check doctor
-            if (model.DOCTORID <= 0)
-            {
-                return Json(new { error = 1, msg = "Doctor is repuired" });
-            }
-            var doctor = _dbContext.DOCTOR.Where(d => d.DOCTORID == model.DOCTORID && d.DELETEDFLAG == false).FirstOrDefault();
-            if (doctor == null)
-            {
-                return Json(new { error = 1, msg = "Can't find doctor !" });
-            }
-
-            //check working day
-            if (model.WORKINGDAY == null)
-            {
-                return Json(new { error = 1, msg = "Schedule date is repuired" });
-            }
-            if (model.WORKINGDAY < datenow)
-            {
-                return Json(new { error = 1, msg = "Schedule date greater than current date" });
-            }
-            //check shift time
-            if (model.SHIFTTIME == null)
-            {
-                return Json(new { error = 1, msg = "Start time is repuired" });
-            }
-            //check break time
-            if (model.BREAKTIME == null)
-            {
-                return Json(new { error = 1, msg = "End time is repuired" });
-            }
-            if (model.BREAKTIME <= model.SHIFTTIME)
-            {
-                return Json(new { error = 1, msg = "Start time smaller than end time" });
-            }
-            //check consutant time
-            if (model.CONSULTANTTIME <= 0)
-            {
-                return Json(new { error = 1, msg = "Consutant time is required" });
-            }
-
-            var schedule = new SCHEDULE()
-            {
-                DOCTORID = model.DOCTORID,
-                WORKINGDAY = model.WORKINGDAY,
-                SHIFTTIME = model.SHIFTTIME,
-                BREAKTIME = model.BREAKTIME,
-                CONSULTANTTIME = model.CONSULTANTTIME,
-                CREATEDBY = CurentUser.USERNAME,
-                CREATEDDATE = datenow,
-                UPDATEDBY = CurentUser.USERNAME,
-                UPDATEDDATE = datenow,
-                DELETEDFLAG = false,
-            };
+            SCHEDULE schedule = null;
 
             try
             {
-               // _dbContext.SCHEDULE.Add(schedule);
-               // _dbContext.SaveChanges();
+                schedule = _mapper.GetMapper().Map<DoctorScheduleEditModel,SCHEDULE>(model) ;
             }
             catch
             {
-                return Json(new { error = 1, msg = "Update doctor is failed!" });
-            }
 
+                return Json(new { error = 1, msg = "Update doctor schedule is failed!" });
+            }
+            ValidationResult result = _doctorSchedule.UpdateSchedule(schedule, CurentUser.USERNAME);
+            if(!result.Success) { return Json(new { error = 1, msg = result.ErrorMessage }); }
             return Json(new { error = 0, msg = "ok" });
         }
+
+        //delete schedule by id 
+        public JsonResult DeleteSchedule(int scheduleid)
+        {
+            USER CurentUser = GetCurrentUser();
+            if (CurentUser == null)
+            {
+                return Json(new { error = 1, msg = "Can't find current user !" });
+            }
+            ValidationResult result = _doctorSchedule.DeleteSchedule(scheduleid, "");
+            if (!result.Success) { return Json(new { error = 1, msg = result.ErrorMessage }); }
+            return Json(new { error = 0, msg = "ok", });
+        }
+
 
         [NonAction]
         private USER GetCurrentUser()
