@@ -26,32 +26,6 @@ namespace DoctorAppointmentSystem.Models.Account
             this.dbContext = new DBContext();
         }
 
-        //Get authencation question to generate it on register form
-        public List<AuthQuestionViewModel> GenerateAuthQuestion()
-        {
-            List<SYSTEM_PARA> system_paraList = dbContext.SYSTEM_PARA.Where(c => c.GROUPID.Equals("authQuestion")).ToList();
-            List<AuthQuestionViewModel> questionList = new List<AuthQuestionViewModel>();
-            foreach(SYSTEM_PARA item in system_paraList)
-            {
-                AuthQuestionViewModel question = new AuthQuestionViewModel(item.ID, item.PARAID, item.GROUPID, item.PARAVAL);
-                questionList.Add(question);
-            }
-            return questionList;
-        }
-
-        //Get gender to generate it on register form
-        public List<GenderViewModel> GenerateGender()
-        {
-            List<SYSTEM_PARA> system_paraList = dbContext.SYSTEM_PARA.Where(c => c.GROUPID.Equals("Gender")).ToList();
-            List<GenderViewModel> genderList = new List<GenderViewModel>();
-            foreach(SYSTEM_PARA item in system_paraList)
-            {
-                GenderViewModel gender = new GenderViewModel(item.ID, item.PARAID, item.GROUPID, item.PARAVAL);
-                genderList.Add(gender);
-            }
-            return genderList;
-        }
-
         public bool VerifyUserInfo(UserViewModel user, out string message)
         {
             user.passwordRecoveryAns1 = user.passwordRecoveryAns1 != null ? user.passwordRecoveryAns1.Trim() : user.passwordRecoveryAns1;
@@ -158,23 +132,23 @@ namespace DoctorAppointmentSystem.Models.Account
             USER user = new USER();
 
             user.ROLEID = 1303;
-            user.USERNAME = uvm.username;
-            user.PASSWORDHASH = PasswordHelper.HashPassword(uvm.password);
-            user.EMAIL = uvm.email;
+            user.USERNAME = uvm.username.Trim();
+            user.PASSWORDHASH = PasswordHelper.HashPassword(uvm.password).Trim();
+            user.EMAIL = uvm.email.Trim();
             user.LASTLOGIN = DateTime.Now;
             user.USERTYPE = "Patient";
             user.PASSWORDRECOVERYQUE1 = uvm.passwordRecoveryQue1;
-            user.PASSWORDRECOVERYANS1 = uvm.passwordRecoveryAns1;
+            user.PASSWORDRECOVERYANS1 = uvm.passwordRecoveryAns1.Trim();
             user.PASSWORDRECOVERYQUE2 = uvm.passwordRecoveryQue2;
-            user.PASSWORDRECOVERYANS2 = uvm.passwordRecoveryAns2;
+            user.PASSWORDRECOVERYANS2 = uvm.passwordRecoveryAns2.Trim();
             user.PASSWORDRECOVERYQUE3 = uvm.passwordRecoveryQue3;
-            user.PASSWORDRECOVERYANS3 = uvm.passwordRecoveryAns3;
+            user.PASSWORDRECOVERYANS3 = uvm.passwordRecoveryAns3.Trim();
             user.STATUS = true;
             user.LOGINRETRYCOUNT = 0;
             user.LOGINLOCKDATE = null;
-            user.CREATEDBY = uvm.username;
+            user.CREATEDBY = uvm.username.Trim();
             user.CREATEDDATE = DateTime.Now;
-            user.UPDATEDBY = uvm.username;
+            user.UPDATEDBY = uvm.username.Trim();
             user.UPDATEDDATE = DateTime.Now;
             user.DELETEDFLAG = false;
             if(uvm.profilePicture != null)
@@ -202,16 +176,16 @@ namespace DoctorAppointmentSystem.Models.Account
         {
             PATIENT patient = new PATIENT();
 
-            patient.PATIENTNAME = pvm.fullName;
+            patient.PATIENTNAME = pvm.fullName.Trim();
             patient.USERID = GetUserID(username);
-            patient.PATIENTNATIONALID = pvm.nationalID;
+            patient.PATIENTNATIONALID = pvm.nationalID.Trim();
             patient.PATIENTGENDER = pvm.gender;
-            patient.PATIENTMOBILENO = pvm.phoneNumber;
-            patient.PATIENTADDRESS = pvm.address;
+            patient.PATIENTMOBILENO = pvm.phoneNumber.Trim();
+            patient.PATIENTADDRESS = pvm.address.Trim();
             patient.PATIENTDATEOFBIRTH = DateTime.Parse(pvm.dateOfBirth);
-            patient.CREATEDBY = username;
+            patient.CREATEDBY = username.Trim();
             patient.CREATEDDATE = DateTime.Now;
-            patient.UPDATEDBY = username;
+            patient.UPDATEDBY = username.Trim();
             patient.UPDATEDDATE = DateTime.Now;
             patient.DELETEDFLAG = false;
 

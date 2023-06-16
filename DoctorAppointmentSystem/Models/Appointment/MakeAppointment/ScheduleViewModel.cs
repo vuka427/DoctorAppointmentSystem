@@ -7,8 +7,9 @@ namespace DoctorAppointmentSystem.Models.Appointment.MakeAppointment
 {
     public class ScheduleViewModel
     {
-        public string workingDay { get; set; }
+        public int scheduleID { get; set; }
         public int doctorID { get; set; }
+        public string workingDay { get; set; }
         public string doctorName { get; set; }
         public string speciality { get; set; }
         public string gender { get; set; }

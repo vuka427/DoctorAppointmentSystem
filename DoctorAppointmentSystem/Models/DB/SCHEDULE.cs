@@ -17,23 +17,23 @@ namespace DoctorAppointmentSystem.Models.DB
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public SCHEDULE()
         {
-            this.APPOINTMENTs = new HashSet<APPOINTMENT>();
+            this.APPOINTMENT = new HashSet<APPOINTMENT>();
         }
     
+        public int SCHEDULEID { get; set; }
         public int DOCTORID { get; set; }
         public System.DateTime WORKINGDAY { get; set; }
         public System.TimeSpan SHIFTTIME { get; set; }
         public System.TimeSpan BREAKTIME { get; set; }
-        public System.TimeSpan AVAILABLETIME { get; set; }
-        public System.TimeSpan CONSULTANTTIME { get; set; }
+        public int CONSULTANTTIME { get; set; }
         public string CREATEDBY { get; set; }
         public Nullable<System.DateTime> CREATEDDATE { get; set; }
         public string UPDATEDBY { get; set; }
         public Nullable<System.DateTime> UPDATEDDATE { get; set; }
         public bool DELETEDFLAG { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<APPOINTMENT> APPOINTMENTs { get; set; }
         public virtual DOCTOR DOCTOR { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<APPOINTMENT> APPOINTMENT { get; set; }
     }
 }

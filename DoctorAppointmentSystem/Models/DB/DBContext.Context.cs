@@ -25,18 +25,17 @@ namespace DoctorAppointmentSystem.Models.DB
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<APPOINTMENT> APPOINTMENTs { get; set; }
         public virtual DbSet<APPOINTMENT_NOTE> APPOINTMENT_NOTE { get; set; }
-        public virtual DbSet<CONSULTANT_TYPE> CONSULTANT_TYPE { get; set; }
-        public virtual DbSet<DEPARTMENT> DEPARTMENTs { get; set; }
-        public virtual DbSet<DOCTOR> DOCTORs { get; set; }
-        public virtual DbSet<MODE_OF_CONSULTING> MODE_OF_CONSULTING { get; set; }
-        public virtual DbSet<PATIENT> PATIENTs { get; set; }
-        public virtual DbSet<PRESCRIPTION> PRESCRIPTIONs { get; set; }
-        public virtual DbSet<QUALIFICATION> QUALIFICATIONs { get; set; }
-        public virtual DbSet<ROLE> ROLEs { get; set; }
-        public virtual DbSet<SCHEDULE> SCHEDULEs { get; set; }
+        public virtual DbSet<DEPARTMENT> DEPARTMENT { get; set; }
+        public virtual DbSet<DOCTOR> DOCTOR { get; set; }
+        public virtual DbSet<LOG> LOG { get; set; }
+        public virtual DbSet<PATIENT> PATIENT { get; set; }
+        public virtual DbSet<PRESCRIPTION> PRESCRIPTION { get; set; }
+        public virtual DbSet<ROLE> ROLE { get; set; }
+        public virtual DbSet<SCHEDULE> SCHEDULE { get; set; }
+        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<SYSTEM_PARA> SYSTEM_PARA { get; set; }
-        public virtual DbSet<USER> USERs { get; set; }
+        public virtual DbSet<USER> USER { get; set; }
+        public virtual DbSet<APPOINTMENT> APPOINTMENT { get; set; }
     }
 }

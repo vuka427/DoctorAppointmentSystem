@@ -2,7 +2,6 @@
     $(".navbar-toggler").on("click", function (e) {
         var headerElement = $('header');
         var windowWidth = $(window).width();
-        console.log(windowWidth);
         if (windowWidth >= 992) {
             if (!headerElement.hasClass('hidden')) {
                 $(".custom-header").toggleClass("hidden");
@@ -10,7 +9,7 @@
                 $('.custom-header').css('transition', 'all 0.3s ease');
             } else {
                 $(".custom-header").removeClass("hidden");
-                $('.custom-main').css('margin', '0 0 0 270px');
+                $('.custom-main').css('margin', '0 0 0 290px');
                 $('.custom-header').css('transition', 'all 0.3s ease');
             }
         } else {

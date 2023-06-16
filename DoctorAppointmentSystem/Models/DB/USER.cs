@@ -17,8 +17,8 @@ namespace DoctorAppointmentSystem.Models.DB
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public USER()
         {
-            this.DOCTORs = new HashSet<DOCTOR>();
-            this.PATIENTs = new HashSet<PATIENT>();
+            this.DOCTOR = new HashSet<DOCTOR>();
+            this.PATIENT = new HashSet<PATIENT>();
         }
     
         public int USERID { get; set; }
@@ -28,10 +28,14 @@ namespace DoctorAppointmentSystem.Models.DB
         public string EMAIL { get; set; }
         public Nullable<System.DateTime> LASTLOGIN { get; set; }
         public string USERTYPE { get; set; }
-        public byte[] AVATARURL { get; set; }
-        public string PASSWORDRECOVERY1 { get; set; }
-        public string PASSWORDRECOVERY2 { get; set; }
-        public string STATUS { get; set; }
+        public string AVATARURL { get; set; }
+        public Nullable<int> PASSWORDRECOVERYQUE1 { get; set; }
+        public Nullable<int> PASSWORDRECOVERYQUE2 { get; set; }
+        public Nullable<int> PASSWORDRECOVERYQUE3 { get; set; }
+        public string PASSWORDRECOVERYANS1 { get; set; }
+        public string PASSWORDRECOVERYANS2 { get; set; }
+        public string PASSWORDRECOVERYANS3 { get; set; }
+        public bool STATUS { get; set; }
         public Nullable<int> LOGINRETRYCOUNT { get; set; }
         public Nullable<System.DateTime> LOGINLOCKDATE { get; set; }
         public string CREATEDBY { get; set; }
@@ -41,9 +45,9 @@ namespace DoctorAppointmentSystem.Models.DB
         public bool DELETEDFLAG { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DOCTOR> DOCTORs { get; set; }
+        public virtual ICollection<DOCTOR> DOCTOR { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PATIENT> PATIENTs { get; set; }
+        public virtual ICollection<PATIENT> PATIENT { get; set; }
         public virtual ROLE ROLE { get; set; }
     }
 }

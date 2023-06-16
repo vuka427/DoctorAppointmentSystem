@@ -119,7 +119,7 @@ $('.register-form').submit(function (event) {
                         Swal.fire({
                             position: 'top',
                             icon: 'error',
-                            title: 'Error!',
+                            title: 'Failed!',
                             text: res.message,
                             showConfirmButton: false,
                             timer: 2000,
@@ -131,7 +131,7 @@ $('.register-form').submit(function (event) {
                     Swal.fire({
                         position: 'top',
                         icon: 'error',
-                        title: 'Oops...',
+                        title: 'Failed!',
                         text: err.message,
                         showConfirmButton: false,
                         timer: 2000,
@@ -152,7 +152,7 @@ $('.register-form').submit(function (event) {
                         console.log('Great! ' + result.message);
                     },
                     error: function (err) {
-                        console.log('Failed! ' + err.statusText);
+                        console.log('Error! ' + err.statusText);
                     }
                 });
             }
@@ -161,7 +161,7 @@ $('.register-form').submit(function (event) {
         Swal.fire({
             position: 'top',
             icon: 'error',
-            title: 'Error!',
+            title: 'Failed!',
             text: 'Please fill out the form completely!',
             showConfirmButton: false,
             timer: 2000,

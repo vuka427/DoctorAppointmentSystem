@@ -4,26 +4,25 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="AppointmentSystemModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="DoctorAppointmentSystemModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="APPOINTMENT">
           <Key>
-            <PropertyRef Name="APPOIMENTNO" />
+            <PropertyRef Name="APPOINTMENTID" />
           </Key>
-          <Property Name="APPOIMENTNO" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="APPOINTMENTID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="PATIENTID" Type="int" Nullable="false" />
-          <Property Name="MODEID" Type="int" Nullable="false" />
           <Property Name="DOCTORID" Type="int" Nullable="false" />
-          <Property Name="WORKINGDAY" Type="date" Nullable="false" />
-          <Property Name="CONSULTANTTYPEID" Type="int" Nullable="false" />
-          <Property Name="APPOINTMENTNAME" Type="nvarchar" MaxLength="256" Nullable="false" />
-          <Property Name="DATEOFCONSULTATION" Type="datetime" Nullable="false" />
+          <Property Name="SCHEDULEID" Type="int" Nullable="false" />
+          <Property Name="CONSULTANTTYPE" Type="int" Nullable="false" />
+          <Property Name="MODEOFCONSULTANT" Type="int" Nullable="false" />
+          <Property Name="DATEOFCONSULTATION" Type="datetime" />
           <Property Name="APPOINTMENTDATE" Type="datetime" Nullable="false" />
           <Property Name="APPOIMENTSTATUS" Type="nvarchar" MaxLength="256" Nullable="false" />
           <Property Name="CLOSEDDATE" Type="datetime" />
           <Property Name="CLOSEDBY" Type="nvarchar" MaxLength="256" />
           <Property Name="SYMTOMS" Type="nvarchar" MaxLength="256" />
-          <Property Name="EXISTIONGILLNESS" Type="nvarchar" MaxLength="256" />
-          <Property Name="DRUGALLERGLES" Type="nvarchar" MaxLength="256" />
+          <Property Name="EXISTINGILLNESS" Type="nvarchar" MaxLength="256" />
+          <Property Name="DRUGALLERGIES" Type="nvarchar" MaxLength="256" />
           <Property Name="NOTE" Type="nvarchar" MaxLength="256" />
           <Property Name="CASENOTE" Type="nvarchar" MaxLength="256" />
           <Property Name="DIAGNOSIS" Type="nvarchar" MaxLength="256" />
@@ -38,23 +37,11 @@
         <EntityType Name="APPOINTMENT_NOTE">
           <Key>
             <PropertyRef Name="PRECRIPTIONID" />
-            <PropertyRef Name="APPOIMENTNO" />
+            <PropertyRef Name="APPOINTMENTID" />
           </Key>
           <Property Name="PRECRIPTIONID" Type="int" Nullable="false" />
-          <Property Name="APPOIMENTNO" Type="int" Nullable="false" />
+          <Property Name="APPOINTMENTID" Type="int" Nullable="false" />
           <Property Name="NOTE" Type="nvarchar" MaxLength="256" />
-        </EntityType>
-        <EntityType Name="CONSULTANT_TYPE">
-          <Key>
-            <PropertyRef Name="CONSULTANTTYPEID" />
-          </Key>
-          <Property Name="CONSULTANTTYPEID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="CONSULTANTTYPENAME" Type="nvarchar" MaxLength="256" Nullable="false" />
-          <Property Name="CREATEDBY" Type="nvarchar" MaxLength="50" />
-          <Property Name="CREATEDDATE" Type="datetime" />
-          <Property Name="UPDATEDBY" Type="nvarchar" MaxLength="50" />
-          <Property Name="UPDATEDDATE" Type="datetime" />
-          <Property Name="DELETEDFLAG" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="DEPARTMENT">
           <Key>
@@ -77,7 +64,7 @@
           <Property Name="DEPARTMENTID" Type="int" Nullable="false" />
           <Property Name="DOCTORNAME" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="DOCTORNATIONALID" Type="char" MaxLength="20" Nullable="false" />
-          <Property Name="DOCTORGENDER" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="DOCTORGENDER" Type="int" Nullable="false" />
           <Property Name="DOCTORDATEOFBIRTH" Type="date" Nullable="false" />
           <Property Name="DOCTORMOBILENO" Type="char" MaxLength="10" Nullable="false" />
           <Property Name="DOCTORADDRESS" Type="nvarchar" MaxLength="256" Nullable="false" />
@@ -90,17 +77,17 @@
           <Property Name="UPDATEDDATE" Type="datetime" />
           <Property Name="DELETEDFLAG" Type="bit" Nullable="false" />
         </EntityType>
-        <EntityType Name="MODE_OF_CONSULTING">
+        <EntityType Name="LOG">
           <Key>
-            <PropertyRef Name="MODEID" />
+            <PropertyRef Name="LOGID" />
           </Key>
-          <Property Name="MODEID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="MODENAME" Type="nvarchar" MaxLength="256" Nullable="false" />
-          <Property Name="CREATEDBY" Type="nvarchar" MaxLength="50" />
+          <Property Name="LOGID" Type="int" Nullable="false" />
+          <Property Name="EVENTCATG" Type="varchar" MaxLength="256" />
+          <Property Name="EVENTMSG" Type="varchar" MaxLength="256" />
+          <Property Name="EVENTSRC" Type="varchar" MaxLength="256" />
+          <Property Name="EVENTTYPE" Type="nvarchar" MaxLength="10" />
+          <Property Name="CREATEDBY" Type="varchar" MaxLength="50" />
           <Property Name="CREATEDDATE" Type="datetime" />
-          <Property Name="UPDATEDBY" Type="nvarchar" MaxLength="50" />
-          <Property Name="UPDATEDDATE" Type="datetime" />
-          <Property Name="DELETEDFLAG" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="PATIENT">
           <Key>
@@ -110,10 +97,10 @@
           <Property Name="USERID" Type="int" Nullable="false" />
           <Property Name="PATIENTNAME" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="PATIENTNATIONALID" Type="char" MaxLength="20" Nullable="false" />
-          <Property Name="PATIENTGENDER" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="PATIENTGENDER" Type="int" Nullable="false" />
           <Property Name="PATIENTMOBILENO" Type="char" MaxLength="10" Nullable="false" />
           <Property Name="PATIENTDATEOFBIRTH" Type="date" Nullable="false" />
-          <Property Name="PATIENTADDRESS" Type="char" MaxLength="256" Nullable="false" />
+          <Property Name="PATIENTADDRESS" Type="nvarchar" MaxLength="256" Nullable="false" />
           <Property Name="CREATEDBY" Type="nvarchar" MaxLength="50" />
           <Property Name="CREATEDDATE" Type="datetime" />
           <Property Name="UPDATEDBY" Type="nvarchar" MaxLength="50" />
@@ -137,19 +124,6 @@
           <Property Name="UPDATEDDATE" Type="datetime" />
           <Property Name="DELETEDFLAG" Type="bit" Nullable="false" />
         </EntityType>
-        <EntityType Name="QUALIFICATION">
-          <Key>
-            <PropertyRef Name="QUALIFICATIONID" />
-          </Key>
-          <Property Name="QUALIFICATIONID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="DOCTORID" Type="int" Nullable="false" />
-          <Property Name="QUALIFICATIONNAME" Type="nvarchar" MaxLength="256" Nullable="false" />
-          <Property Name="CREATEDBY" Type="nvarchar" MaxLength="50" />
-          <Property Name="CREATEDDATE" Type="datetime" />
-          <Property Name="UPDATEDBY" Type="nvarchar" MaxLength="50" />
-          <Property Name="UPDATEDDATE" Type="datetime" />
-          <Property Name="DELETEDFLAG" Type="bit" Nullable="false" />
-        </EntityType>
         <EntityType Name="ROLE">
           <Key>
             <PropertyRef Name="ROLEID" />
@@ -164,20 +138,30 @@
         </EntityType>
         <EntityType Name="SCHEDULE">
           <Key>
+            <PropertyRef Name="SCHEDULEID" />
             <PropertyRef Name="DOCTORID" />
-            <PropertyRef Name="WORKINGDAY" />
           </Key>
+          <Property Name="SCHEDULEID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DOCTORID" Type="int" Nullable="false" />
           <Property Name="WORKINGDAY" Type="date" Nullable="false" />
           <Property Name="SHIFTTIME" Type="time" Precision="7" Nullable="false" />
           <Property Name="BREAKTIME" Type="time" Precision="7" Nullable="false" />
-          <Property Name="AVAILABLETIME" Type="time" Precision="7" Nullable="false" />
-          <Property Name="CONSULTANTTIME" Type="time" Precision="7" Nullable="false" />
+          <Property Name="CONSULTANTTIME" Type="int" Nullable="false" />
           <Property Name="CREATEDBY" Type="nvarchar" MaxLength="50" />
           <Property Name="CREATEDDATE" Type="datetime" />
           <Property Name="UPDATEDBY" Type="nvarchar" MaxLength="50" />
           <Property Name="UPDATEDDATE" Type="datetime" />
           <Property Name="DELETEDFLAG" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="SYSTEM_PARA">
           <Key>
@@ -205,10 +189,14 @@
           <Property Name="EMAIL" Type="char" MaxLength="50" Nullable="false" />
           <Property Name="LASTLOGIN" Type="datetime" />
           <Property Name="USERTYPE" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="AVATARURL" Type="image" />
-          <Property Name="PASSWORDRECOVERY1" Type="char" MaxLength="256" />
-          <Property Name="PASSWORDRECOVERY2" Type="char" MaxLength="256" />
-          <Property Name="STATUS" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="AVATARURL" Type="nvarchar" MaxLength="256" />
+          <Property Name="PASSWORDRECOVERYQUE1" Type="int" />
+          <Property Name="PASSWORDRECOVERYQUE2" Type="int" />
+          <Property Name="PASSWORDRECOVERYQUE3" Type="int" />
+          <Property Name="PASSWORDRECOVERYANS1" Type="nvarchar" MaxLength="256" />
+          <Property Name="PASSWORDRECOVERYANS2" Type="nvarchar" MaxLength="256" />
+          <Property Name="PASSWORDRECOVERYANS3" Type="nvarchar" MaxLength="256" />
+          <Property Name="STATUS" Type="bit" Nullable="false" />
           <Property Name="LOGINRETRYCOUNT" Type="int" />
           <Property Name="LOGINLOCKDATE" Type="datetime" />
           <Property Name="CREATEDBY" Type="nvarchar" MaxLength="50" />
@@ -222,34 +210,10 @@
           <End Role="APPOINTMENT_NOTE" Type="Self.APPOINTMENT_NOTE" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="APPOINTMENT">
-              <PropertyRef Name="APPOIMENTNO" />
+              <PropertyRef Name="APPOINTMENTID" />
             </Principal>
             <Dependent Role="APPOINTMENT_NOTE">
-              <PropertyRef Name="APPOIMENTNO" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_APPOINTM_RELATIONS_CONSULTA">
-          <End Role="CONSULTANT_TYPE" Type="Self.CONSULTANT_TYPE" Multiplicity="1" />
-          <End Role="APPOINTMENT" Type="Self.APPOINTMENT" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CONSULTANT_TYPE">
-              <PropertyRef Name="CONSULTANTTYPEID" />
-            </Principal>
-            <Dependent Role="APPOINTMENT">
-              <PropertyRef Name="CONSULTANTTYPEID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_APPOINTM_RELATIONS_MODE_OF_">
-          <End Role="MODE_OF_CONSULTING" Type="Self.MODE_OF_CONSULTING" Multiplicity="1" />
-          <End Role="APPOINTMENT" Type="Self.APPOINTMENT" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MODE_OF_CONSULTING">
-              <PropertyRef Name="MODEID" />
-            </Principal>
-            <Dependent Role="APPOINTMENT">
-              <PropertyRef Name="MODEID" />
+              <PropertyRef Name="APPOINTMENTID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -283,11 +247,11 @@
           <ReferentialConstraint>
             <Principal Role="SCHEDULE">
               <PropertyRef Name="DOCTORID" />
-              <PropertyRef Name="WORKINGDAY" />
+              <PropertyRef Name="SCHEDULEID" />
             </Principal>
             <Dependent Role="APPOINTMENT">
               <PropertyRef Name="DOCTORID" />
-              <PropertyRef Name="WORKINGDAY" />
+              <PropertyRef Name="SCHEDULEID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -327,18 +291,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_QUALIFIC_RELATIONS_DOCTOR">
-          <End Role="DOCTOR" Type="Self.DOCTOR" Multiplicity="1" />
-          <End Role="QUALIFICATION" Type="Self.QUALIFICATION" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DOCTOR">
-              <PropertyRef Name="DOCTORID" />
-            </Principal>
-            <Dependent Role="QUALIFICATION">
-              <PropertyRef Name="DOCTORID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_SCHEDULE_RELATIONS_DOCTOR">
           <End Role="DOCTOR" Type="Self.DOCTOR" Multiplicity="1" />
           <End Role="SCHEDULE" Type="Self.SCHEDULE" Multiplicity="*" />
@@ -363,31 +315,22 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="AppointmentSystemModelStoreContainer">
+        <EntityContainer Name="DoctorAppointmentSystemModelStoreContainer">
           <EntitySet Name="APPOINTMENT" EntityType="Self.APPOINTMENT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="APPOINTMENT_NOTE" EntityType="Self.APPOINTMENT_NOTE" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="CONSULTANT_TYPE" EntityType="Self.CONSULTANT_TYPE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DEPARTMENT" EntityType="Self.DEPARTMENT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DOCTOR" EntityType="Self.DOCTOR" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="MODE_OF_CONSULTING" EntityType="Self.MODE_OF_CONSULTING" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LOG" EntityType="Self.LOG" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PATIENT" EntityType="Self.PATIENT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PRESCRIPTION" EntityType="Self.PRESCRIPTION" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="QUALIFICATION" EntityType="Self.QUALIFICATION" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ROLE" EntityType="Self.ROLE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SCHEDULE" EntityType="Self.SCHEDULE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SYSTEM_PARA" EntityType="Self.SYSTEM_PARA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="USER" EntityType="Self.USER" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_APPOINTM_RELATIONS_APPOINTM" Association="Self.FK_APPOINTM_RELATIONS_APPOINTM">
             <End Role="APPOINTMENT" EntitySet="APPOINTMENT" />
             <End Role="APPOINTMENT_NOTE" EntitySet="APPOINTMENT_NOTE" />
-          </AssociationSet>
-          <AssociationSet Name="FK_APPOINTM_RELATIONS_CONSULTA" Association="Self.FK_APPOINTM_RELATIONS_CONSULTA">
-            <End Role="CONSULTANT_TYPE" EntitySet="CONSULTANT_TYPE" />
-            <End Role="APPOINTMENT" EntitySet="APPOINTMENT" />
-          </AssociationSet>
-          <AssociationSet Name="FK_APPOINTM_RELATIONS_MODE_OF_" Association="Self.FK_APPOINTM_RELATIONS_MODE_OF_">
-            <End Role="MODE_OF_CONSULTING" EntitySet="MODE_OF_CONSULTING" />
-            <End Role="APPOINTMENT" EntitySet="APPOINTMENT" />
           </AssociationSet>
           <AssociationSet Name="FK_APPOINTM_RELATIONS_PATIENT" Association="Self.FK_APPOINTM_RELATIONS_PATIENT">
             <End Role="PATIENT" EntitySet="PATIENT" />
@@ -413,10 +356,6 @@
             <End Role="USER" EntitySet="USER" />
             <End Role="PATIENT" EntitySet="PATIENT" />
           </AssociationSet>
-          <AssociationSet Name="FK_QUALIFIC_RELATIONS_DOCTOR" Association="Self.FK_QUALIFIC_RELATIONS_DOCTOR">
-            <End Role="DOCTOR" EntitySet="DOCTOR" />
-            <End Role="QUALIFICATION" EntitySet="QUALIFICATION" />
-          </AssociationSet>
           <AssociationSet Name="FK_SCHEDULE_RELATIONS_DOCTOR" Association="Self.FK_SCHEDULE_RELATIONS_DOCTOR">
             <End Role="DOCTOR" EntitySet="DOCTOR" />
             <End Role="SCHEDULE" EntitySet="SCHEDULE" />
@@ -426,69 +365,20 @@
             <End Role="USER" EntitySet="USER" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="AppointmentSystemModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="APPOINTMENT">
-          <Key>
-            <PropertyRef Name="APPOIMENTNO" />
-          </Key>
-          <Property Name="APPOIMENTNO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PATIENTID" Type="Int32" Nullable="false" />
-          <Property Name="MODEID" Type="Int32" Nullable="false" />
-          <Property Name="DOCTORID" Type="Int32" Nullable="false" />
-          <Property Name="WORKINGDAY" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="CONSULTANTTYPEID" Type="Int32" Nullable="false" />
-          <Property Name="APPOINTMENTNAME" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="DATEOFCONSULTATION" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="APPOINTMENTDATE" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="APPOIMENTSTATUS" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="CLOSEDDATE" Type="DateTime" Precision="3" />
-          <Property Name="CLOSEDBY" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="SYMTOMS" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="EXISTIONGILLNESS" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="DRUGALLERGLES" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="NOTE" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="CASENOTE" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="DIAGNOSIS" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="ADVICETOPATIENT" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="LABTESTS" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="CREATEDBY" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CREATEDDATE" Type="DateTime" Precision="3" />
-          <Property Name="UPDATEDBY" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="UPDATEDDATE" Type="DateTime" Precision="3" />
-          <Property Name="DELETEDFLAG" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="APPOINTMENT_NOTE" Relationship="Self.FK_APPOINTM_RELATIONS_APPOINTM" FromRole="APPOINTMENT" ToRole="APPOINTMENT_NOTE" />
-          <NavigationProperty Name="CONSULTANT_TYPE" Relationship="Self.FK_APPOINTM_RELATIONS_CONSULTA" FromRole="APPOINTMENT" ToRole="CONSULTANT_TYPE" />
-          <NavigationProperty Name="MODE_OF_CONSULTING" Relationship="Self.FK_APPOINTM_RELATIONS_MODE_OF_" FromRole="APPOINTMENT" ToRole="MODE_OF_CONSULTING" />
-          <NavigationProperty Name="PATIENT" Relationship="Self.FK_APPOINTM_RELATIONS_PATIENT" FromRole="APPOINTMENT" ToRole="PATIENT" />
-          <NavigationProperty Name="SCHEDULE" Relationship="Self.FK_APPOINTM_RELATIONS_SCHEDULE" FromRole="APPOINTMENT" ToRole="SCHEDULE" />
-        </EntityType>
+      <Schema Namespace="DoctorAppointmentSystemModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="APPOINTMENT_NOTE">
           <Key>
             <PropertyRef Name="PRECRIPTIONID" />
-            <PropertyRef Name="APPOIMENTNO" />
+            <PropertyRef Name="APPOINTMENTID" />
           </Key>
           <Property Name="PRECRIPTIONID" Type="Int32" Nullable="false" />
-          <Property Name="APPOIMENTNO" Type="Int32" Nullable="false" />
+          <Property Name="APPOINTMENTID" Type="Int32" Nullable="false" />
           <Property Name="NOTE" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="APPOINTMENT" Relationship="Self.FK_APPOINTM_RELATIONS_APPOINTM" FromRole="APPOINTMENT_NOTE" ToRole="APPOINTMENT" />
           <NavigationProperty Name="PRESCRIPTION" Relationship="Self.FK_APPOINTM_RELATIONS_PRESCRIP" FromRole="APPOINTMENT_NOTE" ToRole="PRESCRIPTION" />
-        </EntityType>
-        <EntityType Name="CONSULTANT_TYPE">
-          <Key>
-            <PropertyRef Name="CONSULTANTTYPEID" />
-          </Key>
-          <Property Name="CONSULTANTTYPEID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CONSULTANTTYPENAME" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="CREATEDBY" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CREATEDDATE" Type="DateTime" Precision="3" />
-          <Property Name="UPDATEDBY" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="UPDATEDDATE" Type="DateTime" Precision="3" />
-          <Property Name="DELETEDFLAG" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="APPOINTMENTs" Relationship="Self.FK_APPOINTM_RELATIONS_CONSULTA" FromRole="CONSULTANT_TYPE" ToRole="APPOINTMENT" />
+          <NavigationProperty Name="APPOINTMENT" Relationship="DoctorAppointmentSystemModel.FK_APPOINTM_RELATIONS_APPOINTM" FromRole="APPOINTMENT_NOTE" ToRole="APPOINTMENT" />
         </EntityType>
         <EntityType Name="DEPARTMENT">
           <Key>
@@ -501,7 +391,7 @@
           <Property Name="UPDATEDBY" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UPDATEDDATE" Type="DateTime" Precision="3" />
           <Property Name="DELETEDFLAG" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="DOCTORs" Relationship="Self.FK_DOCTOR_RELATIONS_DEPARTME" FromRole="DEPARTMENT" ToRole="DOCTOR" />
+          <NavigationProperty Name="DOCTOR" Relationship="Self.FK_DOCTOR_RELATIONS_DEPARTME" FromRole="DEPARTMENT" ToRole="DOCTOR" />
         </EntityType>
         <EntityType Name="DOCTOR">
           <Key>
@@ -512,7 +402,7 @@
           <Property Name="DEPARTMENTID" Type="Int32" Nullable="false" />
           <Property Name="DOCTORNAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="DOCTORNATIONALID" Type="String" MaxLength="20" FixedLength="true" Unicode="false" Nullable="false" />
-          <Property Name="DOCTORGENDER" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DOCTORGENDER" Type="Int32" Nullable="false" />
           <Property Name="DOCTORDATEOFBIRTH" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="DOCTORMOBILENO" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
           <Property Name="DOCTORADDRESS" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
@@ -526,21 +416,19 @@
           <Property Name="DELETEDFLAG" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="DEPARTMENT" Relationship="Self.FK_DOCTOR_RELATIONS_DEPARTME" FromRole="DOCTOR" ToRole="DEPARTMENT" />
           <NavigationProperty Name="USER" Relationship="Self.FK_DOCTOR_RELATIONS_USER" FromRole="DOCTOR" ToRole="USER" />
-          <NavigationProperty Name="QUALIFICATIONs" Relationship="Self.FK_QUALIFIC_RELATIONS_DOCTOR" FromRole="DOCTOR" ToRole="QUALIFICATION" />
-          <NavigationProperty Name="SCHEDULEs" Relationship="Self.FK_SCHEDULE_RELATIONS_DOCTOR" FromRole="DOCTOR" ToRole="SCHEDULE" />
+          <NavigationProperty Name="SCHEDULE" Relationship="Self.FK_SCHEDULE_RELATIONS_DOCTOR" FromRole="DOCTOR" ToRole="SCHEDULE" />
         </EntityType>
-        <EntityType Name="MODE_OF_CONSULTING">
+        <EntityType Name="LOG">
           <Key>
-            <PropertyRef Name="MODEID" />
+            <PropertyRef Name="LOGID" />
           </Key>
-          <Property Name="MODEID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="MODENAME" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="CREATEDBY" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LOGID" Type="Int32" Nullable="false" />
+          <Property Name="EVENTCATG" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="EVENTMSG" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="EVENTSRC" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="EVENTTYPE" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="CREATEDBY" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CREATEDDATE" Type="DateTime" Precision="3" />
-          <Property Name="UPDATEDBY" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="UPDATEDDATE" Type="DateTime" Precision="3" />
-          <Property Name="DELETEDFLAG" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="APPOINTMENTs" Relationship="Self.FK_APPOINTM_RELATIONS_MODE_OF_" FromRole="MODE_OF_CONSULTING" ToRole="APPOINTMENT" />
         </EntityType>
         <EntityType Name="PATIENT">
           <Key>
@@ -550,17 +438,17 @@
           <Property Name="USERID" Type="Int32" Nullable="false" />
           <Property Name="PATIENTNAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="PATIENTNATIONALID" Type="String" MaxLength="20" FixedLength="true" Unicode="false" Nullable="false" />
-          <Property Name="PATIENTGENDER" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PATIENTGENDER" Type="Int32" Nullable="false" />
           <Property Name="PATIENTMOBILENO" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
           <Property Name="PATIENTDATEOFBIRTH" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="PATIENTADDRESS" Type="String" MaxLength="256" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="PATIENTADDRESS" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="CREATEDBY" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CREATEDDATE" Type="DateTime" Precision="3" />
           <Property Name="UPDATEDBY" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UPDATEDDATE" Type="DateTime" Precision="3" />
           <Property Name="DELETEDFLAG" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="APPOINTMENTs" Relationship="Self.FK_APPOINTM_RELATIONS_PATIENT" FromRole="PATIENT" ToRole="APPOINTMENT" />
           <NavigationProperty Name="USER" Relationship="Self.FK_PATIENT_RELATIONS_USER" FromRole="PATIENT" ToRole="USER" />
+          <NavigationProperty Name="APPOINTMENT" Relationship="DoctorAppointmentSystemModel.FK_APPOINTM_RELATIONS_PATIENT" FromRole="PATIENT" ToRole="APPOINTMENT" />
         </EntityType>
         <EntityType Name="PRESCRIPTION">
           <Key>
@@ -580,20 +468,6 @@
           <Property Name="DELETEDFLAG" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="APPOINTMENT_NOTE" Relationship="Self.FK_APPOINTM_RELATIONS_PRESCRIP" FromRole="PRESCRIPTION" ToRole="APPOINTMENT_NOTE" />
         </EntityType>
-        <EntityType Name="QUALIFICATION">
-          <Key>
-            <PropertyRef Name="QUALIFICATIONID" />
-          </Key>
-          <Property Name="QUALIFICATIONID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="DOCTORID" Type="Int32" Nullable="false" />
-          <Property Name="QUALIFICATIONNAME" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="CREATEDBY" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CREATEDDATE" Type="DateTime" Precision="3" />
-          <Property Name="UPDATEDBY" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="UPDATEDDATE" Type="DateTime" Precision="3" />
-          <Property Name="DELETEDFLAG" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="DOCTOR" Relationship="Self.FK_QUALIFIC_RELATIONS_DOCTOR" FromRole="QUALIFICATION" ToRole="DOCTOR" />
-        </EntityType>
         <EntityType Name="ROLE">
           <Key>
             <PropertyRef Name="ROLEID" />
@@ -605,26 +479,36 @@
           <Property Name="UPDATEDBY" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UPDATEDDATE" Type="DateTime" Precision="3" />
           <Property Name="DELETEDFLAG" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="USERs" Relationship="Self.FK_USER_RELATIONS_ROLE" FromRole="ROLE" ToRole="USER" />
+          <NavigationProperty Name="USER" Relationship="Self.FK_USER_RELATIONS_ROLE" FromRole="ROLE" ToRole="USER" />
         </EntityType>
         <EntityType Name="SCHEDULE">
           <Key>
+            <PropertyRef Name="SCHEDULEID" />
             <PropertyRef Name="DOCTORID" />
-            <PropertyRef Name="WORKINGDAY" />
           </Key>
+          <Property Name="SCHEDULEID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DOCTORID" Type="Int32" Nullable="false" />
           <Property Name="WORKINGDAY" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="SHIFTTIME" Type="Time" Nullable="false" Precision="7" />
           <Property Name="BREAKTIME" Type="Time" Nullable="false" Precision="7" />
-          <Property Name="AVAILABLETIME" Type="Time" Nullable="false" Precision="7" />
-          <Property Name="CONSULTANTTIME" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="CONSULTANTTIME" Type="Int32" Nullable="false" />
           <Property Name="CREATEDBY" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CREATEDDATE" Type="DateTime" Precision="3" />
           <Property Name="UPDATEDBY" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UPDATEDDATE" Type="DateTime" Precision="3" />
           <Property Name="DELETEDFLAG" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="APPOINTMENTs" Relationship="Self.FK_APPOINTM_RELATIONS_SCHEDULE" FromRole="SCHEDULE" ToRole="APPOINTMENT" />
           <NavigationProperty Name="DOCTOR" Relationship="Self.FK_SCHEDULE_RELATIONS_DOCTOR" FromRole="SCHEDULE" ToRole="DOCTOR" />
+          <NavigationProperty Name="APPOINTMENT" Relationship="DoctorAppointmentSystemModel.FK_APPOINTM_RELATIONS_SCHEDULE" FromRole="SCHEDULE" ToRole="APPOINTMENT" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <EntityType Name="SYSTEM_PARA">
           <Key>
@@ -652,10 +536,14 @@
           <Property Name="EMAIL" Type="String" MaxLength="50" FixedLength="true" Unicode="false" Nullable="false" />
           <Property Name="LASTLOGIN" Type="DateTime" Precision="3" />
           <Property Name="USERTYPE" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="AVATARURL" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <Property Name="PASSWORDRECOVERY1" Type="String" MaxLength="256" FixedLength="true" Unicode="false" />
-          <Property Name="PASSWORDRECOVERY2" Type="String" MaxLength="256" FixedLength="true" Unicode="false" />
-          <Property Name="STATUS" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AVATARURL" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="PASSWORDRECOVERYQUE1" Type="Int32" />
+          <Property Name="PASSWORDRECOVERYQUE2" Type="Int32" />
+          <Property Name="PASSWORDRECOVERYQUE3" Type="Int32" />
+          <Property Name="PASSWORDRECOVERYANS1" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="PASSWORDRECOVERYANS2" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="PASSWORDRECOVERYANS3" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="STATUS" Type="Boolean" Nullable="false" />
           <Property Name="LOGINRETRYCOUNT" Type="Int32" />
           <Property Name="LOGINLOCKDATE" Type="DateTime" Precision="3" />
           <Property Name="CREATEDBY" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -663,72 +551,10 @@
           <Property Name="UPDATEDBY" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UPDATEDDATE" Type="DateTime" Precision="3" />
           <Property Name="DELETEDFLAG" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="DOCTORs" Relationship="Self.FK_DOCTOR_RELATIONS_USER" FromRole="USER" ToRole="DOCTOR" />
-          <NavigationProperty Name="PATIENTs" Relationship="Self.FK_PATIENT_RELATIONS_USER" FromRole="USER" ToRole="PATIENT" />
+          <NavigationProperty Name="DOCTOR" Relationship="Self.FK_DOCTOR_RELATIONS_USER" FromRole="USER" ToRole="DOCTOR" />
+          <NavigationProperty Name="PATIENT" Relationship="Self.FK_PATIENT_RELATIONS_USER" FromRole="USER" ToRole="PATIENT" />
           <NavigationProperty Name="ROLE" Relationship="Self.FK_USER_RELATIONS_ROLE" FromRole="USER" ToRole="ROLE" />
         </EntityType>
-        <Association Name="FK_APPOINTM_RELATIONS_APPOINTM">
-          <End Role="APPOINTMENT" Type="Self.APPOINTMENT" Multiplicity="1" />
-          <End Role="APPOINTMENT_NOTE" Type="Self.APPOINTMENT_NOTE" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="APPOINTMENT">
-              <PropertyRef Name="APPOIMENTNO" />
-            </Principal>
-            <Dependent Role="APPOINTMENT_NOTE">
-              <PropertyRef Name="APPOIMENTNO" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_APPOINTM_RELATIONS_CONSULTA">
-          <End Role="CONSULTANT_TYPE" Type="Self.CONSULTANT_TYPE" Multiplicity="1" />
-          <End Role="APPOINTMENT" Type="Self.APPOINTMENT" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CONSULTANT_TYPE">
-              <PropertyRef Name="CONSULTANTTYPEID" />
-            </Principal>
-            <Dependent Role="APPOINTMENT">
-              <PropertyRef Name="CONSULTANTTYPEID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_APPOINTM_RELATIONS_MODE_OF_">
-          <End Role="MODE_OF_CONSULTING" Type="Self.MODE_OF_CONSULTING" Multiplicity="1" />
-          <End Role="APPOINTMENT" Type="Self.APPOINTMENT" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MODE_OF_CONSULTING">
-              <PropertyRef Name="MODEID" />
-            </Principal>
-            <Dependent Role="APPOINTMENT">
-              <PropertyRef Name="MODEID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_APPOINTM_RELATIONS_PATIENT">
-          <End Role="PATIENT" Type="Self.PATIENT" Multiplicity="1" />
-          <End Role="APPOINTMENT" Type="Self.APPOINTMENT" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PATIENT">
-              <PropertyRef Name="PATIENTID" />
-            </Principal>
-            <Dependent Role="APPOINTMENT">
-              <PropertyRef Name="PATIENTID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_APPOINTM_RELATIONS_SCHEDULE">
-          <End Role="SCHEDULE" Type="Self.SCHEDULE" Multiplicity="1" />
-          <End Role="APPOINTMENT" Type="Self.APPOINTMENT" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SCHEDULE">
-              <PropertyRef Name="DOCTORID" />
-              <PropertyRef Name="WORKINGDAY" />
-            </Principal>
-            <Dependent Role="APPOINTMENT">
-              <PropertyRef Name="DOCTORID" />
-              <PropertyRef Name="WORKINGDAY" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_APPOINTM_RELATIONS_PRESCRIP">
           <End Role="PRESCRIPTION" Type="Self.PRESCRIPTION" Multiplicity="1" />
           <End Role="APPOINTMENT_NOTE" Type="Self.APPOINTMENT_NOTE" Multiplicity="*" />
@@ -762,18 +588,6 @@
             </Principal>
             <Dependent Role="DOCTOR">
               <PropertyRef Name="USERID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_QUALIFIC_RELATIONS_DOCTOR">
-          <End Role="DOCTOR" Type="Self.DOCTOR" Multiplicity="1" />
-          <End Role="QUALIFICATION" Type="Self.QUALIFICATION" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DOCTOR">
-              <PropertyRef Name="DOCTORID" />
-            </Principal>
-            <Dependent Role="QUALIFICATION">
-              <PropertyRef Name="DOCTORID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -814,129 +628,142 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="DBContext" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="APPOINTMENTs" EntityType="Self.APPOINTMENT" />
           <EntitySet Name="APPOINTMENT_NOTE" EntityType="Self.APPOINTMENT_NOTE" />
-          <EntitySet Name="CONSULTANT_TYPE" EntityType="Self.CONSULTANT_TYPE" />
-          <EntitySet Name="DEPARTMENTs" EntityType="Self.DEPARTMENT" />
-          <EntitySet Name="DOCTORs" EntityType="Self.DOCTOR" />
-          <EntitySet Name="MODE_OF_CONSULTING" EntityType="Self.MODE_OF_CONSULTING" />
-          <EntitySet Name="PATIENTs" EntityType="Self.PATIENT" />
-          <EntitySet Name="PRESCRIPTIONs" EntityType="Self.PRESCRIPTION" />
-          <EntitySet Name="QUALIFICATIONs" EntityType="Self.QUALIFICATION" />
-          <EntitySet Name="ROLEs" EntityType="Self.ROLE" />
-          <EntitySet Name="SCHEDULEs" EntityType="Self.SCHEDULE" />
+          <EntitySet Name="DEPARTMENT" EntityType="Self.DEPARTMENT" />
+          <EntitySet Name="DOCTOR" EntityType="Self.DOCTOR" />
+          <EntitySet Name="LOG" EntityType="Self.LOG" />
+          <EntitySet Name="PATIENT" EntityType="Self.PATIENT" />
+          <EntitySet Name="PRESCRIPTION" EntityType="Self.PRESCRIPTION" />
+          <EntitySet Name="ROLE" EntityType="Self.ROLE" />
+          <EntitySet Name="SCHEDULE" EntityType="Self.SCHEDULE" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <EntitySet Name="SYSTEM_PARA" EntityType="Self.SYSTEM_PARA" />
-          <EntitySet Name="USERs" EntityType="Self.USER" />
-          <AssociationSet Name="FK_APPOINTM_RELATIONS_APPOINTM" Association="Self.FK_APPOINTM_RELATIONS_APPOINTM">
-            <End Role="APPOINTMENT" EntitySet="APPOINTMENTs" />
-            <End Role="APPOINTMENT_NOTE" EntitySet="APPOINTMENT_NOTE" />
-          </AssociationSet>
-          <AssociationSet Name="FK_APPOINTM_RELATIONS_CONSULTA" Association="Self.FK_APPOINTM_RELATIONS_CONSULTA">
-            <End Role="CONSULTANT_TYPE" EntitySet="CONSULTANT_TYPE" />
-            <End Role="APPOINTMENT" EntitySet="APPOINTMENTs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_APPOINTM_RELATIONS_MODE_OF_" Association="Self.FK_APPOINTM_RELATIONS_MODE_OF_">
-            <End Role="MODE_OF_CONSULTING" EntitySet="MODE_OF_CONSULTING" />
-            <End Role="APPOINTMENT" EntitySet="APPOINTMENTs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_APPOINTM_RELATIONS_PATIENT" Association="Self.FK_APPOINTM_RELATIONS_PATIENT">
-            <End Role="PATIENT" EntitySet="PATIENTs" />
-            <End Role="APPOINTMENT" EntitySet="APPOINTMENTs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_APPOINTM_RELATIONS_SCHEDULE" Association="Self.FK_APPOINTM_RELATIONS_SCHEDULE">
-            <End Role="SCHEDULE" EntitySet="SCHEDULEs" />
-            <End Role="APPOINTMENT" EntitySet="APPOINTMENTs" />
-          </AssociationSet>
+          <EntitySet Name="USER" EntityType="Self.USER" />
           <AssociationSet Name="FK_APPOINTM_RELATIONS_PRESCRIP" Association="Self.FK_APPOINTM_RELATIONS_PRESCRIP">
-            <End Role="PRESCRIPTION" EntitySet="PRESCRIPTIONs" />
+            <End Role="PRESCRIPTION" EntitySet="PRESCRIPTION" />
             <End Role="APPOINTMENT_NOTE" EntitySet="APPOINTMENT_NOTE" />
           </AssociationSet>
           <AssociationSet Name="FK_DOCTOR_RELATIONS_DEPARTME" Association="Self.FK_DOCTOR_RELATIONS_DEPARTME">
-            <End Role="DEPARTMENT" EntitySet="DEPARTMENTs" />
-            <End Role="DOCTOR" EntitySet="DOCTORs" />
+            <End Role="DEPARTMENT" EntitySet="DEPARTMENT" />
+            <End Role="DOCTOR" EntitySet="DOCTOR" />
           </AssociationSet>
           <AssociationSet Name="FK_DOCTOR_RELATIONS_USER" Association="Self.FK_DOCTOR_RELATIONS_USER">
-            <End Role="USER" EntitySet="USERs" />
-            <End Role="DOCTOR" EntitySet="DOCTORs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_QUALIFIC_RELATIONS_DOCTOR" Association="Self.FK_QUALIFIC_RELATIONS_DOCTOR">
-            <End Role="DOCTOR" EntitySet="DOCTORs" />
-            <End Role="QUALIFICATION" EntitySet="QUALIFICATIONs" />
+            <End Role="USER" EntitySet="USER" />
+            <End Role="DOCTOR" EntitySet="DOCTOR" />
           </AssociationSet>
           <AssociationSet Name="FK_SCHEDULE_RELATIONS_DOCTOR" Association="Self.FK_SCHEDULE_RELATIONS_DOCTOR">
-            <End Role="DOCTOR" EntitySet="DOCTORs" />
-            <End Role="SCHEDULE" EntitySet="SCHEDULEs" />
+            <End Role="DOCTOR" EntitySet="DOCTOR" />
+            <End Role="SCHEDULE" EntitySet="SCHEDULE" />
           </AssociationSet>
           <AssociationSet Name="FK_PATIENT_RELATIONS_USER" Association="Self.FK_PATIENT_RELATIONS_USER">
-            <End Role="USER" EntitySet="USERs" />
-            <End Role="PATIENT" EntitySet="PATIENTs" />
+            <End Role="USER" EntitySet="USER" />
+            <End Role="PATIENT" EntitySet="PATIENT" />
           </AssociationSet>
           <AssociationSet Name="FK_USER_RELATIONS_ROLE" Association="Self.FK_USER_RELATIONS_ROLE">
-            <End Role="ROLE" EntitySet="ROLEs" />
-            <End Role="USER" EntitySet="USERs" />
+            <End Role="ROLE" EntitySet="ROLE" />
+            <End Role="USER" EntitySet="USER" />
+          </AssociationSet>
+          <EntitySet Name="APPOINTMENT" EntityType="DoctorAppointmentSystemModel.APPOINTMENT" />
+          <AssociationSet Name="FK_APPOINTM_RELATIONS_APPOINTM" Association="DoctorAppointmentSystemModel.FK_APPOINTM_RELATIONS_APPOINTM">
+            <End Role="APPOINTMENT" EntitySet="APPOINTMENT" />
+            <End Role="APPOINTMENT_NOTE" EntitySet="APPOINTMENT_NOTE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_APPOINTM_RELATIONS_PATIENT" Association="DoctorAppointmentSystemModel.FK_APPOINTM_RELATIONS_PATIENT">
+            <End Role="PATIENT" EntitySet="PATIENT" />
+            <End Role="APPOINTMENT" EntitySet="APPOINTMENT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_APPOINTM_RELATIONS_SCHEDULE" Association="DoctorAppointmentSystemModel.FK_APPOINTM_RELATIONS_SCHEDULE">
+            <End Role="SCHEDULE" EntitySet="SCHEDULE" />
+            <End Role="APPOINTMENT" EntitySet="APPOINTMENT" />
           </AssociationSet>
         </EntityContainer>
+        <EntityType Name="APPOINTMENT">
+          <Key>
+            <PropertyRef Name="APPOINTMENTID" />
+          </Key>
+          <Property Name="APPOINTMENTID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PATIENTID" Type="Int32" Nullable="false" />
+          <Property Name="DOCTORID" Type="Int32" Nullable="false" />
+          <Property Name="SCHEDULEID" Type="Int32" Nullable="false" />
+          <Property Name="CONSULTANTTYPE" Type="Int32" Nullable="false" />
+          <Property Name="MODEOFCONSULTANT" Type="Int32" Nullable="false" />
+          <Property Name="DATEOFCONSULTATION" Type="DateTime" Precision="3" />
+          <Property Name="APPOINTMENTDATE" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="APPOIMENTSTATUS" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="CLOSEDDATE" Type="DateTime" Precision="3" />
+          <Property Name="CLOSEDBY" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="SYMTOMS" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EXISTINGILLNESS" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="DRUGALLERGIES" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="NOTE" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="CASENOTE" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="DIAGNOSIS" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="ADVICETOPATIENT" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="LABTESTS" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="CREATEDBY" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CREATEDDATE" Type="DateTime" Precision="3" />
+          <Property Name="UPDATEDBY" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UPDATEDDATE" Type="DateTime" Precision="3" />
+          <Property Name="DELETEDFLAG" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="APPOINTMENT_NOTE" Relationship="DoctorAppointmentSystemModel.FK_APPOINTM_RELATIONS_APPOINTM" FromRole="APPOINTMENT" ToRole="APPOINTMENT_NOTE" />
+          <NavigationProperty Name="PATIENT" Relationship="DoctorAppointmentSystemModel.FK_APPOINTM_RELATIONS_PATIENT" FromRole="APPOINTMENT" ToRole="PATIENT" />
+          <NavigationProperty Name="SCHEDULE" Relationship="DoctorAppointmentSystemModel.FK_APPOINTM_RELATIONS_SCHEDULE" FromRole="APPOINTMENT" ToRole="SCHEDULE" />
+        </EntityType>
+        <Association Name="FK_APPOINTM_RELATIONS_APPOINTM">
+          <End Type="DoctorAppointmentSystemModel.APPOINTMENT" Role="APPOINTMENT" Multiplicity="1" />
+          <End Type="DoctorAppointmentSystemModel.APPOINTMENT_NOTE" Role="APPOINTMENT_NOTE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="APPOINTMENT">
+              <PropertyRef Name="APPOINTMENTID" />
+            </Principal>
+            <Dependent Role="APPOINTMENT_NOTE">
+              <PropertyRef Name="APPOINTMENTID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_APPOINTM_RELATIONS_PATIENT">
+          <End Type="DoctorAppointmentSystemModel.PATIENT" Role="PATIENT" Multiplicity="1" />
+          <End Type="DoctorAppointmentSystemModel.APPOINTMENT" Role="APPOINTMENT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PATIENT">
+              <PropertyRef Name="PATIENTID" />
+            </Principal>
+            <Dependent Role="APPOINTMENT">
+              <PropertyRef Name="PATIENTID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_APPOINTM_RELATIONS_SCHEDULE">
+          <End Type="DoctorAppointmentSystemModel.SCHEDULE" Role="SCHEDULE" Multiplicity="1" />
+          <End Type="DoctorAppointmentSystemModel.APPOINTMENT" Role="APPOINTMENT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SCHEDULE">
+              <PropertyRef Name="DOCTORID" />
+              <PropertyRef Name="SCHEDULEID" />
+            </Principal>
+            <Dependent Role="APPOINTMENT">
+              <PropertyRef Name="DOCTORID" />
+              <PropertyRef Name="SCHEDULEID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="AppointmentSystemModelStoreContainer" CdmEntityContainer="DBContext">
-          <EntitySetMapping Name="APPOINTMENTs">
-            <EntityTypeMapping TypeName="AppointmentSystemModel.APPOINTMENT">
-              <MappingFragment StoreEntitySet="APPOINTMENT">
-                <ScalarProperty Name="APPOIMENTNO" ColumnName="APPOIMENTNO" />
-                <ScalarProperty Name="PATIENTID" ColumnName="PATIENTID" />
-                <ScalarProperty Name="MODEID" ColumnName="MODEID" />
-                <ScalarProperty Name="DOCTORID" ColumnName="DOCTORID" />
-                <ScalarProperty Name="WORKINGDAY" ColumnName="WORKINGDAY" />
-                <ScalarProperty Name="CONSULTANTTYPEID" ColumnName="CONSULTANTTYPEID" />
-                <ScalarProperty Name="APPOINTMENTNAME" ColumnName="APPOINTMENTNAME" />
-                <ScalarProperty Name="DATEOFCONSULTATION" ColumnName="DATEOFCONSULTATION" />
-                <ScalarProperty Name="APPOINTMENTDATE" ColumnName="APPOINTMENTDATE" />
-                <ScalarProperty Name="APPOIMENTSTATUS" ColumnName="APPOIMENTSTATUS" />
-                <ScalarProperty Name="CLOSEDDATE" ColumnName="CLOSEDDATE" />
-                <ScalarProperty Name="CLOSEDBY" ColumnName="CLOSEDBY" />
-                <ScalarProperty Name="SYMTOMS" ColumnName="SYMTOMS" />
-                <ScalarProperty Name="EXISTIONGILLNESS" ColumnName="EXISTIONGILLNESS" />
-                <ScalarProperty Name="DRUGALLERGLES" ColumnName="DRUGALLERGLES" />
-                <ScalarProperty Name="NOTE" ColumnName="NOTE" />
-                <ScalarProperty Name="CASENOTE" ColumnName="CASENOTE" />
-                <ScalarProperty Name="DIAGNOSIS" ColumnName="DIAGNOSIS" />
-                <ScalarProperty Name="ADVICETOPATIENT" ColumnName="ADVICETOPATIENT" />
-                <ScalarProperty Name="LABTESTS" ColumnName="LABTESTS" />
-                <ScalarProperty Name="CREATEDBY" ColumnName="CREATEDBY" />
-                <ScalarProperty Name="CREATEDDATE" ColumnName="CREATEDDATE" />
-                <ScalarProperty Name="UPDATEDBY" ColumnName="UPDATEDBY" />
-                <ScalarProperty Name="UPDATEDDATE" ColumnName="UPDATEDDATE" />
-                <ScalarProperty Name="DELETEDFLAG" ColumnName="DELETEDFLAG" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
+        <EntityContainerMapping StorageEntityContainer="DoctorAppointmentSystemModelStoreContainer" CdmEntityContainer="DBContext">
           <EntitySetMapping Name="APPOINTMENT_NOTE">
-            <EntityTypeMapping TypeName="AppointmentSystemModel.APPOINTMENT_NOTE">
+            <EntityTypeMapping TypeName="DoctorAppointmentSystemModel.APPOINTMENT_NOTE">
               <MappingFragment StoreEntitySet="APPOINTMENT_NOTE">
                 <ScalarProperty Name="PRECRIPTIONID" ColumnName="PRECRIPTIONID" />
-                <ScalarProperty Name="APPOIMENTNO" ColumnName="APPOIMENTNO" />
+                <ScalarProperty Name="APPOINTMENTID" ColumnName="APPOINTMENTID" />
                 <ScalarProperty Name="NOTE" ColumnName="NOTE" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="CONSULTANT_TYPE">
-            <EntityTypeMapping TypeName="AppointmentSystemModel.CONSULTANT_TYPE">
-              <MappingFragment StoreEntitySet="CONSULTANT_TYPE">
-                <ScalarProperty Name="CONSULTANTTYPEID" ColumnName="CONSULTANTTYPEID" />
-                <ScalarProperty Name="CONSULTANTTYPENAME" ColumnName="CONSULTANTTYPENAME" />
-                <ScalarProperty Name="CREATEDBY" ColumnName="CREATEDBY" />
-                <ScalarProperty Name="CREATEDDATE" ColumnName="CREATEDDATE" />
-                <ScalarProperty Name="UPDATEDBY" ColumnName="UPDATEDBY" />
-                <ScalarProperty Name="UPDATEDDATE" ColumnName="UPDATEDDATE" />
-                <ScalarProperty Name="DELETEDFLAG" ColumnName="DELETEDFLAG" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="DEPARTMENTs">
-            <EntityTypeMapping TypeName="AppointmentSystemModel.DEPARTMENT">
+          <EntitySetMapping Name="DEPARTMENT">
+            <EntityTypeMapping TypeName="DoctorAppointmentSystemModel.DEPARTMENT">
               <MappingFragment StoreEntitySet="DEPARTMENT">
                 <ScalarProperty Name="DEPARTMENTID" ColumnName="DEPARTMENTID" />
                 <ScalarProperty Name="DEPARTMENTNAME" ColumnName="DEPARTMENTNAME" />
@@ -948,8 +775,8 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="DOCTORs">
-            <EntityTypeMapping TypeName="AppointmentSystemModel.DOCTOR">
+          <EntitySetMapping Name="DOCTOR">
+            <EntityTypeMapping TypeName="DoctorAppointmentSystemModel.DOCTOR">
               <MappingFragment StoreEntitySet="DOCTOR">
                 <ScalarProperty Name="DOCTORID" ColumnName="DOCTORID" />
                 <ScalarProperty Name="USERID" ColumnName="USERID" />
@@ -971,21 +798,21 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="MODE_OF_CONSULTING">
-            <EntityTypeMapping TypeName="AppointmentSystemModel.MODE_OF_CONSULTING">
-              <MappingFragment StoreEntitySet="MODE_OF_CONSULTING">
-                <ScalarProperty Name="MODEID" ColumnName="MODEID" />
-                <ScalarProperty Name="MODENAME" ColumnName="MODENAME" />
+          <EntitySetMapping Name="LOG">
+            <EntityTypeMapping TypeName="DoctorAppointmentSystemModel.LOG">
+              <MappingFragment StoreEntitySet="LOG">
+                <ScalarProperty Name="LOGID" ColumnName="LOGID" />
+                <ScalarProperty Name="EVENTCATG" ColumnName="EVENTCATG" />
+                <ScalarProperty Name="EVENTMSG" ColumnName="EVENTMSG" />
+                <ScalarProperty Name="EVENTSRC" ColumnName="EVENTSRC" />
+                <ScalarProperty Name="EVENTTYPE" ColumnName="EVENTTYPE" />
                 <ScalarProperty Name="CREATEDBY" ColumnName="CREATEDBY" />
                 <ScalarProperty Name="CREATEDDATE" ColumnName="CREATEDDATE" />
-                <ScalarProperty Name="UPDATEDBY" ColumnName="UPDATEDBY" />
-                <ScalarProperty Name="UPDATEDDATE" ColumnName="UPDATEDDATE" />
-                <ScalarProperty Name="DELETEDFLAG" ColumnName="DELETEDFLAG" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="PATIENTs">
-            <EntityTypeMapping TypeName="AppointmentSystemModel.PATIENT">
+          <EntitySetMapping Name="PATIENT">
+            <EntityTypeMapping TypeName="DoctorAppointmentSystemModel.PATIENT">
               <MappingFragment StoreEntitySet="PATIENT">
                 <ScalarProperty Name="PATIENTID" ColumnName="PATIENTID" />
                 <ScalarProperty Name="USERID" ColumnName="USERID" />
@@ -1003,8 +830,8 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="PRESCRIPTIONs">
-            <EntityTypeMapping TypeName="AppointmentSystemModel.PRESCRIPTION">
+          <EntitySetMapping Name="PRESCRIPTION">
+            <EntityTypeMapping TypeName="DoctorAppointmentSystemModel.PRESCRIPTION">
               <MappingFragment StoreEntitySet="PRESCRIPTION">
                 <ScalarProperty Name="PRECRIPTIONID" ColumnName="PRECRIPTIONID" />
                 <ScalarProperty Name="DRUG" ColumnName="DRUG" />
@@ -1021,22 +848,8 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="QUALIFICATIONs">
-            <EntityTypeMapping TypeName="AppointmentSystemModel.QUALIFICATION">
-              <MappingFragment StoreEntitySet="QUALIFICATION">
-                <ScalarProperty Name="QUALIFICATIONID" ColumnName="QUALIFICATIONID" />
-                <ScalarProperty Name="DOCTORID" ColumnName="DOCTORID" />
-                <ScalarProperty Name="QUALIFICATIONNAME" ColumnName="QUALIFICATIONNAME" />
-                <ScalarProperty Name="CREATEDBY" ColumnName="CREATEDBY" />
-                <ScalarProperty Name="CREATEDDATE" ColumnName="CREATEDDATE" />
-                <ScalarProperty Name="UPDATEDBY" ColumnName="UPDATEDBY" />
-                <ScalarProperty Name="UPDATEDDATE" ColumnName="UPDATEDDATE" />
-                <ScalarProperty Name="DELETEDFLAG" ColumnName="DELETEDFLAG" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ROLEs">
-            <EntityTypeMapping TypeName="AppointmentSystemModel.ROLE">
+          <EntitySetMapping Name="ROLE">
+            <EntityTypeMapping TypeName="DoctorAppointmentSystemModel.ROLE">
               <MappingFragment StoreEntitySet="ROLE">
                 <ScalarProperty Name="ROLEID" ColumnName="ROLEID" />
                 <ScalarProperty Name="ROLENAME" ColumnName="ROLENAME" />
@@ -1048,14 +861,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="SCHEDULEs">
-            <EntityTypeMapping TypeName="AppointmentSystemModel.SCHEDULE">
+          <EntitySetMapping Name="SCHEDULE">
+            <EntityTypeMapping TypeName="DoctorAppointmentSystemModel.SCHEDULE">
               <MappingFragment StoreEntitySet="SCHEDULE">
+                <ScalarProperty Name="SCHEDULEID" ColumnName="SCHEDULEID" />
                 <ScalarProperty Name="DOCTORID" ColumnName="DOCTORID" />
                 <ScalarProperty Name="WORKINGDAY" ColumnName="WORKINGDAY" />
                 <ScalarProperty Name="SHIFTTIME" ColumnName="SHIFTTIME" />
                 <ScalarProperty Name="BREAKTIME" ColumnName="BREAKTIME" />
-                <ScalarProperty Name="AVAILABLETIME" ColumnName="AVAILABLETIME" />
                 <ScalarProperty Name="CONSULTANTTIME" ColumnName="CONSULTANTTIME" />
                 <ScalarProperty Name="CREATEDBY" ColumnName="CREATEDBY" />
                 <ScalarProperty Name="CREATEDDATE" ColumnName="CREATEDDATE" />
@@ -1065,8 +878,19 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="DoctorAppointmentSystemModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="SYSTEM_PARA">
-            <EntityTypeMapping TypeName="AppointmentSystemModel.SYSTEM_PARA">
+            <EntityTypeMapping TypeName="DoctorAppointmentSystemModel.SYSTEM_PARA">
               <MappingFragment StoreEntitySet="SYSTEM_PARA">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="PARAID" ColumnName="PARAID" />
@@ -1081,8 +905,8 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="USERs">
-            <EntityTypeMapping TypeName="AppointmentSystemModel.USER">
+          <EntitySetMapping Name="USER">
+            <EntityTypeMapping TypeName="DoctorAppointmentSystemModel.USER">
               <MappingFragment StoreEntitySet="USER">
                 <ScalarProperty Name="USERID" ColumnName="USERID" />
                 <ScalarProperty Name="ROLEID" ColumnName="ROLEID" />
@@ -1092,8 +916,12 @@
                 <ScalarProperty Name="LASTLOGIN" ColumnName="LASTLOGIN" />
                 <ScalarProperty Name="USERTYPE" ColumnName="USERTYPE" />
                 <ScalarProperty Name="AVATARURL" ColumnName="AVATARURL" />
-                <ScalarProperty Name="PASSWORDRECOVERY1" ColumnName="PASSWORDRECOVERY1" />
-                <ScalarProperty Name="PASSWORDRECOVERY2" ColumnName="PASSWORDRECOVERY2" />
+                <ScalarProperty Name="PASSWORDRECOVERYQUE1" ColumnName="PASSWORDRECOVERYQUE1" />
+                <ScalarProperty Name="PASSWORDRECOVERYQUE2" ColumnName="PASSWORDRECOVERYQUE2" />
+                <ScalarProperty Name="PASSWORDRECOVERYQUE3" ColumnName="PASSWORDRECOVERYQUE3" />
+                <ScalarProperty Name="PASSWORDRECOVERYANS1" ColumnName="PASSWORDRECOVERYANS1" />
+                <ScalarProperty Name="PASSWORDRECOVERYANS2" ColumnName="PASSWORDRECOVERYANS2" />
+                <ScalarProperty Name="PASSWORDRECOVERYANS3" ColumnName="PASSWORDRECOVERYANS3" />
                 <ScalarProperty Name="STATUS" ColumnName="STATUS" />
                 <ScalarProperty Name="LOGINRETRYCOUNT" ColumnName="LOGINRETRYCOUNT" />
                 <ScalarProperty Name="LOGINLOCKDATE" ColumnName="LOGINLOCKDATE" />
@@ -1102,6 +930,36 @@
                 <ScalarProperty Name="UPDATEDBY" ColumnName="UPDATEDBY" />
                 <ScalarProperty Name="UPDATEDDATE" ColumnName="UPDATEDDATE" />
                 <ScalarProperty Name="DELETEDFLAG" ColumnName="DELETEDFLAG" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="APPOINTMENT">
+            <EntityTypeMapping TypeName="DoctorAppointmentSystemModel.APPOINTMENT">
+              <MappingFragment StoreEntitySet="APPOINTMENT">
+                <ScalarProperty Name="DELETEDFLAG" ColumnName="DELETEDFLAG" />
+                <ScalarProperty Name="UPDATEDDATE" ColumnName="UPDATEDDATE" />
+                <ScalarProperty Name="UPDATEDBY" ColumnName="UPDATEDBY" />
+                <ScalarProperty Name="CREATEDDATE" ColumnName="CREATEDDATE" />
+                <ScalarProperty Name="CREATEDBY" ColumnName="CREATEDBY" />
+                <ScalarProperty Name="LABTESTS" ColumnName="LABTESTS" />
+                <ScalarProperty Name="ADVICETOPATIENT" ColumnName="ADVICETOPATIENT" />
+                <ScalarProperty Name="DIAGNOSIS" ColumnName="DIAGNOSIS" />
+                <ScalarProperty Name="CASENOTE" ColumnName="CASENOTE" />
+                <ScalarProperty Name="NOTE" ColumnName="NOTE" />
+                <ScalarProperty Name="DRUGALLERGIES" ColumnName="DRUGALLERGIES" />
+                <ScalarProperty Name="EXISTINGILLNESS" ColumnName="EXISTINGILLNESS" />
+                <ScalarProperty Name="SYMTOMS" ColumnName="SYMTOMS" />
+                <ScalarProperty Name="CLOSEDBY" ColumnName="CLOSEDBY" />
+                <ScalarProperty Name="CLOSEDDATE" ColumnName="CLOSEDDATE" />
+                <ScalarProperty Name="APPOIMENTSTATUS" ColumnName="APPOIMENTSTATUS" />
+                <ScalarProperty Name="APPOINTMENTDATE" ColumnName="APPOINTMENTDATE" />
+                <ScalarProperty Name="DATEOFCONSULTATION" ColumnName="DATEOFCONSULTATION" />
+                <ScalarProperty Name="MODEOFCONSULTANT" ColumnName="MODEOFCONSULTANT" />
+                <ScalarProperty Name="CONSULTANTTYPE" ColumnName="CONSULTANTTYPE" />
+                <ScalarProperty Name="SCHEDULEID" ColumnName="SCHEDULEID" />
+                <ScalarProperty Name="DOCTORID" ColumnName="DOCTORID" />
+                <ScalarProperty Name="PATIENTID" ColumnName="PATIENTID" />
+                <ScalarProperty Name="APPOINTMENTID" ColumnName="APPOINTMENTID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1119,7 +977,7 @@
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
