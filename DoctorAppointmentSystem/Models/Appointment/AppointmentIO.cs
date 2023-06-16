@@ -167,16 +167,17 @@ namespace DoctorAppointmentSystem.Models.Appointment
             }
         }
 
-        public AppointmentViewModel LoadAppointment(int doctorID, string username, int scheduleID)
+        public ScheduleViewModel LoadDoctorInfo(int doctorID, string username, int scheduleID)
         {
             using (DBContext dbContext = new DBContext())
             {
-                AppointmentViewModel avm = new AppointmentViewModel();
+                ScheduleViewModel svm = new ScheduleViewModel();
 
                 PATIENT patient;
                 SCHEDULE schedule;
                 DOCTOR doctor = dbContext.DOCTOR.Where(d => d.DOCTORID.Equals(doctorID)).FirstOrDefault();
                 USER user = dbContext.USER.Where(u => u.USERNAME.Equals(username)).FirstOrDefault();
+                USER doctorAccount = dbContext.USER.Find(doctor.USERID);
 
                 if (doctor != null)
                 {
@@ -197,6 +198,56 @@ namespace DoctorAppointmentSystem.Models.Appointment
                 }
                 
                 if(schedule != null && patient != null && doctor != null)
+                {
+                    svm.doctorID = doctor.DOCTORID;
+                    svm.doctorName = doctor.DOCTORNAME;
+                    svm.gender = SystemParaHelper.GetParaval(doctor.DOCTORGENDER);
+                    svm.speciality = doctor.SPECIALITY;
+                    svm.dateOfBirth = doctor.DOCTORDATEOFBIRTH.ToString("yyyy-MM-dd");
+                    svm.scheduleID = scheduleID;
+                    svm.consultantTime = SystemParaHelper.GetParaval(schedule.CONSULTANTTIME) + " minutes";
+                    svm.workingDay = schedule.WORKINGDAY.ToString("yyyy-MM-dd");
+                    svm.shiftTime = schedule.SHIFTTIME.ToString();
+                    svm.breakTime = schedule.BREAKTIME.ToString();
+                    svm.phoneNumber = doctor.DOCTORMOBILENO;
+                    svm.email = doctorAccount.EMAIL;
+                }
+
+
+                return svm;
+            }
+        }
+
+        public AppointmentViewModel LoadAppointment(int doctorID, string username, int scheduleID)
+        {
+            using (DBContext dbContext = new DBContext())
+            {
+                AppointmentViewModel avm = new AppointmentViewModel();
+
+                PATIENT patient;
+                SCHEDULE schedule;
+                DOCTOR doctor = dbContext.DOCTOR.Where(d => d.DOCTORID.Equals(doctorID)).FirstOrDefault();
+                USER user = dbContext.USER.Where(u => u.USERNAME.Equals(username)).FirstOrDefault();
+
+                if (doctor != null)
+                {
+                    schedule = dbContext.SCHEDULE.Where(s => s.SCHEDULEID.Equals(scheduleID) && s.DOCTORID.Equals(doctorID)).FirstOrDefault();
+                }
+                else
+                {
+                    schedule = null;
+                }
+
+                if (user != null)
+                {
+                    patient = dbContext.PATIENT.Where(p => p.USERID.Equals(user.USERID)).FirstOrDefault();
+                }
+                else
+                {
+                    patient = null;
+                }
+
+                if (schedule != null && patient != null && doctor != null)
                 {
                     avm.doctorID = doctor.DOCTORID;
                     avm.doctorName = doctor.DOCTORNAME;

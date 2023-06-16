@@ -67,99 +67,6 @@ timeInput.addEventListener("change", sendDataToServer);
 var doctorSelector = document.getElementById("doctorSelector");
 doctorSelector.addEventListener("click", validateAppointment);
 
-/*---------------------------------------------------------------------------------------------------*/
-/*                                     Schedule of Doctor                                            */
-/*---------------------------------------------------------------------------------------------------*/
-
-/*Using AJAX to display data of DEPARTMENT TABLE*/
-// Get schedule of doctors to display on screen
-function reloadScheduleOfDoctor() {
-    table.ajax.reload();
-}
-
-var table = $("#scheduleTbl").DataTable({
-    responsive: true,
-    columns: [
-        {
-            className: 'dt-control',
-            orderable: false,
-            data: null,
-            defaultContent: '',
-        },
-
-        {
-            data: 'doctorName',
-            title: 'Doctor Name',
-            autoWidth: true,
-            searchable: true
-        },
-        {
-            data: "speciality",
-            title: 'Speciality',
-            autoWidth: true,
-            searchable: true
-        },
-        {
-            data: 'gender',
-            title: 'Gender',
-            autoWidth: true,
-            searchable: true
-        },
-        {
-            data: 'workingDay',
-            title: 'Appointment Day',
-            autoWidth: true,
-            searchable: true
-        },
-        {
-            data: 'availableTime',
-            title: 'Available Time',
-            autoWidth: true,
-            searchable: true
-        },
-        {
-            data: 'consultantTime',
-            title: 'Consultant Time',
-            autoWidth: true,
-            searchable: true
-        },
-        {
-            responsivePriority: 1,
-            data: 'scheduleID',
-            title: "Action",
-            autoWidth: true,
-            searchable: true,
-            render: function (data, type, row) {
-                return type === 'display' ? '<a data-doctorid="' + row.doctorID + '" data-scheduleid="' + data + '" data-available="' + row.availableTime + '"  class="btn btn-outline-primary btn-sm ml-1 btn-appointment" role="button"><i class="fa-regular fa-calendar-plus"></i></div>' : data;
-            }
-        }
-    ]
-});
-
-var selectedDoctorID = 0;
-$("#doctorSelector").change(function () {
-    selectedDoctorID = $(this).val();
-    $.ajax({
-        url: '/Appointment/ScheduleOfDoctor',
-        method: 'GET',
-        data: { doctorID: selectedDoctorID },
-        dataType: 'json',
-        success: function (response) {
-            table.clear().draw();
-            table.rows.add(response.data).draw();
-        },
-        error: function (xhr, status, error) {
-            console.error(error);
-        }
-    });
-});
-
-
-
-/*---------------------------------------------------------------------------------------------------*/
-/*                                           Appointment                                             */
-/*---------------------------------------------------------------------------------------------------*/
-
 var selectedDoctorID = 0;
 var selectedScheduleID = 0;
 
@@ -234,6 +141,12 @@ function resetPTag() {
     for (var item of pTag)
         item.textContent = ''
 }
+
+$('#btnCancel').click(function () {
+    resetInputTag();
+    resetSelectTag();
+    resetPTag();
+})
 
 $('#appointmentForm').submit(function (event) {
     event.preventDefault();
@@ -364,7 +277,6 @@ var validateData = function () {
     })
 }
  
-
 $(document).ready(function () {
     validateData();
 })

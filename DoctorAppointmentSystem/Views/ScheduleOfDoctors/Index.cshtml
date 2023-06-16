@@ -3,7 +3,7 @@
     ViewBag.Title = "Schedule of Doctors";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<link href="~/Content/css/appointment.css" rel="stylesheet" />
+<link href="~/Content/css/scheduleOfDoctors.css" rel="stylesheet" />
 @Html.Partial("_CarouselView")
 
 <h3 class="text-center mt-3 mb-3 font-weight-bold">Schedule of Doctors</h3>
@@ -32,7 +32,7 @@
                                 <span class="info-label">Personal Info</span>
                                 <div class="input-box">
                                     <span>Full Name</span>
-                                    <p id="doctorName"></p>
+                                    <p id="fullName"></p>
                                 </div>
                                 <div class="input-box">
                                     <span>Date of Birth</span>
@@ -40,7 +40,7 @@
                                 </div>
                                 <div class="input-box">
                                     <span>Gender</span>
-                                    <p id="doctorGender"></p>
+                                    <p id="gender"></p>
                                 </div>
                                 <div class="input-box">
                                     <span>Speciality</span>
@@ -54,11 +54,11 @@
                                 <span class="info-label">Contact</span>
                                 <div class="input-box">
                                     <span>Phone Number</span>
-                                    <p id="patientName"></p>
+                                    <p id="phoneNumber"></p>
                                 </div>
                                 <div class="input-box">
                                     <span>Email</span>
-                                    <p id="dateOfBirth"></p>
+                                    <p id="email"></p>
                                 </div>
                             </div>
                         </div>
@@ -78,11 +78,11 @@
                             <div class="col-12 col-sm-12 col-md-6">
                                 <div class="input-box">
                                     <span>Start Time</span>
-                                    <p id="workingDay"></p>
+                                    <p id="shiftTime"></p>
                                 </div>
                                 <div class="input-box">
                                     <span>End Time</span>
-                                    <p id="consultantTime"></p>
+                                    <p id="breakTime"></p>
                                 </div>
                             </div>
                         </div>
@@ -98,5 +98,5 @@
 
 
 @section scripts{
-    <script src="~/Scripts/js/scheduleOfDoctor.js"></script>
+    <script src="~/Scripts/js/scheduleOfDoctors.js"></script>
 }

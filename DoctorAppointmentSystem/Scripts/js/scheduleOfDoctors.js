@@ -10,7 +10,7 @@ $(document).ready(function () {
 var table = $("#scheduleTbl").DataTable({
     "ajax": {
         "responsive": true,
-        "url": '/Appointment/LoadAllSchedule',
+        "url": '/ScheduleOfDoctors/LoadAllSchedule',
         "type": "GET",
         "datatype": "json"
     },
@@ -20,6 +20,12 @@ var table = $("#scheduleTbl").DataTable({
             "orderable": false,
             "data": null,
             "defaultContent": '',
+        },
+        {
+            "data": "workingDay",
+            "title": 'Working Day',
+            "autoWidth": true,
+            "searchable": true
         },
         {
             "data": "doctorName",
@@ -36,12 +42,6 @@ var table = $("#scheduleTbl").DataTable({
         {
             "data": "gender",
             "title": 'Gender',
-            "autoWidth": true,
-            "searchable": true
-        },
-        {
-            "data": "workingDay",
-            "title": 'Working Day',
             "autoWidth": true,
             "searchable": true
         },
@@ -64,7 +64,7 @@ var table = $("#scheduleTbl").DataTable({
             "autoWidth": true,
             "searchable": true,
             "render": function (data, type, row) {
-                return type === 'display' ? '<a data-doctorid="' + row.doctorID + '" data-scheduleid="' + data + '" class="btn btn-outline-info btn-sm ml-1 btn-appointment" role="button" data-toggle="modal" data-target="#makeAppointmentModal"><i class="fa-solid fa-eye"></i></div>' : data;
+                return type === 'display' ? '<a data-doctorid="' + row.doctorID + '" data-scheduleid="' + data + '" class="btn btn-outline-info btn-sm ml-1 btn-viewDoctor" role="button" data-toggle="modal" data-target="#makeAppointmentModal"><i class="fa-solid fa-eye"></i></div>' : data;
             }
         }
     ]
@@ -77,13 +77,13 @@ function loadSchedule() {
 
 
 /*---------------------------------------------------------------------------------------------------*/
-/*                                           Appointment                                             */
+/*                                           View Doctor                                             */
 /*---------------------------------------------------------------------------------------------------*/
 
 // Get doctorID and scheduleID to handle
 var selectedDoctorID = 0;
 var selectedScheduleID = 0;
-$(document).on('click', '.btn-appointment', function () {
+$(document).on('click', '.btn-viewDoctor', function () {
     var btnAppointment = $(this);
     selectedDoctorID = btnAppointment.data('doctorid');
     selectedScheduleID = btnAppointment.data('scheduleid');
@@ -95,7 +95,7 @@ $(document).on('click', '.btn-appointment', function () {
 // Get data to display on appointment form
 function loadAppointment(selectedDoctorID, selectedScheduleID) {
     $.ajax({
-        url: '/Appointment/LoadAppointment',
+        url: '/ScheduleOfDoctors/LoadDoctorInfo',
         method: 'GET',
         data: {
             selectedDoctorID,
@@ -103,14 +103,17 @@ function loadAppointment(selectedDoctorID, selectedScheduleID) {
         },
         dataType: 'JSON',
         success: function (res) {
-            $('#doctorName').text(res.data.doctorName);
-            $('#doctorGender').text(res.data.doctorGender);
-            $('#speciality').text(res.data.doctorSpeciality);
-            $('#patientName').text(res.data.patientName);
-            $('#patientGender').text(res.data.patientGender);
-            $('#dateOfBirth').text(res.data.patientDateOfBirth);
+            $('#fullName').text(res.data.doctorName);
+            $('#gender').text(res.data.gender);
+            $('#speciality').text(res.data.speciality);
+            $('#phoneNumber').text(res.data.phoneNumber);
+            $('#shiftTime').text(res.data.shiftTime);
+            $('#dateOfBirth').text(res.data.dateOfBirth);
             $('#consultantTime').text(res.data.consultantTime);
             $('#workingDay').text(res.data.workingDay);
+            $('#breakTime').text(res.data.breakTime);
+            $('#workingDay').text(res.data.workingDay);
+            $('#email').text(res.data.email);
             console.log(res);
         },
         error: function (err) {

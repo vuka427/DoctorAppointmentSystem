@@ -55,12 +55,6 @@ namespace DoctorAppointmentSystem.Controllers
             return Json(new { data = data }, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult LoadAllSchedule()
-        {
-            var schedules = appointmentIO.LoadScheduleList();
-            return Json(new { data = schedules }, JsonRequestBehavior.AllowGet);
-        }
-
 
         // // Get a list of doctors with corresponding work schedules
         public ActionResult GetDoctors(DateTime dateOfConsultation, TimeSpan time)
