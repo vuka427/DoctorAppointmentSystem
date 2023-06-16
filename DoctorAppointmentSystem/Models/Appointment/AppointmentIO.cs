@@ -37,15 +37,15 @@ namespace DoctorAppointmentSystem.Models.Appointment
                     row.workingDay = item.WORKINGDAY.ToString("dd-MM-yyyy");
                     row.doctorName = item.DOCTORNAME;
                     row.speciality = item.SPECIALITY;
-                    int gender = 0;
-                    Int32.TryParse(item.DOCTORGENDER, out gender);
+                    int gender = item.DOCTORGENDER;
+                   
                     row.gender = dbContext.SYSTEM_PARA.Find(gender).PARAVAL;
                     row.consultantTime = item.CONSULTANTTIME.ToString()+ "'";
 
                     // Get the list of scheduled appointments
                     var bookedList = from appointment in dbContext.APPOINTMENT
-                                      join schedule in dbContext.SCHEDULE on new { appointment.WORKINGDAY, appointment.DOCTORID } equals new { schedule.WORKINGDAY, schedule.DOCTORID }
-                                      select new { appointment.APPOIMENTNO };
+                                      //join schedule in dbContext.SCHEDULE on new { appointment.WORKINGDAY, appointment.DOCTORID } equals new { schedule.WORKINGDAY, schedule.DOCTORID }
+                                      select new { appointment.APPOINTMENTID };
 
                     // Count the number of scheduled appointments
                     int bookedTimes = bookedList.Count();

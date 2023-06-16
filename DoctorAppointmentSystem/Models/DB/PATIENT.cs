@@ -17,14 +17,14 @@ namespace DoctorAppointmentSystem.Models.DB
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public PATIENT()
         {
-            this.APPOINTMENTs = new HashSet<APPOINTMENT>();
+            this.APPOINTMENT = new HashSet<APPOINTMENT>();
         }
     
         public int PATIENTID { get; set; }
         public int USERID { get; set; }
         public string PATIENTNAME { get; set; }
         public string PATIENTNATIONALID { get; set; }
-        public string PATIENTGENDER { get; set; }
+        public int PATIENTGENDER { get; set; }
         public string PATIENTMOBILENO { get; set; }
         public System.DateTime PATIENTDATEOFBIRTH { get; set; }
         public string PATIENTADDRESS { get; set; }
@@ -35,7 +35,7 @@ namespace DoctorAppointmentSystem.Models.DB
         public bool DELETEDFLAG { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<APPOINTMENT> APPOINTMENTs { get; set; }
+        public virtual ICollection<APPOINTMENT> APPOINTMENT { get; set; }
         public virtual USER USER { get; set; }
     }
 }

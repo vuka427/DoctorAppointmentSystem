@@ -17,8 +17,7 @@ namespace DoctorAppointmentSystem.Models.DB
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public DOCTOR()
         {
-            this.QUALIFICATIONs = new HashSet<QUALIFICATION>();
-            this.SCHEDULEs = new HashSet<SCHEDULE>();
+            this.SCHEDULE = new HashSet<SCHEDULE>();
         }
     
         public int DOCTORID { get; set; }
@@ -26,7 +25,7 @@ namespace DoctorAppointmentSystem.Models.DB
         public int DEPARTMENTID { get; set; }
         public string DOCTORNAME { get; set; }
         public string DOCTORNATIONALID { get; set; }
-        public string DOCTORGENDER { get; set; }
+        public int DOCTORGENDER { get; set; }
         public System.DateTime DOCTORDATEOFBIRTH { get; set; }
         public string DOCTORMOBILENO { get; set; }
         public string DOCTORADDRESS { get; set; }
@@ -42,8 +41,6 @@ namespace DoctorAppointmentSystem.Models.DB
         public virtual DEPARTMENT DEPARTMENT { get; set; }
         public virtual USER USER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<QUALIFICATION> QUALIFICATIONs { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SCHEDULE> SCHEDULEs { get; set; }
+        public virtual ICollection<SCHEDULE> SCHEDULE { get; set; }
     }
 }

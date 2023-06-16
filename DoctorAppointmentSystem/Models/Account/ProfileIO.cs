@@ -32,8 +32,8 @@ namespace DoctorAppointmentSystem.Models.Account
                         profile.nationalID = patient.PATIENTNATIONALID.Trim();
                         profile.dateOfBirth = patient.PATIENTDATEOFBIRTH.ToString("yyyy-dd-MM");
                         
-                        int paraID;
-                        Int32.TryParse(patient.PATIENTGENDER, out paraID);
+                        int paraID=patient.PATIENTGENDER;
+                        
                         SYSTEM_PARA para = dBContext.SYSTEM_PARA.Where(p => p.ID.Equals(paraID)).FirstOrDefault();
 
                         profile.gender = para.PARAVAL.Trim();
@@ -50,8 +50,8 @@ namespace DoctorAppointmentSystem.Models.Account
                         profile.nationalID = doctor.DOCTORNATIONALID.Trim();
                         profile.dateOfBirth = doctor.DOCTORDATEOFBIRTH.ToString("dd - MM - yyyy");
 
-                        int paraID;
-                        Int32.TryParse(doctor.DOCTORGENDER, out paraID);
+                        int paraID=doctor.DOCTORGENDER;
+                        
                         SYSTEM_PARA para = dBContext.SYSTEM_PARA.Where(p => p.ID.Equals(paraID)).FirstOrDefault();
 
                         profile.gender = para.PARAVAL.Trim();

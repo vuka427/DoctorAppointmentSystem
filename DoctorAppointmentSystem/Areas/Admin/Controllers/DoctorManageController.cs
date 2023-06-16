@@ -81,23 +81,23 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             {
                 Doctors = sortDirection == "asc" ? Doctors.OrderBy(c => c.DOCTORDATEOFBIRTH) : Doctors.OrderByDescending(c => c.DOCTORDATEOFBIRTH);
             }
-            else if (sortColumnIndex == 16)
+            else if (sortColumnIndex == 15)
             {
                 Doctors = sortDirection == "asc" ? Doctors.OrderBy(c => c.LOGINRETRYCOUNT) : Doctors.OrderByDescending(c => c.LOGINRETRYCOUNT);
             }
-            else if (sortColumnIndex == 13)
+            else if (sortColumnIndex == 12)
             {
                 Doctors = sortDirection == "asc" ? Doctors.OrderBy(c => c.WORKINGSTARTDATE) : Doctors.OrderByDescending(c => c.WORKINGSTARTDATE);
             }
-            else if (sortColumnIndex == 14)
+            else if (sortColumnIndex == 13)
             {
                 Doctors = sortDirection == "asc" ? Doctors.OrderBy(c => c.WORKINGENDDATE) : Doctors.OrderByDescending(c => c.WORKINGENDDATE);
             }
-            else if (sortColumnIndex == 18)
+            else if (sortColumnIndex == 17)
             {
                 Doctors = sortDirection == "asc" ? Doctors.OrderBy(c => c.CREATEDDATE) : Doctors.OrderByDescending(c => c.CREATEDDATE);
             }
-            else if (sortColumnIndex == 20)
+            else if (sortColumnIndex == 19)
             {
                 Doctors = sortDirection == "asc" ? Doctors.OrderBy(c => c.UPDATEDDATE) : Doctors.OrderByDescending(c => c.CREATEDDATE);
             }
@@ -105,15 +105,14 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             {
                 Func<DoctorViewModel, string> orderingFunction = e =>
                                                            sortColumnIndex == 2 ? e.DOCTORNAME :
-                                                           sortColumnIndex == 3 ? e.DOCTORGENDER :
-                                                           sortColumnIndex == 5 ? e.DOCTORMOBILENO :
-                                                           sortColumnIndex == 7 ? e.DOCTORADDRESS :
-                                                           sortColumnIndex == 8 ? e.DEPARTMENT :
-                                                           sortColumnIndex == 9 ? e.EMAIL :
+                                                           sortColumnIndex == 3 ? e.USERNAME :
+                                                           sortColumnIndex == 4 ? e.DEPARTMENT:
+                                                           sortColumnIndex == 5 ? e.DOCTORGENDER :
+                                                           sortColumnIndex == 8 ? e.DOCTORMOBILENO :
                                                            sortColumnIndex == 10 ? e.DOCTORADDRESS :
+                                                           sortColumnIndex == 9 ? e.EMAIL :
                                                            sortColumnIndex == 11 ? e.SPECIALITY :
-                                                           sortColumnIndex == 12 ? e.QUALIFICATION :
-                                                           sortColumnIndex == 17 ? e.CREATEDBY :
+                                                           sortColumnIndex == 16 ? e.CREATEDBY :
                                                            e.UPDATEDBY;//20
 
                 Doctors = sortDirection == "asc" ? Doctors.OrderBy(orderingFunction) : Doctors.OrderByDescending(orderingFunction);
@@ -398,7 +397,8 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             {
                 return Json(new { error = 1, msg = NationalValidResult.ErrorMessage });
             }
-            var nationidmatch = _dbContext.DOCTOR.Where(u => u.DOCTORNATIONALID == model.DOCTORNATIONALID).ToList();
+            var nationidmatch = _dbContext.DOCTOR.Where(u => u.DOCTORNATIONALID == model.DOCTORNATIONALID && 
+                                                             u.DOCTORNATIONALID != oldDoctor.DOCTORNATIONALID ).ToList();
             if (nationidmatch.Count > 0)
             {
                 return Json(new { error = 1, msg = "Nation ID already exists !" });
@@ -417,7 +417,8 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             {
                 return Json(new { error = 1, msg = MobileValidResult.ErrorMessage });
             }
-            var mobilematch = _dbContext.DOCTOR.Where(u => u.DOCTORMOBILENO == model.DOCTORMOBILENO).ToList();
+            var mobilematch = _dbContext.DOCTOR.Where(u => u.DOCTORMOBILENO == model.DOCTORMOBILENO && 
+                                                           u.DOCTORMOBILENO != oldDoctor.DOCTORMOBILENO ).ToList();
             if (mobilematch.Count > 0)
             {
                 return Json(new { error = 1, msg = "Mobile number already exists !" });
@@ -429,7 +430,8 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             {
                 return Json(new { error = 1, msg = EmailValidResult.ErrorMessage });
             }
-            var emailmatch = _dbContext.USER.Where(u => u.EMAIL == model.EMAIL).ToList();
+            var emailmatch = _dbContext.USER.Where(u => u.EMAIL == model.EMAIL && 
+                                                        u.EMAIL != oldDoctor.USER.EMAIL).ToList();
             if (emailmatch.Count > 0)
             {
                 return Json(new { error = 1, msg = "Email already exists!" });

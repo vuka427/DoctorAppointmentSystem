@@ -2,6 +2,7 @@
 using DoctorAppointmentSystem.Areas.Admin.Models.DoctorManage;
 using DoctorAppointmentSystem.Areas.Admin.Models.DoctorScheduleManage;
 using DoctorAppointmentSystem.Models.DB;
+using DoctorAppointmentSystem.Services.ServiceInterface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,14 +12,18 @@ namespace DoctorAppointmentSystem.Areas.Admin.Models.DoctorSchedule.Mapping
 {
     public class MappDoctorScheduleProfile : Profile
     {
-        public MappDoctorScheduleProfile()
+        public MappDoctorScheduleProfile(ISystemParamService sysParam)
         {
             CreateMap<SCHEDULE, DoctorScheduleViewModel>()
                 .ForMember(dest => dest.DOCTORID, act => act.MapFrom(src => src.DOCTORID))
                 .ForMember(dest => dest.DOCTORNAME, act => act.MapFrom(src => (src.DOCTOR!=null)? src.DOCTOR.DOCTORNAME: ""))
                 .ForMember(dest => dest.WORKINGDAY, act => act.MapFrom(src => src.WORKINGDAY.ToShortDateString()))
-                .ForMember(dest => dest.SHIFTTIME, act => act.MapFrom(src => src.SHIFTTIME.ToString()))
-                .ForMember(dest => dest.BREAKTIME, act => act.MapFrom(src => src.BREAKTIME.ToString()))
+                .ForMember(dest => dest.SHIFTTIME, act => act.MapFrom(src => src.SHIFTTIME.ToString(@"hh\:mm")))
+                .ForMember(dest => dest.BREAKTIME, act => act.MapFrom(src => src.BREAKTIME.ToString(@"hh\:mm")))
+                .ForMember(dest => dest.CONSULTANTTIME, act => act.MapFrom(src => 
+                                                                                (sysParam.GetAllParam().Where(p => p.ID == src.CONSULTANTTIME))!=null? 
+                                                                                sysParam.GetAllParam().Where(p=>p.ID == src.CONSULTANTTIME).FirstOrDefault().NOTE:"" ))
+
                 .ForMember(dest => dest.CREATEDDATE, act => act.MapFrom(src => src.CREATEDDATE.Value.ToShortDateString()))
                 .ForMember(dest => dest.UPDATEDDATE, act => act.MapFrom(src => src.UPDATEDDATE.Value.ToShortDateString()))
                 ;
@@ -27,6 +32,10 @@ namespace DoctorAppointmentSystem.Areas.Admin.Models.DoctorSchedule.Mapping
                 .ForMember(dest => dest.SHIFTTIME, act => act.MapFrom(src => src.SHIFTTIME.ToString()))
                 .ForMember(dest => dest.BREAKTIME, act => act.MapFrom(src => src.BREAKTIME.ToString()))
                 ;
+            CreateMap<DoctorScheduleCreateModel, SCHEDULE>()
+                .ForMember(dest => dest.SCHEDULEID, act => act.MapFrom(src => 0))
+                ;
+            CreateMap<DoctorScheduleEditModel, SCHEDULE>();
         }
     }
 }

@@ -20,12 +20,13 @@ namespace DoctorAppointmentSystem.Models.DB
             this.APPOINTMENT_NOTE = new HashSet<APPOINTMENT_NOTE>();
         }
     
-        public int APPOIMENTNO { get; set; }
+        public int APPOINTMENTID { get; set; }
         public int PATIENTID { get; set; }
         public int MODEID { get; set; }
         public int DOCTORID { get; set; }
-        public System.DateTime WORKINGDAY { get; set; }
-        public int CONSULTANTTYPEID { get; set; }
+        public int SCHEDULEID { get; set; }
+        public int CONSULTANTTYPE { get; set; }
+        public int MODEOFCONSULTANT { get; set; }
         public string APPOINTMENTNAME { get; set; }
         public System.DateTime DATEOFCONSULTATION { get; set; }
         public System.DateTime APPOINTMENTDATE { get; set; }
@@ -33,8 +34,8 @@ namespace DoctorAppointmentSystem.Models.DB
         public Nullable<System.DateTime> CLOSEDDATE { get; set; }
         public string CLOSEDBY { get; set; }
         public string SYMTOMS { get; set; }
-        public string EXISTIONGILLNESS { get; set; }
-        public string DRUGALLERGLES { get; set; }
+        public string EXISTINGILLNESS { get; set; }
+        public string DRUGALLERGIES { get; set; }
         public string NOTE { get; set; }
         public string CASENOTE { get; set; }
         public string DIAGNOSIS { get; set; }
@@ -48,8 +49,6 @@ namespace DoctorAppointmentSystem.Models.DB
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<APPOINTMENT_NOTE> APPOINTMENT_NOTE { get; set; }
-        public virtual CONSULTANT_TYPE CONSULTANT_TYPE { get; set; }
-        public virtual MODE_OF_CONSULTING MODE_OF_CONSULTING { get; set; }
         public virtual PATIENT PATIENT { get; set; }
         public virtual SCHEDULE SCHEDULE { get; set; }
     }

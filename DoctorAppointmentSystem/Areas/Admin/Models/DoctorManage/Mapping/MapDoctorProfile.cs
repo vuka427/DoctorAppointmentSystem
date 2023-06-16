@@ -23,7 +23,6 @@ namespace DoctorAppointmentSystem.Areas.Admin.Models.DoctorManage.Mapping
                 .ForMember(dest => dest.WORKINGSTARTDATE, act => act.MapFrom(src => src.WORKINGSTARTDATE.ToShortDateString()))
                 .ForMember(dest => dest.CREATEDDATE, act => act.MapFrom(src => src.CREATEDDATE.Value.ToShortDateString()))
                 .ForMember(dest => dest.UPDATEDDATE, act => act.MapFrom(src => src.UPDATEDDATE.Value.ToShortDateString()))
-                .ForMember(dest => dest.QUALIFICATION, act => act.MapFrom(src => "none"))
                 .ForMember(dest => dest.EMAIL, act => act.MapFrom(src => src.USER != null ? src.USER.EMAIL : "none"))
                 .ForMember(dest => dest.USERNAME, act => act.MapFrom(src => src.USER != null ? src.USER.USERNAME : "none"))
                 .ForMember(dest => dest.LOGINLOCKDATE, act => act.MapFrom(src => (src.USER != null) ? ((src.USER.LOGINLOCKDATE != null) ? src.USER.LOGINLOCKDATE.Value.ToShortDateString() : "none") : "none"))
