@@ -22,13 +22,11 @@ namespace DoctorAppointmentSystem.Models.DB
     
         public int APPOINTMENTID { get; set; }
         public int PATIENTID { get; set; }
-        public int MODEID { get; set; }
         public int DOCTORID { get; set; }
         public int SCHEDULEID { get; set; }
         public int CONSULTANTTYPE { get; set; }
         public int MODEOFCONSULTANT { get; set; }
-        public string APPOINTMENTNAME { get; set; }
-        public System.DateTime DATEOFCONSULTATION { get; set; }
+        public Nullable<System.DateTime> DATEOFCONSULTATION { get; set; }
         public System.DateTime APPOINTMENTDATE { get; set; }
         public string APPOIMENTSTATUS { get; set; }
         public Nullable<System.DateTime> CLOSEDDATE { get; set; }

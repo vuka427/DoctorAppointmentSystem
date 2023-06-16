@@ -25,7 +25,6 @@ namespace DoctorAppointmentSystem.Models.DB
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<APPOINTMENT> APPOINTMENT { get; set; }
         public virtual DbSet<APPOINTMENT_NOTE> APPOINTMENT_NOTE { get; set; }
         public virtual DbSet<DEPARTMENT> DEPARTMENT { get; set; }
         public virtual DbSet<DOCTOR> DOCTOR { get; set; }
@@ -37,5 +36,6 @@ namespace DoctorAppointmentSystem.Models.DB
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<SYSTEM_PARA> SYSTEM_PARA { get; set; }
         public virtual DbSet<USER> USER { get; set; }
+        public virtual DbSet<APPOINTMENT> APPOINTMENT { get; set; }
     }
 }

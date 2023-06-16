@@ -196,12 +196,14 @@
     <Compile Include="Controllers\AppointmentController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="HelperClasses\Config.cs" />
     <Compile Include="HelperClasses\GetInfo.cs" />
     <Compile Include="HelperClasses\PasswordHelper.cs" />
+    <Compile Include="HelperClasses\SystemParaHelper.cs" />
     <Compile Include="Menu\MenuItem.cs" />
     <Compile Include="Menu\AdminMenu.cs" />
     <Compile Include="Menu\DoctorMenu.cs" />
@@ -211,14 +213,15 @@
     <Compile Include="Models\Account\ChangePassword\ChangePasswordViewModel.cs" />
     <Compile Include="Models\Account\LoginIO.cs" />
     <Compile Include="Models\Account\Login\LoginViewModel.cs" />
-    <Compile Include="Models\Account\ProfileIO.cs" />
-    <Compile Include="Models\Account\Profile\ProfileViewModel.cs" />
     <Compile Include="Models\Account\RegisterIO.cs" />
     <Compile Include="Models\Account\Register\AuthQuestionViewModel.cs" />
     <Compile Include="Models\Account\Register\GenderViewModel.cs" />
     <Compile Include="Models\Account\Register\PatientViewModel.cs" />
     <Compile Include="Models\Account\Register\UserViewModel.cs" />
     <Compile Include="Models\Appointment\AppointmentIO.cs" />
+    <Compile Include="Models\Appointment\History\HistoryViewModel.cs" />
+    <Compile Include="Models\Appointment\MakeAppointment\AppointmentViewModel.cs" />
+    <Compile Include="Models\Appointment\MakeAppointment\DoctorViewModel.cs" />
     <Compile Include="Models\Appointment\MakeAppointment\ScheduleViewModel.cs" />
     <Compile Include="Models\DB\APPOINTMENT.cs">
       <DependentUpon>DBContext.tt</DependentUpon>
@@ -271,6 +274,8 @@
     <Compile Include="Models\DB\USER.cs">
       <DependentUpon>DBContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Profile\ProfileIO.cs" />
+    <Compile Include="Models\Profile\ProfileViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\LoggerServices.cs" />
     <Compile Include="Services\MapperService.cs" />
@@ -286,9 +291,10 @@
     <Content Include="Content\css\custom-input.css" />
     <Content Include="Content\css\doctor-management.css" />
     <Content Include="Content\css\doctor-schedule-mgt.css" />
+    <Content Include="Content\css\appointmentHistory.css" />
     <Content Include="Content\css\intro.css" />
     <Content Include="Content\css\layout.css" />
-    <Content Include="Content\css\makeAppointment.css" />
+    <Content Include="Content\css\appointment.css" />
     <Content Include="Content\css\patient-management.css" />
     <Content Include="Content\css\profile.css" />
     <Content Include="Content\css\Site.css" />
@@ -517,8 +523,10 @@
     <Content Include="Scripts\js\appointmentManagement.admin.js" />
     <Content Include="Scripts\js\doctormanagement.js" />
     <Content Include="Scripts\js\doctorScheduleManagment.admin.js" />
+    <Content Include="Scripts\js\appointmentHistory.js" />
+    <Content Include="Scripts\js\intro.js" />
     <Content Include="Scripts\js\layout.js" />
-    <Content Include="Scripts\js\makeAppointment.js" />
+    <Content Include="Scripts\js\appointment.js" />
     <Content Include="Scripts\js\patientmanagement.js" />
     <Content Include="Areas\Admin\Views\DoctorManage\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Manage\Index.cshtml" />
@@ -540,6 +548,7 @@
     <Content Include="Scripts\bootstrap-lib-js\popper.min.js" />
     <Content Include="Scripts\js\profile.js" />
     <Content Include="Scripts\js\register.js" />
+    <Content Include="Scripts\js\scheduleOfDoctor.js" />
     <Content Include="Scripts\js\validateInput.js" />
     <Content Include="Scripts\js\usermanagement.js" />
     <Content Include="Web.config" />
@@ -564,12 +573,12 @@
     <Content Include="Views\Appointment\MakeAppointment.cshtml" />
     <Content Include="Views\Appointment\History.cshtml" />
     <Content Include="Views\Shared\_CarouselView.cshtml" />
-    <Content Include="Views\Account\EditProfile.cshtml" />
+    <Content Include="Views\Profile\Index.cshtml" />
+    <Content Include="Views\Error\AccessDenied.cshtml" />
     <Content Include="Views\Error\AccessDenied.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\Appointment\History\" />
     <Folder Include="Uploads\" />
   </ItemGroup>
   <ItemGroup>
