@@ -38,7 +38,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             var listDoctor = _dbContext.DOCTOR.Where(d => d.DELETEDFLAG == false).ToList();
             var ListConsultantTime = _sysParam.GetAllParam().Where(p => p.GROUPID == "ConsultantTime").ToList();
             ViewBag.doctor = new SelectList(listDoctor, "DOCTORID", "DOCTORNAME");
-            ViewBag.consultanttime = new SelectList(ListConsultantTime, "ID", "NOTE");
+            ViewBag.consultanttime = new SelectList(ListConsultantTime, "PARAVAL", "NOTE");
             return View();
         }
 
