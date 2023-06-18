@@ -1,4 +1,5 @@
 ﻿using DoctorAppointmentSystem.Authorization;
+using DoctorAppointmentSystem.HelperClasses;
 using DoctorAppointmentSystem.Menu;
 using DoctorAppointmentSystem.Models.DB;
 using Microsoft.Ajax.Utilities;
@@ -25,6 +26,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
         {
             AdminMenu menu = new AdminMenu();
             ViewBag.menu = menu.RenderMenu("Home");
+            ViewBag.avatar = GetInfo.GetImgPath(User.Identity.Name);
 
             ViewBag.DoctorCount = _dbContext.DOCTOR.Count(d => d.DELETEDFLAG == false);
             ViewBag.PatientCount = _dbContext.PATIENT.Count(d => d.DELETEDFLAG == false);

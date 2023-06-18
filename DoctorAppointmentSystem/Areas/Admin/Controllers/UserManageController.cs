@@ -39,6 +39,9 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
         {
             AdminMenu menu = new AdminMenu();
             ViewBag.menu = menu.RenderMenu("User management");
+            ViewBag.avatar = GetInfo.GetImgPath(User.Identity.Name);
+
+
             return View();
         }
 
@@ -78,7 +81,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
                                                            sortColumnIndex == 6 ? e.MOBILENO :
                                                            sortColumnIndex == 7 ? e.EMAIL:
                                                            sortColumnIndex == 8 ? e.LASTLOGIN :
-                                                           e.CREATEDBY
+                                                           e.UPDATEDDATE
                                                            ;
 
                 Users = (sortDirection == "asc" ? Users.OrderBy(orderingFunction) : Users.OrderByDescending(orderingFunction));

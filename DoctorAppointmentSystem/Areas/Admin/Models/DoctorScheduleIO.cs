@@ -103,16 +103,17 @@ namespace DoctorAppointmentSystem.Areas.Admin.Models
             {
                doctorScheduled = _dbContext.SCHEDULE.Where(s => s.DOCTORID == schedule.DOCTORID &&
                                                                s.WORKINGDAY == schedule.WORKINGDAY &&
-                                                               s.SCHEDULEID != schedule.SCHEDULEID
+                                                               s.SCHEDULEID != schedule.SCHEDULEID &&
+                                                               s.DELETEDFLAG == false
                                                                ).ToList();
             }
             else
             {
                 doctorScheduled = _dbContext.SCHEDULE.Where(s => s.DOCTORID == schedule.DOCTORID &&
-                                                                s.WORKINGDAY == schedule.WORKINGDAY
+                                                                s.WORKINGDAY == schedule.WORKINGDAY &&
+                                                                s.DELETEDFLAG == false
                                                                 ).ToList();
             }
-                
             doctorScheduled.ForEach(s =>
             {
                 //in
@@ -137,6 +138,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Models
                 }
 
             });
+
             if (!isCreate) { return new ValidationResult { Success = false, ErrorMessage = "Start time or end time overlaps with another schedule !" }; }
 
             return new ValidationResult { Success = true,ErrorMessage = string.Empty };

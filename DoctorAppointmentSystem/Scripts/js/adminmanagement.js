@@ -80,6 +80,7 @@ function setSubmitFormByAjax() {
                         showConfirmButton: false,
                         timer: 2000
                     });
+
                     $("#form-create-admin").trigger('reset');
 
                 }
@@ -207,6 +208,7 @@ function setSubmitFormUdateByAjax() {
                                 showConfirmButton: false,
                                 timer: 2000
                             });
+
                             $("#form-update-admin").trigger('reset');
                         }
                     });
@@ -295,12 +297,15 @@ function deleteAdminByAjax(adminid) {
         }
         if (data.error == 0) {
             $('#AdminTable').DataTable().ajax.reload();
-            
-            Swal.fire(
-                'Deleted!',
-                'Delete admin account is success!',
-                'success'
-            )
+           
+            Swal.fire({
+                position: 'top',
+                icon: 'success',
+                title: 'Deleted!',
+                text: 'Delete admin account is success !',
+                showConfirmButton: false,
+                timer: 2000
+            });
         }
     });
 }
@@ -429,10 +434,14 @@ function showPass() {
 function validateFormAdminUser() {
    
     jQuery.validator.addMethod('valid_password', function (value) {
-        var regex = /^ (?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,30}$/;
+        var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,30}$/;
         return value.trim().match(regex);
     });
-  
+
+    jQuery.validator.addMethod('valid_username', function (value) {
+        var regex = /^[a-z0-9-]*$/;
+        return value.trim().match(regex);
+    });
     
     //Validate form create
     $("#form-create-admin").validate({
@@ -444,13 +453,14 @@ function validateFormAdminUser() {
             "username": {
                 required: true,
                 maxlength: 50,
-                minlength: 3
+                minlength: 3,
+                valid_username: true
             },
             "password": {
                 required: true,
                 maxlength: 30,
                 minlength: 8,
-                valid_password_num: true,
+                valid_password: true,
             },
             
             "email": {
@@ -463,14 +473,15 @@ function validateFormAdminUser() {
             "username": {
                 required: "User name is required",
                 maxlength: "Username charater lenght is 3 to 50!",
-                minlength: "Username charater lenght is 3 to 50!"
+                minlength: "Username charater lenght is 3 to 50!",
+                valid_username: "Username does not contain any special characters"
             },
             "password": {
                 required: "Password is required",
                 maxlength: "Maximum 30 characters",
                 minlength: "Minimum 8 characters",
                 valid_password: "Password charater at least one uppercase letter, one lowercase letter, one number and one special character",
-               
+                
             },
             
             "email": {
@@ -566,8 +577,6 @@ function validateFormAdminUser() {
 
     });
 }
-
-
 
 $("document").ready(function () {
     setButtonOnOffForm();

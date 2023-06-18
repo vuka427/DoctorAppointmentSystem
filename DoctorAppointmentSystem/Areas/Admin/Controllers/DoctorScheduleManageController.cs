@@ -4,6 +4,7 @@ using DoctorAppointmentSystem.Areas.Admin.Models.DataTableModel;
 using DoctorAppointmentSystem.Areas.Admin.Models.DoctorSchedule;
 using DoctorAppointmentSystem.Areas.Admin.Models.DoctorScheduleManage;
 using DoctorAppointmentSystem.Areas.Admin.Models.Validation;
+using DoctorAppointmentSystem.HelperClasses;
 using DoctorAppointmentSystem.Menu;
 using DoctorAppointmentSystem.Models.DB;
 using DoctorAppointmentSystem.Services.ServiceInterface;
@@ -45,6 +46,8 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
         {
             AdminMenu menu = new AdminMenu();
             ViewBag.menu = menu.RenderMenu("Doctor Schedule");
+            ViewBag.avatar = GetInfo.GetImgPath(User.Identity.Name);
+
             var listDoctor = _dbContext.DOCTOR.Where(d => d.DELETEDFLAG == false).ToList();
             var ListConsultantTime = _sysParam.GetAllParam().Where(p => p.GROUPID == "ConsultantTime").ToList();
             ViewBag.doctor = new SelectList(listDoctor, "DOCTORID", "DOCTORNAME");

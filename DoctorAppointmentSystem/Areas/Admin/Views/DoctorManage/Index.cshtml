@@ -28,14 +28,8 @@
                 <div class="card-body">
                     <form id="form-create-doctor" class="form-group" autocomplete="off">
                         <p class="divider-text">
-                            <span class="bg-light">Doctor account information</span>
+                            <span class="bg-light">Account information</span>
                         </p>
-                        <div class="form-group input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text custom-symbol"><i class="fa fa-address-book"></i></span>
-                            </div>
-                            <input id="doctorname" name="doctorname" class="form-control " placeholder="Doctor Name (*)" type="text" pattern="^[a-zA-Z0-9]+$" maxlength="50">
-                        </div><!-- Doctorname -->
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text custom-symbol"><i class="fa fa-user"></i></span>
@@ -52,6 +46,22 @@
                             <input type="checkbox" class="form-check-input" id="check-show-password" onclick="showPass()">
                             <label class="form-check-label mt-0 pt-0 h6 text-secondary" for="check-show-password">Show password</label>
                         </div><!-- Check Box Show Password  -->
+                        <p class="divider-text">
+                            <span class="bg-light">Personal information</span>
+                        </p>
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text custom-symbol"><i class="fa fa-address-book"></i></span>
+                            </div>
+                            <input id="doctorname" name="doctorname" class="form-control " placeholder="Doctor Name (*)" type="text" pattern="^[a-zA-Z0-9]+$" maxlength="50">
+                        </div><!-- Doctorname -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text custom-symbol"><i class="fa fa-birthday-cake"></i></span>
+                            </div>
+                            <input placeholder="Date of birth (*)" class="form-control" type="text" onfocus="(this.type='date')" onblur="this.type='text'" id="brithofdate" name="brithofdate">
+
+                        </div> <!-- brithofdate -->
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text custom-symbol"><i class="fa fa-address-card"></i></span>
@@ -60,27 +70,11 @@
                         </div><!-- Nationalid -->
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
-                                <span class="input-group-text custom-symbol"><i class="fa-solid fa-building-user"></i></span>
-                            </div>
-                            <div class="form-control department-box">
-                                @Html.DropDownList("Department", ViewBag.department as SelectList, "Department (*)", new { @class = "form-control custom-select deparment-select", @id = "department" })
-                            </div>
-                            <div id="department-error-message"></div>
-                        </div> <!-- Department -->
-
-                        <div class="form-group input-group">
-                            <div class="input-group-prepend">
                                 <span class="input-group-text custom-symbol"><i class="fa fa-venus-mars"></i></span>
                             </div>
                             @Html.DropDownList("Gender", ViewBag.genders as SelectList, "Gender (*)", new { @class = "form-control custom-select ", @id = "gender" })
                         </div> <!-- Gender -->
-                        <div class="form-group input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text custom-symbol"><i class="fa fa-birthday-cake"></i></span>
-                            </div>
-                            <input placeholder="Date of birth (*)" class="form-control" type="text" onfocus="(this.type='date')" onblur="this.type='text'" id="brithofdate" name="brithofdate">
 
-                        </div> <!-- brithofdate -->
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text custom-symbol"><i class="fa fa-phone"></i></span>
@@ -99,12 +93,24 @@
                             </div>
                             <textarea rows="3" class="form-control" id="address" name="address" placeholder="Address (*)" maxlength="256"></textarea>
                         </div> <!-- address -->
+                        <p class="divider-text">
+                            <span class="bg-light">Doctor information</span>
+                        </p>
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text custom-symbol"><i class="fa-solid fa-syringe"></i></span>
                             </div>
                             <input type="text" class="form-control" id="specialy" name="specialy" placeholder="Specialty (*)" maxlength="256">
                         </div> <!-- Specialty -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text custom-symbol icon-for-select2"><i class="fa-solid fa-building-user"></i></span>
+                            </div>
+                            <div class="form-control department-box">
+                                @Html.DropDownList("Department", ViewBag.department as SelectList, "Department (*)", new { @class = "form-control custom-select deparment-select", @id = "department" })
+                            </div>
+                            <div id="department-error-message"></div>
+                        </div> <!-- Department -->
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text custom-symbol"><i class="fa-sharp fa-solid fa-briefcase"></i></span>
@@ -127,17 +133,18 @@
         </div>
     </div>
     @* index doctor *@
-    <div id="table-list-doctor" style=" " class="container justify-content-center  bg-white">
-        <div class=" container-fluid " style="width: auto">
-            <btn id="btn-open-form" class=" btn btn-sm btn-primary mb-3 "> Add Doctor </btn>
-            <div class="row">
-                <div class="col-12 card  p-3">
-                    <table id="DoctorTable" class=" dt-responsive  display nowrap" cellspacing="0" width="100%" style=" margin : auto">
-                    </table>
-                </div>
-            </div>
+
+
+
+    <div id="table-list-doctor" class="col-12 col-sm-12 col-md-12 p-1" style="margin-bottom: 5em">
+        <btn id="btn-open-form" class=" btn btn-sm btn-primary mb-3 "> Add Doctor </btn>
+        <div class="container-fluid content-wrapper mt-4 table-responsive card shadow pt-3 pb-3">
+            <table id="DoctorTable" class=" dt-responsive  display nowrap" cellspacing="0" width="100%" style=" margin : auto">
+            </table>
         </div>
     </div>
+
+
     @* Update doctor *@
     <div id="form-update-doctor" style=" " class="container justify-content-center  bg-white">
         <div id="error-message-update">
@@ -151,13 +158,23 @@
                 <div class="card-body">
                     <form id="form-edit-doctor" class="form-group" autocomplete="off">
                         <p class="divider-text">
-                            <span class="bg-light">Doctor account information</span>
+                            <span class="bg-light">Account information</span>
                         </p>
                         <div class="form-group">
 
                             <input type="text" class="form-control " hidden id="udoctorid">
                         </div><!--Update DoctorID -->
 
+
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text custom-symbol"><i class="fa fa-user"></i></span>
+                            </div>
+                            <input type="text" class="form-control" id="uusername" disabled>
+                        </div><!--Update Username -->
+                        <p class="divider-text">
+                            <span class="bg-light">Personal information</span>
+                        </p>
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text lcustom-symbol"><i class="fa fa-address-book"></i></span>
@@ -166,27 +183,11 @@
                         </div><!--Update Doctorname -->
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
-                                <span class="input-group-text custom-symbol"><i class="fa fa-user"></i></span>
+                                <span class="input-group-text custom-symbol"><i class="fa fa-birthday-cake"></i></span>
                             </div>
-                            <input type="text" class="form-control" id="uusername" disabled>
-                        </div><!--Update Username -->
+                            <input placeholder="Date of birth (*)" class="form-control" type="text" onfocus="(this.type='date')" onblur="this.type='text'" id="ubrithofdate" name="ubrithofdate">
 
-                        <div class="form-group input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text custom-symbol"><i class="fa fa-address-card"></i></span>
-                            </div>
-                            <input type="text" class="form-control" id="unationalid" name="unationalid" onkeypress="return isNumberKey(event)" placeholder="National ID (*)" maxlength="10">
-                        </div><!--Update Nationalid -->
-                        <div class="form-group input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text custom-symbol"><i class="fa-solid fa-building-user"></i></span>
-                            </div>
-                            <div class="form-control department-box">
-                                @Html.DropDownList("uDepartment", ViewBag.department as SelectList, new { @class = "form-control custom-select deparment-select", @id = "udepartment" })
-                            </div>
-                            <div id="udepartment-error-message"></div>
-                        </div> <!--Update Department -->
-
+                        </div> <!--Update brithofdate -->
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text custom-symbol"><i class="fa fa-venus-mars"></i></span>
@@ -195,11 +196,14 @@
                         </div> <!--Update Gender -->
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
-                                <span class="input-group-text custom-symbol"><i class="fa fa-birthday-cake"></i></span>
+                                <span class="input-group-text custom-symbol"><i class="fa fa-address-card"></i></span>
                             </div>
-                            <input placeholder="Date of birth (*)" class="form-control" type="text" onfocus="(this.type='date')" onblur="this.type='text'" id="ubrithofdate" name="ubrithofdate">
+                            <input type="text" class="form-control" id="unationalid" name="unationalid" onkeypress="return isNumberKey(event)" placeholder="National ID (*)" maxlength="10">
+                        </div><!--Update Nationalid -->
 
-                        </div> <!--Update brithofdate -->
+
+
+
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text custom-symbol"><i class="fa fa-phone"></i></span>
@@ -218,12 +222,24 @@
                             </div>
                             <textarea rows="3" class="form-control" id="uaddress" name="uaddress" placeholder="Address (*)" maxlength="256"></textarea>
                         </div> <!--Update address -->
+                        <p class="divider-text">
+                            <span class="bg-light">Doctor information</span>
+                        </p>
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text custom-symbol"><i class="fa-solid fa-syringe"></i></span>
                             </div>
                             <input type="text" class="form-control" id="uspecialy" name="uspecialy" placeholder="Specialty (*)" maxlength="256">
                         </div> <!--Update Specialty -->
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text custom-symbol"><i class="fa-solid fa-building-user"></i></span>
+                            </div>
+                            <div class="form-control department-box">
+                                @Html.DropDownList("uDepartment", ViewBag.department as SelectList, new { @class = "form-control custom-select deparment-select", @id = "udepartment" })
+                            </div>
+                            <div id="udepartment-error-message"></div>
+                        </div> <!--Update Department -->
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text custom-symbol"><i class="fa-sharp fa-solid fa-briefcase"></i></span>

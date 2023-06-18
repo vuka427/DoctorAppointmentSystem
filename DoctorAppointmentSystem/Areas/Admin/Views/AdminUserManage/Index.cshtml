@@ -32,12 +32,12 @@
                 </div>
                 <div class="card-body">
                     <form id="form-create-admin" class="form-group" autocomplete="off">
-                        
+
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text custom-symbol"><i class="fa fa-user"></i></span>
                             </div>
-                            <input type="text" class="form-control" id="username" name="username" placeholder="User name (*)"  maxlength="50">
+                            <input type="text" class="form-control" id="username" name="username" placeholder="User name (*)" maxlength="50">
                         </div><!-- Username -->
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
@@ -67,21 +67,16 @@
 
     </div>
     @* index admin user *@
-    <div id="list-admin-page" style=" " class="container justify-content-center  bg-white">
-        <div class=" container-fluid " style="width: auto">
-            <btn id="btn-open-form" class=" btn btn-sm btn-primary mb-3 "> Add Admin User </btn>
-            <div class="row">
-                <div class="col-12 card shadow p-3">
-                    <table id="AdminTable" class=" dt-responsive  display nowrap" cellspacing="0" width="100%" style=" margin : auto">
-                    </table>
-                </div>
-            </div>
+    <div id="list-admin-page" class="col-12 col-sm-12 col-md-12 p-1" style="margin-bottom: 5em">
+        <btn id="btn-open-form" class=" btn btn-sm btn-primary mb-3 "> Add Admin User </btn>
+        <div class="container-fluid content-wrapper mt-4 table-responsive card shadow pt-3 pb-3">
+            <table id="AdminTable" class=" dt-responsive  display nowrap" cellspacing="0" width="100%" style=" margin : auto">
+            </table>
         </div>
     </div>
     @* Update admin user *@
     <div id="update-admin-page" style=" " class="container justify-content-center  bg-white">
         <div id="error-message-update">
-
         </div>
         <div class="row  justify-content-center">
             <div class="col-8 card p-0 shadow border border-primary">
@@ -94,10 +89,8 @@
                             <span class="bg-light">Admin account information</span>
                         </p>
                         <div class="form-group">
-
                             <input type="text" class="form-control " hidden id="uadminid">
                         </div><!--admin user ID -->
-
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text custom-symbol"><i class="fa fa-user"></i></span>
@@ -110,8 +103,6 @@
                             </div>
                             <input type="email" class="form-control" id="uemail" name="uemail" placeholder="Email (*)">
                         </div> <!--Update email -->
-                       
-                        
                         <div class="form-group text-center">
                             <input type="submit" class="btn btn-primary" value="Update">
                             <btn id="btn-close-form-update" class="btn btn-secondary">Cancel</btn>

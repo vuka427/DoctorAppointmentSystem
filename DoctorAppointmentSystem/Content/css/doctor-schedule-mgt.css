@@ -16,7 +16,7 @@
 /*custom select department*/
 
 .select2.select2-container .select2-selection {
-    border: 1px solid #ccc;
+    border: 1px solid #ced4da;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 0px 3px 3px 0px;
@@ -79,18 +79,21 @@
             border: 1px solid #34495e;
         }
 
-            .select2-container .select2-dropdown .select2-results ul .select2-results__option--highlighted[aria-selected] {
-                background-color: #3498db;
-
+            .select2-container .select2-dropdown .select2-results ul li {
+                color: #495057;
+                padding-bottom: 1px !important;
+                padding-top: 1px !important;
+                line-height: 1.2em !important;
             }
-            .select2-container .select2-dropdown .select2-results ul .select2-results__option {
-                padding-top : 1px;
-                padding-bottom :1px;
+
+            .select2-container .select2-dropdown .select2-results ul .select2-results__option--highlighted[aria-selected] {
+                background-color: #007bff;
+                color: #f8f8f8;
             }
 
 .select2.select2-container {
     width: 100% !important;
-    height: 45px !important;
+    height: 37.6px !important;
 }
 
 .doctor-box {
