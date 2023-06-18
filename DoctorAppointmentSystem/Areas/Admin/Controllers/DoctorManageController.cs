@@ -44,6 +44,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
         {
             AdminMenu menu = new AdminMenu();
             ViewBag.menu = menu.RenderMenu("Doctor management");
+            ViewBag.avatar = GetInfo.GetImgPath(User.Identity.Name);
 
             var sysParam = _sysParam.GetAllParam();
 
@@ -382,7 +383,6 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             {
                 return Json(new { error = 1, msg = NameValidResult.ErrorMessage });
             }
-
             // check DOCTORGENDER
             var sysParam = _sysParam.GetAllParam();
             ValidationResult GenderValidResult = ValidationInput.GenderIsValid(model.DOCTORGENDER, sysParam);
@@ -532,8 +532,6 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
                 //write error log
                 return Json(new { error = 1, msg = ex.ToString() });
             }
-
-
             return Json(new { error = 0, msg = "ok" });
         }
 

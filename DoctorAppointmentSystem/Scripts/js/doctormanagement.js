@@ -330,12 +330,15 @@ function deleteDocTorByAjax(doctorid) {
         }
         if (data.error == 0) {
             $('#DoctorTable').DataTable().ajax.reload();
-            //showMessage("Delete doctor is success ", "Success !")
-           Swal.fire(
-                'Deleted!',
-                'Delete doctor is success !',
-                'success'
-            )
+            
+            Swal.fire({
+                position: 'top',
+                icon: 'success',
+                title: 'Deleted !',
+                text: 'Delete doctor is success !',
+                showConfirmButton: false,
+                timer: 2000
+            });
         }
     });
 }
@@ -362,18 +365,6 @@ function setEventUpdateDoctorFoBtn() {
 
 }
 
-//show message create from
-function showMessage(msg, title) {
-    $("#messageModalLabel").text(title);
-    $("#messageContent").text(msg);
-    $('#messageModal').modal('show');
-
-    console.log(msg);
-    document.body.scrollTop = 0; // For Safari
-    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-
-
-}
 
 // Jquery datatable
 function initJqueryDatatable() {
@@ -561,9 +552,16 @@ function validateFormDoctor() {
         var regex = /^(84|0[3|5|7|8|9])+([0-9]{8})\b$/;
         return value.trim().match(regex);
     });
-
+    jQuery.validator.addMethod('valid_username', function (value) {
+        var regex = /^[a-z0-9-]*$/;
+        return value.trim().match(regex);
+    });
     jQuery.validator.addMethod('valid_password', function (value) {
         var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,50}$/;
+        return value.trim().match(regex);
+    });
+    jQuery.validator.addMethod('valid_email', function (value) {
+        var regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})?$/;
         return value.trim().match(regex);
     });
     jQuery.validator.addMethod("greaterThan",
@@ -592,12 +590,13 @@ function validateFormDoctor() {
             "username": {
                 required: true,
                 maxlength: 50,
-                minlength: 3
+                minlength: 3,
+                valid_username: true,
             },
             "password": {
                 required: true,
-                maxlength: 50,
-                minlength: 6,
+                maxlength: 30,
+                minlength: 8,
                 valid_password: true
 
             },
@@ -629,7 +628,8 @@ function validateFormDoctor() {
             ,
             "email": {
                 required: true,
-                email: true
+                email: true,
+                valid_email: true
             }
             ,
             "Gender": {
@@ -660,12 +660,13 @@ function validateFormDoctor() {
             "username": {
                 required: "User name is required",
                 maxlength: "Username charater lenght is 3 to 50!",
-                minlength: "Username charater lenght is 3 to 50!"
+                minlength: "Username charater lenght is 3 to 50!",
+                valid_username: "Username does not contain any special characters"
             },
             "password": {
                 required: "Password is required",
-                maxlength: "Password charater lenght is 6 to 50!",
-                minlength: "Password charater lenght is 6 to 50!",
+                maxlength: "Maximum 30 characters",
+                minlength: "Minimum 8 characters",
                 valid_password: "Password charater at least one uppercase letter, one lowercase letter, one number and one special character"
             },
             "nationalid": {
@@ -693,7 +694,8 @@ function validateFormDoctor() {
             ,
             "email": {
                 required: "Email is required",
-                email: "wrong email format"
+                email: "wrong email format",
+                valid_email: "wrong email format"
             },
             "Gender": {
                 required: "Gender is required"

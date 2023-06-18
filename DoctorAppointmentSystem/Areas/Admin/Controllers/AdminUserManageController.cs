@@ -36,6 +36,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             _sysParam = sysParam;
             _mapper = mapper;
             _logger = logger;
+
         }
 
         // GET: Admin/UserAdminManage
@@ -43,6 +44,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
         {
             AdminMenu menu = new AdminMenu();
             ViewBag.menu = menu.RenderMenu("Admin management");
+            ViewBag.avatar = GetInfo.GetImgPath(User.Identity.Name);
 
             return View();
         }
@@ -104,7 +106,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
         public JsonResult CreateAdmin (AdminUserCreateModel model)
         {
             USER CurentUser = GetCurrentUser();
-            if (CurentUser != null)
+            if (CurentUser == null)
             {
                return Json(new { error = 1, msg = "Can't find current user !" });
             }
@@ -126,25 +128,25 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             ValidationResult PaswdValidResult = ValidationInput.PasswordIsValid(model.PASSWORD);
             if (!PaswdValidResult.Success)
             {
-                return Json(new { error = 1, msg = PaswdValidResult.ErrorMessage });
+                return Json(new { error = 1, msg = PaswdValidResult.ErrorMessage }); 
             }
 
             // check EMAIL
             ValidationResult EmailValidResult = ValidationInput.EmailIsValid(model.EMAIL);
             if (!EmailValidResult.Success)
             {
-                return Json(new { error = 1, msg = EmailValidResult.ErrorMessage });
+                return Json(new { error = 1, msg = EmailValidResult.ErrorMessage }); 
             }
             var emailmatch = _dbContext.USER.Where(u => u.EMAIL == model.EMAIL).ToList();
             if (emailmatch.Count > 0)
             {
-                return Json(new { error = 1, msg = "Email already exists!" });
+                return Json(new { error = 1, msg = "Email already exists!" }); 
             }
 
             var date = DateTime.Now;
           
             //check role exists
-            var role = _dbContext.ROLE.Where(r => r.ROLENAME == "Admin").FirstOrDefault();
+            var role = _dbContext.ROLE.Where(r => r.ROLENAME == "Admin").FirstOrDefault(); 
             if (role == null)
             {
                 role = _dbContext.ROLE.Add(new ROLE()
@@ -162,11 +164,11 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
                     _dbContext.SaveChanges();
 
                 }
-                catch (Exception ex)
+                catch 
                 {
                     //write error log
-                    _logger.InsertLog("Admin","create admin failed",nameof(CreateAdmin),"I",CurentUser.USERNAME);
-                    return Json(new { error = 1, msg = ex.ToString() });
+                    _logger.InsertLog("Admin","create admin is failed",nameof(CreateAdmin),"I",CurentUser.USERNAME);
+                    return Json(new { error = 1, msg = "create admin is failed !" });
                 }
             }
 
@@ -195,7 +197,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             {
                 _dbContext.SaveChanges();
             }
-            catch (Exception ex)
+            catch 
             {
                 //write error log
                 _logger.InsertLog("Admin", "create admin failed", nameof(CreateAdmin), "I", CurentUser.USERNAME);

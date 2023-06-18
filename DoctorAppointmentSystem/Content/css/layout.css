@@ -927,11 +927,21 @@ a:hover {
         margin-right: auto;
     }
 }
+@media (max-width: 750px) {
+    .custom-person-col {
+        width: 100%;
+    }
 
+    .main-header-label {
+        font-size: 1.5em;
+    }
+}
 @media (max-width: 709px) {
     .custom-person-col {
         width: 100%;
     }
+
+    
 }
 
 @media (max-width: 991px) and (min-width: 826px) {
@@ -942,6 +952,21 @@ a:hover {
 
     .custom-person {
         flex-direction: row;
+    }
+
+   
+}
+@media (max-width: 990px)  {
+     .header-sidebar-on {
+        margin-left: 60px !important;
+    }
+}
+
+@media (max-width: 670px) {
+
+
+    .main-header-label {
+        font-size: 1.2em;
     }
 }
 
@@ -955,12 +980,19 @@ a:hover {
     .custom-contact-right {
         padding-left: 15px;
     }
+    .main-header-label {
+        font-size: 1.2em;
+    }
+    
 }
 
 @media (max-width: 575px) {
     .custom-contact-form input,
     .custom-contact-form textarea {
         max-width: 100%;
+    }
+    .main-header-label {
+        font-size: 1em;
     }
 }
 
@@ -978,4 +1010,60 @@ a:hover {
     .custom-person img {
         max-width: 120px;
     }
+    .main-header-label {
+        font-size: 0.7em;
+    }
 }
+
+/* header sticky nnv-pat02*/
+
+.main-header {
+    position: sticky;
+    top: 0;
+    z-index: 99;
+}
+
+    .main-header.main-header .navbar .header-sidebar-off {
+        margin-left: 60px;
+    }
+    .main-header.main-header .navbar .header-sidebar-on {
+        margin-left: 300px;
+    }
+
+    .main-header nav.navbar.navbar-light.bg-light {
+        background: #747399 !important;
+        height: calc(31px + 42.4px)!important;
+    }
+
+        .main-header nav.navbar.navbar-light.bg-light a {
+            color: #fff;
+        }
+
+            .main-header nav.navbar.navbar-light.bg-light a:hover,
+            .main-header nav.navbar.navbar-light.bg-light .nav-item a:hover {
+                color: #fff;
+                opacity: .8;
+            }
+
+        .main-header nav.navbar.navbar-light.bg-light .nav-item a {
+            opacity: .5;
+        }
+
+        .main-header nav.navbar.navbar-light.bg-light .nav-item.active a {
+            color: #fff;
+            opacity: 1;
+        }
+.main-title-page {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.icon-logo-cusc-header{
+    height:35px;
+
+}
+.main-header-label{
+    margin-top:7px;
+    margin-left: 13px;
+}
+        

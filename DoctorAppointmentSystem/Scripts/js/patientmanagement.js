@@ -497,6 +497,10 @@ function validateFormPatient() {
         var regex = /^(84|0[3|5|7|8|9])+([0-9]{8})\b$/;
         return value.trim().match(regex);
     });
+    jQuery.validator.addMethod('valid_username', function (value) {
+        var regex = /^[a-z0-9-]*$/;
+        return value.trim().match(regex);
+    });
 
     jQuery.validator.addMethod('valid_password', function (value) {
         var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,50}$/;
@@ -523,12 +527,14 @@ function validateFormPatient() {
         rules: {
             "patientname": {
                 required: true,
-                maxlength: 50
+                maxlength: 50,
+                
             },
             "username": {
                 required: true,
                 maxlength: 50,
-                minlength: 3
+                minlength: 3,
+                valid_username: true
             },
             "password": {
                 required: true,
@@ -578,13 +584,14 @@ function validateFormPatient() {
             "username": {
                 required: "User name is required",
                 maxlength: "Username charater lenght is 3 to 50!",
-                minlength: "Username charater lenght is 3 to 50!"
+                minlength: "Username charater lenght is 3 to 50!",
+                valid_username: "Username does not contain any special characters"
             },
             "password": {
                 required: "Password is required",
-                maxlength: "Password charater lenght is 6 to 50!",
-                minlength: "Password charater lenght is 6 to 50!",
-                valid_password: "Password charater at least one uppercase letter, one lowercase letter, one number and one special character: [a-z],[A-Z],[0-9],[@$!%*?&]"
+                maxlength: "Maximum 30 characters",
+                minlength: "Minimum 8 characters",
+                valid_password: "Password charater at least one uppercase letter, one lowercase letter, one number and one special character"
             },
             "nationalid": {
                 required: "National ID is required",
