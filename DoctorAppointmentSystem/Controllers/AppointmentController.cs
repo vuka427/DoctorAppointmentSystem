@@ -43,6 +43,8 @@ namespace DoctorAppointmentSystem.Controllers
 
         public ActionResult History()
         {
+            ViewBag.consultantType = SystemParaHelper.GenerateByGroup("consultantType");
+            ViewBag.modeOfConsultant = SystemParaHelper.GenerateByGroup("modeOfConsultant");
             ViewBag.menu = RenderMenu.RenderPatientMenu("Appointment History");
             ViewBag.name = GetInfo.GetFullName(User.Identity.Name);
             ViewBag.avatar = GetInfo.GetImgPath(User.Identity.Name);
@@ -69,6 +71,14 @@ namespace DoctorAppointmentSystem.Controllers
             AppointmentViewModel data = appointmentIO.LoadAppointment(Convert.ToInt32(selectedDoctorID), User.Identity.Name, Convert.ToInt32(selectedScheduleID));
             return Json(new { data = data}, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult ViewAppointment(int appointmentID)
+        {
+            AppointmentViewModel data =  appointmentIO.ViewAppointment(appointmentID);
+            return Json(new { data }, JsonRequestBehavior.AllowGet);
+        }
+
+
 
         [HttpPost]
         public ActionResult MakeAppointmentAPI(AppointmentViewModel data)

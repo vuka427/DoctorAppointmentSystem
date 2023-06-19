@@ -69,7 +69,7 @@ namespace DoctorAppointmentSystem.Models.Appointment
                     results.Add(row);
 
                 }
-                
+
                 return results;
             }
         }
@@ -94,13 +94,72 @@ namespace DoctorAppointmentSystem.Models.Appointment
 
                     row.doctorName = doctor.DOCTORNAME;
                     row.appointmentStatus = appointment.APPOIMENTSTATUS;
-                    row.appointmentDate = appointment.APPOINTMENTDATE.Date.ToString("yyyy-MM-dd");
-                    row.appointmentTime = appointment.APPOINTMENTDATE.TimeOfDay.ToString(@"hh\:mm");
-                    row.appointmentDay = appointment.APPOINTMENTDATE.DayOfWeek.ToString();
+                    DateTime dateOfConsultation = (DateTime)appointment.DATEOFCONSULTATION;
+                    row.dateOfConsultation = dateOfConsultation.Date.ToString("yyyy-MM-dd");
+                    row.consultationTime = dateOfConsultation.TimeOfDay.ToString(@"hh\:mm");
+                    row.consultationDay = dateOfConsultation.DayOfWeek.ToString();
 
                     result.Add(row);
                 }
                 return result;
+            }
+        }
+
+        public AppointmentViewModel ViewAppointment(int appointmentID)
+        {
+            using (DBContext dbContext = new DBContext())
+            {
+                APPOINTMENT appointment = dbContext.APPOINTMENT.Find(appointmentID);
+
+                int doctorID = appointment.DOCTORID;
+                DOCTOR doctor = dbContext.DOCTOR.Find(doctorID);
+
+                int patientID = appointment.PATIENTID;
+                PATIENT patient = dbContext.PATIENT.Find(patientID);
+
+                int scheduleID = appointment.SCHEDULEID;
+                SCHEDULE schedule = dbContext.SCHEDULE.Find(scheduleID, doctorID);
+
+                AppointmentViewModel avm = new AppointmentViewModel();
+                
+                if(doctor != null && patient != null && schedule != null)
+                {
+                    // Doctor's Info
+                    string doctorGender = SystemParaHelper.GetParaval(doctor.DOCTORGENDER);
+                    avm.doctorName = doctor.DOCTORNAME;
+                    avm.doctorGender = doctorGender;
+                    avm.doctorSpeciality = doctor.SPECIALITY;
+
+                    // Patient's Info
+                    String patientGender = SystemParaHelper.GetParaval(patient.PATIENTGENDER);
+                    avm.patientName = patient.PATIENTNAME;
+                    avm.patientGender = patientGender;
+                    avm.patientDateOfBirth = patient.PATIENTDATEOFBIRTH.ToString("yyyy-MM-dd");
+
+                    // Appointment Details
+                    avm.modeOfConsultant = appointment.MODEOFCONSULTANT;
+                    avm.consultantType = appointment.CONSULTANTTYPE;
+
+                    DateTime dateOfConsultation = (DateTime)appointment.DATEOFCONSULTATION;
+                    avm.dateOfConsultation = dateOfConsultation.Date.ToString("yyyy-MM-dd");
+                    avm.consultationTime = dateOfConsultation.TimeOfDay.ToString(@"hh\:mm");
+                    DateTime appointmentDate = new DateTime();
+                    if (appointment.APPOINTMENTDATE != null)
+                    {
+                        appointmentDate = (DateTime)appointment.APPOINTMENTDATE;
+                    }
+                    
+                    avm.appointmentDate = appointmentDate.Date.ToString("yyyy-MM-dd");
+                    avm.appointmentTime = appointmentDate.TimeOfDay.ToString(@"hh\:mm");
+
+                    string consultantTime = SystemParaHelper.GetParaval(schedule.CONSULTANTTIME);
+                    avm.consultantTime = consultantTime;
+
+                    avm.symtoms = appointment.SYMTOMS;
+                    avm.existingIllness = appointment.EXISTINGILLNESS;
+                    avm.drugAlergies = appointment.DRUGALLERGIES;
+                }
+                return avm;
             }
         }
 
@@ -326,19 +385,20 @@ namespace DoctorAppointmentSystem.Models.Appointment
             {
                 int userID = GetInfo.GetUserID(username);
                 int patientID = GetInfo.GetPatientID(userID);
-                TimeSpan appointmentTime = TimeSpan.Parse(avm.appointmentTime);
-                DateTime appointmentDate = Convert.ToDateTime(avm.appointmentDate) + appointmentTime;
+                TimeSpan consultationTime = TimeSpan.Parse(avm.consultationTime);
+                DateTime dateOfConsultation = Convert.ToDateTime(avm.dateOfConsultation) + consultationTime;
 
-                DateTime truncatedDate = appointmentDate.Date;
+                DateTime truncatedDate = dateOfConsultation.Date;
                 List<APPOINTMENT> validList = dbContext.APPOINTMENT
-                    .Where(a => a.PATIENTID.Equals(patientID) && DbFunctions.TruncateTime(a.APPOINTMENTDATE) == truncatedDate)
+                    .Where(a => a.PATIENTID.Equals(patientID) && DbFunctions.TruncateTime(a.DATEOFCONSULTATION) == truncatedDate)
                     .ToList();
 
 
                 foreach (APPOINTMENT a in validList)
                 {
-                    TimeSpan hihi = a.APPOINTMENTDATE.TimeOfDay.Add(TimeSpan.FromMinutes(30));
-                    if (a.APPOINTMENTDATE.Date.Equals(appointmentDate.Date) && (appointmentDate.TimeOfDay.CompareTo(a.APPOINTMENTDATE.TimeOfDay.Add(TimeSpan.FromMinutes(30))) <= 0 && appointmentDate.TimeOfDay.CompareTo(a.APPOINTMENTDATE.TimeOfDay.Subtract(TimeSpan.FromMinutes(30))) >= 0 ))
+                    DateTime adateOfConsultation = (DateTime)a.DATEOFCONSULTATION;
+                    TimeSpan hihi = adateOfConsultation.TimeOfDay.Add(TimeSpan.FromMinutes(30));
+                    if (adateOfConsultation.Date.Equals(dateOfConsultation.Date) && (dateOfConsultation.TimeOfDay.CompareTo(adateOfConsultation.TimeOfDay.Add(TimeSpan.FromMinutes(30))) <= 0 && dateOfConsultation.TimeOfDay.CompareTo(adateOfConsultation.TimeOfDay.Subtract(TimeSpan.FromMinutes(30))) >= 0 ))
                     {
                         return false;
                     }
@@ -356,7 +416,7 @@ namespace DoctorAppointmentSystem.Models.Appointment
                 appointment.DRUGALLERGIES = avm.drugAlergies;
                 appointment.SCHEDULEID = avm.scheduleID;
 
-                appointment.APPOINTMENTDATE = appointmentDate;
+                appointment.DATEOFCONSULTATION = dateOfConsultation;
                 appointment.APPOIMENTSTATUS = "Pending";
 
                 appointment.CREATEDBY = username;
@@ -364,6 +424,10 @@ namespace DoctorAppointmentSystem.Models.Appointment
                 appointment.UPDATEDBY = username;
                 appointment.UPDATEDDATE = DateTime.Now;
                 appointment.DELETEDFLAG = false;
+
+                //-----------//
+                appointment.APPOINTMENTDATE = dateOfConsultation;
+                //-----------//
 
                 dbContext.APPOINTMENT.Add(appointment);
                 dbContext.SaveChanges();

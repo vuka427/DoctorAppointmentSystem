@@ -5,7 +5,7 @@
 // It is mandatory to choose Date of Consultation and Time before choosing Doctor
 function validateAppointment() {
     var dateOfConsultation = document.getElementById("dateOfConsultation").value;
-    var time = document.getElementById("time").value;
+    var time = document.getElementById("consultationTime").value;
     var doctorSelector = document.getElementById("doctorSelector");
 
     if (dateOfConsultation === "" || time === "") {
@@ -25,7 +25,7 @@ function validateAppointment() {
 // Get a list of doctors with corresponding work schedules and load data for Doctors select list
 function sendDataToServer() {
     var dateOfConsultation = document.getElementById("dateOfConsultation").value;
-    var time = document.getElementById("time").value;
+    var time = document.getElementById("consultationTime").value;
 
     if (dateOfConsultation !== "" && time !== "") {
         $.ajax({
@@ -59,7 +59,7 @@ function sendDataToServer() {
 var dateOfConsultationInput = document.getElementById("dateOfConsultation");
 dateOfConsultationInput.addEventListener("change", sendDataToServer);
 
-var timeInput = document.getElementById("time");
+var timeInput = document.getElementById("consultationTime");
 timeInput.addEventListener("change", sendDataToServer);
 
 
@@ -81,18 +81,18 @@ $(document).on('change', '#doctorSelector', function () {
     loadAppointment(selectedDoctorID, selectedScheduleID);
 })
 
-var appointmentDate = null;
-var time = null;
+var dateOfConsultation = null;
+var consultationTime = null;
 
 $(document).on('change', '#dateOfConsultation', function () {
-    appointmentDate = $('#dateOfConsultation').val();
+    dateOfConsultation = $('#dateOfConsultation').val();
     resetPTag();
     var selectTag = document.getElementById('doctorSelector');
     selectTag.selectedIndex = 0;
 })
 
-$(document).on('change', '#time', function () {
-    time = $('#time').val();
+$(document).on('change', '#consultationTime', function () {
+    consultationTime = $('#consultationTime').val();
     resetPTag();
     var selectTag = document.getElementById('doctorSelector');
     selectTag.selectedIndex = 0;
@@ -109,14 +109,15 @@ function loadAppointment(selectedDoctorID, selectedScheduleID) {
         },
         dataType: 'JSON',
         success: function (res) {
+            console.log(res.data);
             $('#doctorName').text(res.data.doctorName);
             $('#doctorGender').text(res.data.doctorGender);
             $('#speciality').text(res.data.doctorSpeciality);
             $('#patientName').text(res.data.patientName);
             $('#patientGender').text(res.data.patientGender);
             $('#dateOfBirth').text(res.data.patientDateOfBirth);
-            $('#appointmentDate').text(appointmentDate);
-            $('#appointmentTime').text(time);
+            $('#consultationDate').text(dateOfConsultation);
+            $('#time').text(consultationTime);
         },
         error: function (err) {
             console.log(err.responseText);
@@ -169,8 +170,8 @@ $('#appointmentForm').submit(function (event) {
                 symtoms: $('#symtoms').val(),
                 existingIllness: $('#existingIllness').val(),
                 drugAllargies: $('#drugAlergies').val(),
-                appointmentDate: $('#appointmentDate').text(),
-                appointmentTime: $('#appointmentTime').text()
+                dateOfConsultation: $('#consultationDate').text(),
+                consultationTime: $('#time').text()
             }
 
             $.ajax({
@@ -196,9 +197,11 @@ $('#appointmentForm').submit(function (event) {
 
                         // Reset all p tag
                         resetPTag()
-                        var pTag = document.getElementsByTagName('p');
-                        for (var item of pTag)
-                            item.textContent = ''
+
+                        var textareaTag = document.getElementsByTagName('textarea');
+                        for (var item of textareaTag)
+                            item.value = ''
+
                     } else {
                         Swal.fire({
                             position: 'top',

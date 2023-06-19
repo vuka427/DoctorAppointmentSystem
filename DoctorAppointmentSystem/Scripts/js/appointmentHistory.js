@@ -21,20 +21,20 @@
             searchable: true
         },
         {
-            data: 'appointmentDate',
+            data: 'dateOfConsultation',
             title: 'Date of Consultation',
             className: 'text-center',
             autoWidth: true,
             searchable: true
         },
         {
-            data: 'appointmentTime',
+            data: 'consultationTime',
             title: 'Time',
             autoWidth: true,
             searchable: true
         },
         {
-            data: 'appointmentDay',
+            data: 'consultationDay',
             title: 'Day',
             autoWidth: true,
             searchable: true
@@ -58,9 +58,9 @@
             render: function (data, type, row) {
                 return type === 'display' ?
                     '<div class="d-flex justify-content-round">'
-                    + '<a id="btn-view" data-appointmentid="' + data + '" class="btn btn-outline-info btn-sm btn-action" role="button" data-toggle="modal" data-target="#makeAppointmentModal">'
+                    + '<a data-appointmentid="' + data + '" class="btn btn-outline-info btn-sm btn-action" role="button" data-toggle="modal" data-target="#makeAppointmentModal">'
                     + '<i class="fa-solid fa-eye"></i></a>'
-                    +'<a id="btn-cancel" data-appointmentid="' + data + '" class="btn btn-outline-danger btn-sm btn-action" role="button">'
+                    +'<a data-appointmentid="' + data + '" class="btn btn-outline-danger btn-sm btn-action" role="button">'
                     + '<i class="fa-solid fa-circle-xmark"></i></a>'
                     +'</div>'
                     : data;
@@ -107,3 +107,35 @@ function styleForStatus() {
         }
     }
 }
+
+$(document).on('click', '.btn-action', function () {
+    var btnViewAppt = $(this);
+    var appointmentID = btnViewAppt.data('appointmentid');
+    $.ajax({
+        url: '/Appointment/ViewAppointment',
+        method: 'GET',
+        data: { appointmentID: appointmentID },
+        dataType: 'JSON',
+        success: function (res) {
+            var data = res.data;
+            $('#doctorName').text(data.doctorName);
+            $('#doctorGender').text(data.doctorGender);
+            $('#speciality').text(data.doctorSpeciality);
+            $('#patientName').text(data.patientName);
+            $('#dateOfBirth').text(data.patientDateOfBirth);
+            $('#patientGender').text(data.patientGender);
+            $('#modeOfConsultant').val(data.modeOfConsultant);
+            $('#consultantType').val(data.consultantType);
+            $('#dateOfConsultation').text(data.dateOfConsultation);
+            $('#consultationTime').text(data.consultationTime);
+            $('#appointmentDate').text(data.appointmentDate);
+            $('#appointmentTime').text(data.appointmentTime);
+            $('#symtoms').val(data.symtoms);
+            $('#existingIllness').val(data.existingIllness);
+            $('#drugAlergies').val(data.drugAlergies);
+        },
+        error: function (err) {
+            console.log(err.responseText);
+        }
+    })
+})

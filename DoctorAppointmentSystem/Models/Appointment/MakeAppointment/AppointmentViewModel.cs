@@ -24,6 +24,7 @@ namespace DoctorAppointmentSystem.Models.Appointment.MakeAppointment
         public string existingIllness { get; set; }
         public string drugAlergies { get; set; }
         public string appointmentDate { get; set; }
+        public string appointmentTime { get; set; }
         public string dateOfConsultation { get; set; }
         public string appointmentStatus { get; set; }
         public string closeDate { get; set; }
@@ -33,6 +34,6 @@ namespace DoctorAppointmentSystem.Models.Appointment.MakeAppointment
         public string diagnosis { get; set; }
         public string adviceToPatient { get; set; }
         public string labTests { get; set; }
-        public string appointmentTime { get; set; }
+        public string consultationTime { get; set; }
     }
 }

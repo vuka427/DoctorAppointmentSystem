@@ -43,31 +43,31 @@ namespace DoctorAppointmentSystem.Models.Account
 
             if (String.IsNullOrEmpty(user.username))
             {
-                message = "Please enter your username!";
+                message = "Please enter your username.";
             }
             else if (username_exists)
             {
-                message = "Username already exists! Please choose another!";
+                message = "Username already exists! Please choose another.";
             }
             else if (String.IsNullOrEmpty(user.password))
             {
-                message = "Please enter your password!";
+                message = "Please enter your password.";
             }
             else if (String.IsNullOrEmpty(user.email))
             {
-                message = "Please enter your email!";
+                message = "Please enter your email.";
             }
             else if (email_exists)
             {
-                message = "Email address already exists! Please choose another!";
+                message = "Email address already exists! Please choose another.";
             }
-            else if (user.passwordRecoveryQue1.ToString().Trim() == "0" || user.passwordRecoveryQue2.ToString().Trim() == "0"|| user.passwordRecoveryQue3.ToString().Trim() == "0")
+            else if (user.passwordRecoveryQue1.ToString().Trim() == "0" || user.passwordRecoveryQue2.ToString().Trim() == "0" || user.passwordRecoveryQue3.ToString().Trim() == "0")
             {
-                message = "Please select all authentication questions!";
+                message = "Please select all authentication questions.";
             }
-            else if (String.IsNullOrEmpty(user.passwordRecoveryAns1)|| String.IsNullOrEmpty(user.passwordRecoveryAns2)|| String.IsNullOrEmpty(user.passwordRecoveryAns3))
+            else if (String.IsNullOrEmpty(user.passwordRecoveryAns1) || String.IsNullOrEmpty(user.passwordRecoveryAns2) || String.IsNullOrEmpty(user.passwordRecoveryAns3))
             {
-                message = "Please answer all authentication questions!";
+                message = "Please answer all authentication questions.";
             }
             else
             {
@@ -89,31 +89,31 @@ namespace DoctorAppointmentSystem.Models.Account
 
             if (String.IsNullOrEmpty(patient.fullName))
             {
-                message = "Please enter your full name!";
+                message = "Please enter your full name.";
             }
             else if (String.IsNullOrEmpty(patient.nationalID))
             {
-                message = "Please enter your National ID!";
+                message = "Please enter your National ID.";
             }
             else if (nationalID_exists)
             {
-                message = "National ID already exists! Please choose another!";
+                message = "National ID already exists! Please choose another.";
             }
             else if (String.IsNullOrEmpty(patient.dateOfBirth))
             {
-                message = "Please enter your date of birth!";
+                message = "Please enter your date of birth.";
             }
             else if (patient.gender.ToString().Trim() == "0")
             {
-                message = "Please select gender!";
+                message = "Please select gender.";
             }
             else if (String.IsNullOrEmpty(patient.phoneNumber))
             {
-                message = "Please enter your phone number!";
+                message = "Please enter your phone number.";
             }
             else if (String.IsNullOrEmpty(patient.address))
             {
-                message = "Please enter your address!";
+                message = "Please enter your address.";
             }
             else
             {
@@ -135,7 +135,7 @@ namespace DoctorAppointmentSystem.Models.Account
             user.USERNAME = uvm.username.Trim();
             user.PASSWORDHASH = PasswordHelper.HashPassword(uvm.password).Trim();
             user.EMAIL = uvm.email.Trim();
-            user.LASTLOGIN = DateTime.Now;
+            user.LASTLOGIN = null;
             user.USERTYPE = "Patient";
             user.PASSWORDRECOVERYQUE1 = uvm.passwordRecoveryQue1;
             user.PASSWORDRECOVERYANS1 = uvm.passwordRecoveryAns1.Trim();
@@ -151,7 +151,7 @@ namespace DoctorAppointmentSystem.Models.Account
             user.UPDATEDBY = uvm.username.Trim();
             user.UPDATEDDATE = DateTime.Now;
             user.DELETEDFLAG = false;
-            if(uvm.profilePicture != null)
+            if (uvm.profilePicture != null)
             {
                 user.AVATARURL = RenameProfilePicture(uvm.username, uvm.profilePicture);
             }
@@ -193,11 +193,67 @@ namespace DoctorAppointmentSystem.Models.Account
             dbContext.SaveChanges();
         }
 
-        public void CreateNewAccount(UserViewModel user, PatientViewModel patient , out string message)
+        public void CreateNewAccount(UserViewModel user, PatientViewModel patient, out string message)
         {
-            message = "Account successfully created!";
+            message = "Please check your email to activate your account before logging in.";
             CreateNewUser(user);
             CreateNewPatient(patient, user.username);
+        }
+
+        public bool IsValidToken(string token, string expires, ref string username)
+        {
+            try
+            {
+                if (token == null)
+                {
+                    throw new ArgumentNullException();
+                }
+
+                List<USER> uList = dbContext.USER.Where(u => u.LASTLOGIN == null).ToList();
+                foreach (USER user in uList)
+                {
+                    string reGenerateToken = PasswordHelper.HashPassword(user.USERNAME.Trim()).Trim();
+                    if (token.Equals(reGenerateToken))
+                    {
+                        username = user.USERNAME;
+                        long currentUnixTime = DateTimeOffset.Now.ToUnixTimeSeconds();
+                        long expirationUnixTime = long.Parse(expires);
+
+                        if (currentUnixTime > expirationUnixTime)
+                        {
+                            throw new Exception("The activation link has expires.");
+                        }
+
+                        return true;
+                    }
+                }
+
+                throw new Exception("Account not found!");
+            }
+            catch (Exception ex)
+            {
+                string sEventCatg = "PATIENT PORTAL";
+                string sEventMsg = "Exception: " + ex.Message;
+                string sEventSrc = "IsValidToken";
+                string sEventType = "S";
+                string sInsBy = username;
+
+                Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
+
+                return false;
+            }
+        }
+
+
+
+        public void ActivateAccount(string username)
+        {
+            USER user = dbContext.USER.Where(u => u.USERNAME.Equals(username)).FirstOrDefault();
+            if (user != null)
+            {
+                user.LASTLOGIN = DateTime.Now;
+                dbContext.SaveChanges();
+            }
         }
     }
 }

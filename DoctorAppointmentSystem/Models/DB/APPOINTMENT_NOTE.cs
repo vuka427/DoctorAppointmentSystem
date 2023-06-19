@@ -18,7 +18,7 @@ namespace DoctorAppointmentSystem.Models.DB
         public int APPOINTMENTID { get; set; }
         public string NOTE { get; set; }
     
-        public virtual PRESCRIPTION PRESCRIPTION { get; set; }
         public virtual APPOINTMENT APPOINTMENT { get; set; }
+        public virtual PRESCRIPTION PRESCRIPTION { get; set; }
     }
 }

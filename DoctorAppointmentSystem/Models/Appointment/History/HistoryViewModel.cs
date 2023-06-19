@@ -9,9 +9,9 @@ namespace DoctorAppointmentSystem.Models.Appointment.History
     {
         public int appointmentID { get; set; }
         public string doctorName { get; set; }
-        public string appointmentDay { get; set; }
-        public string appointmentDate { get; set; }
+        public string consultationDay { get; set; }
+        public string dateOfConsultation { get; set; }
         public string appointmentStatus { get; set; }
-        public string appointmentTime { get; set; }
+        public string consultationTime { get; set; }
     }
 }
