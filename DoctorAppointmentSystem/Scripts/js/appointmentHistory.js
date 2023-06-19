@@ -1,5 +1,7 @@
 ﻿var table = $('#historyTbl').DataTable({
-    responsive: true,
+    language: {
+        emptyTable: "You haven't booked any appointments yet."
+    },
     columns: [
         {
             className: 'dt-control',
@@ -25,7 +27,8 @@
             title: 'Date of Consultation',
             className: 'text-center',
             autoWidth: true,
-            searchable: true
+            searchable: true,
+            orderData: [3]
         },
         {
             data: 'consultationTime',
@@ -58,11 +61,11 @@
             render: function (data, type, row) {
                 return type === 'display' ?
                     '<div class="d-flex justify-content-round">'
-                    + '<a data-appointmentid="' + data + '" class="btn btn-outline-info btn-sm btn-action" role="button" data-toggle="modal" data-target="#makeAppointmentModal">'
+                    + '<a data-appointmentid="' + data + '" class="btn btn-outline-info btn-sm btn-action btn-viewAppt" role="button" data-toggle="modal" data-target="#makeAppointmentModal">'
                     + '<i class="fa-solid fa-eye"></i></a>'
-                    +'<a data-appointmentid="' + data + '" class="btn btn-outline-danger btn-sm btn-action" role="button">'
+                    + '<a data-appointmentid="' + data + '" class="btn btn-outline-danger btn-sm btn-action btn-cancelAppt" role="button">'
                     + '<i class="fa-solid fa-circle-xmark"></i></a>'
-                    +'</div>'
+                    + '</div>'
                     : data;
             }
         }
@@ -108,7 +111,7 @@ function styleForStatus() {
     }
 }
 
-$(document).on('click', '.btn-action', function () {
+$(document).on('click', '.btn-viewAppt', function () {
     var btnViewAppt = $(this);
     var appointmentID = btnViewAppt.data('appointmentid');
     $.ajax({
@@ -118,6 +121,7 @@ $(document).on('click', '.btn-action', function () {
         dataType: 'JSON',
         success: function (res) {
             var data = res.data;
+            console.log(res.data);
             $('#doctorName').text(data.doctorName);
             $('#doctorGender').text(data.doctorGender);
             $('#speciality').text(data.doctorSpeciality);
@@ -138,4 +142,55 @@ $(document).on('click', '.btn-action', function () {
             console.log(err.responseText);
         }
     })
+})
+
+$(document).on('click', '.btn-cancelAppt', function () {
+    var btnCancelAppt = $(this);
+    var appointmentID = btnCancelAppt.data('appointmentid');
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+            confirmButton: 'btn btn-success mr-2',
+            cancelButton: 'btn btn-danger'
+        },
+        buttonsStyling: false
+    })
+    swalWithBootstrapButtons.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        position: 'top',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: '/Appointment/CancelAppointment',
+                method: 'POST',
+                data: { appointmentID: appointmentID },
+                dataType: 'JSON',
+                success: function (res) {
+                    if (res.success) {
+                        Swal.fire({
+                            title: 'Deleted!',
+                            text: 'Your file has been deleted.',
+                            icon: 'success',
+                            position: 'top',
+                            showConfirmButton: false,
+                            timer: 2000
+                        })
+                        loadData();
+                    } else {
+                        console.log(res.message)
+                    }
+
+                },
+                error: function (err) {
+                    console.log(err.responseText);
+                }
+            })
+        }
+    })
+
 })

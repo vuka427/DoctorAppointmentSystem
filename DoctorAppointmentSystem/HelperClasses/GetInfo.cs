@@ -9,6 +9,8 @@ namespace DoctorAppointmentSystem.HelperClasses
 {
     public class GetInfo
     {
+        public static string Username { get; set; }
+
         public static string GetFullName(string username)
         {
             using (DBContext dbContext = new DBContext())

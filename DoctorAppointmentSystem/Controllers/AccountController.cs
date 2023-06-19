@@ -39,6 +39,7 @@ namespace DoctorAppointmentSystem.Controllers
                     if (user.LASTLOGIN != null)
                     {
                         FormsAuthentication.SetAuthCookie(model.Username, false);
+                        GetInfo.Username = model.Username.Trim();
                         string action = "";
                         string controller = "";
                         loginIO.UserRedirects(user, out action, out controller);
@@ -159,7 +160,7 @@ namespace DoctorAppointmentSystem.Controllers
                 }
                 else
                 {
-                    throw new Exception("Account activation failed! Incorrect or expired link. Please check your email again.");
+                    throw new Exception("Account activation failed.");
                 }
             }
             catch (Exception ex)

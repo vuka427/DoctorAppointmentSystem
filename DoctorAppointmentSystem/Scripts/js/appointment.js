@@ -169,7 +169,7 @@ $('#appointmentForm').submit(function (event) {
                 modeOfConsultant: $('#modeOfConsultant').val(),
                 symtoms: $('#symtoms').val(),
                 existingIllness: $('#existingIllness').val(),
-                drugAllargies: $('#drugAlergies').val(),
+                drugAlergies: $('#drugAlergies').val(),
                 dateOfConsultation: $('#consultationDate').text(),
                 consultationTime: $('#time').text()
             }
