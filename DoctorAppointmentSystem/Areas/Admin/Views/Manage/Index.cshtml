@@ -4,50 +4,58 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Dashboard</h2>
+<h2 class="ml-2">Dashboard</h2>
 
 
-<div class="row">
+<div class="row m-2">
     <!-- Status -->
-    <article class="col-12">
+    <article class="col-12 col-md-5 custom-post">
         <hr class="custom-hr-primary" />
-      
-
-        <div class="custom-status-wrapper d-flex flex-wrap justify-content-center">
-
+        <h4>Status</h4>
+        <div class="custom-status-wrapper d-flex flex-wrap justify-content-center mt-5">
             <div class="custom-card">
-                <a href="@Url.Action("Index", "DoctorManage", new {area = "Admin"})">
-                    <div class="row custom-card-body d-flex flex-wrap justify-content-between align-items-center">
-                        <div class="col-8 col-md-8">
+
+                <div class="row custom-card-body d-flex flex-wrap justify-content-between align-items-center">
+
+                    <div class="col-8 col-md-8">
+                        <a href="@Url.Action("Index", "DoctorManage", new {area = "Admin"})">
                             <p class="h3">@ViewBag.DoctorCount </p>
                             <h5 class="custom-card-title">All Doctors</h5>
-                        </div>
-                        <span class="col-3 col-md-3 custom-card-icon text-center">
-                            <i class="fas fa-users"></i>
-                        </span>
+                        </a>
                     </div>
-                </a>
+
+                    <span class="col-3 col-md-3 custom-card-icon text-center">
+                        <i class="fas fa-users"></i>
+                    </span>
+                </div>
+
             </div>
 
             <div class="custom-card">
-                <a href="@Url.Action("Index", "PatientManage", new {area = "Admin"})">
-                    <div class="row custom-card-body d-flex flex-wrap justify-content-between align-items-center">
-                        <div class="col-8 col-md-8">
+
+                <div class="row custom-card-body d-flex flex-wrap justify-content-between align-items-center">
+
+                    <div class="col-8 col-md-8">
+                        <a href="@Url.Action("Index", "PatientManage", new {area = "Admin"})">
+
                             <p class="h3">@ViewBag.PatientCount</p>
                             <h5 class="custom-card-title">All Patients</h5>
-                        </div>
-                        <span class="col-3 col-md-3 custom-card-icon text-center">
-                            <i class="fas fa-wheelchair"></i>
-                        </span>
+                        </a>
+
                     </div>
-                </a>
+
+                    <span class="col-3 col-md-3 custom-card-icon text-center">
+                        <i class="fas fa-wheelchair"></i>
+                    </span>
+                </div>
+
             </div>
 
             <div class="custom-card">
-                <div class="row custom-card-body d-flex flex-wrap justify-content-between align-items-center">
+                <div class="custom-card-body d-flex flex-nowrap justify-content-between align-items-center">
                     <div class="col-8 col-md-8">
-                        <p class="h3" >1</p>
-                        <h5 class="custom-card-title">New Booking</h5>
+                        <p id="newBooking">@ViewBag.newBooking</p>
+                        <span class="custom-card-title">New Booking</span>
                     </div>
                     <span class="col-3 col-md-3 custom-card-icon text-center">
                         <i class="far fa-bookmark"></i>
@@ -56,10 +64,10 @@
             </div>
 
             <div class="custom-card">
-                <div class="row custom-card-body d-flex flex-wrap justify-content-between align-items-center">
+                <div class="custom-card-body d-flex flex-nowrap justify-content-between align-items-center">
                     <div class="col-8 col-md-8">
-                        <p class="h3" >1</p>
-                        <h5 class="custom-card-title">Today Sessions</h5>
+                        <p id="todaySessions">@ViewBag.todaySessions</p>
+                        <span class="custom-card-title">Today Sessions</span>
                     </div>
                     <span class="col-3 col-md-3 custom-card-icon text-center">
                         <i class="fas fa-calendar-alt"></i>
@@ -69,7 +77,31 @@
         </div>
     </article>
 
+    <article class="col-12 col-md-7 custom-post">
+        <hr class="custom-hr-primary" />
+        @{
+            var today = DateTime.Now;
+
+            var thisWeekStart = today.AddDays(-(int)today.DayOfWeek + 1);
+            var thisWeekEnd = thisWeekStart.AddDays(7).AddSeconds(-1);
+        }
+        <h4>Booking (@thisWeekStart.ToShortDateString() - @thisWeekEnd.ToShortDateString())</h4>
+        <div class="container-fluid pt-3 content-wrapper table-responsive" style="font-size: 1em">
+
+            <div>
+                <canvas id="myChart"></canvas>
+            </div>
+
+        </div>
+    </article>
+
 </div>
 
 
 
+@section scripts{
+    @Scripts.Render("~/bundles/admin/chart")
+    @Scripts.Render("~/bundles/admin/dashboard")
+
+
+}
