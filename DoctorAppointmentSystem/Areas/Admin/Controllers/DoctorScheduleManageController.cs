@@ -47,6 +47,8 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             AdminMenu menu = new AdminMenu();
             ViewBag.menu = menu.RenderMenu("Doctor Schedule");
             ViewBag.avatar = GetInfo.GetImgPath(User.Identity.Name);
+            var user = GetCurrentUser();
+            ViewBag.Name = user != null ? user.USERNAME : "";
 
             var listDoctor = _dbContext.DOCTOR.Where(d => d.DELETEDFLAG == false).ToList();
             var ListConsultantTime = _sysParam.GetAllParam().Where(p => p.GROUPID == "ConsultantTime").ToList();

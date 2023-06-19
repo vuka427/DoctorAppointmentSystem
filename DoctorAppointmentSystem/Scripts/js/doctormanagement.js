@@ -104,6 +104,8 @@ function setSubmitFormByAjax() {
                     $('#DoctorTable').DataTable().ajax.reload();
                     $("#l-form-doctor").hide();
                     $("#table-list-doctor").show();
+
+                   
                    
                     Swal.fire({
                         position: 'top',
@@ -114,6 +116,8 @@ function setSubmitFormByAjax() {
                         timer: 2000
                     });
                     $("#form-create-doctor").trigger('reset');
+                    $('#password').get(0).type = 'password';
+                    
                 }
             });
         }
@@ -556,6 +560,7 @@ function validateFormDoctor() {
         var regex = /^[a-z0-9-]*$/;
         return value.trim().match(regex);
     });
+  
     jQuery.validator.addMethod('valid_password', function (value) {
         var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,50}$/;
         return value.trim().match(regex);
@@ -585,7 +590,8 @@ function validateFormDoctor() {
         rules: {
             "doctorname": {
                 required: true,
-                maxlength: 50
+                maxlength: 50,
+                
             },
             "username": {
                 required: true,
@@ -655,6 +661,7 @@ function validateFormDoctor() {
             "doctorname": {
                 required: "Doctor name is required",
                 maxlength: "Doctor name charater max lenght is 50!",
+               
                 
             },
             "username": {

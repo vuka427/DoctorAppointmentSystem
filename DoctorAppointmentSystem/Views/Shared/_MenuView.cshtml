@@ -1,4 +1,24 @@
-﻿<div class="custom-site-header">
+﻿@using DoctorAppointmentSystem.Models.DB;
+@{
+    USER currentUser = null;
+    if (User.Identity.IsAuthenticated == true)
+    {
+        var userName = User.Identity.Name;
+        if (userName != null)
+        {
+            using (DBContext dbContext = new DBContext())
+            {
+                currentUser = dbContext.USER.Where(u => u.USERNAME == userName && u.DELETEDFLAG == false).FirstOrDefault();
+
+            }
+
+        }
+    }
+}
+
+
+
+<div class="custom-site-header">
     <div class="mb-3 mx-auto custom-site-logo">
         <img src=@ViewBag.avatar />
     </div>
@@ -8,7 +28,23 @@
             <i class="fa fa-cogs text-muted" style="font-size: 1.7rem;"></i>
         </a>
         <div class="dropdown-menu custom-dropdown-meunu" aria-labelledby="dropdownMenuLink">
-            <a class="dropdown-item custom-dropdown-item" href=@Url.Action("Index", "Profile")>View Profile</a>
+            @if (currentUser != null)
+            {
+                if (currentUser.USERTYPE == "Admin")
+                {
+                    <a class="dropdown-item custom-dropdown-item" href=@Url.Action("Index", "AdminProfile", new {area = "Admin" } )>View Profile</a>
+                }
+                else
+                {
+                    <a class="dropdown-item custom-dropdown-item" href=@Url.Action("Index", "Profile")>View Profile</a>
+                }
+            }
+            else
+            { 
+                <a class="dropdown-item custom-dropdown-item" href=@Url.Action("Index", "Profile")>View Profile</a>
+            }
+
+
             <a class="dropdown-item custom-dropdown-item" href="#">Change Password</a>
         </div>
     </div>
@@ -43,11 +79,11 @@
                                 @item.title
                             </a>
                         </li>
-                        }
-
                     }
+
                 }
             }
+        }
 
     </ul>
 </nav>

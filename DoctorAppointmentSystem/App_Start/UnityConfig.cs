@@ -24,8 +24,11 @@ namespace DoctorAppointmentSystem.App_Start
             container.RegisterType<ISystemParamService, SystemParamService>(TypeLifetime.Singleton);
             container.RegisterType<IMapperService, MapperService>(TypeLifetime.Transient);
             container.RegisterType<IloggerService, LoggerService>(TypeLifetime.Transient);
+            //register IO 
             container.RegisterType<DoctorScheduleIO, DoctorScheduleIO>(TypeLifetime.Transient);
             container.RegisterType<AppointmentIO, AppointmentIO>(TypeLifetime.Transient);
+            container.RegisterType<DashboardIO, DashboardIO>(TypeLifetime.Transient);
+            container.RegisterType<DoctorIO, DoctorIO>(TypeLifetime.Transient);
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }
     }

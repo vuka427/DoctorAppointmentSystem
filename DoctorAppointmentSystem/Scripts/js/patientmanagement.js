@@ -94,6 +94,7 @@ function setSubmitFormByAjax() {
                         timer: 2000
                     });
                     $("#form-create-patient").trigger('reset');
+                    $('#password').get(0).type = 'password';
 
                 }
             });
