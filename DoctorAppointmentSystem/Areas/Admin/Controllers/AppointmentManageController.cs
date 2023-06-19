@@ -41,6 +41,8 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             AdminMenu menu = new AdminMenu();
             ViewBag.menu = menu.RenderMenu("Appointment");
             ViewBag.avatar = GetInfo.GetImgPath(User.Identity.Name);
+            var user = GetCurrentUser();
+            ViewBag.Name = user != null ? user.USERNAME : "";
 
             return View();
         }
@@ -113,5 +115,21 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
 
         }
 
+        [NonAction]
+        private USER GetCurrentUser()
+        {
+            if (User.Identity.IsAuthenticated == true)
+            {
+                var userName = User.Identity.Name;
+                if (userName != null)
+                {
+                    var currentUser = _dbContext.USER.Where(u => u.USERNAME == userName && u.DELETEDFLAG == false).FirstOrDefault();
+                    return currentUser;
+                }
+            }
+
+
+            return null;
+        }
     }
 }

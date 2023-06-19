@@ -153,6 +153,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\AdminProfileController.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminUserManageController.cs" />
     <Compile Include="Areas\Admin\Controllers\AppointmentManageController.cs" />
     <Compile Include="Areas\Admin\Controllers\DoctorManageController.cs" />
@@ -160,6 +161,7 @@
     <Compile Include="Areas\Admin\Controllers\ManageController.cs" />
     <Compile Include="Areas\Admin\Controllers\PatientManageController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserManageController.cs" />
+    <Compile Include="Areas\Admin\Models\AdminProfile\AdminProfileViewModel.cs" />
     <Compile Include="Areas\Admin\Models\AdminUser\AdminUserCreateModel.cs" />
     <Compile Include="Areas\Admin\Models\AdminUser\AdminUserEditModel.cs" />
     <Compile Include="Areas\Admin\Models\AdminUser\AdminUserViewEditModel.cs" />
@@ -169,7 +171,9 @@
     <Compile Include="Areas\Admin\Models\AppointmentManage\AppointmentViewDetailsModel.cs" />
     <Compile Include="Areas\Admin\Models\AppointmentManage\ApponitmentViewModel.cs" />
     <Compile Include="Areas\Admin\Models\AppointmentManage\Mapping\MapAppointmentProfile.cs" />
+    <Compile Include="Areas\Admin\Models\DashboardIO.cs" />
     <Compile Include="Areas\Admin\Models\DataTableModel\JqueryDatatableParam.cs" />
+    <Compile Include="Areas\Admin\Models\DoctorIO.cs" />
     <Compile Include="Areas\Admin\Models\DoctorManage\DoctorCreateModel.cs" />
     <Compile Include="Areas\Admin\Models\DoctorManage\DoctorEditModel.cs" />
     <Compile Include="Areas\Admin\Models\DoctorManage\DoctorViewEditModel.cs" />
@@ -288,6 +292,7 @@
     <Content Include="Content\bootstrap-lib\bootstrap.min.css" />
     <Content Include="Content\bootstrap-lib\jquery.dataTables.min.css" />
     <Content Include="Content\bootstrap-lib\responsive.bootstrap.min.css" />
+    <Content Include="Content\css\admin-appointment.css" />
     <Content Include="Content\css\custom-input.css" />
     <Content Include="Content\css\doctor-management.css" />
     <Content Include="Content\css\doctor-schedule-mgt.css" />
@@ -319,6 +324,10 @@
     <Content Include="lib\bootstrap-sweetalert\sweetalert.js" />
     <Content Include="lib\bootstrap-sweetalert\sweetalert.min.css" />
     <Content Include="lib\bootstrap-sweetalert\sweetalert.min.js" />
+    <Content Include="lib\chart.js\Chart.bundle.js" />
+    <Content Include="lib\chart.js\Chart.bundle.min.js" />
+    <Content Include="lib\chart.js\Chart.js" />
+    <Content Include="lib\chart.js\Chart.min.js" />
     <Content Include="lib\font-awesome\css\all.css" />
     <Content Include="lib\font-awesome\css\all.min.css" />
     <Content Include="lib\font-awesome\css\brands.css" />
@@ -513,6 +522,8 @@
     <Content Include="Models\DB\DBContext.edmx.diagram">
       <DependentUpon>DBContext.edmx</DependentUpon>
     </Content>
+    <Content Include="Areas\Admin\Views\AdminProfile\Index.cshtml" />
+    <Content Include="libman.json" />
     <None Include="Scripts\bootstrap-lib-js\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\bootstrap-lib-js\jquery.dataTables.min.js" />
     <Content Include="Scripts\bootstrap-lib-js\jquery.validate.js" />
@@ -521,6 +532,8 @@
     <Content Include="Scripts\bootstrap-lib-js\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\bootstrap-lib-js\modernizr-2.8.3.js" />
     <Content Include="Scripts\js\adminmanagement.js" />
+    <Content Include="Scripts\js\adminProfile.js" />
+    <Content Include="Scripts\js\appointmentAdmMng.js" />
     <Content Include="Scripts\js\appointmentManagement.admin.js" />
     <Content Include="Scripts\js\doctormanagement.js" />
     <Content Include="Scripts\js\doctorScheduleManagment.admin.js" />
@@ -528,6 +541,7 @@
     <Content Include="Scripts\js\intro.js" />
     <Content Include="Scripts\js\layout.js" />
     <Content Include="Scripts\js\appointment.js" />
+    <Content Include="Scripts\js\managementDashboard.js" />
     <Content Include="Scripts\js\patientmanagement.js" />
     <Content Include="Areas\Admin\Views\DoctorManage\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Manage\Index.cshtml" />

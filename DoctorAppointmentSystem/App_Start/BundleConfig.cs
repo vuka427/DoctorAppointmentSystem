@@ -43,6 +43,10 @@ namespace DoctorAppointmentSystem
             bundles.Add(new StyleBundle("~/Content/datatable").Include(
                 "~/Content/bootstrap-lib/jquery.dataTables.min.css"));
 
+            //Config ScriptBundle and StyleBundle Chart.js
+            bundles.Add(new ScriptBundle("~/bundles/admin/chart").Include(
+                     "~/lib/chart.js/Chart.js"));
+
             //Config ScriptBundle and StyleBundle doctor management
             bundles.Add(new ScriptBundle("~/bundles/admin/doctor").Include(
                      "~/Scripts/js/doctormanagement.js"));
@@ -87,6 +91,17 @@ namespace DoctorAppointmentSystem
             //Config ScriptBundle and StyleBundle appointment management for admin
             bundles.Add(new ScriptBundle("~/bundles/admin/appointment").Include(
                      "~/Scripts/js/appointmentManagement.admin.js"));
+            bundles.Add(new StyleBundle("~/Content/admin/appointment").Include(
+                 "~/Content/css/admin-appointment.css"));
+            //Config ScriptBundle and StyleBundle admin profile
+            bundles.Add(new ScriptBundle("~/bundles/admin/profile").Include(
+                     "~/Scripts/js/adminProfile.js"));
+            //Config ScriptBundle and StyleBundle admin dashboard
+            bundles.Add(new ScriptBundle("~/bundles/admin/dashboard").Include(
+                     "~/Scripts/js/managementDashboard.js"));
+
+           
+
         }
     }
 }

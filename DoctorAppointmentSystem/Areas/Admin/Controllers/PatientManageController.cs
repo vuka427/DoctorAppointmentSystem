@@ -40,6 +40,8 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             AdminMenu menu = new AdminMenu();
             ViewBag.menu = menu.RenderMenu("Patient management");
             ViewBag.avatar = GetInfo.GetImgPath(User.Identity.Name);
+            var user = GetCurrentUser();
+            ViewBag.Name = user != null ? user.USERNAME : "";
             var sysParam = _sysParam.GetAllParam();
             ViewBag.genders = ViewBag.genders = new SelectList(sysParam.Where(c => c.GROUPID.Equals("Gender")).ToList(), "ID", "PARAVAL");
             
