@@ -201,11 +201,14 @@
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
+    <Compile Include="Controllers\ScheduleOfDoctorsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="HelperClasses\Config.cs" />
+    <Compile Include="HelperClasses\EmailSender.cs" />
     <Compile Include="HelperClasses\GetInfo.cs" />
+    <Compile Include="HelperClasses\Logger.cs" />
     <Compile Include="HelperClasses\PasswordHelper.cs" />
     <Compile Include="HelperClasses\SystemParaHelper.cs" />
     <Compile Include="Menu\MenuItem.cs" />
@@ -302,6 +305,7 @@
     <Content Include="Content\css\appointment.css" />
     <Content Include="Content\css\patient-management.css" />
     <Content Include="Content\css\profile.css" />
+    <Content Include="Content\css\scheduleOfDoctors.css" />
     <Content Include="Content\css\Site.css" />
     <Content Include="Content\css\user-management.css" />
     <Content Include="Content\css\login.css" />
@@ -563,7 +567,7 @@
     <Content Include="Scripts\bootstrap-lib-js\popper.min.js" />
     <Content Include="Scripts\js\profile.js" />
     <Content Include="Scripts\js\register.js" />
-    <Content Include="Scripts\js\scheduleOfDoctor.js" />
+    <Content Include="Scripts\js\scheduleOfDoctors.js" />
     <Content Include="Scripts\js\validateInput.js" />
     <Content Include="Scripts\js\usermanagement.js" />
     <Content Include="Web.config" />
@@ -581,7 +585,6 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Home\Intro.cshtml" />
-    <Content Include="Views\Appointment\Index.cshtml" />
     <Content Include="Views\Account\ChangePassword.cshtml" />
     <Content Include="Scripts\README.md" />
     <Content Include="Views\Shared\_MenuView.cshtml" />
@@ -591,6 +594,8 @@
     <Content Include="Views\Profile\Index.cshtml" />
     <Content Include="Views\Error\AccessDenied.cshtml" />
     <Content Include="Views\Error\AccessDenied.cshtml" />
+    <Content Include="Views\ScheduleOfDoctors\Index.cshtml" />
+    <Content Include="Views\Account\Activate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

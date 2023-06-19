@@ -2,11 +2,14 @@
     ViewBag.Title = "Home Page";
 }
 
+<link href="~/Content/css/appointmentHistory.css" rel="stylesheet" />
+
 <style>
     .dataTables_wrapper .dataTables_filter input {
         max-height: 30px;
     }
-    .dataTables_wrapper .dataTables_paginate .paginate_button{
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
         padding: 3px 1em;
     }
 </style>
@@ -35,7 +38,7 @@
         <div class="custom-status-wrapper d-flex flex-wrap justify-content-center">
             <div class="custom-card">
                 <div class="custom-card-body d-flex flex-nowrap justify-content-between align-items-center">
-                    <div class="col-8 col-md-8">
+                    <div class="col-8 col-md-8 d-flex flex-column justify-content-between h-100">
                         <p id="allDoctors">@ViewBag.allDoctors</p>
                         <span class="custom-card-title">All Doctors</span>
                     </div>
@@ -47,7 +50,7 @@
 
             <div class="custom-card">
                 <div class="custom-card-body d-flex flex-nowrap justify-content-between align-items-center">
-                    <div class="col-8 col-md-8">
+                    <div class="col-8 col-md-8 d-flex flex-column justify-content-between h-100">
                         <p id="allBooking">@ViewBag.allBooking</p>
                         <span class="custom-card-title">All Booking</span>
                     </div>
@@ -59,7 +62,7 @@
 
             <div class="custom-card">
                 <div class="custom-card-body d-flex flex-nowrap justify-content-between align-items-center">
-                    <div class="col-8 col-md-8">
+                    <div class="col-8 col-md-8 d-flex flex-column justify-content-between h-100">
                         <p id="newBooking">@ViewBag.newBooking</p>
                         <span class="custom-card-title">New Booking</span>
                     </div>
@@ -71,7 +74,7 @@
 
             <div class="custom-card">
                 <div class="custom-card-body d-flex flex-nowrap justify-content-between align-items-center">
-                    <div class="col-8 col-md-8">
+                    <div class="col-8 col-md-8 d-flex flex-column justify-content-between h-100">
                         <p id="todaySessions">@ViewBag.todaySessions</p>
                         <span class="custom-card-title">Today Sessions</span>
                     </div>
@@ -95,75 +98,273 @@
     </article>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="makeAppointmentModal" tabindex="-1" role="dialog" aria-labelledby="makeAppointmentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title font-weight-bold" id="makeAppointmentModalLabel">View Appointment</h5>
+            </div>
+            <div class="modal-body">
+                <form class="col-12 col-sm-12 col-md-12" id="appointmentForm">
+                    <div class="col-12 col-sm-12 col-md-12 mb-4 p-0 d-flex justify-content-between flex-wrap">
+
+                        <!--Doctor's Info-->
+                        <div class="col-12 col-sm-12 col-md-5 info-wrapper">
+                            <span class="info-label">Doctor's Info</span>
+
+                            <div class="input-box">
+                                <span>Full Name</span>
+                                <p id="doctorName"></p>
+                            </div>
+                            <div class="input-box">
+                                <span>Gender</span>
+                                <p id="doctorGender"></p>
+                            </div>
+                            <div class="input-box">
+                                <span>Speciality</span>
+                                <p id="speciality"></p>
+                            </div>
+
+                        </div>
+                        <!--Patient's Info-->
+                        <div class="col-12 col-sm-12 col-md-5 info-wrapper">
+                            <span class="info-label">Patient's Info</span>
+                            <div class="input-box">
+                                <span>Full Name</span>
+                                <p id="patientName"></p>
+                            </div>
+                            <div class="input-box">
+                                <span>Date of Birth</span>
+                                <p id="dateOfBirth"></p>
+                            </div>
+                            <div class="input-box">
+                                <span>Gender</span>
+                                <p id="patientGender"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Appointment's Info-->
+                    <div class="col-12 col-sm-12 col-md-12 mb-4 info-wrapper row">
+                        <span class="info-label">Appointment Details</span>
+                        <div class="col-12 col-sm-12 col-md-4 pl-0 pl-sm-0 pl-md-0 pr-0 pr-sm-0 pr-md-2">
+                            <div class="input-box">
+                                <span class="ml-3 pr-2 pl-2">Mode of Consultant</span>
+                                <select name="modeOfConsultant" class="custom-select" id="modeOfConsultant" required="required">
+                                    <option selected disabled hidden>Select mode of consultant</option>
+                                    @{
+                                        var modeOfConsultant = ViewBag.modeOfConsultant;
+                                        foreach (var mode in modeOfConsultant)
+                                        {
+                                            <option value=@mode.ID>@mode.PARAVAL</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="input-box">
+                                <span class="ml-3 pr-2 pl-2">Consultant Type</span>
+                                <select name="consultantType" class="custom-select" id="consultantType" required="required">
+                                    <option selected disabled hidden>Select type of consultant</option>
+                                    @{
+                                        var consultantType = ViewBag.consultantType;
+                                        foreach (var type in consultantType)
+                                        {
+                                            <option value=@type.ID>@type.PARAVAL</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-8 pr-0 pl-0 row" style="padding-right: 0;">
+                            <div class="col-6 col-sm-6 col-md-6 pl-0 pl-md-3">
+                                <div class="input-box">
+                                    <span>Date of Consultation</span>
+                                    <p id="dateOfConsultation"></p>
+                                </div>
+                                <div class="input-box">
+                                    <span>Time</span>
+                                    <p id="consultationTime"></p>
+                                </div>
+                            </div>
+                            <div class="col-6 col-sm-6 col-md-6 pr-0">
+                                <div class="input-box">
+                                    <span>Appointment Date</span>
+                                    <p id="appointmentDate"></p>
+                                </div>
+                                <div class="input-box">
+                                    <span>Time</span>
+                                    <p id="appointmentTime"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-12 info-wrapper">
+                        <span class="info-label">Medical Notes</span>
+                        <div class="input-box">
+                            <span class="ml-3 pr-2 pl-2">Symtoms</span>
+                            <textarea class="form-control" id="symtoms" placeholder="Note down here any current symptoms (if any).."></textarea>
+                        </div>
+                        <div class="input-box">
+                            <span class="ml-3 pr-2 pl-2">Existing Illness</span>
+                            <textarea class="form-control" id="existingIllness" placeholder="Note down here any existing illness (if any)."></textarea>
+                        </div>
+                        <div class="input-box">
+                            <span class="ml-3 pr-2 pl-2">Drug Alergies</span>
+                            <textarea class="form-control" id="drugAlergies" placeholder="Note down here any drug allergies or allergies to any components of medications (if any)."></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btnCancel">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section scripts{
     <script type="text/javascript">
-        /*Using AJAX to display data of DEPARTMENT TABLE*/
-        var table = $("#upcomingTbl").DataTable({
-            "ajax": {
-                "responsive": true,
-                "url": '/Appointment/LoadAllSchedule',
-                "type": "GET",
-                "datatype": "json"
+        var table = $('#upcomingTbl').DataTable({
+            language: {
+                emptyTable: "You don't have any upcoming appointments."
             },
-            "columns": [
+            columns: [
                 {
-                    "className": 'dt-control',
-                    "orderable": false,
-                    "data": null,
-                    "defaultContent": '',
+                    className: 'dt-control',
+                    orderable: false,
+                    data: null,
+                    defaultContent: '',
                 },
                 {
-                    "data": "doctorName",
-                    "title": 'Doctor Name',
-                    "autoWidth": true,
-                    "searchable": true
+                    data: 'appointmentID',
+                    title: 'Appt No.',
+                    autoWidth: true,
+                    searchable: true
                 },
                 {
-                    "data": "speciality",
-                    "title": 'Speciality',
-                    "autoWidth": true,
-                    "searchable": true
+                    data: 'doctorName',
+                    title: 'Doctor Name',
+                    className: 'text-nowrap',
+                    autoWidth: true,
+                    searchable: true
                 },
                 {
-                    "data": "gender",
-                    "title": 'Gender',
-                    "autoWidth": true,
-                    "searchable": true
+                    data: 'dateOfConsultation',
+                    title: 'Date of Consultation',
+                    className: 'text-center',
+                    autoWidth: true,
+                    searchable: true,
+                    orderData: [3]
                 },
                 {
-                    "data": "workingDay",
-                    "title": 'Appointment Day',
-                    "autoWidth": true,
-                    "searchable": true
+                    data: 'consultationTime',
+                    title: 'Time',
+                    autoWidth: true,
+                    searchable: true
                 },
                 {
-                    "data": "availableTime",
-                    "title": 'Available Time',
-                    "autoWidth": true,
-                    "searchable": true
+                    data: 'consultationDay',
+                    title: 'Day',
+                    autoWidth: true,
+                    searchable: true
                 },
                 {
-                    "data": "consultantTime",
-                    "title": 'Consultant Time',
-                    "autoWidth": true,
-                    "searchable": true
+                    data: 'appointmentStatus',
+                    title: 'Status',
+                    className: 'text-center',
+                    autoWidth: true,
+                    searchable: true,
+                    render: function (data, type, row) {
+                        return '<span class="column-status">' + data + '</span>';
+                    }
                 },
                 {
-                    "responsivePriority": 1,
-                    "data": "scheduleID",
-                    "title": "Action",
-                    "autoWidth": true,
-                    "searchable": true,
-                    "render": function (data, type, row) {
-                        return type === 'display' ? '<a data-doctorid="' + row.doctorID + '" data-scheduleid="' + data + '" class="btn btn-outline-primary btn-sm ml-1 btn-appointment" role="button" data-toggle="modal" data-target="#makeAppointmentModal"><i class="fa-regular fa-calendar-plus"></i></div>' : data;
+                    responsivePriority: 1,
+                    data: 'appointmentID',
+                    title: "Action",
+                    autoWidth: true,
+                    searchable: true,
+                    render: function (data, type, row) {
+                        return type === 'display' ?
+                            '<div class="d-flex justify-content-round">'
+                            + '<a data-appointmentid="' + data + '" class="btn btn-outline-info btn-sm btn-action btn-viewAppt" role="button" data-toggle="modal" data-target="#makeAppointmentModal">'
+                            + '<i class="fa-solid fa-eye"></i></a>'
+                            + '</div>'
+                            : data;
                     }
                 }
             ]
         });
 
-        // Get schedule of doctors to display on screen
-        function loadSchedule() {
-            table.ajax.reload();
+
+        function loadData() {
+            $.ajax({
+                url: '/Appointment/UpcomingAppointment',
+                method: 'GET',
+                dataType: 'JSON',
+                success: function (res) {
+                    table.clear(res.data).draw();
+                    table.rows.add(res.data).draw();
+                    styleForStatus();
+                },
+                error: function (err) {
+                    console.log(err.responseText)
+                }
+            })
         }
+
+        $(document).ready(function () {
+            loadData();
+            table.on('draw', function () {
+                styleForStatus();
+            });
+        })
+
+
+        function styleForStatus() {
+            var elements = document.getElementsByClassName("column-status");
+            for (var element of elements) {
+                if (element.textContent.toLowerCase() == 'pending') {
+                    element.classList.add("column-status--pending");
+                } else if (element.textContent.toLowerCase() == 'in process') {
+                    element.classList.add("column-status--process");
+                } else if (element.textContent.toLowerCase() == 'completed') {
+                    element.classList.add("column-status--completed");
+                } else {
+                    element.classList.add("column-status--cancel");
+                }
+            }
+        }
+        $(document).on('click', '.btn-viewAppt', function () {
+            var btnViewAppt = $(this);
+            var appointmentID = btnViewAppt.data('appointmentid');
+            $.ajax({
+                url: '/Appointment/ViewAppointment',
+                method: 'GET',
+                data: { appointmentID: appointmentID },
+                dataType: 'JSON',
+                success: function (res) {
+                    var data = res.data;
+                    $('#doctorName').text(data.doctorName);
+                    $('#doctorGender').text(data.doctorGender);
+                    $('#speciality').text(data.doctorSpeciality);
+                    $('#patientName').text(data.patientName);
+                    $('#dateOfBirth').text(data.patientDateOfBirth);
+                    $('#patientGender').text(data.patientGender);
+                    $('#modeOfConsultant').val(data.modeOfConsultant);
+                    $('#consultantType').val(data.consultantType);
+                    $('#dateOfConsultation').text(data.dateOfConsultation);
+                    $('#consultationTime').text(data.consultationTime);
+                    $('#appointmentDate').text(data.appointmentDate);
+                    $('#appointmentTime').text(data.appointmentTime);
+                    $('#symtoms').val(data.symtoms);
+                    $('#existingIllness').val(data.existingIllness);
+                    $('#drugAlergies').val(data.drugAlergies);
+                },
+                error: function (err) {
+                    console.log(err.responseText);
+                }
+            })
+        })
     </script>
 }
