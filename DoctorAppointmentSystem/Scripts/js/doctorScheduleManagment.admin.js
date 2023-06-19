@@ -221,7 +221,6 @@ function setEventUpdateDoctorScheduleForBtn() {
             var id = Button.data("id");
             console.log(id);
             loadDataToForm(id);
-
         });
 
     });
@@ -294,16 +293,17 @@ function deleteScheduleByAjax(sheduleid) {
         }
         if (data.error == 0) {
             $('#doctor-schedule-table').DataTable().ajax.reload();
-            
-            Swal.fire(
-                'Deleted!',
-                'Delete schedule is success !',
-                'success'
-            )
+            Swal.fire({
+                position: 'top',
+                icon: 'success',
+                title: 'Delete !',
+                text: 'Delete schedule is success !',
+                showConfirmButton: false,
+                timer: 2000
+            });
         }
     });
 }
-
 
 // Jquery datatable
 function initJqueryDatatable() {
@@ -587,7 +587,6 @@ function validateForm() {
 
     });
 }
-
 
     $("document").ready(function () {
         setButtonOnOffForm();

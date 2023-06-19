@@ -39,6 +39,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
         {
             AdminMenu menu = new AdminMenu();
             ViewBag.menu = menu.RenderMenu("Patient management");
+            ViewBag.avatar = GetInfo.GetImgPath(User.Identity.Name);
             var sysParam = _sysParam.GetAllParam();
             ViewBag.genders = ViewBag.genders = new SelectList(sysParam.Where(c => c.GROUPID.Equals("Gender")).ToList(), "ID", "PARAVAL");
             
@@ -199,7 +200,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             {
                 return Json(new { error = 1, msg = MobileValidResult.ErrorMessage });
             }
-            var mobilematch = _dbContext.DOCTOR.Where(u => u.DOCTORMOBILENO == model.PATIENTMOBILENO).ToList();
+            var mobilematch = _dbContext.PATIENT.Where(u => u.PATIENTMOBILENO == model.PATIENTMOBILENO).ToList();
             if (mobilematch.Count > 0)
             {
                 return Json(new { error = 1, msg = "Mobile number already exists !" });
@@ -387,7 +388,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             {
                 return Json(new { error = 1, msg = MobileValidResult.ErrorMessage });
             }
-            var mobilematch = _dbContext.DOCTOR.Where(u => u.DOCTORMOBILENO == model.PATIENTMOBILENO).ToList();
+            var mobilematch = _dbContext.PATIENT.Where(u => u.PATIENTMOBILENO == model.PATIENTMOBILENO && u.PATIENTMOBILENO != oldPatient.PATIENTMOBILENO ).ToList();
             if (mobilematch.Count > 0)
             {
                 return Json(new { error = 1, msg = "Mobile number already exists !" });
@@ -411,7 +412,6 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             {
                 return Json(new { error = 1, msg = AddressValidResult.ErrorMessage });
             }
-
 
             //map model bind to doctor
 

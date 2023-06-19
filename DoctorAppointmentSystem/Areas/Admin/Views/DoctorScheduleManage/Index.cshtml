@@ -51,8 +51,8 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text custom-symbol"><i class="fa-solid fa-hourglass-half"></i></span>
                             </div>
-                                @Html.DropDownList("Consultanttime", ViewBag.consultanttime as SelectList, "Consultant time (*)", new { @class = "form-control custom-select Consultant-select", @id = "consultanttime" })
-                        
+                            @Html.DropDownList("Consultanttime", ViewBag.consultanttime as SelectList, "Consultant time (*)", new { @class = "form-control custom-select Consultant-select", @id = "consultanttime" })
+
                         </div><!-- select consultant-->
                         <div class="form-group text-center">
                             <input type="submit" class="btn btn-primary mr-2" value="Create">
@@ -65,17 +65,15 @@
 
     </div>
     @* index  *@
-    <div id="list-doctor-schedule-page" style=" " class="container justify-content-center  bg-white">
-        <div class=" container-fluid " style="width: auto">
-            <btn id="btn-open-form-create" class=" btn btn-sm btn-primary mb-3 ">Add Schedule</btn>
-            <div class="row">
-                <div class="col-12 card shadow p-3">
-                    <table id="doctor-schedule-table" class=" dt-responsive  display nowrap" cellspacing="0" width="100%" style=" margin : auto">
-                    </table>
-                </div>
-            </div>
+    <div id="list-doctor-schedule-page" class="col-12 col-sm-12 col-md-12 p-1" style="margin-bottom: 5em">
+        <btn id="btn-open-form-create" class=" btn btn-sm btn-primary mb-3 ">Add Schedule</btn>
+        <div class="container-fluid content-wrapper mt-4 table-responsive card shadow pt-3 pb-3">
+            <table id="doctor-schedule-table" class=" dt-responsive  display nowrap" cellspacing="0" width="100%" style=" margin : auto">
+            </table>
         </div>
     </div>
+
+  
     @* form update schedule *@
     <div id="update-doctor-schedule-page" style=" " class="container justify-content-center  bg-white">
 
@@ -86,7 +84,7 @@
                 </div>
                 <div class="card-body">
                     <form id="from-update-doctor-schedule" class="form-group" autocomplete="off">
-                        <input id="uscheduleid" type="text" hidden/>
+                        <input id="uscheduleid" type="text" hidden />
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text custom-symbol"><i class="fa-solid fa-building-user"></i></span>

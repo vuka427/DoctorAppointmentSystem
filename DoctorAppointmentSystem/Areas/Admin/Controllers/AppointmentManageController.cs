@@ -2,6 +2,7 @@
 using DoctorAppointmentSystem.Areas.Admin.Models.AdminUser;
 using DoctorAppointmentSystem.Areas.Admin.Models.AppointmentManage;
 using DoctorAppointmentSystem.Areas.Admin.Models.DataTableModel;
+using DoctorAppointmentSystem.HelperClasses;
 using DoctorAppointmentSystem.Menu;
 using DoctorAppointmentSystem.Models.DB;
 using DoctorAppointmentSystem.Services.ServiceInterface;
@@ -39,6 +40,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
         {
             AdminMenu menu = new AdminMenu();
             ViewBag.menu = menu.RenderMenu("Appointment");
+            ViewBag.avatar = GetInfo.GetImgPath(User.Identity.Name);
 
             return View();
         }

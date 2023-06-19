@@ -17,7 +17,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Models.AdminUser.Mapping
                .ForMember(dest => dest.USERNAME, act => act.MapFrom(src => src.USERNAME))
                .ForMember(dest => dest.LOGINLOCKDATE, act => act.MapFrom(src => src.LOGINLOCKDATE != null ? src.LOGINLOCKDATE.Value.ToShortDateString() : ""))
                .ForMember(dest => dest.LOGINRETRYCOUNT, act => act.MapFrom(src => src.LOGINRETRYCOUNT))
-               .ForMember(dest => dest.CREATEDDATE, act => act.MapFrom(src => src.CREATEDDATE.Value.ToLongDateString()))
+               .ForMember(dest => dest.CREATEDDATE, act => act.MapFrom(src => src.CREATEDDATE.Value.ToShortDateString()))
                .ForMember(dest => dest.UPDATEDDATE, act => act.MapFrom(src => src.UPDATEDDATE.Value.ToShortDateString()))
                .ForMember(dest => dest.LASTLOGIN, act => act.MapFrom(src => src.LASTLOGIN != null ? src.LASTLOGIN.Value.ToShortDateString() : ""))
 

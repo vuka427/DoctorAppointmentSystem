@@ -75,11 +75,15 @@ function setSubmitFormResetPasswordByAjax() {
                             $("#table-list-user").show();
                             
                             $("#form-reset-password-user").trigger('reset');
-                            Swal.fire(
-                                'Success!',
-                                'Reset password for user is success !',
-                                'success'
-                            )
+                            Swal.fire({
+                                position: 'top',
+                                icon: 'success',
+                                title: 'Success !',
+                                text: 'Reset password for user is success !',
+                                showConfirmButton: false,
+                                timer: 2000
+                            });
+                            
                         }
                     });
 
@@ -192,12 +196,15 @@ function deleteUserByAjax(doctorid) {
         }
         if (data.error == 0) {
             $('#UserTable').DataTable().ajax.reload();
-            //showMessage("Delete doctor is success ", "Success !")
-           Swal.fire(
-                'Deleted!',
-                'Delete user is success !',
-                'success'
-            )
+            Swal.fire({
+                position: 'top',
+                icon: 'success',
+                title: 'Deleted !',
+                text: 'Delete user is success !',
+                showConfirmButton: false,
+                timer: 2000
+            });
+           
         }
     });
 }
@@ -315,23 +322,30 @@ function lockOnOffUserByAjax(doctorid, lock) {
             $('#UserTable').DataTable().ajax.reload();
             //showMessage("Delete doctor is success ", "Success !")
             if (data.islock) {
-                Swal.fire(
-                    'Locked!',
-                    'Lock User is success !',
-                    'success'
-                )
+                Swal.fire({
+                    position: 'top',
+                    icon: 'success',
+                    title: 'Locked!',
+                    text: 'Lock User is success !',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+               
             } else {
-                Swal.fire(
-                    'UnLocked!',
-                    'UnLock User is success !',
-                    'success'
-                )
+                Swal.fire({
+                    position: 'top',
+                    icon: 'success',
+                    title: 'UnLocked!',
+                    text: 'UnLock User is success !',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+                
             }
             
         }
     });
 }
-
 
 // Jquery datatable
 function initJqueryDatatable() {
@@ -503,8 +517,8 @@ function validateFormResetPassword() {
         rules: {
             "password": {
                 required: true,
-                maxlength: 50,
-                minlength: 6,
+                maxlength: 30,
+                minlength: 8,
                 valid_password: true
 
             },
@@ -517,9 +531,9 @@ function validateFormResetPassword() {
         messages: {
             "password": {
                 required: "Password is required",
-                maxlength: "Password charater lenght is 6 to 50!",
-                minlength: "Password charater lenght is 6 to 50!",
-                valid_password: "Password charater at least one uppercase letter, one lowercase letter, one number and one special character: [a-z],[A-Z],[0-9],[@$!%*?&]"
+                maxlength: "Maximum 30 characters",
+                minlength: "Minimum 8 characters",
+                valid_password: "Password charater at least one uppercase letter, one lowercase letter, one number and one special character"
             },
              "passwordconfirm": {
                 required: "Password is required",
