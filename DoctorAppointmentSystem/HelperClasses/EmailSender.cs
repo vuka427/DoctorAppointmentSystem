@@ -30,7 +30,7 @@ namespace DoctorAppointmentSystem.HelperClasses
         }
 
         /// <summary>
-        /// Return a link that includes a token that lasts for 5 minutes
+        /// Return a link that includes a token that lasts for 1 day
         /// </summary>
         /// <param name="token"></param>
         /// <returns></returns>
@@ -50,7 +50,7 @@ namespace DoctorAppointmentSystem.HelperClasses
             return activationLink;
         }
 
-        public async Task SendActivationEmailAsync(string recipientEmail, string activationLink)
+        public async Task SendActivationEmailAsync(string recipientEmail, string fullName, string activationLink)
         {
             try
             {
@@ -61,8 +61,21 @@ namespace DoctorAppointmentSystem.HelperClasses
 
                     mail.From = new MailAddress(smtpUsername);
                     mail.To.Add(recipientEmail);
-                    mail.Subject = "Activate your account";
-                    mail.Body = $"Please click the following link to activate your account: {activationLink}";
+                    mail.Subject = "Verify your account";
+
+                    string htmlBody = $@"
+                        <html>
+                        <body>
+                            <h4>Hi {fullName},</h4>
+                            <p>Thank you for creating an account. For your security, please verify your account by clicking the link below.</p>
+                            <p>Verify your account. <a href=""{activationLink}"">Click here.</a></p>
+                            <p>Happy connecting,</p>
+                            <p>Doctor Appointment System Team</p>
+                        </body>
+                        </html>
+                    ";
+
+                    mail.Body = htmlBody;
                     mail.IsBodyHtml = true;
 
                     smtpClient.Credentials = new NetworkCredential(smtpUsername, smtpPassword);

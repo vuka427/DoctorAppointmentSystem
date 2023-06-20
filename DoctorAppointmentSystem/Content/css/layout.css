@@ -112,7 +112,7 @@ hr {
     position: relative;
     min-height: 100vh;
     margin-left: 300px;
-    padding: 20px 0 50px 5px;
+    padding: 15px 10px 50px 10px;
 }
 
 /*.custom-post {
@@ -125,7 +125,7 @@ hr {
 }
 
 .custom-row {
-    width: 96%;
+    width: inherit;
     padding-bottom: 20px;
     justify-content: space-between;
 }
@@ -152,7 +152,7 @@ hr {
 
 .carousel-item {
     width: 100%;
-    height: 50vh;
+    max-height: 50vh;
 }
 
     .carousel-item img {
@@ -468,11 +468,16 @@ ul {
 
 #footer {
     position: absolute;
+    width: calc(100% - 25px);
     top: 100%;
-    right: auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: end;
+}
+
+#footer hr{
+    width: 100%;
 }
 
 
@@ -704,16 +709,15 @@ a:hover {
     position: fixed;
     left: 0;
     top: 0;
-    background-color: #F1F1FB;
-    color: rgba(116, 115, 153, 0.7);
+    background-color: inherit;
+    color: rgba(61,65,100, 0.9);
     padding: 10px 15px;
     transition: all 0.3s ease;
     border-radius: 0;
     top: 5px;
 }
-
     .navbar-toggler:hover {
-        color: #393A62;
+        color: rgba(61,65,100, 0.6);
     }
 
 #label-fullName {
@@ -828,8 +832,8 @@ a:hover {
         position: fixed;
         left: 0;
         top: 0;
-        background-color: #F1F1FB;
-        color: #747399;
+        background-color: inherit;
+        color: rgba(61,65,100, 0.9);
         padding: 10px 15px;
         transition: all 0.3s ease;
         border-radius: 0;
@@ -838,7 +842,7 @@ a:hover {
 
     .custom-main {
         margin-left: 0;
-        padding: 50px 10px;
+        padding: 15px 10px 50px;
         width: 100%;
     }
 
@@ -882,9 +886,9 @@ a:hover {
     }
 
     .custom-main {
-        padding-top: 60px;
+        padding-top: 15px;
         padding-left: 10px;
-        padding-right: 5px;
+        padding-right: 10px;
     }
 
     .custom-prev-next-wrapper,

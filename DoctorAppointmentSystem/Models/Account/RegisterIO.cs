@@ -11,18 +11,10 @@ namespace DoctorAppointmentSystem.Models.Account
 {
     public class RegisterIO
     {
-        private readonly AuthQuestionViewModel authQuestion;
-        private readonly PatientViewModel patient;
-        private readonly UserViewModel user;
-        private readonly GenderViewModel gender;
         private readonly DBContext dbContext;
 
         public RegisterIO()
         {
-            this.authQuestion = new AuthQuestionViewModel();
-            this.patient = new PatientViewModel();
-            this.user = new UserViewModel();
-            this.gender = new GenderViewModel();
             this.dbContext = new DBContext();
         }
 
@@ -78,90 +70,138 @@ namespace DoctorAppointmentSystem.Models.Account
 
         public bool VerifyPatientInfo(PatientViewModel patient, out string message)
         {
-            patient.fullName = patient.fullName != null ? patient.fullName.Trim() : patient.fullName;
-            patient.address = patient.address != null ? patient.address.Trim() : patient.address;
-
             bool success = false;
-            message = "";
+            try
+            {
+                patient.fullName = patient.fullName != null ? patient.fullName.Trim() : patient.fullName;
+                patient.address = patient.address != null ? patient.address.Trim() : patient.address;
 
-            //Check if the email is already in use
-            bool nationalID_exists = dbContext.PATIENT.Where(p => p.PATIENTNATIONALID.Equals(patient.nationalID)).FirstOrDefault() == null ? false : true;
+                message = "";
 
-            if (String.IsNullOrEmpty(patient.fullName))
-            {
-                message = "Please enter your full name.";
+                //Check if the email is already in use
+                bool nationalID_exists = dbContext.PATIENT.Where(p => p.PATIENTNATIONALID.Equals(patient.nationalID)).FirstOrDefault() == null ? false : true;
+
+                if (String.IsNullOrEmpty(patient.fullName))
+                {
+                    message = "Please enter your full name.";
+                }
+                else if (String.IsNullOrEmpty(patient.nationalID))
+                {
+                    message = "Please enter your National ID.";
+                }
+                else if (nationalID_exists)
+                {
+                    message = "National ID already exists! Please choose another.";
+                }
+                else if (String.IsNullOrEmpty(patient.dateOfBirth))
+                {
+                    message = "Please enter your date of birth.";
+                }
+                else if (patient.gender.ToString().Trim() == "0")
+                {
+                    message = "Please select gender.";
+                }
+                else if (String.IsNullOrEmpty(patient.phoneNumber))
+                {
+                    message = "Please enter your phone number.";
+                }
+                else if (String.IsNullOrEmpty(patient.address))
+                {
+                    message = "Please enter your address.";
+                }
+                else
+                {
+                    success = true;
+                }
+                return success;
             }
-            else if (String.IsNullOrEmpty(patient.nationalID))
+            catch(Exception ex)
             {
-                message = "Please enter your National ID.";
+                string sEventCatg = "PATIENT PORTAL";
+                string sEventMsg = "Exception: " + ex.Message;
+                string sEventSrc = "VerifyPatientInfo";
+                string sEventType = "S";
+                string sInsBy = patient.fullName;
+
+                Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
+
+                message = "";
+                return success;
             }
-            else if (nationalID_exists)
-            {
-                message = "National ID already exists! Please choose another.";
-            }
-            else if (String.IsNullOrEmpty(patient.dateOfBirth))
-            {
-                message = "Please enter your date of birth.";
-            }
-            else if (patient.gender.ToString().Trim() == "0")
-            {
-                message = "Please select gender.";
-            }
-            else if (String.IsNullOrEmpty(patient.phoneNumber))
-            {
-                message = "Please enter your phone number.";
-            }
-            else if (String.IsNullOrEmpty(patient.address))
-            {
-                message = "Please enter your address.";
-            }
-            else
-            {
-                success = true;
-            }
-            return success;
+            
         }
 
         int GetUserID(string username)
         {
-            return dbContext.USER.Where(u => u.USERNAME.Equals(username)).FirstOrDefault().USERID;
+            int id = 0;
+            try
+            {
+                id =  dbContext.USER.Where(u => u.USERNAME.Equals(username)).FirstOrDefault().USERID;
+                return id;
+            }
+            catch (Exception ex)
+            {
+                string sEventCatg = "PATIENT PORTAL";
+                string sEventMsg = "Exception: " + ex.Message;
+                string sEventSrc = "GetUserID";
+                string sEventType = "S";
+                string sInsBy = username;
+
+                Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
+                return id;
+            }
+            
         }
 
         void CreateNewUser(UserViewModel uvm)
         {
-            USER user = new USER();
-
-            user.ROLEID = 1303;
-            user.USERNAME = uvm.username.Trim();
-            user.PASSWORDHASH = PasswordHelper.HashPassword(uvm.password).Trim();
-            user.EMAIL = uvm.email.Trim();
-            user.LASTLOGIN = null;
-            user.USERTYPE = "Patient";
-            user.PASSWORDRECOVERYQUE1 = uvm.passwordRecoveryQue1;
-            user.PASSWORDRECOVERYANS1 = uvm.passwordRecoveryAns1.Trim();
-            user.PASSWORDRECOVERYQUE2 = uvm.passwordRecoveryQue2;
-            user.PASSWORDRECOVERYANS2 = uvm.passwordRecoveryAns2.Trim();
-            user.PASSWORDRECOVERYQUE3 = uvm.passwordRecoveryQue3;
-            user.PASSWORDRECOVERYANS3 = uvm.passwordRecoveryAns3.Trim();
-            user.STATUS = true;
-            user.LOGINRETRYCOUNT = 0;
-            user.LOGINLOCKDATE = null;
-            user.CREATEDBY = uvm.username.Trim();
-            user.CREATEDDATE = DateTime.Now;
-            user.UPDATEDBY = uvm.username.Trim();
-            user.UPDATEDDATE = DateTime.Now;
-            user.DELETEDFLAG = false;
-            if (uvm.profilePicture != null)
+            try
             {
-                user.AVATARURL = RenameProfilePicture(uvm.username, uvm.profilePicture);
-            }
-            else
-            {
-                user.AVATARURL = null;
-            }
+                USER user = new USER();
 
-            dbContext.USER.Add(user);
-            dbContext.SaveChanges();
+                user.ROLEID = 1303;
+                user.USERNAME = uvm.username.Trim();
+                user.PASSWORDHASH = PasswordHelper.HashPassword(uvm.password).Trim();
+                user.EMAIL = uvm.email.Trim();
+                user.LASTLOGIN = null;
+                user.USERTYPE = "Patient";
+                user.PASSWORDRECOVERYQUE1 = uvm.passwordRecoveryQue1;
+                user.PASSWORDRECOVERYANS1 = uvm.passwordRecoveryAns1.Trim();
+                user.PASSWORDRECOVERYQUE2 = uvm.passwordRecoveryQue2;
+                user.PASSWORDRECOVERYANS2 = uvm.passwordRecoveryAns2.Trim();
+                user.PASSWORDRECOVERYQUE3 = uvm.passwordRecoveryQue3;
+                user.PASSWORDRECOVERYANS3 = uvm.passwordRecoveryAns3.Trim();
+                user.STATUS = true;
+                user.LOGINRETRYCOUNT = 0;
+                user.LOGINLOCKDATE = null;
+                user.CREATEDBY = uvm.username.Trim();
+                user.CREATEDDATE = DateTime.Now;
+                user.UPDATEDBY = uvm.username.Trim();
+                user.UPDATEDDATE = DateTime.Now;
+                user.DELETEDFLAG = false;
+                if (uvm.profilePicture != null)
+                {
+                    user.AVATARURL = RenameProfilePicture(uvm.username, uvm.profilePicture);
+                }
+                else
+                {
+                    user.AVATARURL = null;
+                }
+
+                dbContext.USER.Add(user);
+                dbContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                string sEventCatg = "PATIENT PORTAL";
+                string sEventMsg = "Exception: " + ex.Message;
+                string sEventSrc = "CreateNewUser";
+                string sEventType = "I";
+                string sInsBy = uvm.username;
+
+                Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
+            }
+            
         }
 
         string RenameProfilePicture(string username, string path)
@@ -174,23 +214,37 @@ namespace DoctorAppointmentSystem.Models.Account
 
         void CreateNewPatient(PatientViewModel pvm, string username)
         {
-            PATIENT patient = new PATIENT();
+            try
+            {
+                PATIENT patient = new PATIENT();
 
-            patient.PATIENTNAME = pvm.fullName.Trim();
-            patient.USERID = GetUserID(username);
-            patient.PATIENTNATIONALID = pvm.nationalID.Trim();
-            patient.PATIENTGENDER = pvm.gender;
-            patient.PATIENTMOBILENO = pvm.phoneNumber.Trim();
-            patient.PATIENTADDRESS = pvm.address.Trim();
-            patient.PATIENTDATEOFBIRTH = DateTime.Parse(pvm.dateOfBirth);
-            patient.CREATEDBY = username.Trim();
-            patient.CREATEDDATE = DateTime.Now;
-            patient.UPDATEDBY = username.Trim();
-            patient.UPDATEDDATE = DateTime.Now;
-            patient.DELETEDFLAG = false;
+                patient.PATIENTNAME = pvm.fullName.Trim();
+                patient.USERID = GetUserID(username);
+                patient.PATIENTNATIONALID = pvm.nationalID.Trim();
+                patient.PATIENTGENDER = pvm.gender;
+                patient.PATIENTMOBILENO = pvm.phoneNumber.Trim();
+                patient.PATIENTADDRESS = pvm.address.Trim();
+                patient.PATIENTDATEOFBIRTH = DateTime.Parse(pvm.dateOfBirth);
+                patient.CREATEDBY = username.Trim();
+                patient.CREATEDDATE = DateTime.Now;
+                patient.UPDATEDBY = username.Trim();
+                patient.UPDATEDDATE = DateTime.Now;
+                patient.DELETEDFLAG = false;
 
-            dbContext.PATIENT.Add(patient);
-            dbContext.SaveChanges();
+                dbContext.PATIENT.Add(patient);
+                dbContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                string sEventCatg = "PATIENT PORTAL";
+                string sEventMsg = "Exception: " + ex.Message;
+                string sEventSrc = "CreateNewPatient";
+                string sEventType = "I";
+                string sInsBy = GetInfo.Username;
+
+                Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
+            }
+            
         }
 
         public void CreateNewAccount(UserViewModel user, PatientViewModel patient, out string message)
@@ -244,15 +298,30 @@ namespace DoctorAppointmentSystem.Models.Account
             }
         }
 
-
-
         public void ActivateAccount(string username)
         {
-            USER user = dbContext.USER.Where(u => u.USERNAME.Equals(username)).FirstOrDefault();
-            if (user != null)
+            try
             {
-                user.LASTLOGIN = DateTime.Now;
-                dbContext.SaveChanges();
+                USER user = dbContext.USER.Where(u => u.USERNAME.Equals(username)).FirstOrDefault();
+                if (user != null)
+                {
+                    user.LASTLOGIN = DateTime.Now;
+                    dbContext.SaveChanges();
+                }
+                else
+                {
+                    throw new ArgumentNullException();
+                }
+            }
+            catch(Exception ex)
+            {
+                string sEventCatg = "PATIENT PORTAL";
+                string sEventMsg = "Exception: " + ex.Message;
+                string sEventSrc = "ActivateAccount";
+                string sEventType = "U";
+                string sInsBy = username;
+
+                Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
             }
         }
     }

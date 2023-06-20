@@ -1,11 +1,13 @@
-﻿var table = $('#historyTbl').DataTable({
+﻿
+var table = $('#historyTbl').DataTable({
     language: {
         emptyTable: "You haven't booked any appointments yet."
     },
+    order: [[1, 'asc']],
     columns: [
         {
-            className: 'dt-control',
             orderable: false,
+            className: 'dt-control',
             data: null,
             defaultContent: '',
         },
@@ -57,6 +59,7 @@
             data: 'appointmentID',
             title: "Action",
             autoWidth: true,
+            orderable: false,
             searchable: true,
             render: function (data, type, row) {
                 return type === 'display' ?
@@ -162,7 +165,7 @@ $(document).on('click', '.btn-cancelAppt', function () {
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
+        confirmButtonText: 'Yes, cancel it!'
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
@@ -173,8 +176,8 @@ $(document).on('click', '.btn-cancelAppt', function () {
                 success: function (res) {
                     if (res.success) {
                         Swal.fire({
-                            title: 'Deleted!',
-                            text: 'Your file has been deleted.',
+                            title: 'Cancelled!',
+                            text: 'Your appointment has been cancelled.',
                             icon: 'success',
                             position: 'top',
                             showConfirmButton: false,
