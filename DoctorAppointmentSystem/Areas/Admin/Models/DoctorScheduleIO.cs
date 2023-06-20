@@ -43,6 +43,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Models
 
         //validation schedule, isUpdate = true=> check for create 
         public ValidationResult IsVald(SCHEDULE schedule , bool isUpdate) {
+
             var datenow = DateTime.Now;
             //check null
             if(schedule == null)

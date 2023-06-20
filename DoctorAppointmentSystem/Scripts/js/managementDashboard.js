@@ -6,8 +6,6 @@
 //load data to chart
 function LoadDataToChart() {
    
-           
-
             $.ajax({
                 type: "GET",
                 url: "/Admin/Manage/GetChartApm",
@@ -33,11 +31,16 @@ function LoadDataToChart() {
                         },
                         options: {
                             scales: {
-                                y: {
-                                    beginAtZero: true
-                                }
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true,
+                                        callback: function (value) { if (Number.isInteger(value)) { return value; } },
+                                        stepSize: 1
+                                    }
+                                }]
                             }
-                        }
+                        },
+                        
                     });
 
 

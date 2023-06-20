@@ -2,6 +2,7 @@
 using DoctorAppointmentSystem.Services.ServiceInterface;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading;
 using System.Web;
@@ -31,16 +32,34 @@ namespace DoctorAppointmentSystem.Areas.Admin.Models
         public int[] GetArrayAppointmentOnWeek()
         {
             var today = DateTime.Now;
+            today = today.Date.AddHours(1).AddMinutes(0).AddSeconds(0);
             var thisWeekStart = today.AddDays(-(int)today.DayOfWeek + 1);
             var thisWeekEnd = thisWeekStart.AddDays(7).AddSeconds(-1);
 
-            return _dbContext.APPOINTMENT.Where(a => a.DELETEDFLAG == false &&
-                                                     a.CREATEDDATE.Value > thisWeekStart &&
-                                                     a.CLOSEDDATE.Value < thisWeekEnd) 
-                                        .GroupBy(a=>a.CREATEDDATE.Value.Day)
-                                        .Select(g=> g.Count()).ToArray();
+
+            var listApmOnWeek = _dbContext.APPOINTMENT.Where(a => a.DELETEDFLAG == false &&
+                                                     a.DATEOFCONSULTATION >= thisWeekStart &&
+                                                     a.DATEOFCONSULTATION <= thisWeekEnd).ToList();
+            List<int> result = new List<int>(); 
+            for (int i=0; i<7 ;i++)
+            {
+                result.Add( listApmOnWeek.Where(a => a.DATEOFCONSULTATION > thisWeekStart && a.DATEOFCONSULTATION <= thisWeekStart.AddDays(1)).Count());
+                thisWeekStart = thisWeekStart.AddDays(1);
+            }
+            
+            return result.ToArray();
         }
 
-
+        public int CountAllAppointment()
+        {
+            return _dbContext.APPOINTMENT.Count(a => a.DELETEDFLAG == false);
+        }
+        public int CountAppointmentToDay()
+        {
+            var today = DateTime.Now;
+            today = today.Date.AddHours(1).AddMinutes(0).AddSeconds(0);
+            var nextday = today.AddDays(1);
+            return _dbContext.APPOINTMENT.Count(a => a.DELETEDFLAG == false && a.APPOINTMENTDATE > today && a.APPOINTMENTDATE < nextday);
+        }
     }
 }

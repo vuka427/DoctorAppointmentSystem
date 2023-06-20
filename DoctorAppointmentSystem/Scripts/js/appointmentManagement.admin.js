@@ -19,6 +19,87 @@ function setButtonOnOffForm() {
     
 }
 
+//delete dialog
+function setEventDeleteAppointment() {
+    var table = $('#appointment-table').DataTable();
+
+    table.on('draw', function () {
+
+        $(".btn-delete-appointment").on("click", function () {
+            var Button = $(this);
+            var patientname = Button.data("patientname");
+            var id = Button.data("id");
+            console.log("db=>" + id);
+
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success mr-2',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            })
+            swalWithBootstrapButtons.fire({
+                title: 'Are you sure delete appointment for patient ' + patientname + ' ?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'No, cancel!',
+                reverseButtons: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    deleteAppointment(id);
+
+
+                } else if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+
+                }
+            })
+        });
+    });
+}
+
+//delete doctor
+function deleteAppointment(apmid) {
+
+    var formData = {
+        AppointmentId: apmid,
+    };
+
+    $.ajax({
+        type: "POST",
+        url: "/Admin/AppointmentManage/DeleteAppointment",
+        data: formData,
+        dataType: "json",
+        encode: true,
+    }).done(function (data) {
+        console.log(data);
+        if (data.error == 1) {
+            Swal.fire(
+                'Failed!',
+                data.msg,
+                'error'
+            )
+        }
+        if (data.error == 0) {
+            $('#appointment-table').DataTable().ajax.reload();
+
+            Swal.fire({
+                position: 'top',
+                icon: 'success',
+                title: 'Deleted !',
+                text: 'Delete appointment is success !',
+                showConfirmButton: false,
+                timer: 2000
+            });
+        }
+    });
+}
+
 
 // Jquery datatable
 function initJqueryDatatable() {
@@ -117,8 +198,25 @@ function initJqueryDatatable() {
             {
                 "data": "APPOIMENTSTATUS",
                 "title": 'Appointment Status',
+                "className": 'text-center',
                 "responsivePriority": 1,
-                "searchable": true
+                "searchable": true,
+                "render": function (data, type, row) {
+                    if (data.toLowerCase() == 'pending') {
+                        return '<span class="column-status column-status--pending">' + data + '</span>';
+                        
+                    } else if (data.toLowerCase() == 'in process') {
+                        return '<span class="column-status column-status--process">' + data + '</span>';
+                       
+                    } else if (data.toLowerCase() == 'completed') {
+                        return '<span class="column-status column-status--completed">' + data + '</span>';
+                        
+                    } else {
+                        return '<span class="column-status ">' + data + '</span>';
+                       
+                    }
+
+                }
             },
             {
                 "data": null,
@@ -127,8 +225,8 @@ function initJqueryDatatable() {
                 "searchable": false,
                 "render": function (data, type, row) {
                     console.log(data, type, row);
-                    return "<btn class=\"btn-update-schedule btn btn-sm btn-outline-primary btn-action\" data-id=\"" + row.SCHEDULEID + "\"  data-toggle=\"tooltip\" data-placement=\"top\" title=\"Edit schedule\"> <i class=\"fa-solid fa-user-pen\"></i> </btn>"
-                        + "<btn class=\"btn-delete-schedule btn btn-sm btn-outline-danger btn-action  ml-2\" data-id=\"" + row.SCHEDULEID + "\"  data-toggle=\"tooltip\" data-placement=\"top\" title=\"Delete schedule\"> <i class=\"fa-solid fa-trash\"></i> </btn> "
+                    return "<btn class=\"btn-view-appointment btn btn-sm btn-outline-primary btn-action\" data-appointmentid=\"" + row.APPOINTMENTID + "\"  data-toggle=\"tooltip\" data-placement=\"top\" title=\"View Appointment\"   > <i class=\"fa-solid fa-eye\"></i> </btn>"
+                        + "<btn class=\"btn-delete-appointment btn btn-sm btn-outline-danger btn-action  ml-2\" data-id=\"" + row.APPOINTMENTID + "\" data-patientname=\"" + row.PATIENTNAME + "\"   data-toggle=\"tooltip\" data-placement=\"top\" title=\"Delete Appointment\"> <i class=\"fa-solid fa-trash\"></i> </btn> "
 
                 }
 
@@ -141,10 +239,61 @@ function initJqueryDatatable() {
 
 }
 
+function setEventViewAppointment() {
+    var table = $('#appointment-table').DataTable();
+
+    table.on('draw', function () {
+
+        $(".btn-view-appointment").on("click", function () {
+            var Button = $(this);
+            
+            var appointmentID = Button.data('appointmentid');
+            $.ajax({
+                url: '/AppointmentManage/AppointViewDetail',
+                method: 'GET',
+                data: { appointmentID: appointmentID },
+                dataType: 'JSON',
+                success: function (res) {
+                    var data = res.data;
+                    console.log(res.data);
+                    $('#doctorName').text(data.doctorName);
+                    $('#doctorGender').text(data.doctorGender);
+                    $('#speciality').text(data.doctorSpeciality);
+                    $('#patientName').text(data.patientName);
+                    $('#dateOfBirth').text(data.patientDateOfBirth);
+                    $('#patientGender').text(data.patientGender);
+                    $('#modeOfConsultant').val(data.modeOfConsultant);
+                    $('#consultantType').val(data.consultantType);
+                    $('#dateOfConsultation').text(data.dateOfConsultation);
+                    $('#consultationTime').text(data.consultationTime);
+                    $('#appointmentDate').text(data.appointmentDate);
+                    $('#appointmentTime').text(data.appointmentTime);
+                    $('#symtoms').val(data.symtoms);
+                    $('#existingIllness').val(data.existingIllness);
+                    $('#drugAlergies').val(data.drugAlergies);
+                },
+                error: function (err) {
+                    console.log(err.responseText);
+                }
+            })
+
+            $('#makeAppointmentModal').modal('show')
+
+           
+        });
+    });
+
+}
+
+
+
 
 
 $("document").ready(function () {
     setButtonOnOffForm();
     initJqueryDatatable();
+    setEventDeleteAppointment();
+    setEventViewAppointment();
     
+
 });

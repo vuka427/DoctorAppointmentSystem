@@ -25,7 +25,7 @@ namespace DoctorAppointmentSystem.Services
                 {
                      _syprama = _dbContext.SYSTEM_PARA.ToList();
 
-                }catch (Exception ex)
+                }catch 
                 {
                    
                 }

@@ -42,6 +42,7 @@ namespace DoctorAppointmentSystem.Services
                 cfg.AddProfile(new MappDoctorScheduleProfile(_sysParam));
                 //register mapper for appointment
                 cfg.AddProfile(new MapAppointmentProfile(_sysParam));
+                
 
             });
 

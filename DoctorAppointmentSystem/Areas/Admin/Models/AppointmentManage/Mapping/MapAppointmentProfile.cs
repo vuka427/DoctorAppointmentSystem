@@ -22,6 +22,50 @@ namespace DoctorAppointmentSystem.Areas.Admin.Models.AppointmentManage.Mapping
                                                          (sysParam.GetAllParam().Where(p => p.ID == src.SCHEDULE.CONSULTANTTIME)) == null ? "" :
                                                          sysParam.GetAllParam().Where(p => p.ID == src.SCHEDULE.CONSULTANTTIME).FirstOrDefault().NOTE 
                                                     ))
+
+                .ForMember(dest => dest.APPOINTMENTDATE, act => act.MapFrom(src => src.APPOINTMENTDATE.ToShortDateString()))
+                .ForMember(dest => dest.APPOINTMENTTIME, act => act.MapFrom(src => src.APPOINTMENTDATE.TimeOfDay.ToString(@"hh\:mm")))
+                .ForMember(dest => dest.APPOINTMENTDAY, act => act.MapFrom(src => src.APPOINTMENTDATE.DayOfWeek))
+                ;
+
+            CreateMap<APPOINTMENT, AppointmentViewDetailsModel>()
+                // doctor
+                .ForMember(dest => dest.doctorID, act => act.MapFrom(src => src.DOCTORID ))
+                .ForMember(dest => dest.doctorName, act => act.MapFrom(src => src.SCHEDULE != null && src.SCHEDULE.DOCTOR != null ?
+                                                                   src.SCHEDULE.DOCTOR.DOCTORNAME : ""))
+                .ForMember(dest => dest.doctorGender, act => act.MapFrom(src => src.SCHEDULE!= null && src.SCHEDULE.DOCTOR != null ?
+                                                                    sysParam.GetAllParam().Where(s => 
+                                                                    s.ID == src.SCHEDULE.DOCTOR.DOCTORGENDER && 
+                                                                    s.GROUPID == "Gender").Select(s => s.PARAVAL)
+                                                                    .FirstOrDefault() 
+                                                                : "" ))
+                .ForMember(dest => dest.doctorSpeciality, act => act.MapFrom(src => src.SCHEDULE != null && src.SCHEDULE.DOCTOR != null ?
+                                                                   src.SCHEDULE.DOCTOR.SPECIALITY : ""))
+                //patient
+                .ForMember(dest => dest.patientName, act => act.MapFrom(src => src.PATIENT != null?
+                                                                   src.PATIENT.PATIENTNAME : ""))
+                .ForMember(dest => dest.patientGender, act => act.MapFrom(src => src.PATIENT != null  ?
+                                                                    sysParam.GetAllParam().Where(s =>
+                                                                    s.ID == src.PATIENT.PATIENTGENDER &&
+                                                                    s.GROUPID == "Gender").Select(s => s.PARAVAL)
+                                                                    .FirstOrDefault()
+                                                                : ""))
+                .ForMember(dest => dest.patientDateOfBirth, act => act.MapFrom(src => src.PATIENT != null ?
+                                                                   src.PATIENT.PATIENTDATEOFBIRTH.ToString("yyyy-MM-dd") : ""))
+                // Appointment Details
+                .ForMember(dest => dest.modeOfConsultant, act => act.MapFrom(src => src.MODEOFCONSULTANT))
+                .ForMember(dest => dest.consultantType, act => act.MapFrom(src => src.CONSULTANTTYPE))
+                .ForMember(dest => dest.dateOfConsultation, act => act.MapFrom(src => src.DATEOFCONSULTATION.Value.ToShortDateString()))
+                .ForMember(dest => dest.consultationTime, act => act.MapFrom(src => src.DATEOFCONSULTATION.Value.TimeOfDay.ToString(@"hh\:mm")))
+                .ForMember(dest => dest.appointmentDate, act => act.MapFrom(src => src.APPOINTMENTDATE!=null? src.APPOINTMENTDATE.ToShortDateString():""))
+                .ForMember(dest => dest.appointmentTime, act => act.MapFrom(src => src.APPOINTMENTDATE != null ? src.APPOINTMENTDATE.TimeOfDay.ToString(@"hh\:mm") : ""))
+                .ForMember(dest => dest.consultantTime, act => act.MapFrom(src => sysParam.GetAllParam()
+                                                                                            .Where(p=>p.ID == src.SCHEDULE.CONSULTANTTIME)
+                                                                                            .Select(s => s.PARAVAL)
+                                                                                            .FirstOrDefault()))
+                .ForMember(dest => dest.symtoms, act => act.MapFrom(src => src.SYMTOMS))
+                .ForMember(dest => dest.existingIllness, act => act.MapFrom(src => src.EXISTINGILLNESS))
+                .ForMember(dest => dest.drugAlergies, act => act.MapFrom(src => src.DRUGALLERGIES))
                 ;
         }
     }
