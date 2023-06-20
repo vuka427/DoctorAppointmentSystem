@@ -67,8 +67,14 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             }
             catch
             {
-                USER CurentUser = GetCurrentUser();
-                _logger.InsertLog("ADMIN PORTAL", "Map data SCHEDULE to DoctorScheduleViewModel is failed", nameof(LoadDoctorScheduleData), "R", CurentUser != null ? CurentUser.USERNAME : "");
+                
+                string sEventCatg = "ADMIN PORTAL";
+                string sEventMsg = "Exception: Failed to mapping data SCHEDULE to DoctorScheduleViewModel";
+                string sEventSrc = nameof(LoadDoctorScheduleData);
+                string sEventType = "C";
+                string sInsBy = GetCurrentUser().USERNAME;
+                Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
+               
             }
 
             if (!string.IsNullOrEmpty(param.sSearch)) //search
@@ -161,7 +167,13 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             }
             catch
             {
-                _logger.InsertLog("ADMIN POTAL", "Map data DoctorScheduleCreateModel to SCHEDULEl is failed", nameof(CreateDoctorSchedule), "R", CurentUser != null ? CurentUser.USERNAME : "");
+                string sEventCatg = "ADMIN PORTAL";
+                string sEventMsg = "Exception: Failed to mapping data DoctorScheduleCreateModel to SCHEDULEl";
+                string sEventSrc = nameof(CreateDoctorSchedule);
+                string sEventType = "C";
+                string sInsBy = GetCurrentUser().USERNAME;
+                Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
+               
                 return Json(new { error = 1, msg = "Create doctor schedule is failed!" });
             }
            
@@ -182,8 +194,13 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             }
             catch
             {
-                USER CurentUser = GetCurrentUser();
-                _logger.InsertLog("", "Map data SCHEDULE to DoctorScheduleViewEditModel is failed", nameof(LoadDoctorScheduleInfo),"R",CurentUser!=null?CurentUser.USERNAME: "");
+                string sEventCatg = "ADMIN PORTAL";
+                string sEventMsg = "Exception: Failed to SCHEDULE to DoctorScheduleViewEditModel";
+                string sEventSrc = nameof(LoadDoctorScheduleInfo);
+                string sEventType = "C";
+                string sInsBy = GetCurrentUser().USERNAME ;
+                Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
+                
                 return Json(new { error = 1, msg = "Get schedule info is failed!" });
             }
          
@@ -207,7 +224,12 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             }
             catch
             {
-
+                string sEventCatg = "ADMIN PORTAL";
+                string sEventMsg = "Exception: Failed to DoctorScheduleEditModel to SCHEDULE";
+                string sEventSrc = nameof(UpdateDoctorSchedule);
+                string sEventType = "C";
+                string sInsBy = GetCurrentUser().USERNAME;
+                Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
                 return Json(new { error = 1, msg = "Update doctor schedule is failed!" });
             }
             ValidationResult result = _doctorSchedule.UpdateSchedule(schedule, CurentUser.USERNAME);
@@ -241,7 +263,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
                     return currentUser;
                 }
             }
-            return null;
+            return new USER();
         }
 
     }

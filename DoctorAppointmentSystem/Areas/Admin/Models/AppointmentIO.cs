@@ -1,8 +1,15 @@
-﻿using DoctorAppointmentSystem.Models.DB;
+﻿using DoctorAppointmentSystem.Areas.Admin.Models.AppointmentManage;
+using DoctorAppointmentSystem.Areas.Admin.Models.Validation;
+using DoctorAppointmentSystem.HelperClasses;
+using DoctorAppointmentSystem.Models.Appointment.MakeAppointment;
+using DoctorAppointmentSystem.Models.DB;
 using DoctorAppointmentSystem.Services.ServiceInterface;
+using Microsoft.Ajax.Utilities;
 using System;
 using System.Collections.Generic;
+
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Web;
 
@@ -26,6 +33,75 @@ namespace DoctorAppointmentSystem.Areas.Admin.Models
         public List<APPOINTMENT> GetAllAppointment()
         {
             return _dbContext.APPOINTMENT.Where(a=>a.DELETEDFLAG == false ).Include("PATIENT").Include("SCHEDULE").Include("SCHEDULE.DOCTOR").ToList();
+        }
+
+        public ValidationResult DeleteAppointment(int ApmId ,string username)
+        {
+            var appointment = _dbContext.APPOINTMENT.Where(a=>a.DELETEDFLAG == false && a.APPOINTMENTID == ApmId).Include("APPOINTMENT_NOTE").Include("APPOINTMENT_NOTE.PRESCRIPTION").FirstOrDefault();
+           if( appointment == null)
+            {
+                return new ValidationResult { Success = false, ErrorMessage = "Can't find appointment" };
+            }
+            if (appointment.APPOINTMENT_NOTE.Count > 0)
+            {
+                appointment.APPOINTMENT_NOTE.ForEach(item => { 
+                    item.PRESCRIPTION.DELETEDFLAG = true;
+                    item.PRESCRIPTION.UPDATEDDATE = DateTime.Now;
+                    item.PRESCRIPTION.UPDATEDBY = username;
+                    _dbContext.PRESCRIPTION.AddOrUpdate(item.PRESCRIPTION);
+                });
+            }
+
+            appointment.DELETEDFLAG = true;
+            appointment.UPDATEDDATE= DateTime.Now;
+            appointment.UPDATEDBY = username;
+
+            _dbContext.APPOINTMENT.AddOrUpdate(appointment);
+
+            try
+            {
+                _dbContext.SaveChanges();
+            }
+            catch
+            {
+                string sEventCatg = "ADMIN PORTAL";
+                string sEventMsg = "Exception: Failed to delete appointment";
+                string sEventSrc = nameof(DeleteAppointment);
+                string sEventType = "D";
+                string sInsBy = username;
+
+                Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
+
+                return new ValidationResult { Success = false, ErrorMessage = "Failed to delete appointment" };
+            }
+
+            return new ValidationResult { Success = true, ErrorMessage = "ok" };
+        }
+
+        public AppointmentViewDetailsModel getAppointmentInfo(int appointmentID,string username)
+        {
+            AppointmentViewDetailsModel avm = new AppointmentViewDetailsModel();
+            try {  
+            var apm =_dbContext.APPOINTMENT.Where(a => a.APPOINTMENTID == appointmentID)
+                                            .Include("PATIENT")
+                                            .Include("SCHEDULE")
+                                            .Include("SCHEDULE.DOCTOR")
+                                            .FirstOrDefault();
+            
+                avm = _mapper.GetMapper().Map<APPOINTMENT, AppointmentViewDetailsModel>(apm);
+            }
+            catch
+            {
+                string sEventCatg = "ADMIN PORTAL";
+                string sEventMsg = "Exception: Failed to load detail appointment";
+                string sEventSrc = nameof(getAppointmentInfo);
+                string sEventType = "L";
+                string sInsBy = username;
+
+                Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
+            }
+            return avm;
+            
         }
 
     }

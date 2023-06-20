@@ -2,6 +2,7 @@
 using DoctorAppointmentSystem.Areas.Admin.Models.AdminUser;
 using DoctorAppointmentSystem.Areas.Admin.Models.AppointmentManage;
 using DoctorAppointmentSystem.Areas.Admin.Models.DataTableModel;
+using DoctorAppointmentSystem.Areas.Admin.Models.Validation;
 using DoctorAppointmentSystem.HelperClasses;
 using DoctorAppointmentSystem.Menu;
 using DoctorAppointmentSystem.Models.DB;
@@ -9,6 +10,7 @@ using DoctorAppointmentSystem.Services.ServiceInterface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Permissions;
 using System.Web;
 using System.Web.Mvc;
 
@@ -43,6 +45,9 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             ViewBag.avatar = GetInfo.GetImgPath(User.Identity.Name);
             var user = GetCurrentUser();
             ViewBag.Name = user != null ? user.USERNAME : "";
+
+            ViewBag.consultantType = SystemParaHelper.GenerateByGroup("consultantType");
+            ViewBag.modeOfConsultant = SystemParaHelper.GenerateByGroup("modeOfConsultant");
 
             return View();
         }
@@ -115,6 +120,32 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
 
         }
 
+
+        public JsonResult DeleteAppointment(int AppointmentId)
+        {
+            var user = GetCurrentUser();
+            if (user == null)
+            {
+                return Json(new {error =1, msg =" " });
+            }
+            ValidationResult result = _appointment.DeleteAppointment(AppointmentId,user.USERNAME);
+            if (result.Success)
+            {
+                return Json(new { error = 0, msg = "ok" });
+            }
+            else
+            {
+                return Json(new {error =1 , msg = result.ErrorMessage});
+            }
+        }
+
+        public JsonResult AppointViewDetail(int appointmentID)
+        {
+            var apm = _appointment.getAppointmentInfo(appointmentID, GetCurrentUser().USERNAME);
+
+            return Json(new { error = 1, msg = "ok", data= apm }, JsonRequestBehavior.AllowGet);
+        }
+
         [NonAction]
         private USER GetCurrentUser()
         {
@@ -127,8 +158,6 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
                     return currentUser;
                 }
             }
-
-
             return null;
         }
     }

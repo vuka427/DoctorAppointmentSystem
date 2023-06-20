@@ -38,6 +38,9 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
 
             ViewBag.DoctorCount = _dashboardIO.CountAllDoctor();
             ViewBag.PatientCount = _dashboardIO.CountAllPatient();
+            ViewBag.TodayAppointment =_dashboardIO.CountAppointmentToDay();
+            ViewBag.AppointmentTillDate = _dashboardIO.CountAllAppointment();
+
 
             return View();
         }
@@ -62,7 +65,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
                 }
             }
 
-            return null;
+            return new USER();
         }
 
     }

@@ -51,8 +51,23 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
         public async Task<ActionResult> LoadUserData(JqueryDatatableParam param)
         {
             var users = await _dbContext.USER.Where(d => d.DELETEDFLAG == false).Include("DOCTOR").Include("PATIENT").ToListAsync();
+            IEnumerable<UserViewModel> Users;
+            try
+            {
+                Users = users.Select(dt => _mapper.GetMapper().Map<USER, UserViewModel>(dt)).ToList();
+            }
+            catch
+            {
+                string sEventCatg = "ADMIN PORTAL";
+                string sEventMsg = "Exception: Failed to mapping USER to UserViewModel ";
+                string sEventSrc = nameof(LoadUserData);
+                string sEventType = "C";
+                string sInsBy = GetCurrentUser().USERNAME;
+                Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
 
-            IEnumerable<UserViewModel> Users =  users.Select(dt => _mapper.GetMapper().Map<USER, UserViewModel>(dt)).ToList();
+                Users = new List<UserViewModel>();
+            }
+            
 
             if (!string.IsNullOrEmpty(param.sSearch)) //search
             {
@@ -158,10 +173,15 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             {
                 _dbContext.SaveChanges();
             }
-            catch (Exception ex)
+            catch 
             {
-                //write error log
-                return Json(new { error = 1, msg = ex.ToString() });
+                string sEventCatg = "ADMIN PORTAL";
+                string sEventMsg = "Exception: Failed to delete user ";
+                string sEventSrc = nameof(DeleteUser);
+                string sEventType = "D";
+                string sInsBy = GetCurrentUser().USERNAME;
+                Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
+                return Json(new { error = 1, msg = "Faile to  delete user" });
             }
 
             return Json(new { error = 0, msg = "ok" });
@@ -212,10 +232,16 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             {
                 _dbContext.SaveChanges();
             }
-            catch (Exception ex)
+            catch
             {
-                return Json(new { error = 1, msg = ex.ToString() });
-                //write error log
+                string sEventCatg = "ADMIN PORTAL";
+                string sEventMsg = "Exception: Failed to reset password for user ";
+                string sEventSrc = nameof(ResetPassword);
+                string sEventType = "U";
+                string sInsBy = GetCurrentUser().USERNAME;
+                Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
+                return Json(new { error = 1, msg = "Faile to reset password for user" });
+
             }
 
 
@@ -278,10 +304,15 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             {
                 _dbContext.SaveChanges();
             }
-            catch (Exception ex)
+            catch
             {
-                //write error log
-                return Json(new { error = 1, msg = ex.ToString() });
+                string sEventCatg = "ADMIN PORTAL";
+                string sEventMsg = "Exception: Failed to lock account user ";
+                string sEventSrc = nameof(LockUser);
+                string sEventType = "U";
+                string sInsBy = GetCurrentUser().USERNAME;
+                Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
+                return Json(new { error = 1, msg = "Faile to lock account user" });
             }
 
             return Json(new { error = 0,  msg = "ok" ,islock = LOCK });

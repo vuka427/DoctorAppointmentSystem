@@ -537,7 +537,6 @@
     <Content Include="Scripts\bootstrap-lib-js\modernizr-2.8.3.js" />
     <Content Include="Scripts\js\adminmanagement.js" />
     <Content Include="Scripts\js\adminProfile.js" />
-    <Content Include="Scripts\js\appointmentAdmMng.js" />
     <Content Include="Scripts\js\appointmentManagement.admin.js" />
     <Content Include="Scripts\js\doctormanagement.js" />
     <Content Include="Scripts\js\doctorScheduleManagment.admin.js" />
