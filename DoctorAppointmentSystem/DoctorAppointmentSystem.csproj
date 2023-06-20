@@ -218,6 +218,7 @@
     <Compile Include="Menu\PatientMenu.cs" />
     <Compile Include="Models\Account\ChangePasswordIO.cs" />
     <Compile Include="Models\Account\ChangePassword\ChangePasswordViewModel.cs" />
+    <Compile Include="Models\Account\ChangePassword\VerifyAccountViewModel.cs" />
     <Compile Include="Models\Account\LoginIO.cs" />
     <Compile Include="Models\Account\Login\LoginViewModel.cs" />
     <Compile Include="Models\Account\RegisterIO.cs" />
@@ -296,6 +297,7 @@
     <Content Include="Content\bootstrap-lib\jquery.dataTables.min.css" />
     <Content Include="Content\bootstrap-lib\responsive.bootstrap.min.css" />
     <Content Include="Content\css\admin-appointment.css" />
+    <Content Include="Content\css\changePassword.css" />
     <Content Include="Content\css\custom-input.css" />
     <Content Include="Content\css\doctor-management.css" />
     <Content Include="Content\css\doctor-schedule-mgt.css" />
@@ -539,6 +541,7 @@
     <Content Include="Scripts\js\adminProfile.js" />
     <Content Include="Scripts\js\appointmentAdmMng.js" />
     <Content Include="Scripts\js\appointmentManagement.admin.js" />
+    <Content Include="Scripts\js\changePassword.js" />
     <Content Include="Scripts\js\doctormanagement.js" />
     <Content Include="Scripts\js\doctorScheduleManagment.admin.js" />
     <Content Include="Scripts\js\appointmentHistory.js" />
@@ -585,7 +588,6 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Home\Intro.cshtml" />
-    <Content Include="Views\Account\ChangePassword.cshtml" />
     <Content Include="Scripts\README.md" />
     <Content Include="Views\Shared\_MenuView.cshtml" />
     <Content Include="Views\Appointment\MakeAppointment.cshtml" />
@@ -596,6 +598,7 @@
     <Content Include="Views\Error\AccessDenied.cshtml" />
     <Content Include="Views\ScheduleOfDoctors\Index.cshtml" />
     <Content Include="Views\Account\Activate.cshtml" />
+    <Content Include="Views\Account\ChangePassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
