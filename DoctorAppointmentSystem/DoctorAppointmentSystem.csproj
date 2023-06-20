@@ -318,7 +318,6 @@
     <Content Include="img\carousel-patient-02.jpg" />
     <Content Include="img\carousel-patient-03.jpg" />
     <Content Include="img\CUSC-Logo-Series.ico" />
-    <Content Include="img\default-user-image.png" />
     <Content Include="img\doctor-avatar-01.jpg" />
     <Content Include="img\login-intro-img.png" />
     <Content Include="img\medical-appointment.ico" />
@@ -519,6 +518,7 @@
     <Content Include="Areas\Admin\Views\AdminUserManage\Index.cshtml" />
     <Content Include="Areas\Admin\Views\DoctorScheduleManage\Index.cshtml" />
     <Content Include="Areas\Admin\Views\AppointmentManage\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\AdminProfile\Index.cshtml" />
     <EntityDeploy Include="Models\DB\DBContext.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>DBContext.Designer.cs</LastGenOutput>
@@ -526,8 +526,6 @@
     <Content Include="Models\DB\DBContext.edmx.diagram">
       <DependentUpon>DBContext.edmx</DependentUpon>
     </Content>
-    <Content Include="Areas\Admin\Views\AdminProfile\Index.cshtml" />
-    <Content Include="libman.json" />
     <None Include="Scripts\bootstrap-lib-js\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\bootstrap-lib-js\jquery.dataTables.min.js" />
     <Content Include="Scripts\bootstrap-lib-js\jquery.validate.js" />

@@ -281,7 +281,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
                 try { 
                     _dbContext.SaveChanges();
                 }
-                catch (Exception ex)
+                catch 
                 {
                     string sEventCatg = "ADMIN PORTAL";
                     string sEventMsg = "Exception: Failed to create new role ";
@@ -554,7 +554,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             try { 
                 _dbContext.SaveChanges(); 
             }
-            catch (Exception ex)
+            catch 
             {
                 string sEventCatg = "ADMIN PORTAL";
                 string sEventMsg = "Exception: Failed to delete patient ";
