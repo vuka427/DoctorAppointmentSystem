@@ -5,7 +5,7 @@
 // It is mandatory to choose Date of Consultation and Time before choosing Doctor
 function validateAppointment() {
     var dateOfConsultation = document.getElementById("dateOfConsultation").value;
-    var time = document.getElementById("time").value;
+    var time = document.getElementById("consultationTime").value;
     var doctorSelector = document.getElementById("doctorSelector");
 
     if (dateOfConsultation === "" || time === "") {
@@ -25,7 +25,7 @@ function validateAppointment() {
 // Get a list of doctors with corresponding work schedules and load data for Doctors select list
 function sendDataToServer() {
     var dateOfConsultation = document.getElementById("dateOfConsultation").value;
-    var time = document.getElementById("time").value;
+    var time = document.getElementById("consultationTime").value;
 
     if (dateOfConsultation !== "" && time !== "") {
         $.ajax({
@@ -59,106 +59,13 @@ function sendDataToServer() {
 var dateOfConsultationInput = document.getElementById("dateOfConsultation");
 dateOfConsultationInput.addEventListener("change", sendDataToServer);
 
-var timeInput = document.getElementById("time");
+var timeInput = document.getElementById("consultationTime");
 timeInput.addEventListener("change", sendDataToServer);
 
 
 
 var doctorSelector = document.getElementById("doctorSelector");
 doctorSelector.addEventListener("click", validateAppointment);
-
-/*---------------------------------------------------------------------------------------------------*/
-/*                                     Schedule of Doctor                                            */
-/*---------------------------------------------------------------------------------------------------*/
-
-/*Using AJAX to display data of DEPARTMENT TABLE*/
-// Get schedule of doctors to display on screen
-function reloadScheduleOfDoctor() {
-    table.ajax.reload();
-}
-
-var table = $("#scheduleTbl").DataTable({
-    responsive: true,
-    columns: [
-        {
-            className: 'dt-control',
-            orderable: false,
-            data: null,
-            defaultContent: '',
-        },
-
-        {
-            data: 'doctorName',
-            title: 'Doctor Name',
-            autoWidth: true,
-            searchable: true
-        },
-        {
-            data: "speciality",
-            title: 'Speciality',
-            autoWidth: true,
-            searchable: true
-        },
-        {
-            data: 'gender',
-            title: 'Gender',
-            autoWidth: true,
-            searchable: true
-        },
-        {
-            data: 'workingDay',
-            title: 'Appointment Day',
-            autoWidth: true,
-            searchable: true
-        },
-        {
-            data: 'availableTime',
-            title: 'Available Time',
-            autoWidth: true,
-            searchable: true
-        },
-        {
-            data: 'consultantTime',
-            title: 'Consultant Time',
-            autoWidth: true,
-            searchable: true
-        },
-        {
-            responsivePriority: 1,
-            data: 'scheduleID',
-            title: "Action",
-            autoWidth: true,
-            searchable: true,
-            render: function (data, type, row) {
-                return type === 'display' ? '<a data-doctorid="' + row.doctorID + '" data-scheduleid="' + data + '" data-available="' + row.availableTime + '"  class="btn btn-outline-primary btn-sm ml-1 btn-appointment" role="button"><i class="fa-regular fa-calendar-plus"></i></div>' : data;
-            }
-        }
-    ]
-});
-
-var selectedDoctorID = 0;
-$("#doctorSelector").change(function () {
-    selectedDoctorID = $(this).val();
-    $.ajax({
-        url: '/Appointment/ScheduleOfDoctor',
-        method: 'GET',
-        data: { doctorID: selectedDoctorID },
-        dataType: 'json',
-        success: function (response) {
-            table.clear().draw();
-            table.rows.add(response.data).draw();
-        },
-        error: function (xhr, status, error) {
-            console.error(error);
-        }
-    });
-});
-
-
-
-/*---------------------------------------------------------------------------------------------------*/
-/*                                           Appointment                                             */
-/*---------------------------------------------------------------------------------------------------*/
 
 var selectedDoctorID = 0;
 var selectedScheduleID = 0;
@@ -174,18 +81,18 @@ $(document).on('change', '#doctorSelector', function () {
     loadAppointment(selectedDoctorID, selectedScheduleID);
 })
 
-var appointmentDate = null;
-var time = null;
+var dateOfConsultation = null;
+var consultationTime = null;
 
 $(document).on('change', '#dateOfConsultation', function () {
-    appointmentDate = $('#dateOfConsultation').val();
+    dateOfConsultation = $('#dateOfConsultation').val();
     resetPTag();
     var selectTag = document.getElementById('doctorSelector');
     selectTag.selectedIndex = 0;
 })
 
-$(document).on('change', '#time', function () {
-    time = $('#time').val();
+$(document).on('change', '#consultationTime', function () {
+    consultationTime = $('#consultationTime').val();
     resetPTag();
     var selectTag = document.getElementById('doctorSelector');
     selectTag.selectedIndex = 0;
@@ -202,14 +109,15 @@ function loadAppointment(selectedDoctorID, selectedScheduleID) {
         },
         dataType: 'JSON',
         success: function (res) {
+            console.log(res.data);
             $('#doctorName').text(res.data.doctorName);
             $('#doctorGender').text(res.data.doctorGender);
             $('#speciality').text(res.data.doctorSpeciality);
             $('#patientName').text(res.data.patientName);
             $('#patientGender').text(res.data.patientGender);
             $('#dateOfBirth').text(res.data.patientDateOfBirth);
-            $('#appointmentDate').text(appointmentDate);
-            $('#appointmentTime').text(time);
+            $('#consultationDate').text(dateOfConsultation);
+            $('#time').text(consultationTime);
         },
         error: function (err) {
             console.log(err.responseText);
@@ -235,6 +143,12 @@ function resetPTag() {
         item.textContent = ''
 }
 
+$('#btnCancel').click(function () {
+    resetInputTag();
+    resetSelectTag();
+    resetPTag();
+})
+
 $('#appointmentForm').submit(function (event) {
     event.preventDefault();
 
@@ -255,9 +169,9 @@ $('#appointmentForm').submit(function (event) {
                 modeOfConsultant: $('#modeOfConsultant').val(),
                 symtoms: $('#symtoms').val(),
                 existingIllness: $('#existingIllness').val(),
-                drugAllargies: $('#drugAlergies').val(),
-                appointmentDate: $('#appointmentDate').text(),
-                appointmentTime: $('#appointmentTime').text()
+                drugAlergies: $('#drugAlergies').val(),
+                dateOfConsultation: $('#consultationDate').text(),
+                consultationTime: $('#time').text()
             }
 
             $.ajax({
@@ -283,9 +197,11 @@ $('#appointmentForm').submit(function (event) {
 
                         // Reset all p tag
                         resetPTag()
-                        var pTag = document.getElementsByTagName('p');
-                        for (var item of pTag)
-                            item.textContent = ''
+
+                        var textareaTag = document.getElementsByTagName('textarea');
+                        for (var item of textareaTag)
+                            item.value = ''
+
                     } else {
                         Swal.fire({
                             position: 'top',
@@ -364,7 +280,6 @@ var validateData = function () {
     })
 }
  
-
 $(document).ready(function () {
     validateData();
 })

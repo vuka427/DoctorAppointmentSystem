@@ -18,8 +18,8 @@
                 } else {
                     Swal.fire({
                         position: 'top',
-                        icon: 'error',
-                        title: 'Error',
+                        icon: 'warning',
+                        title: 'Failed!',
                         text: res.message,
                         showConfirmButton: false,
                         timer: 2000,
@@ -30,7 +30,7 @@
             error: function (err) {
                 Swal.fire({
                     position: 'top',
-                    icon: 'error',
+                    icon: 'warning',
                     title: 'Connect to Sever failed!',
                     text: res.message,
                     showConfirmButton: false,
@@ -42,8 +42,8 @@
     } else {
         Swal.fire({
             position: 'top',
-            icon: 'error',
-            title: 'Error',
+            icon: 'warning',
+            title: 'Failed!',
             text: 'Please fill out the form completely!',
             showConfirmButton: false,
             timer: 2000,

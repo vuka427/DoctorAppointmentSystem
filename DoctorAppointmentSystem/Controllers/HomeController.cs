@@ -14,6 +14,8 @@ namespace DoctorAppointmentSystem.Controllers
     {
         public ActionResult Index()
         {
+            ViewBag.consultantType = SystemParaHelper.GenerateByGroup("consultantType");
+            ViewBag.modeOfConsultant = SystemParaHelper.GenerateByGroup("modeOfConsultant");
             ViewBag.menu = RenderMenu.RenderPatientMenu("Home");
             ViewBag.name = GetInfo.GetFullName(User.Identity.Name);
             ViewBag.avatar = GetInfo.GetImgPath(User.Identity.Name);

@@ -26,8 +26,8 @@ namespace DoctorAppointmentSystem.Models.DB
         public int SCHEDULEID { get; set; }
         public int CONSULTANTTYPE { get; set; }
         public int MODEOFCONSULTANT { get; set; }
-        public Nullable<System.DateTime> DATEOFCONSULTATION { get; set; }
-        public System.DateTime APPOINTMENTDATE { get; set; }
+        public System.DateTime DATEOFCONSULTATION { get; set; }
+        public Nullable<System.DateTime> APPOINTMENTDATE { get; set; }
         public string APPOIMENTSTATUS { get; set; }
         public Nullable<System.DateTime> CLOSEDDATE { get; set; }
         public string CLOSEDBY { get; set; }
