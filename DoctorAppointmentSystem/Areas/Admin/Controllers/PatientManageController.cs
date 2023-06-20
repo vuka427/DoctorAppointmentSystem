@@ -53,7 +53,21 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
         {
             
             var patients = await _dbContext.PATIENT.Where(d => d.DELETEDFLAG == false).Include("USER").ToListAsync();
-            IEnumerable<PatientViewModel> Patients = patients.Select(dt => _mapper.GetMapper().Map<PATIENT, PatientViewModel>(dt)).ToList();
+            IEnumerable<PatientViewModel> Patients;
+            try
+            {
+                Patients = patients.Select(dt => _mapper.GetMapper().Map<PATIENT, PatientViewModel>(dt)).ToList();
+            }
+            catch
+            {
+                string sEventCatg = "ADMIN PORTAL";
+                string sEventMsg = "Exception: Failed to mapping PATIENT to PatientViewModel";
+                string sEventSrc = nameof(LoadPatientData);
+                string sEventType = "C";
+                string sInsBy = GetCurrentUser().USERNAME;
+                Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
+                Patients = new List<PatientViewModel>();
+            }
 
             if (!string.IsNullOrEmpty(param.sSearch)) //search
             {
@@ -228,9 +242,23 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             }
 
             //map model bind to doctor
+            PATIENT Patient;
+            try
+            {
+                Patient = _mapper.GetMapper().Map<PatientCreateModel, PATIENT>(model);
 
-            PATIENT Patient = _mapper.GetMapper().Map<PatientCreateModel, PATIENT>(model);
-
+            }
+            catch
+            {
+                string sEventCatg = "ADMIN PORTAL";
+                string sEventMsg = "Exception: Failed to mapping PatientCreateModel to PATIENT ";
+                string sEventSrc = nameof(CreatePatient);
+                string sEventType = "C";
+                string sInsBy = GetCurrentUser().USERNAME;
+                Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
+                return Json(new { error = 1, msg = "Faile to create patient" });
+            }
+           
             var date = DateTime.Now;
             Patient.CREATEDBY = CurentUser.USERNAME;
             Patient.CREATEDDATE = date;
@@ -255,8 +283,13 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
                 }
                 catch (Exception ex)
                 {
-                    //write error log
-                    return Json(new { error = 1, msg = ex.ToString() });
+                    string sEventCatg = "ADMIN PORTAL";
+                    string sEventMsg = "Exception: Failed to create new role ";
+                    string sEventSrc = nameof(CreatePatient);
+                    string sEventType = "I";
+                    string sInsBy = GetCurrentUser().USERNAME;
+                    Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
+                    return Json(new { error = 1, msg = "Faile to create patient" });
                 }
 
 
@@ -273,6 +306,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
                 EMAIL = model.EMAIL,
                 USERTYPE = "Patient",//Patient, Doctor , Admin 
                 LOGINRETRYCOUNT = 0,
+                LASTLOGIN= DateTime.Now,
                 STATUS = true,
                 CREATEDBY = CurentUser.USERNAME,
                 UPDATEDBY = CurentUser.USERNAME,
@@ -290,10 +324,15 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             try { 
                 _dbContext.SaveChanges(); 
             }
-            catch (Exception ex)
+            catch 
             {
-                //write error log
-                return Json(new { error = 1, msg = ex.ToString() });
+                string sEventCatg = "ADMIN PORTAL";
+                string sEventMsg = "Exception: Failed to create new patient ";
+                string sEventSrc = nameof(CreatePatient);
+                string sEventType = "I";
+                string sInsBy = GetCurrentUser().USERNAME;
+                Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
+                return Json(new { error = 1, msg = "Faile to create patient" });
             }
 
 
@@ -314,11 +353,24 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             {
                 return Json(new { error = 1, msg = "Error! do not find patient !" });
             }
-
+            PatientViewEditModel patientInfo;
+            try
+            {
+                patientInfo = _mapper.GetMapper().Map<PATIENT, PatientViewEditModel>(patient);
+            }
+            catch
+            {
+                string sEventCatg = "ADMIN PORTAL";
+                string sEventMsg = "Exception: Failed to mapping PATIENT to PatientViewEditModel";
+                string sEventSrc = nameof(LoadPatientInfo);
+                string sEventType = "C";
+                string sInsBy = GetCurrentUser().USERNAME;
+                Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
+                return Json(new { error = 1, msg = "Faile to load patient info" });
+            }
            
-            PatientViewEditModel dt = _mapper.GetMapper().Map<PATIENT, PatientViewEditModel>(patient);
 
-            return Json(new { error = 0, msg = "ok", patient = dt });
+            return Json(new { error = 0, msg = "ok", patient = patientInfo });
         }
 
         // Create patient 
@@ -409,15 +461,31 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             }
 
             // check ADDRESS
+
             ValidationResult AddressValidResult = ValidationInput.AddressIsValid(model.PATIENTADDRESS);
+
             if (!AddressValidResult.Success)
             {
                 return Json(new { error = 1, msg = AddressValidResult.ErrorMessage });
             }
 
             //map model bind to doctor
-
-            PATIENT newPatient = _mapper.GetMapper().Map<PatientEditModel, PATIENT>(model);
+            PATIENT newPatient;
+            try
+            {
+                newPatient = _mapper.GetMapper().Map<PatientEditModel, PATIENT>(model);
+            }
+            catch
+            {
+                string sEventCatg = "ADMIN PORTAL";
+                string sEventMsg = "Exception: Failed to mapping PatientEditModel to PATIENT ";
+                string sEventSrc = nameof(UpdatePatient);
+                string sEventType = "C";
+                string sInsBy = GetCurrentUser().USERNAME;
+                Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
+                return Json(new { error = 1, msg = "Faile to update patient" });
+            }
+           
 
             //update old doctor info to new doctor  
             var date = DateTime.Now;
@@ -432,11 +500,24 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             oldUser.EMAIL = model.EMAIL;
             oldUser.UPDATEDBY = CurentUser.USERNAME;
             oldUser.UPDATEDDATE = date;
-           
+            try
+            {
+                _dbContext.USER.AddOrUpdate(oldUser);
+                _dbContext.PATIENT.AddOrUpdate(newPatient);
+                _dbContext.SaveChanges();
+            }
+            catch
+            {
+                string sEventCatg = "ADMIN PORTAL";
+                string sEventMsg = "Exception: Failed to update patient";
+                string sEventSrc = nameof(UpdatePatient);
+                string sEventType = "U";
+                string sInsBy = GetCurrentUser().USERNAME;
+                Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
+                return Json(new { error = 1, msg = "Faile to update patient" });
+            }
 
-            _dbContext.USER.AddOrUpdate(oldUser);
-            _dbContext.PATIENT.AddOrUpdate(newPatient);
-            _dbContext.SaveChanges();
+            
 
 
             return Json(new { error = 0, msg = "ok" });
@@ -475,8 +556,13 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
-                //write error log
-                return Json(new { error = 1, msg = ex.ToString() });
+                string sEventCatg = "ADMIN PORTAL";
+                string sEventMsg = "Exception: Failed to delete patient ";
+                string sEventSrc = nameof(DeletePatient);
+                string sEventType = "D";
+                string sInsBy = GetCurrentUser().USERNAME;
+                Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
+                return Json(new { error = 1, msg = "Faile to delete patient" });
             }
 
 
@@ -497,7 +583,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             }
 
 
-            return null;
+            return new USER();
         }
     }
 }

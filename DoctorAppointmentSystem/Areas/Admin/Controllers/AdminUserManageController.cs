@@ -55,8 +55,26 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
         public async Task<ActionResult> LoadAdminData(JqueryDatatableParam param)
         {
             var users = await _dbContext.USER.Where(d => d.DELETEDFLAG == false && d.USERTYPE == "Admin").ToListAsync();
+            IEnumerable<AdminUserViewModel> Users;
+            try
+            {
+                Users = users.Select(dt => _mapper.GetMapper().Map<USER, AdminUserViewModel>(dt)).ToList();
+            }
+            catch
+            {
 
-            IEnumerable<AdminUserViewModel> Users = users.Select(dt => _mapper.GetMapper().Map<USER, AdminUserViewModel>(dt)).ToList();
+                string sEventCatg = "ADMIN PORTAL";
+                string sEventMsg = "Exception: Failed to mapping USER to AdminUserViewModel";
+                string sEventSrc = nameof(LoadAdminData);
+                string sEventType = "C";
+                string sInsBy = GetCurrentUser().USERNAME;
+
+                Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
+
+                Users = new List<AdminUserViewModel>();
+
+            }
+            
 
             if (!string.IsNullOrEmpty(param.sSearch)) //search
             {
@@ -168,8 +186,13 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
                 }
                 catch 
                 {
-                    //write error log
-                    _logger.InsertLog("Admin","create admin is failed",nameof(CreateAdmin),"I",CurentUser.USERNAME);
+                    string sEventCatg = "ADMIN PORTAL";
+                    string sEventMsg = "Exception: Failed to save new role ";
+                    string sEventSrc = nameof(CreateAdmin);
+                    string sEventType = "I";
+                    string sInsBy = CurentUser.USERNAME;
+                    Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
+
                     return Json(new { error = 1, msg = "create admin is failed !" });
                 }
             }
@@ -185,6 +208,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
                 EMAIL = model.EMAIL,
                 USERTYPE = "Admin",//Partient , Doctor
                 LOGINRETRYCOUNT = 0,
+                LASTLOGIN = DateTime.Now,
                 STATUS = true,
                 CREATEDBY = CurentUser.USERNAME,
                 UPDATEDBY = CurentUser.USERNAME,
@@ -201,9 +225,15 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             }
             catch 
             {
-                //write error log
-                _logger.InsertLog("Admin", "create admin failed", nameof(CreateAdmin), "I", CurentUser.USERNAME);
-                return Json(new { error = 1, msg = "Create admin is failed !" });
+                string sEventCatg = "ADMIN PORTAL";
+                string sEventMsg = "Exception: Failed to save new account admin  ";
+                string sEventSrc = nameof(CreateAdmin);
+                string sEventType = "I";
+                string sInsBy = CurentUser.USERNAME;
+                Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
+
+                return Json(new { error = 1, msg = "create admin is failed !" });
+
             }
 
             return Json(new { error = 0, msg = "ok" });
@@ -222,10 +252,26 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             {
                 return Json(new { error = 1, msg = "Error! do not find doctor!" });
             }
+            try
+            {
+                var adminInfo = _mapper.GetMapper().Map<USER, AdminUserViewEditModel>(userAdmin);
+                return Json(new { error = 0, msg = "ok", admin = adminInfo });
 
-            var adminInfo = _mapper.GetMapper().Map<USER, AdminUserViewEditModel>(userAdmin);
+            }
+            catch
+            {
+                string sEventCatg = "ADMIN PORTAL";
+                string sEventMsg = "Exception: Failed to mapping USER to AdminUserViewEditModel ";
+                string sEventSrc = nameof(LoadAdminInfo);
+                string sEventType = "C";
+                string sInsBy = GetCurrentUser().USERNAME;
+                Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
+
+                return Json(new { error = 1, msg = "Load admin info is failed !" });
+            }
+            
           
-            return Json(new { error = 0, msg = "ok", admin = adminInfo });
+            
         }
 
         [HttpPost]
@@ -261,10 +307,16 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             {
                 _dbContext.SaveChanges();
             }
-            catch (Exception ex)
+            catch 
             {
-                //write error log
-                return Json(new { error = 1, msg = ex.ToString() });
+                string sEventCatg = "ADMIN PORTAL";
+                string sEventMsg = "Exception: Failed to update admin account ";
+                string sEventSrc = nameof(UpdateAdmin);
+                string sEventType = "U";
+                string sInsBy = CurentUser.USERNAME;
+                Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
+
+                return Json(new { error = 1, msg = "Update admin is failed !" });
             }
 
             return Json(new { error = 0, msg = "ok" });
@@ -297,10 +349,15 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             {
                 _dbContext.SaveChanges();
             }
-            catch (Exception ex)
+            catch 
             {
-                //write error log
-                return Json(new { error = 1, msg = ex.ToString() });
+                string sEventCatg = "ADMIN PORTAL";
+                string sEventMsg = "Exception: Failed to delete admin account";
+                string sEventSrc = nameof(DeleteAdmin);
+                string sEventType = "D";
+                string sInsBy = GetCurrentUser().USERNAME;
+                Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
+                return Json(new { error = 1, msg = "Failed to delete admin account" });
             }
 
             return Json(new { error = 0, msg = "ok" });

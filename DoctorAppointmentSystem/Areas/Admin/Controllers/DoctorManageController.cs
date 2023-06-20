@@ -1,4 +1,5 @@
 ﻿using Antlr.Runtime;
+using DoctorAppointmentSystem.Areas.Admin.Models;
 using DoctorAppointmentSystem.Areas.Admin.Models.DataTableModel;
 using DoctorAppointmentSystem.Areas.Admin.Models.DoctorManage;
 using DoctorAppointmentSystem.Areas.Admin.Models.Validation;
@@ -30,16 +31,20 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
         private readonly DBContext _dbContext;
         private readonly ISystemParamService _sysParam;
         private readonly IMapperService _mapper;
+        private readonly DoctorIO _doctorIO;
 
-        public DoctorManageController(DBContext dbContext, ISystemParamService sysParam, IMapperService mapper)
+        public DoctorManageController(DBContext dbContext, ISystemParamService sysParam, IMapperService mapper, DoctorIO doctorIO)
         {
             _dbContext = dbContext;
             _sysParam = sysParam;
             _mapper = mapper;
+            _doctorIO = doctorIO;
         }
 
+
+
         // GET: Admin/DoctorManage
-      
+
         public ActionResult Index()
         {
             AdminMenu menu = new AdminMenu();
@@ -142,189 +147,18 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
         [HttpPost]
         public JsonResult CreateDoctor(DoctorCreateModel model)
         {
-            model.DOCTORNAME = model.DOCTORNAME != null ? model.DOCTORNAME.Trim() : model.DOCTORNAME;
-            model.DOCTORNATIONALID = model.DOCTORNATIONALID != null ? model.DOCTORNATIONALID.Trim() : model.DOCTORNATIONALID;
-            model.DOCTORADDRESS = model.DOCTORADDRESS != null ? model.DOCTORADDRESS.Trim() : model.DOCTORADDRESS;
-
             USER CurentUser = GetCurrentUser();
             if (CurentUser == null)
             {
                 return Json(new { error = 1, msg = "Can't find current user !" });
             }
 
-            // validation
-            // check DOCTORNAME
-            ValidationResult NameValidResult = ValidationInput.NameIsValid(model.DOCTORNAME,"Doctor name");
-            if (!NameValidResult.Success)
+            var result = _doctorIO.CreateDoctor(model, CurentUser.USERNAME);
+            if (result.Success)
             {
-                return Json(new { error = 1, msg = NameValidResult.ErrorMessage });
+                return Json(new { error = 0, msg = "ok" });
             }
-
-            // check USERNAME
-            ValidationResult UNValidResult = ValidationInput.UserNameIsValid(model.USERNAME, "Username");
-            if (!UNValidResult.Success)
-            {
-                return Json(new { error = 1, msg = UNValidResult.ErrorMessage });
-            }
-
-            var usermatch = _dbContext.USER.Where(u => u.USERNAME == model.USERNAME).ToList();
-            if(usermatch.Count > 0)
-            {
-                return Json(new { error = 1, msg = "Username already exists!" });
-            }
-
-            // check DOCTORGENDER
-            var sysParam = _sysParam.GetAllParam();
-            ValidationResult GenderValidResult = ValidationInput.GenderIsValid(model.DOCTORGENDER, sysParam);
-            if (!GenderValidResult.Success)
-            {
-                return Json(new { error = 1, msg = GenderValidResult.ErrorMessage });
-            }
-
-            // check PASSWORD
-            ValidationResult PaswdValidResult = ValidationInput.PasswordIsValid(model.PASSWORD);
-            if (!PaswdValidResult.Success)
-            {
-                return Json(new { error = 1, msg = PaswdValidResult.ErrorMessage });
-            }
-            // check DOCTORNATIONALID
-            ValidationResult NationalValidResult = ValidationInput.NationalIsValid(model.DOCTORNATIONALID);
-            if(!NationalValidResult.Success){
-                return Json(new { error = 1, msg = NationalValidResult.ErrorMessage });
-            }
-            var nationidmatch = _dbContext.DOCTOR.Where(u => u.DOCTORNATIONALID == model.DOCTORNATIONALID).ToList();
-            if (nationidmatch.Count > 0)
-            {
-                return Json(new { error = 1, msg = "Nation ID already exists !" });
-            }
-
-            //check DOCTORDATEOFBIRTH
-            ValidationResult DOBValidResult = ValidationInput.DateOfBirthIsValid(model.DOCTORDATEOFBIRTH);
-            if (!DOBValidResult.Success)
-            {
-                return Json(new { error = 1, msg = DOBValidResult.ErrorMessage });
-            }
-
-            //check DOCTORMOBILENO
-            ValidationResult MobileValidResult = ValidationInput.MobileIsValid(model.DOCTORMOBILENO);
-            if (!MobileValidResult.Success)
-            {
-                return Json(new { error = 1, msg = MobileValidResult.ErrorMessage });
-            }
-            var mobilematch = _dbContext.DOCTOR.Where(u => u.DOCTORMOBILENO == model.DOCTORMOBILENO).ToList();
-            if (mobilematch.Count > 0)
-            {
-                return Json(new { error = 1, msg = "Mobile number already exists !" });
-            }
-            // check EMAIL
-            ValidationResult EmailValidResult = ValidationInput.EmailIsValid(model.EMAIL);
-            if (!EmailValidResult.Success)
-            {
-                return Json(new { error = 1, msg = EmailValidResult.ErrorMessage });
-            }
-            var emailmatch = _dbContext.USER.Where(u => u.EMAIL == model.EMAIL).ToList();
-            if (emailmatch.Count > 0)
-            {
-                return Json(new { error = 1, msg = "Email already exists!" });
-            }
-
-            // check DOCTORADDRESS
-            ValidationResult AddressValidResult = ValidationInput.AddressIsValid(model.DOCTORADDRESS);
-            if (!AddressValidResult.Success)
-            {
-                return Json(new { error = 1, msg = AddressValidResult.ErrorMessage });
-            }
-            // check SPECIALITY
-            ValidationResult SpecialityValidResult = ValidationInput.SpecialityIsValid(model.SPECIALITY);
-            if (!SpecialityValidResult.Success)
-            {
-                return Json(new { error = 1, msg = SpecialityValidResult.ErrorMessage });
-            }
-
-            // check WORKINGSTARTDATE , WORKINGENDDATE
-            ValidationResult WorkingValidResult = ValidationInput.WorkingIsValid(model.WORKINGSTARTDATE, model.WORKINGENDDATE);
-            if (!WorkingValidResult.Success)
-            {
-                return Json(new { error = 1, msg = WorkingValidResult.ErrorMessage });
-            }
-
-            //map model bind to doctor
-
-            DOCTOR Doctors = _mapper.GetMapper().Map<DoctorCreateModel, DOCTOR>(model);
-
-            var department = _dbContext.DEPARTMENT.Find(Doctors.DEPARTMENTID);
-            if (department == null) { return Json(new { error = 1, msg = "Error ! Can`t find Department !" }); }
-            Doctors.DEPARTMENT = department;
-
-            var date = DateTime.Now;
-            Doctors.CREATEDBY = CurentUser.USERNAME;
-            Doctors.CREATEDDATE = date;
-            Doctors.UPDATEDBY = CurentUser.USERNAME;
-            Doctors.UPDATEDDATE = date;
-
-            //check role exists
-            var role = _dbContext.ROLE.Where(r => r.ROLENAME == "Doctor").FirstOrDefault();
-            if (role== null)
-            {
-              role = _dbContext.ROLE.Add(new ROLE()
-                {
-                    ROLENAME = "Doctor",
-                    CREATEDBY = CurentUser.USERNAME,
-                    UPDATEDBY = CurentUser.USERNAME,
-                    CREATEDDATE = date,
-                    UPDATEDDATE = date,
-                    DELETEDFLAG = false,
-                });
-
-                try
-                {
-                    _dbContext.SaveChanges();
-
-                }
-                catch (Exception ex)
-                {
-                    //write error log
-                    return Json(new { error = 1, msg = ex.ToString() });
-                }
-            }
-
-            var hashcode = PasswordHelper.HashPassword(model.PASSWORD);
-
-            USER user = new USER() {
-                
-                USERNAME = model.USERNAME,
-                ROLEID = role.ROLEID,
-                PASSWORDHASH = hashcode,
-                EMAIL = model.EMAIL,
-                USERTYPE = "Doctor",//Partient , Admin
-                LOGINRETRYCOUNT = 0 ,
-                STATUS = true,
-                CREATEDBY = CurentUser.USERNAME,
-                UPDATEDBY = CurentUser.USERNAME,
-                CREATEDDATE = date,
-                UPDATEDDATE = date,
-                DELETEDFLAG = false,
-            };
-
-            var newuser = _dbContext.USER.Add(user);
-            Doctors.USERID = newuser.USERID;
-            _dbContext.DOCTOR.Add(Doctors);
-
-            try
-            { 
-               
-                _dbContext.SaveChanges();
-
-            }catch(Exception ex)
-            {
-                //write error log
-                return Json(new { error = 1, msg = ex.ToString() });
-            }
-
-          
-
-
-            return Json(new { error = 0, msg = "ok" });
+            return Json(new { error = 1, msg = result.ErrorMessage });
         }
 
 
@@ -342,7 +176,6 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
                 return Json(new { error = 1, msg = "Error! do not find doctor!" });
             }
 
-           
             DoctorViewEditModel dt = _mapper.GetMapper().Map<DOCTOR, DoctorViewEditModel>(doctor);
 
             return Json(new { error = 0, msg = "ok", doctor = dt });
@@ -357,143 +190,12 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             {
                 return Json(new { error = 1, msg = "Can't find current user !" });
             }
-
-            var oldDoctor = _dbContext.DOCTOR.Where(d => d.DOCTORID == model.DOCTORID && d.DELETEDFLAG == false).Include("USER").FirstOrDefault();
-            USER oldUser = null;
-
-            if (oldDoctor == null)
+            var result = _doctorIO.UpdateDoctor(model, CurentUser.USERNAME);
+            if (result.Success)
             {
-                return Json(new { error = 1, msg = "Error ! Can`t find Doctor !" });
+                return Json(new { error = 0, msg = "ok" });
             }
-            else
-            {
-                if (oldDoctor.USER == null)
-                {
-                    return Json(new { error = 1, msg = "Error ! Can`t find Doctor !" });
-                }
-                oldUser = oldDoctor.USER;
-            }
-
-            model.DOCTORNAME = model.DOCTORNAME != null ? model.DOCTORNAME.Trim() : model.DOCTORNAME;
-            model.DOCTORNATIONALID = model.DOCTORNATIONALID != null ? model.DOCTORNATIONALID.Trim() : model.DOCTORNATIONALID;
-            model.DOCTORADDRESS = model.DOCTORADDRESS != null ? model.DOCTORADDRESS.Trim() : model.DOCTORADDRESS;
-;
-            // validation
-            // check DOCTORNAME
-            ValidationResult NameValidResult = ValidationInput.NameIsValid(model.DOCTORNAME, "Doctor name");
-            if (!NameValidResult.Success)
-            {
-                return Json(new { error = 1, msg = NameValidResult.ErrorMessage });
-            }
-            // check DOCTORGENDER
-            var sysParam = _sysParam.GetAllParam();
-            ValidationResult GenderValidResult = ValidationInput.GenderIsValid(model.DOCTORGENDER, sysParam);
-            if (!GenderValidResult.Success)
-            {
-                return Json(new { error = 1, msg = GenderValidResult.ErrorMessage });
-            }
-
-            // check DOCTORNATIONALID
-            ValidationResult NationalValidResult = ValidationInput.NationalIsValid(model.DOCTORNATIONALID);
-            if (!NationalValidResult.Success)
-            {
-                return Json(new { error = 1, msg = NationalValidResult.ErrorMessage });
-            }
-            var nationidmatch = _dbContext.DOCTOR.Where(u => u.DOCTORNATIONALID == model.DOCTORNATIONALID && 
-                                                             u.DOCTORNATIONALID != oldDoctor.DOCTORNATIONALID ).ToList();
-            if (nationidmatch.Count > 0)
-            {
-                return Json(new { error = 1, msg = "Nation ID already exists !" });
-            }
-
-            //check DOCTORDATEOFBIRTH
-            ValidationResult DOBValidResult = ValidationInput.DateOfBirthIsValid(model.DOCTORDATEOFBIRTH);
-            if (!DOBValidResult.Success)
-            {
-                return Json(new { error = 1, msg = DOBValidResult.ErrorMessage });
-            }
-
-            //check DOCTORMOBILENO
-            ValidationResult MobileValidResult = ValidationInput.MobileIsValid(model.DOCTORMOBILENO);
-            if (!MobileValidResult.Success)
-            {
-                return Json(new { error = 1, msg = MobileValidResult.ErrorMessage });
-            }
-            var mobilematch = _dbContext.DOCTOR.Where(u => u.DOCTORMOBILENO == model.DOCTORMOBILENO && 
-                                                           u.DOCTORMOBILENO != oldDoctor.DOCTORMOBILENO ).ToList();
-            if (mobilematch.Count > 0)
-            {
-                return Json(new { error = 1, msg = "Mobile number already exists !" });
-            }
-
-            // check EMAIL
-            ValidationResult EmailValidResult = ValidationInput.EmailIsValid(model.EMAIL);
-            if (!EmailValidResult.Success)
-            {
-                return Json(new { error = 1, msg = EmailValidResult.ErrorMessage });
-            }
-            var emailmatch = _dbContext.USER.Where(u => u.EMAIL == model.EMAIL && 
-                                                        u.EMAIL != oldDoctor.USER.EMAIL).ToList();
-            if (emailmatch.Count > 0)
-            {
-                return Json(new { error = 1, msg = "Email already exists!" });
-            }
-
-            // check DOCTORADDRESS
-            ValidationResult AddressValidResult = ValidationInput.AddressIsValid(model.DOCTORADDRESS);
-            if (!AddressValidResult.Success)
-            {
-                return Json(new { error = 1, msg = AddressValidResult.ErrorMessage });
-            }
-            // check SPECIALITY
-            ValidationResult SpecialityValidResult = ValidationInput.SpecialityIsValid(model.SPECIALITY);
-            if (!SpecialityValidResult.Success)
-            {
-                return Json(new { error = 1, msg = SpecialityValidResult.ErrorMessage });
-            }
-
-            // check WORKINGSTARTDATE , WORKINGENDDATE
-            ValidationResult WorkingValidResult = ValidationInput.WorkingIsValid(model.WORKINGSTARTDATE, model.WORKINGENDDATE);
-            if (!WorkingValidResult.Success)
-            {
-                return Json(new { error = 1, msg = WorkingValidResult.ErrorMessage });
-            }
-            //map model bind to doctor
-
-            DOCTOR newDoctors = _mapper.GetMapper().Map<DoctorEditModel, DOCTOR>(model);
-
-            var department = _dbContext.DEPARTMENT.Find(newDoctors.DEPARTMENTID);
-            if (department == null) { return Json(new { error = 1, msg = "Error ! Can`t find Department !" }); }
-            newDoctors.DEPARTMENT = department;
-            var date = DateTime.Now;
-            
-            //update old doctor info to new doctor  
-            newDoctors.DOCTORID = oldDoctor.DOCTORID;
-            newDoctors.USERID = oldUser.USERID;
-            newDoctors.CREATEDBY = oldDoctor.CREATEDBY;
-            newDoctors.CREATEDDATE = oldDoctor.CREATEDDATE;
-            newDoctors.UPDATEDBY = CurentUser.USERNAME;
-            newDoctors.UPDATEDDATE = date;
-            newDoctors.DELETEDFLAG = false;
-
-            //update user info
-            oldUser.EMAIL = model.EMAIL;
-            oldUser.UPDATEDDATE = date;
-            oldUser.UPDATEDBY = CurentUser.USERNAME;
-
-            _dbContext.USER.AddOrUpdate(oldUser);
-            _dbContext.DOCTOR.AddOrUpdate(newDoctors);
-            try
-            {
-                _dbContext.SaveChanges();
-            } catch(Exception ex)
-            {
-                //write error log
-                return Json(new { error = 1, msg = ex.ToString() });
-            }
-            
-
-            return Json(new { error = 0, msg = "ok" });
+            return Json(new { error = 1, msg = result.ErrorMessage });
 
         }
 
@@ -523,7 +225,6 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             doctor.USER.DELETEDFLAG = true;
             doctor.USER.UPDATEDBY = CurentUser.USERNAME;
             
-
             _dbContext.DOCTOR.AddOrUpdate(doctor);
             _dbContext.USER.AddOrUpdate(doctor.USER);
             try {
