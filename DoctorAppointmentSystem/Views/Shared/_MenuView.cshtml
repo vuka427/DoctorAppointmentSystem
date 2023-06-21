@@ -37,17 +37,15 @@
                 else
                 {
                     <a class="dropdown-item custom-dropdown-item" href=@Url.Action("Index", "Profile")>View Profile</a>
-                    <a class="dropdown-item custom-dropdown-item" href="#">Change Password</a>
                 }
             }
             else
-            {
+            { 
                 <a class="dropdown-item custom-dropdown-item" href=@Url.Action("Index", "Profile")>View Profile</a>
-                <a class="dropdown-item custom-dropdown-item" href="#">Change Password</a>
             }
 
 
-
+            <a class="dropdown-item custom-dropdown-item" href="@Url.Action("ChangePassword", "Account")">Change Password</a>
         </div>
     </div>
     <h2 class="text-center" id="label-fullName">@ViewBag.Name</h2>

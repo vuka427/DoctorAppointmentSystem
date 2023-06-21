@@ -45,7 +45,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
         public ActionResult Index()
         {
             AdminMenu menu = new AdminMenu();
-            ViewBag.menu = menu.RenderMenu("Doctor Schedule");
+            ViewBag.menu = menu.RenderMenu("Doctor Schedules");
             ViewBag.avatar = GetInfo.GetImgPath(User.Identity.Name);
             var user = GetCurrentUser();
             ViewBag.Name = user != null ? user.USERNAME : "";
