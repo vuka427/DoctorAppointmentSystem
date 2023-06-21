@@ -1,13 +1,10 @@
 ﻿
-@{
-    ViewBag.Title = "Schedule of Doctors";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+@{ ViewBag.Title = "Schedule of Doctors";
+                Layout = "~/Views/Shared/_Layout.cshtml"; }
 <link href="~/Content/css/scheduleOfDoctors.css" rel="stylesheet" />
-@Html.Partial("_CarouselView")
 
 <h3 class="text-center mt-3 mb-3 font-weight-bold">Schedule of Doctors</h3>
-<div class="container-fluid content-wrapper table-responsive">
+<div class="container-fluid content-wrapper pr-0 pl-0 pr-md-2 pl-md-2 table-responsive">
     <table id="scheduleTbl" class="dt-responsive display nowrap">
         <thead></thead>
         <tbody></tbody>

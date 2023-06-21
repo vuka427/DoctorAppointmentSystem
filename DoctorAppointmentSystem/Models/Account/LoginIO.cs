@@ -1,4 +1,5 @@
-﻿using DoctorAppointmentSystem.Models.Account.Login;
+﻿using DoctorAppointmentSystem.HelperClasses;
+using DoctorAppointmentSystem.Models.Account.Login;
 using DoctorAppointmentSystem.Models.DB;
 using System;
 using System.Collections.Generic;
@@ -25,7 +26,6 @@ namespace DoctorAppointmentSystem.Models.Account
 
         public void UserRedirects(USER user, out string area, out string controller, out string action)
         {
-            user.LASTLOGIN = DateTime.Now;
             string userType = user.USERTYPE.ToLower();
             if (userType.Equals("patient"))
             {
@@ -33,7 +33,7 @@ namespace DoctorAppointmentSystem.Models.Account
                 action = "Index";
                 controller = "Home";
             }
-            else if(userType.Equals("doctor"))
+            else if (userType.Equals("doctor"))
             {
                 area = "Doctor";
                 action = "Index";
@@ -45,7 +45,22 @@ namespace DoctorAppointmentSystem.Models.Account
                 action = "Index";
                 controller = "Manage";
             }
-            dbContext.SaveChanges();
+
+            try
+            {
+                user.LASTLOGIN = DateTime.Now;
+                dbContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                string sEventCatg = "PATIENT PORTAL";
+                string sEventMsg = "Exception: " + ex.Message;
+                string sEventSrc = "UserRedirects";
+                string sEventType = "U";
+                string sInsBy = user.USERNAME;
+
+                Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
+            }
         }
     }
 }

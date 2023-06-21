@@ -1,17 +1,14 @@
 ﻿
-@{
-    ViewBag.Title = "History";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+@{ ViewBag.Title = "History";
+                Layout = "~/Views/Shared/_Layout.cshtml"; }
 
 <link href="~/Content/css/appointmentHistory.css" rel="stylesheet" />
 
-@Html.Partial("_CarouselView")
 
 <h3 class="text-center mt-3 mb-3 font-weight-bold">Appointment History</h3>
 
 <div class="col-12 col-sm-12 col-md-12" style="margin-bottom: 5em">
-    <div class="container-fluid content-wrapper mt-4 table-responsive">
+    <div class="container-fluid content-wrapper pr-0 pl-0 pr-md-2 pl-md-2 mt-4 table-responsive">
         <table id="historyTbl" class="dt-responsive display">
             <thead></thead>
             <tbody></tbody>
@@ -73,26 +70,20 @@
                                 <span class="ml-3 pr-2 pl-2">Mode of Consultant</span>
                                 <select name="modeOfConsultant" class="custom-select" id="modeOfConsultant" required="required">
                                     <option selected disabled hidden>Select mode of consultant</option>
-                                    @{
-                                        var modeOfConsultant = ViewBag.modeOfConsultant;
-                                        foreach (var mode in modeOfConsultant)
-                                        {
-                                            <option value=@mode.ID>@mode.PARAVAL</option>
-                                        }
-                                    }
+                                    @{ var modeOfConsultant = ViewBag.modeOfConsultant;
+                                                    foreach (var mode in modeOfConsultant)
+                                                    {
+                                        <option value=@mode.ID>@mode.PARAVAL</option> } }
                                 </select>
                             </div>
                             <div class="input-box">
                                 <span class="ml-3 pr-2 pl-2">Consultant Type</span>
                                 <select name="consultantType" class="custom-select" id="consultantType" required="required">
                                     <option selected disabled hidden>Select type of consultant</option>
-                                    @{
-                                        var consultantType = ViewBag.consultantType;
-                                        foreach (var type in consultantType)
-                                        {
-                                            <option value=@type.ID>@type.PARAVAL</option>
-                                        }
-                                    }
+                                    @{ var consultantType = ViewBag.consultantType;
+                                                    foreach (var type in consultantType)
+                                                    {
+                                        <option value=@type.ID>@type.PARAVAL</option> } }
                                 </select>
                             </div>
                         </div>

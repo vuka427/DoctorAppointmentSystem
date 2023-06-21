@@ -5,10 +5,10 @@ using System.Web;
 
 namespace DoctorAppointmentSystem.Models.Account.ChangePassword
 {
-    public class ChangePasswordViewModel
+    public class VerifyAccountViewModel
     {
-        public string currPass { get; set; }
-        public string newPass { get; set; }
-
+        public string ans1 { get; set; }
+        public string ans2 { get; set; }
+        public string ans3 { get; set; }
     }
 }
