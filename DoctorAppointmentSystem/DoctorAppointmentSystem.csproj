@@ -203,6 +203,7 @@
     <Compile Include="Areas\Doctor\Controllers\ProfileController.cs" />
     <Compile Include="Areas\Doctor\Controllers\RegistrationController.cs" />
     <Compile Include="Areas\Doctor\DoctorAreaRegistration.cs" />
+    <Compile Include="Areas\Doctor\Models\Appointments\AppointmentsDoctorIO.cs" />
     <Compile Include="Authorization\AppAuthorizeAttribute.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AppointmentController.cs" />
@@ -279,9 +280,6 @@
       <DependentUpon>DBContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\SCHEDULE.cs">
-      <DependentUpon>DBContext.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\DB\sysdiagrams.cs">
       <DependentUpon>DBContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\SYSTEM_PARA.cs">
@@ -538,6 +536,7 @@
     <Content Include="Models\DB\DBContext.edmx.diagram">
       <DependentUpon>DBContext.edmx</DependentUpon>
     </Content>
+    <Content Include="Areas\Doctor\Views\Appointments\Index.cshtml" />
     <None Include="Scripts\bootstrap-lib-js\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\bootstrap-lib-js\jquery.dataTables.min.js" />
     <Content Include="Scripts\bootstrap-lib-js\jquery.validate.js" />
@@ -548,6 +547,7 @@
     <Content Include="Scripts\js\adminmanagement.js" />
     <Content Include="Scripts\js\adminProfile.js" />
     <Content Include="Scripts\js\appointmentManagement.admin.js" />
+    <Content Include="Scripts\js\appointmentsDoctor.js" />
     <Content Include="Scripts\js\changePassword.js" />
     <Content Include="Scripts\js\doctormanagement.js" />
     <Content Include="Scripts\js\doctorScheduleManagment.admin.js" />
@@ -610,7 +610,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Doctor\Data\" />
-    <Folder Include="Areas\Doctor\Views\Appointments\" />
     <Folder Include="Areas\Doctor\Views\CancelledAppt\" />
     <Folder Include="Areas\Doctor\Views\CompletedAppt\" />
     <Folder Include="Areas\Doctor\Views\ConfirmedAppt\" />

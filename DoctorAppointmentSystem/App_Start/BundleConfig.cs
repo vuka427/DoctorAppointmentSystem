@@ -99,8 +99,9 @@ namespace DoctorAppointmentSystem
             //Config ScriptBundle and StyleBundle admin dashboard
             bundles.Add(new ScriptBundle("~/bundles/admin/dashboard").Include(
                      "~/Scripts/js/managementDashboard.js"));
-
-           
+            //Config ScriptBundle and StyleBundle doctor appointment
+            bundles.Add(new ScriptBundle("~/bundles/doctor/appointment").Include(
+                     "~/Scripts/js/appointmentsDoctor.js"));
 
         }
     }
