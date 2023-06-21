@@ -1011,17 +1011,16 @@ a:hover {
 /* header sticky nnv-pat02*/
 
 .main-header {
-    position: sticky;
+    position: relative;
     top: 0;
     z-index: 99;
 }
 
     .main-header.main-header .navbar .header-sidebar-off {
-
     }
 
     .main-header.main-header .navbar .header-sidebar-on {
-        margin-left: 200px;
+        margin-left:200px;
     }
 
     .main-header nav.navbar.navbar-light.bg-light {

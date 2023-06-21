@@ -13,66 +13,148 @@ namespace DoctorAppointmentSystem.HelperClasses
 
         public static string GetFullName(string username)
         {
-            using (DBContext dbContext = new DBContext())
+            string fullName = "";
+            try
             {
-                string fullName = "";
+                using (DBContext dbContext = new DBContext())
+                {
+                    USER user = dbContext.USER.Where(u => u.USERNAME.Equals(username)).FirstOrDefault();
 
-                USER user = dbContext.USER.Where(u => u.USERNAME.Equals(username)).FirstOrDefault();
-                if (user.USERTYPE.ToLower() == "patient")
-                {
-                    PATIENT patient = dbContext.PATIENT.Where(p => p.USERID.Equals(user.USERID)).FirstOrDefault();
-                    fullName = patient.PATIENTNAME;
+                    if(user == null)
+                    {
+                        throw new Exception();
+                    }
+
+                    if (user.USERTYPE.ToLower() == "patient")
+                    {
+                        PATIENT patient = dbContext.PATIENT.Where(p => p.USERID.Equals(user.USERID)).FirstOrDefault();
+                        fullName = patient.PATIENTNAME;
+                    }
+                    else if (user.USERTYPE.ToLower() == "doctor")
+                    {
+                        DOCTOR doctor = dbContext.DOCTOR.Where(d => d.USERID.Equals(user.USERID)).FirstOrDefault();
+                        fullName = doctor.DOCTORNAME;
+                    }
+                    else
+                    {
+                        fullName = "Admin";
+                    }
+                    return fullName;
                 }
-                else if (user.USERTYPE.ToLower() == "doctor")
-                {
-                    DOCTOR doctor = dbContext.DOCTOR.Where(d => d.USERID.Equals(user.USERID)).FirstOrDefault();
-                    fullName = doctor.DOCTORNAME;
-                }
-                else
-                {
-                    fullName = "Admin";
-                }
+            } 
+            catch (Exception ex)
+            {
+                string sEventCatg = "PATIENT PORTAL";
+                string sEventMsg = "Exception: " + ex.Message;
+                string sEventSrc = "GetFullName";
+                string sEventType = "S";
+                string sInsBy = username;
+
+                Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
                 return fullName;
             }
+            
         }
 
         public static int GetUserID(string username)
         {
-            using (DBContext dbContext = new DBContext())
+            int id = 0;
+            try
             {
-                USER user = dbContext.USER.Where(u => u.USERNAME.Equals(username)).FirstOrDefault();
-                if(user != null)
+                using (DBContext dbContext = new DBContext())
                 {
-                    return user.USERID;
+                    USER user = dbContext.USER.Where(u => u.USERNAME.Equals(username)).FirstOrDefault();
+                    if (user != null)
+                    {
+                        id = user.USERID;
+                        return id;
+                    }
+                    else
+                    {
+                        throw new Exception();
+                    }
                 }
-                return 0;
             }
+            catch (Exception ex)
+            {
+                string sEventCatg = "PATIENT PORTAL";
+                string sEventMsg = "Exception: " + ex.Message;
+                string sEventSrc = "GetUserID";
+                string sEventType = "S";
+                string sInsBy = username;
+
+                Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
+                return id;
+            }
+            
         }
 
         public static int GetPatientID(int userID)
         {
-            using (DBContext dbContext = new DBContext())
+            int id = 0;
+            try
             {
-                PATIENT patient = dbContext.PATIENT.Where(p => p.USERID.Equals(userID)).FirstOrDefault();
-                if (patient != null)
+                using (DBContext dbContext = new DBContext())
                 {
-                    return patient.PATIENTID;
+                    PATIENT patient = dbContext.PATIENT.Where(p => p.USERID.Equals(userID)).FirstOrDefault();
+                    if (patient != null)
+                    {
+                        id = patient.PATIENTID;
+                        return id;
+                    }
+                    else
+                    {
+                        throw new Exception();
+                    }
                 }
-                return 0;
             }
+            catch (Exception ex)
+            {
+                string sEventCatg = "PATIENT PORTAL";
+                string sEventMsg = "Exception: " + ex.Message;
+                string sEventSrc = "GetPatientID";
+                string sEventType = "S";
+                string sInsBy = "";
+
+                Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
+                return id;
+            }
+            
         }
 
         public static string GetImgPath(string username)
         {
-            using (DBContext dbContext = new DBContext())
+            string imgName = "default-user-image.png";
+            string imgPath = "/Uploads/" + imgName;
+            try
             {
-                string imgName = "default-user-image.png";
-                USER user = dbContext.USER.Where(u => u.USERNAME.Equals(username)).FirstOrDefault();
-                if (!String.IsNullOrEmpty(user.AVATARURL))
+                using (DBContext dbContext = new DBContext())
                 {
-                    imgName = user.AVATARURL;
+                    USER user = dbContext.USER.Where(u => u.USERNAME.Equals(username)).FirstOrDefault();
+
+                    if(user == null)
+                    {
+                        throw new Exception();
+                    }
+
+                    if (!String.IsNullOrEmpty(user.AVATARURL))
+                    {
+                        imgName = user.AVATARURL;
+                    }
+                    imgPath = "/Uploads/" + imgName;
+                    return imgPath;
                 }
-                string imgPath = "/Uploads/" + imgName;
+            }
+            catch (Exception ex)
+            {
+                string sEventCatg = "PATIENT PORTAL";
+                string sEventMsg = "Exception: " + ex.Message;
+                string sEventSrc = "GetFullName";
+                string sEventType = "S";
+                string sInsBy = username;
+
+                Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
+
                 return imgPath;
             }
         }

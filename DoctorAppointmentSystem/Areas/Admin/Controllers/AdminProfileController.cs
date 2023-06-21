@@ -9,7 +9,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace DoctorAppointmentSystem.Areas.Admin
+namespace DoctorAppointmentSystem.Areas.Admin.Controllers
 {
     [AppAuthorize("Admin")]
     public class AdminProfileController : Controller
