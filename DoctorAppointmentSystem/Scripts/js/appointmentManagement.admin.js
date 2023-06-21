@@ -39,7 +39,8 @@ function setEventDeleteAppointment() {
                 buttonsStyling: false
             })
             swalWithBootstrapButtons.fire({
-                title: 'Are you sure delete appointment for patient ' + patientname + ' ?',
+                position: 'top',
+                title: 'Are you sure?',
                 text: "You won't be able to revert this!",
                 icon: 'warning',
                 showCancelButton: true,
@@ -212,7 +213,7 @@ function initJqueryDatatable() {
                         return '<span class="column-status column-status--completed">' + data + '</span>';
                         
                     } else {
-                        return '<span class="column-status ">' + data + '</span>';
+                        return '<span class="column-status column-status--cancel">' + data + '</span>';
                        
                     }
 

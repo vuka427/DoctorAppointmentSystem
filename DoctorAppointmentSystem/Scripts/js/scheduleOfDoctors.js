@@ -14,7 +14,6 @@ var table = $("#scheduleTbl").DataTable({
         "type": "GET",
         "datatype": "json"
     },
-    "order": [[1, 'asc']],
     "columns": [
         {
             "className": 'dt-control',
@@ -62,7 +61,6 @@ var table = $("#scheduleTbl").DataTable({
             "responsivePriority": 1,
             "data": "scheduleID",
             "title": "Action",
-            "orderable": false,
             "autoWidth": true,
             "searchable": true,
             "render": function (data, type, row) {

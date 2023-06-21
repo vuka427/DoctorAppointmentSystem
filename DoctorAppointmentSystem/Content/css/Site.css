@@ -50,3 +50,11 @@ form .error {
 .btn-action:last-child {
     margin-right: 0;
 }
+.form-header {
+    background-image: linear-gradient(180deg, #c9c9c9, #dedede);
+   
+}
+.btn-custom-adm {
+    background-color: #747399;
+    color: white;
+}

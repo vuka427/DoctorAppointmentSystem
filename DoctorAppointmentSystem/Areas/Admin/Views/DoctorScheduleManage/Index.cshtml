@@ -9,14 +9,13 @@
 
 <h3 class="text-center mt-2 font-weight-bold">Doctor Schedule Management</h3>
 
-<hr />
 <div class="content-wrapper">
     @* form create schedule  *@
-    <div id="create-doctor-schedule-page" style="font-size:1px; " class="container justify-content-center  bg-white">
-        <div class="row  justify-content-center">
-            <div class="col-8 card p-0 shadow border border-primary">
-                <div class="card-header bg-primary p-0">
-                    <h4 class="text-center text-light">Add Doctor Schedule Data</h4>
+    <div id="create-doctor-schedule-page" style="font-size:1px; " class="container-fluid justify-content-center  bg-white p-0 m-0">
+        <div class="row  justify-content-center m-0">
+            <div class="col-12 card p-0 shadow border">
+                <div class="card-header form-header p-0 ">
+                    <h4 class="text-center font-weight-bold m-3 ">Add Doctor Schedule Data</h4>
                 </div>
                 <div class="card-body">
                     <form id="form-doctor-schedule" class="form-group" autocomplete="off">
@@ -66,7 +65,7 @@
     </div>
     @* index  *@
     <div id="list-doctor-schedule-page" class="col-12 col-sm-12 col-md-12 p-1" style="margin-bottom: 5em">
-        <btn id="btn-open-form-create" class=" btn btn-sm btn-primary mb-3 ">Add Schedule</btn>
+        <btn id="btn-open-form-create" class=" btn btn-custom-adm mb-3 ">Create New</btn>
         <div class="container-fluid content-wrapper mt-4 table-responsive card shadow pt-3 pb-3">
             <table id="doctor-schedule-table" class=" dt-responsive  display nowrap" cellspacing="0" width="100%" style=" margin : auto">
             </table>
@@ -75,12 +74,12 @@
 
   
     @* form update schedule *@
-    <div id="update-doctor-schedule-page" style=" " class="container justify-content-center  bg-white">
+    <div id="update-doctor-schedule-page" style=" " class="container-fluid justify-content-center  bg-white m-0 p-0 ">
 
-        <div class="row  justify-content-center">
-            <div class="col-8 card p-0 shadow border border-primary">
-                <div class="card-header bg-primary p-0">
-                    <h4 class="text-center text-light">Update Schedule</h4>
+        <div class="row  justify-content-center m-0">
+            <div class="col-12 card p-0 shadow border">
+                <div class="card-header  p-0 form-header">
+                    <h4 class="text-center font-weight-bold m-3">Update Schedule</h4>
                 </div>
                 <div class="card-body">
                     <form id="from-update-doctor-schedule" class="form-group" autocomplete="off">

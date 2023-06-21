@@ -36,6 +36,8 @@ function setSubmitFormResetPasswordByAjax() {
                 buttonsStyling: false
             })
             swalWithBootstrapButtons.fire({
+                
+                position: 'top',
                 title: 'Are you sure?',
                 text: "You won't be able to revert this!",
                 icon: 'warning',
@@ -145,6 +147,7 @@ function setEventDeleteUserForBtn() {
                 buttonsStyling: false
             })
             swalWithBootstrapButtons.fire({
+                position: 'top',
                 title: 'Are you sure delete user ' + username + ' ?',
                 text: "You won't be able to revert this!",
                 icon: 'warning',
@@ -230,7 +233,8 @@ function setEventLockUserForBtn() {
                 buttonsStyling: false
             })
             swalWithBootstrapButtons.fire({
-                title: 'Are you sure lock user ' + username + ' ?',
+                position: 'top',
+                title: 'Are you sure?',
                 text: "You won't be able to revert this!",
                 icon: 'warning',
                 showCancelButton: true,
@@ -267,7 +271,8 @@ function setEventLockUserForBtn() {
                 buttonsStyling: false
             })
             swalWithBootstrapButtons.fire({
-                title: 'Are you sure unlock user ' + username + ' ?',
+                position: 'top',
+                title: 'Are you sure?',
                 text: "You won't be able to revert this!",
                 icon: 'warning',
                 showCancelButton: true,

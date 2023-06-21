@@ -144,6 +144,7 @@ function setSubmitFormUdateByAjax() {
             })
 
             swalWithBootstrapButtons.fire({
+                position: 'top',
                 title: 'Are you sure?',
                 text: "You won't be able to revert this!",
                 icon: 'warning',
@@ -246,7 +247,8 @@ function setEventDeleteScheduleBtn() {
                 buttonsStyling: false
             })
             swalWithBootstrapButtons.fire({
-                title: 'Are you sure delete this schedule ?',
+                position: 'top',
+                title: 'Are you sure?',
                 text: "This will delete the appointments contained in this schedule, You won't be able to revert this!",
                 icon: 'warning',
                 showCancelButton: true,

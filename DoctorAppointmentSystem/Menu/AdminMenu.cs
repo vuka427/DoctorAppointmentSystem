@@ -10,13 +10,13 @@ namespace DoctorAppointmentSystem.Menu
         public List<MenuItem> RenderMenu(string idActive)
         {
             List<MenuItem> menu = new List<MenuItem>();
-            menu.Add(new MenuItem("Home", "fa-solid fa-house", false, "Admin", "Manage", "Index"));
-            menu.Add(new MenuItem("User management", "fa-solid fa-user", false, "Admin", "UserManage", "Index"));
-            menu.Add(new MenuItem("Doctor management", "fa-solid fa-user-doctor", false, "Admin", "DoctorManage", "Index"));
-            menu.Add(new MenuItem("Patient management", "fa-solid fa-bed-pulse", false, "Admin", "PatientManage", "Index"));
-            menu.Add(new MenuItem("Admin management", "fa-solid fa-person-military-pointing", false, "Admin", "AdminUserManage", "Index"));
-            menu.Add(new MenuItem("Doctor Schedule", "fa-solid fa-user-clock", false, "Admin", "DoctorScheduleManage", "Index"));
-            menu.Add(new MenuItem("Appointment", "fa-solid fa-clipboard", false, "Admin", "AppointmentManage", "Index"));
+            menu.Add(new MenuItem("Dashboard", "fa-solid fa-house", false, "Admin", "Manage", "Index"));
+            menu.Add(new MenuItem("User Management", "fa-solid fa-user", false, "Admin", "UserManage", "Index"));
+            menu.Add(new MenuItem("Doctor Management", "fa-solid fa-user-nurse", false, "Admin", "DoctorManage", "Index"));
+            menu.Add(new MenuItem("Patient Management", "fa-solid fa-wheelchair", false, "Admin", "PatientManage", "Index"));
+            menu.Add(new MenuItem("Admin Management", "fa-solid fa-person-military-pointing", false, "Admin", "AdminUserManage", "Index"));
+            menu.Add(new MenuItem("Doctor Schedules", "fa-solid fa-user-clock", false, "Admin", "DoctorScheduleManage", "Index"));
+            menu.Add(new MenuItem("Appointments", "fa-solid fa-file-medical", false, "Admin", "AppointmentManage", "Index"));
             menu.Add(new MenuItem("Log out", "fas fa-sign-out-alt", false, "", "Account", "Logout"));
 
             foreach (MenuItem item in menu)

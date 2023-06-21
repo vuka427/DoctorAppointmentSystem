@@ -23,9 +23,9 @@ namespace DoctorAppointmentSystem.Areas.Admin.Models.AppointmentManage.Mapping
                                                          sysParam.GetAllParam().Where(p => p.ID == src.SCHEDULE.CONSULTANTTIME).FirstOrDefault().NOTE 
                                                     ))
 
-                .ForMember(dest => dest.APPOINTMENTDATE, act => act.MapFrom(src => src.APPOINTMENTDATE.ToShortDateString()))
-                .ForMember(dest => dest.APPOINTMENTTIME, act => act.MapFrom(src => src.APPOINTMENTDATE.TimeOfDay.ToString(@"hh\:mm")))
-                .ForMember(dest => dest.APPOINTMENTDAY, act => act.MapFrom(src => src.APPOINTMENTDATE.DayOfWeek))
+                .ForMember(dest => dest.APPOINTMENTDATE, act => act.MapFrom(src => src.APPOINTMENTDATE!=null? src.APPOINTMENTDATE.Value.ToShortDateString() : ""))
+                .ForMember(dest => dest.APPOINTMENTTIME, act => act.MapFrom(src => src.APPOINTMENTDATE != null ? src.APPOINTMENTDATE.Value.TimeOfDay.ToString(@"hh\:mm") : ""))
+                .ForMember(dest => dest.APPOINTMENTDAY, act => act.MapFrom(src => src.APPOINTMENTDATE != null ? src.APPOINTMENTDATE.Value.DayOfWeek.ToString() : ""))
                 ;
 
             CreateMap<APPOINTMENT, AppointmentViewDetailsModel>()
@@ -55,10 +55,10 @@ namespace DoctorAppointmentSystem.Areas.Admin.Models.AppointmentManage.Mapping
                 // Appointment Details
                 .ForMember(dest => dest.modeOfConsultant, act => act.MapFrom(src => src.MODEOFCONSULTANT))
                 .ForMember(dest => dest.consultantType, act => act.MapFrom(src => src.CONSULTANTTYPE))
-                .ForMember(dest => dest.dateOfConsultation, act => act.MapFrom(src => src.DATEOFCONSULTATION.Value.ToShortDateString()))
-                .ForMember(dest => dest.consultationTime, act => act.MapFrom(src => src.DATEOFCONSULTATION.Value.TimeOfDay.ToString(@"hh\:mm")))
-                .ForMember(dest => dest.appointmentDate, act => act.MapFrom(src => src.APPOINTMENTDATE!=null? src.APPOINTMENTDATE.ToShortDateString():""))
-                .ForMember(dest => dest.appointmentTime, act => act.MapFrom(src => src.APPOINTMENTDATE != null ? src.APPOINTMENTDATE.TimeOfDay.ToString(@"hh\:mm") : ""))
+                .ForMember(dest => dest.dateOfConsultation, act => act.MapFrom(src => src.DATEOFCONSULTATION.ToShortDateString()))
+                .ForMember(dest => dest.consultationTime, act => act.MapFrom(src => src.DATEOFCONSULTATION.TimeOfDay.ToString(@"hh\:mm")))
+                .ForMember(dest => dest.appointmentDate, act => act.MapFrom(src => src.APPOINTMENTDATE!=null? src.APPOINTMENTDATE.Value.ToShortDateString():""))
+                .ForMember(dest => dest.appointmentTime, act => act.MapFrom(src => src.APPOINTMENTDATE != null ? src.APPOINTMENTDATE.Value.TimeOfDay.ToString(@"hh\:mm") : ""))
                 .ForMember(dest => dest.consultantTime, act => act.MapFrom(src => sysParam.GetAllParam()
                                                                                             .Where(p=>p.ID == src.SCHEDULE.CONSULTANTTIME)
                                                                                             .Select(s => s.PARAVAL)

@@ -31,7 +31,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
         public ActionResult Index()
         {
             AdminMenu menu = new AdminMenu();
-            ViewBag.menu = menu.RenderMenu("Home");
+            ViewBag.menu = menu.RenderMenu("Dashboard");
             ViewBag.avatar = GetInfo.GetImgPath(User.Identity.Name);
             var user = GetCurrentUser();
             ViewBag.Name = user != null ? user.USERNAME : "";
