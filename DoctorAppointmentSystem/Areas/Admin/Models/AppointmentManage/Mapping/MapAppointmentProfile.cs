@@ -23,9 +23,9 @@ namespace DoctorAppointmentSystem.Areas.Admin.Models.AppointmentManage.Mapping
                                                          sysParam.GetAllParam().Where(p => p.ID == src.SCHEDULE.CONSULTANTTIME).FirstOrDefault().NOTE 
                                                     ))
 
-                .ForMember(dest => dest.APPOINTMENTDATE, act => act.MapFrom(src => src.APPOINTMENTDATE.Value.ToShortDateString()))
-                .ForMember(dest => dest.APPOINTMENTTIME, act => act.MapFrom(src => src.APPOINTMENTDATE.Value.TimeOfDay.ToString(@"hh\:mm")))
-                .ForMember(dest => dest.APPOINTMENTDAY, act => act.MapFrom(src => src.APPOINTMENTDATE.Value.DayOfWeek))
+                .ForMember(dest => dest.APPOINTMENTDATE, act => act.MapFrom(src => src.APPOINTMENTDATE!=null? src.APPOINTMENTDATE.Value.ToShortDateString() : ""))
+                .ForMember(dest => dest.APPOINTMENTTIME, act => act.MapFrom(src => src.APPOINTMENTDATE != null ? src.APPOINTMENTDATE.Value.TimeOfDay.ToString(@"hh\:mm") : ""))
+                .ForMember(dest => dest.APPOINTMENTDAY, act => act.MapFrom(src => src.APPOINTMENTDATE != null ? src.APPOINTMENTDATE.Value.DayOfWeek.ToString() : ""))
                 ;
 
             CreateMap<APPOINTMENT, AppointmentViewDetailsModel>()

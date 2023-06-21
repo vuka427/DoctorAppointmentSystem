@@ -89,7 +89,7 @@
     <article class="col-12 col-md-7 custom-post">
         <hr class="custom-hr-primary" />
         <h4>Your Upcoming Booking</h4>
-        <div class="container-fluid pt-3 content-wrapper pr-0 pl-0 pr-md-2 pl-md-2 table-responsive" style="font-size: 1em">
+        <div class="container-fluid pt-3 content-wrapper table-responsive" style="font-size: 1em">
             <table id="upcomingTbl" class="dt-responsive display nowrap">
                 <thead></thead>
                 <tbody></tbody>
@@ -228,7 +228,6 @@
             language: {
                 emptyTable: "You don't have any upcoming appointments."
             },
-            order: [[1, 'asc']],
             columns: [
                 {
                     className: 'dt-control',
@@ -284,7 +283,6 @@
                     data: 'appointmentID',
                     title: "Action",
                     autoWidth: true,
-                    orderable: false,
                     searchable: true,
                     render: function (data, type, row) {
                         return type === 'display' ?

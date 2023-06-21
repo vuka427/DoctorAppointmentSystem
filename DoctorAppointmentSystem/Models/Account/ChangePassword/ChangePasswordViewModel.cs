@@ -7,8 +7,12 @@ namespace DoctorAppointmentSystem.Models.Account.ChangePassword
 {
     public class ChangePasswordViewModel
     {
-        public string currPass { get; set; }
-        public string newPass { get; set; }
+        public string username { get; set; }
+        public string passwordRecoveryAns1 { get; set; }
+        public string passwordRecoveryAns2 { get; set; }
+        public string passwordRecoveryAns3 { get; set; }
+        public string currentPassword { get; set; }
+        public string newPassword { get; set; }
 
     }
 }
