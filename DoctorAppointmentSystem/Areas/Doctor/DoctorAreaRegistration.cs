@@ -1,24 +1,24 @@
 ﻿using System.Web.Mvc;
 
-namespace DoctorAppointmentSystem.Areas.Admin
+namespace DoctorAppointmentSystem.Areas.Doctor
 {
-    public class AdminAreaRegistration : AreaRegistration 
+    public class DoctorAreaRegistration : AreaRegistration 
     {
         public override string AreaName 
         {
             get 
             {
-                return "Admin";
+                return "Doctor";
             }
         }
 
         public override void RegisterArea(AreaRegistrationContext context) 
         {
             context.MapRoute(
-                "Admin_default",
-                "Admin/{controller}/{action}/{id}",
+                "Doctor_default",
+                "Doctor/{controller}/{action}/{id}",
                 new { action = "Index", id = UrlParameter.Optional },
-                new[] { "DoctorAppointmentSystem.Areas.Admin.Controllers" }
+                new[] { "DoctorAppointmentSystem.Areas.Doctor.Controllers" }
             );
         }
     }

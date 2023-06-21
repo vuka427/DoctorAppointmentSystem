@@ -23,24 +23,27 @@ namespace DoctorAppointmentSystem.Models.Account
             return dbContext.USER.Where(u => u.USERNAME.Equals(username)).FirstOrDefault();
         }
 
-        public void UserRedirects(USER user, out string action, out string controller)
+        public void UserRedirects(USER user, out string area, out string controller, out string action)
         {
             user.LASTLOGIN = DateTime.Now;
             string userType = user.USERTYPE.ToLower();
             if (userType.Equals("patient"))
             {
+                area = "";
                 action = "Index";
                 controller = "Home";
             }
             else if(userType.Equals("doctor"))
             {
+                area = "Doctor";
                 action = "Index";
                 controller = "Home";
             }
             else
             {
-                action = "Manage";
-                controller = "Admin";
+                area = "Admin";
+                action = "Index";
+                controller = "Manage";
             }
             dbContext.SaveChanges();
         }
