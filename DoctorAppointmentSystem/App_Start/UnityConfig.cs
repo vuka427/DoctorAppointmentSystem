@@ -1,4 +1,5 @@
 ﻿using DoctorAppointmentSystem.Areas.Admin.Models;
+using DoctorAppointmentSystem.Areas.Doctor.Models.Appointments;
 using DoctorAppointmentSystem.Models.Account;
 using DoctorAppointmentSystem.Models.DB;
 using DoctorAppointmentSystem.Services;
@@ -24,11 +25,13 @@ namespace DoctorAppointmentSystem.App_Start
             container.RegisterType<ISystemParamService, SystemParamService>(TypeLifetime.Singleton);
             container.RegisterType<IMapperService, MapperService>(TypeLifetime.Transient);
             container.RegisterType<IloggerService, LoggerService>(TypeLifetime.Transient);
-            //register IO 
+            //register admin IO 
             container.RegisterType<DoctorScheduleIO, DoctorScheduleIO>(TypeLifetime.Transient);
             container.RegisterType<AppointmentIO, AppointmentIO>(TypeLifetime.Transient);
             container.RegisterType<DashboardIO, DashboardIO>(TypeLifetime.Transient);
             container.RegisterType<DoctorIO, DoctorIO>(TypeLifetime.Transient);
+            //register doctor IO 
+            container.RegisterType<AppointmentsDoctorIO, AppointmentsDoctorIO>(TypeLifetime.Transient);
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }
     }

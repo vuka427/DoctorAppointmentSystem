@@ -49,24 +49,24 @@ namespace DoctorAppointmentSystem
 
             //Config ScriptBundle and StyleBundle doctor management
             bundles.Add(new ScriptBundle("~/bundles/admin/doctor").Include(
-                     "~/Scripts/js/doctormanagement.js"));
+                     "~/Scripts/js/Areas/Admin/doctormanagement.js"));
             bundles.Add(new StyleBundle("~/Content/admin/doctor").Include(
-                    "~/Content/css/doctor-management.css"));
+                    "~/Content/css/Areas/Admin/doctor-management.css"));
 
             //Config ScriptBundle and StyleBundle patient management
             bundles.Add(new ScriptBundle("~/bundles/admin/patient").Include(
-                     "~/Scripts/js/patientmanagement.js"));
+                     "~/Scripts/js/Areas/Admin/patientmanagement.js"));
             bundles.Add(new StyleBundle("~/Content/admin/patient").Include(
-                    "~/Content/css/patient-management.css"));
+                    "~/Content/css/Areas/Admin/patient-management.css"));
 
             //Config ScriptBundle and StyleBundle user management
             bundles.Add(new ScriptBundle("~/bundles/admin/user").Include(
-                     "~/Scripts/js/usermanagement.js"));
+                     "~/Scripts/js/Areas/Admin/usermanagement.js"));
             bundles.Add(new StyleBundle("~/Content/admin/user").Include(
-                    "~/Content/css/user-management.css"));
+                    "~/Content/css/Areas/Admin/user-management.css"));
             //Config ScriptBundle and StyleBundle admin management
             bundles.Add(new ScriptBundle("~/bundles/admin/adminuser").Include(
-                     "~/Scripts/js/adminmanagement.js"));
+                     "~/Scripts/js/Areas/Admin/adminmanagement.js"));
 
             //Config ScriptBundle and StyleBundle for select2 lib
             bundles.Add(new ScriptBundle("~/bundles/select2/js").Include(
@@ -84,23 +84,24 @@ namespace DoctorAppointmentSystem
 
             //Config ScriptBundle and StyleBundle doctor schedule management for admin
             bundles.Add(new ScriptBundle("~/bundles/admin/doctorschedule").Include(
-                     "~/Scripts/js/doctorScheduleManagment.admin.js"));
+                     "~/Scripts/js/Areas/Admin/doctorScheduleManagment.admin.js"));
             bundles.Add(new StyleBundle("~/Content/admin/doctorschedule").Include(
-                   "~/Content/css/doctor-schedule-mgt.css"));
+                   "~/Content/css/Areas/Admin/doctor-schedule-mgt.css"));
 
             //Config ScriptBundle and StyleBundle appointment management for admin
             bundles.Add(new ScriptBundle("~/bundles/admin/appointment").Include(
-                     "~/Scripts/js/appointmentManagement.admin.js"));
+                     "~/Scripts/js/Areas/Admin/appointmentManagement.admin.js"));
             bundles.Add(new StyleBundle("~/Content/admin/appointment").Include(
-                 "~/Content/css/admin-appointment.css"));
+                 "~/Content/css/Areas/Admin/admin-appointment.css"));
             //Config ScriptBundle and StyleBundle admin profile
             bundles.Add(new ScriptBundle("~/bundles/admin/profile").Include(
-                     "~/Scripts/js/adminProfile.js"));
+                     "~/Scripts/js/Areas/Admin/adminProfile.js"));
             //Config ScriptBundle and StyleBundle admin dashboard
             bundles.Add(new ScriptBundle("~/bundles/admin/dashboard").Include(
-                     "~/Scripts/js/managementDashboard.js"));
-
-           
+                     "~/Scripts/js/Areas/Admin/managementDashboard.js"));
+            //Config ScriptBundle and StyleBundle doctor appointment
+            bundles.Add(new ScriptBundle("~/bundles/doctor/appointment").Include(
+                     "~/Scripts/js/Areas/Doctor/appointmentsDoctor.js"));
 
         }
     }

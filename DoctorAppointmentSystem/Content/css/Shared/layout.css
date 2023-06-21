@@ -1020,6 +1020,7 @@ a:hover {
     }
 
     .main-header.main-header .navbar .header-sidebar-on {
+        margin-left:200px;
     }
 
     .main-header nav.navbar.navbar-light.bg-light {
