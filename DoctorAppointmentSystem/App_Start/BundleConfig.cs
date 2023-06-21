@@ -80,7 +80,7 @@ namespace DoctorAppointmentSystem
 
             //Config StyleBundle for layout
             bundles.Add(new StyleBundle("~/Content/layout/css").Include(
-                    "~/Content/css/layout.css"));
+                    "~/Content/css/Shared/layout.css"));
 
             //Config ScriptBundle and StyleBundle doctor schedule management for admin
             bundles.Add(new ScriptBundle("~/bundles/admin/doctorschedule").Include(
