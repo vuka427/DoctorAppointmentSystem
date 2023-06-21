@@ -125,7 +125,7 @@ hr {
 }
 
 .custom-row {
-    width: 96%;
+    
     padding-bottom: 20px;
     justify-content: space-between;
 }
@@ -1006,21 +1006,21 @@ a:hover {
 /* header sticky nnv-pat02*/
 
 .main-header {
-    position: relative;
+    position:sticky;
     top: 0;
     z-index: 99;
 }
 
     .main-header.main-header .navbar .header-sidebar-off {
-       
-    }
-
-    .main-header.main-header .navbar .header-sidebar-on {
         
     }
 
+    .main-header.main-header .navbar .header-sidebar-on {
+        margin-left:220px;
+    }
+
     .main-header nav.navbar.navbar-light.bg-light {
-        background: #747399 !important;
+        background: #9292AE !important;
         height: fit-content !important;
     }
 
