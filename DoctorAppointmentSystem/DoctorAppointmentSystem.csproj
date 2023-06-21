@@ -305,6 +305,11 @@
     <Content Include="Content\bootstrap-lib\jquery.dataTables.min.css" />
     <Content Include="Content\bootstrap-lib\responsive.bootstrap.min.css" />
     <Content Include="Content\css\admin-appointment.css" />
+    <Content Include="Content\css\Areas\Admin\admin-appointment.css" />
+    <Content Include="Content\css\Areas\Admin\doctor-management.css" />
+    <Content Include="Content\css\Areas\Admin\doctor-schedule-mgt.css" />
+    <Content Include="Content\css\Areas\Admin\patient-management.css" />
+    <Content Include="Content\css\Areas\Admin\user-management.css" />
     <Content Include="Content\css\changePassword.css" />
     <Content Include="Content\css\custom-input.css" />
     <Content Include="Content\css\doctor-management.css" />
@@ -316,6 +321,8 @@
     <Content Include="Content\css\patient-management.css" />
     <Content Include="Content\css\profile.css" />
     <Content Include="Content\css\scheduleOfDoctors.css" />
+    <Content Include="Content\css\Shared\intro.css" />
+    <Content Include="Content\css\Shared\layout.css" />
     <Content Include="Content\css\Site.css" />
     <Content Include="Content\css\user-management.css" />
     <Content Include="Content\css\login.css" />
@@ -538,6 +545,7 @@
     <Content Include="Models\DB\DBContext.edmx.diagram">
       <DependentUpon>DBContext.edmx</DependentUpon>
     </Content>
+    <Content Include="Areas\Doctor\Views\ConfirmedAppt\Index.cshtml" />
     <None Include="Scripts\bootstrap-lib-js\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\bootstrap-lib-js\jquery.dataTables.min.js" />
     <Content Include="Scripts\bootstrap-lib-js\jquery.validate.js" />
@@ -548,6 +556,15 @@
     <Content Include="Scripts\js\adminmanagement.js" />
     <Content Include="Scripts\js\adminProfile.js" />
     <Content Include="Scripts\js\appointmentManagement.admin.js" />
+    <Content Include="Scripts\js\Areas\Admin\adminmanagement.js" />
+    <Content Include="Scripts\js\Areas\Admin\adminProfile.js" />
+    <Content Include="Scripts\js\Areas\Admin\appointmentManagement.admin.js" />
+    <Content Include="Scripts\js\Areas\Admin\doctormanagement.js" />
+    <Content Include="Scripts\js\Areas\Admin\doctorScheduleManagment.admin.js" />
+    <Content Include="Scripts\js\Areas\Admin\managementDashboard.js" />
+    <Content Include="Scripts\js\Areas\Admin\patientmanagement.js" />
+    <Content Include="Scripts\js\Areas\Admin\usermanagement.js" />
+    <Content Include="Scripts\js\Areas\Doctor\confirmedAppt.js" />
     <Content Include="Scripts\js\changePassword.js" />
     <Content Include="Scripts\js\doctormanagement.js" />
     <Content Include="Scripts\js\doctorScheduleManagment.admin.js" />
@@ -578,6 +595,8 @@
     <Content Include="Scripts\js\profile.js" />
     <Content Include="Scripts\js\register.js" />
     <Content Include="Scripts\js\scheduleOfDoctors.js" />
+    <Content Include="Scripts\js\Shared\intro.js" />
+    <Content Include="Scripts\js\Shared\layout.js" />
     <Content Include="Scripts\js\validateInput.js" />
     <Content Include="Scripts\js\usermanagement.js" />
     <Content Include="Web.config" />
@@ -613,10 +632,10 @@
     <Folder Include="Areas\Doctor\Views\Appointments\" />
     <Folder Include="Areas\Doctor\Views\CancelledAppt\" />
     <Folder Include="Areas\Doctor\Views\CompletedAppt\" />
-    <Folder Include="Areas\Doctor\Views\ConfirmedAppt\" />
     <Folder Include="Areas\Doctor\Views\Profile\" />
     <Folder Include="Areas\Doctor\Views\Registration\" />
     <Folder Include="Areas\Doctor\Views\Shared\" />
+    <Folder Include="Content\css\Areas\Doctor\" />
     <Folder Include="Uploads\" />
   </ItemGroup>
   <ItemGroup>
