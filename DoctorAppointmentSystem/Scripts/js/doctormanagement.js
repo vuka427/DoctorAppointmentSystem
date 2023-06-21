@@ -189,6 +189,7 @@ function setSubmitFormUdateByAjax() {
             })
 
             swalWithBootstrapButtons.fire({
+                position: 'top',
                 title: 'Are you sure?',
                 text: "You won't be able to revert this!",
                 icon: 'warning',
@@ -278,7 +279,8 @@ function setEventDeleteDoctorFoBtn() {
                 buttonsStyling: false
             })
             swalWithBootstrapButtons.fire({
-                title: 'Are you sure delete doctor ' + doctorname + ' ?',
+                position: 'top',
+                title: 'Are you sure?',
                 text: "You won't be able to revert this!",
                 icon: 'warning',
                 showCancelButton: true,

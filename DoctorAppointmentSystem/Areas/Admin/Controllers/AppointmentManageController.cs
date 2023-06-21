@@ -41,7 +41,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
         public ActionResult Index()
         {
             AdminMenu menu = new AdminMenu();
-            ViewBag.menu = menu.RenderMenu("Appointment");
+            ViewBag.menu = menu.RenderMenu("Appointments");
             ViewBag.avatar = GetInfo.GetImgPath(User.Identity.Name);
             var user = GetCurrentUser();
             ViewBag.Name = user != null ? user.USERNAME : "";
@@ -55,8 +55,23 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
         public JsonResult LoadAppointmentData(JqueryDatatableParam param) {
 
             var apmts = _appointment.GetAllAppointment();
+            IEnumerable<ApponitmentViewModel> Apointments;
+            try
+            {
 
-            IEnumerable<ApponitmentViewModel> Apointments = apmts.Select(dt => _mapper.GetMapper().Map<APPOINTMENT, ApponitmentViewModel>(dt)).ToList();
+
+                Apointments = apmts.Select(dt => _mapper.GetMapper().Map<APPOINTMENT, ApponitmentViewModel>(dt)).ToList();
+            }
+            catch
+            {
+                string sEventCatg = "ADMIN PORTAL";
+                string sEventMsg = "Exception: Failed to mapping APPOINTMENT to ApponitmentViewModel";
+                string sEventSrc = nameof(LoadAppointmentData);
+                string sEventType = "C";
+                string sInsBy = GetCurrentUser().USERNAME;
+                Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
+                Apointments = new List<ApponitmentViewModel>();
+            }
 
             if (!string.IsNullOrEmpty(param.sSearch)) //search
             {

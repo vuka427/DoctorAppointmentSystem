@@ -161,6 +161,7 @@ function setSubmitFormUdateByAjax() {
                 buttonsStyling: false
             })
             swalWithBootstrapButtons.fire({
+                position: 'top',
                 title: 'Are you sure?',
                 text: "You won't be able to revert this!",
                 icon: 'warning',
@@ -249,7 +250,8 @@ function setEventDeletePatientFoBtn() {
                 buttonsStyling: false
             })
             swalWithBootstrapButtons.fire({
-                title: 'Are you sure delete admin ' + username +'?',
+                position: 'top',
+                title: 'Are you sure?',
                 text: "You won't be able to revert this!",
                 icon: 'warning',
                 showCancelButton: true,
@@ -395,6 +397,7 @@ function initJqueryDatatable() {
                 "title": "Action",
                 "responsivePriority": 1,
                 "searchable": false,
+                "orderable": false,
                 "render": function (data, type, row) {
                     console.log(data, type, row);
                     return "<btn class=\"btn-update-admin btn btn-sm btn-outline-primary btn-action \" data-id=\"" + row.USERID + "\" data-username=\"" + row.USERNAME + "\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Edit user\"> <i class=\"fa-solid fa-user-pen\"></i> </btn>"
