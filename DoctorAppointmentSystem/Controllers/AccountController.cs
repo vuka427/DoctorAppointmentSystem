@@ -51,8 +51,10 @@ namespace DoctorAppointmentSystem.Controllers
                                 GetInfo.Username = model.Username.Trim();
                                 string action = "";
                                 string controller = "";
-                                loginIO.UserRedirects(user, out action, out controller);
-                                return Json(new { success = true, message = "", url = "/" + controller + "/" + action });
+                                string area = "";
+                                loginIO.UserRedirects(user, out area, out controller, out action);
+                                string url = !String.IsNullOrEmpty(area) ? Url.Action(action, controller, new { area = area }) : Url.Action(action, controller);
+                                return Json(new { success = true, message = "", url = url });
                             }
                             else
                             {

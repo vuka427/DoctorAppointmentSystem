@@ -34,13 +34,17 @@
                 {
                     <a class="dropdown-item custom-dropdown-item" href=@Url.Action("Index", "AdminProfile", new {area = "Admin" } )>View Profile</a>
                 }
+                else if (currentUser.USERTYPE.ToLower() == "doctor")
+                {
+                    <a class="dropdown-item custom-dropdown-item" href=@Url.Action("Index", "Profile")>View Profile</a>
+                }
                 else
                 {
                     <a class="dropdown-item custom-dropdown-item" href=@Url.Action("Index", "Profile")>View Profile</a>
                 }
             }
             else
-            { 
+            {
                 <a class="dropdown-item custom-dropdown-item" href=@Url.Action("Index", "Profile")>View Profile</a>
             }
 
@@ -65,7 +69,7 @@
                     if (item.active == true)
                     {
                         <li class="custom-nav-item active">
-                            <a href="@Url.Action(action, controller, new { area = area })" class="custom-nav-link">
+                            <a href="@Url.Action(action, controller, new { area = area })" class="custom-nav-link text-nowrap">
                                 <i class="@item.icon"></i>
                                 @item.title
                             </a>
@@ -74,7 +78,7 @@
                     else
                     {
                         <li class="custom-nav-item">
-                            <a href="@Url.Action(action, controller, new { area = area })" class="custom-nav-link">
+                            <a href="@Url.Action(action, controller, new { area = area })" class="custom-nav-link text-nowrap">
                                 <i class="@item.icon"></i>
                                 @item.title
                             </a>
