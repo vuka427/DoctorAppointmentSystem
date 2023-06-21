@@ -1,11 +1,9 @@
 ﻿
-@{
-    ViewBag.Title = "Make Appointment";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+@{ ViewBag.Title = "Make Appointment";
+                Layout = "~/Views/Shared/_Layout.cshtml"; }
 <link href="~/Content/css/appointment.css" rel="stylesheet" />
 <style>
-    form .error{
+    form .error {
         margin-left: 0;
     }
 </style>
@@ -46,7 +44,7 @@
                     <h5 class="modal-title" id="makeAppointmentModalLabel">Appointment Form</h5>
                 </div>
                 <div class="modal-body">
-                    <form class="col-12 col-sm-12 col-md-12" id="appointmentForm">
+                    <form class="col-12 col-sm-12 col-md-12 pr-0 pl-0 pr-md-2 pl-md-2" id="appointmentForm">
                         <div class="col-12 col-sm-12 col-md-12 mb-4 p-0 d-flex justify-content-between flex-wrap">
 
                             <!--Doctor's Info-->
@@ -92,26 +90,20 @@
                                     <span class="ml-3 pr-2 pl-2">Mode of Consultant</span>
                                     <select name="modeOfConsultant" class="custom-select" id="modeOfConsultant" required="required">
                                         <option selected disabled hidden>Select mode of consultant</option>
-                                        @{
-                                            var modeOfConsultant = ViewBag.modeOfConsultant;
-                                            foreach (var mode in modeOfConsultant)
-                                            {
-                                                <option value=@mode.ID>@mode.PARAVAL</option>
-                                            }
-                                        }
+                                        @{ var modeOfConsultant = ViewBag.modeOfConsultant;
+                                                        foreach (var mode in modeOfConsultant)
+                                                        {
+                                            <option value=@mode.ID>@mode.PARAVAL</option> } }
                                     </select>
                                 </div>
                                 <div class="input-box">
                                     <span class="ml-3 pr-2 pl-2">Consultant Type</span>
                                     <select name="consultantType" class="custom-select" id="consultantType" required="required">
                                         <option selected disabled hidden>Select type of consultant</option>
-                                        @{
-                                            var consultantType = ViewBag.consultantType;
-                                            foreach (var type in consultantType)
-                                            {
-                                                <option value=@type.ID>@type.PARAVAL</option>
-                                            }
-                                        }
+                                        @{ var consultantType = ViewBag.consultantType;
+                                                        foreach (var type in consultantType)
+                                                        {
+                                            <option value=@type.ID>@type.PARAVAL</option> } }
                                     </select>
                                 </div>
                             </div>

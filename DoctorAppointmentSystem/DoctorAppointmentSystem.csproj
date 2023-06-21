@@ -281,7 +281,9 @@
     <Compile Include="Models\DB\SCHEDULE.cs">
       <DependentUpon>DBContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\DB\sysdiagrams.cs" />
+    <Compile Include="Models\DB\sysdiagrams.cs">
+      <DependentUpon>DBContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DB\SYSTEM_PARA.cs">
       <DependentUpon>DBContext.tt</DependentUpon>
     </Compile>
@@ -527,6 +529,8 @@
     <Content Include="Areas\Admin\Views\DoctorScheduleManage\Index.cshtml" />
     <Content Include="Areas\Admin\Views\AppointmentManage\Index.cshtml" />
     <Content Include="Areas\Admin\Views\AdminProfile\Index.cshtml" />
+    <Content Include="Areas\Doctor\Views\web.config" />
+    <Content Include="Areas\Doctor\Views\Home\Index.cshtml" />
     <EntityDeploy Include="Models\DB\DBContext.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>DBContext.Designer.cs</LastGenOutput>
@@ -534,8 +538,6 @@
     <Content Include="Models\DB\DBContext.edmx.diagram">
       <DependentUpon>DBContext.edmx</DependentUpon>
     </Content>
-    <Content Include="Areas\Doctor\Views\web.config" />
-    <Content Include="Areas\Doctor\Views\Home\Index.cshtml" />
     <None Include="Scripts\bootstrap-lib-js\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\bootstrap-lib-js\jquery.dataTables.min.js" />
     <Content Include="Scripts\bootstrap-lib-js\jquery.validate.js" />

@@ -476,9 +476,9 @@ ul {
     align-items: end;
 }
 
-#footer hr{
-    width: 100%;
-}
+    #footer hr {
+        width: 100%;
+    }
 
 
 /* Single Post page */
@@ -716,6 +716,7 @@ a:hover {
     border-radius: 0;
     top: 5px;
 }
+
     .navbar-toggler:hover {
         color: rgba(61,65,100, 0.6);
     }
@@ -1016,11 +1017,9 @@ a:hover {
 }
 
     .main-header.main-header .navbar .header-sidebar-off {
-       
     }
 
     .main-header.main-header .navbar .header-sidebar-on {
-        
     }
 
     .main-header nav.navbar.navbar-light.bg-light {
