@@ -209,9 +209,9 @@
     <Compile Include="Areas\Doctor\Models\Appointments\CompletedAppointment\CompletedApptViewDetailsModel.cs" />
     <Compile Include="Areas\Doctor\Models\Appointments\CompletedAppointment\CompletedApptViewModel.cs" />
     <Compile Include="Areas\Doctor\Models\Appointments\Mapping\AppointmentDoctorMappingProfile.cs" />
+    <Compile Include="Areas\Doctor\Models\ComfirmedAppt\ConfirmedApptIO.cs" />
     <Compile Include="Areas\Doctor\Models\Home\calendarIO.cs" />
     <Compile Include="Areas\Doctor\Models\Home\EventViewModel.cs" />
-    <Compile Include="Areas\Doctor\Models\ComfirmedAppt\ConfirmedApptIO.cs" />
     <Compile Include="Areas\Doctor\Models\ViewModels\AppointmentViewModel.cs" />
     <Compile Include="Areas\Doctor\Models\ViewModels\MemberDetailViewModel.cs" />
     <Compile Include="Authorization\AppAuthorizeAttribute.cs" />
@@ -318,8 +318,9 @@
     <Content Include="Content\css\Areas\Admin\doctor-schedule-mgt.css" />
     <Content Include="Content\css\Areas\Admin\patient-management.css" />
     <Content Include="Content\css\Areas\Admin\user-management.css" />
-    <Content Include="Content\css\Areas\Doctor\confirmedAppt.css" />
+    <Content Include="Content\css\cancelledAppointment.css" />
     <Content Include="Content\css\changePassword.css" />
+    <Content Include="Content\css\completedAppointments.css" />
     <Content Include="Content\css\custom-input.css" />
     <Content Include="Content\css\appointmentHistory.css" />
     <Content Include="Content\css\dashboardDoctor.css" />
@@ -561,10 +562,8 @@
     <Content Include="Areas\Doctor\Views\ConfirmedAppt\Index.cshtml" />
     <Content Include="libman.json" />
     <Content Include="Areas\Doctor\Views\CompletedAppt\Index.cshtml" />
-/>
+    <Content Include="Areas\Doctor\Views\CancelledAppt\Index.cshtml" />
     <Content Include="lib\moment.js\moment.min.js.map" />
-    <Content Include="Areas\Doctor\Views\ConfirmedAppt\MemberDetails.cshtml" />
-    <Content Include="Areas\Doctor\Views\ConfirmedAppt\Index.cshtml" />
     <None Include="Scripts\bootstrap-lib-js\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\bootstrap-lib-js\jquery.dataTables.min.js" />
     <Content Include="Scripts\bootstrap-lib-js\jquery.validate.js" />
@@ -644,8 +643,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Doctor\Data\" />
-    <Folder Include="Areas\Doctor\Views\CancelledAppt\" />
-    <Folder Include="Areas\Doctor\Views\CompletedAppt\" />
     <Folder Include="Areas\Doctor\Views\Profile\" />
     <Folder Include="Areas\Doctor\Views\Registration\" />
     <Folder Include="Areas\Doctor\Views\Shared\" />

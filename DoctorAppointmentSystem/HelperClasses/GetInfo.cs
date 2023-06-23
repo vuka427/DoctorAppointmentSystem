@@ -44,7 +44,7 @@ namespace DoctorAppointmentSystem.HelperClasses
             } 
             catch (Exception ex)
             {
-                string sEventCatg = "PATIENT PORTAL";
+                string sEventCatg = "";
                 string sEventMsg = "Exception: " + ex.Message;
                 string sEventSrc = "GetFullName";
                 string sEventType = "S";
@@ -54,6 +54,41 @@ namespace DoctorAppointmentSystem.HelperClasses
                 return fullName;
             }
             
+        }
+
+        public static string GetUserType(string username)
+        {
+            string userType = "";
+            try
+            {
+                using (DBContext dbContext = new DBContext())
+                {
+                    int id = GetUserID(username);
+                    USER user = dbContext.USER.Find(id);
+
+                    if(user == null)
+                    {
+                        throw new Exception();
+                    }
+                    else
+                    {
+                        userType = user.USERTYPE;
+                    }
+
+                    return userType;
+                }
+            }
+            catch (Exception ex)
+            {
+                string sEventCatg = "";
+                string sEventMsg = "Exception: " + ex.Message;
+                string sEventSrc = "GetUserType";
+                string sEventType = "S";
+                string sInsBy = username;
+
+                Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
+                return userType;
+            }
         }
 
         public static int GetUserID(string username)
@@ -77,7 +112,7 @@ namespace DoctorAppointmentSystem.HelperClasses
             }
             catch (Exception ex)
             {
-                string sEventCatg = "PATIENT PORTAL";
+                string sEventCatg = "";
                 string sEventMsg = "Exception: " + ex.Message;
                 string sEventSrc = "GetUserID";
                 string sEventType = "S";
@@ -110,7 +145,7 @@ namespace DoctorAppointmentSystem.HelperClasses
             }
             catch (Exception ex)
             {
-                string sEventCatg = "PATIENT PORTAL";
+                string sEventCatg = "";
                 string sEventMsg = "Exception: " + ex.Message;
                 string sEventSrc = "GetPatientID";
                 string sEventType = "S";
@@ -120,6 +155,41 @@ namespace DoctorAppointmentSystem.HelperClasses
                 return id;
             }
             
+        }
+
+        public static int GetDoctorID(string username)
+        {
+            int id = 0;
+            try
+            {
+                using (DBContext dbContext = new DBContext())
+                {
+                    int userID = GetUserID(username);
+
+                    DOCTOR doctor = dbContext.DOCTOR.Where(p => p.USERID.Equals(userID)).FirstOrDefault();
+                    if (doctor != null)
+                    {
+                        id = doctor.DOCTORID;
+                        return id;
+                    }
+                    else
+                    {
+                        throw new Exception();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                string sEventCatg = "";
+                string sEventMsg = "Exception: " + ex.Message;
+                string sEventSrc = "GetPatientID";
+                string sEventType = "S";
+                string sInsBy = "";
+
+                Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
+                return id;
+            }
+
         }
 
         public static string GetImgPath(string username)
