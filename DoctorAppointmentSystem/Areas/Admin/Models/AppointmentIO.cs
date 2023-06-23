@@ -78,9 +78,9 @@ namespace DoctorAppointmentSystem.Areas.Admin.Models
             return new ValidationResult { Success = true, ErrorMessage = "ok" };
         }
 
-        public AppointmentViewDetailsModel getAppointmentInfo(int appointmentID,string username)
+        public CompletedApptViewDetailsModel getAppointmentInfo(int appointmentID,string username)
         {
-            AppointmentViewDetailsModel avm = new AppointmentViewDetailsModel();
+            CompletedApptViewDetailsModel avm = new CompletedApptViewDetailsModel();
             try {  
             var apm =_dbContext.APPOINTMENT.Where(a => a.APPOINTMENTID == appointmentID)
                                             .Include("PATIENT")
@@ -88,7 +88,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Models
                                             .Include("SCHEDULE.DOCTOR")
                                             .FirstOrDefault();
             
-                avm = _mapper.GetMapper().Map<APPOINTMENT, AppointmentViewDetailsModel>(apm);
+                avm = _mapper.GetMapper().Map<APPOINTMENT, CompletedApptViewDetailsModel>(apm);
             }
             catch
             {

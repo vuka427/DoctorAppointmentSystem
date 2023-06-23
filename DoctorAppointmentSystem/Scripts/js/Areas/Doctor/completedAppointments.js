@@ -5,7 +5,7 @@
 function initJqueryDatatable() {
     var table = $('#appointment-table').DataTable({
 
-        "sAjaxSource": "/Doctor/Appointments/LoadAppointmentData",
+        "sAjaxSource": "/Doctor/CompletedAppt/LoadAppointmentData",
         "sServerMethod": "POST",
         "bServerSide": true,
         "bProcessing": true,
@@ -33,7 +33,7 @@ function initJqueryDatatable() {
             {
                 "data": "PATIENTNAME",
                 "title": 'Patient Name',
-                
+                "searchable": true,
                 "searchable": true,
                 "render": function (data, type, row) {
                     return '<a href="#' + row.APPOINTMENTID + '" class="">' + data + '</a>';
@@ -60,13 +60,26 @@ function initJqueryDatatable() {
                 "data": "CONSULTANTTIME",
                 "title": 'Consultant Time',
                 "searchable": true
-            } ,
+            }
+            ,
+            {
+                "data": "CLOSEDBY",
+                "title": 'Closed By',
+                "searchable": true
+            }
+            ,
+            {
+                "data": "CLOSEDDATE",
+                "title": 'Closed Date',
+                "searchable": true
+            },
             {
                 "data": "APPOIMENTSTATUS",
                 "title": 'Status',
                 "className": 'text-center',
                 "responsivePriority": 1,
                 "searchable": true,
+                "orderable": false,
                 "render": function (data, type, row) {
                     if (data.toLowerCase() == 'pending') {
                         return '<span class="column-status column-status--pending">' + data + '</span>';
@@ -80,9 +93,11 @@ function initJqueryDatatable() {
                         return '<span class="column-status column-status--cancel">' + data + '</span>';
 
                     }
-
                 }
             }
+           
+
+
         ]
 
     });
@@ -90,10 +105,59 @@ function initJqueryDatatable() {
     $(window).trigger('resize');
 
 }
+//view detail appointment
+function setEventViewAppointment() {
+    var table = $('#appointment-table').DataTable();
+
+    table.on('draw', function () {
+
+        $(".btn-view-appointment").on("click", function () {
+            var Button = $(this);
+
+            var appointmentID = Button.data('appointmentid');
+            $.ajax({
+                url: '/AppointmentManage/AppointViewDetail',
+                method: 'GET',
+                data: { appointmentID: appointmentID },
+                dataType: 'JSON',
+                success: function (res) {
+                    var data = res.data;
+                    console.log(res.data);
+                    $('#doctorName').text(data.doctorName);
+                    $('#doctorGender').text(data.doctorGender);
+                    $('#speciality').text(data.doctorSpeciality);
+                    $('#patientName').text(data.patientName);
+                    $('#dateOfBirth').text(data.patientDateOfBirth);
+                    $('#patientGender').text(data.patientGender);
+                    $('#modeOfConsultant').val(data.modeOfConsultant);
+                    $('#consultantType').val(data.consultantType);
+                    $('#dateOfConsultation').text(data.dateOfConsultation);
+                    $('#consultationTime').text(data.consultationTime);
+                    $('#appointmentDate').text(data.appointmentDate);
+                    $('#appointmentTime').text(data.appointmentTime);
+                    $('#symtoms').val(data.symtoms);
+                    $('#existingIllness').val(data.existingIllness);
+                    $('#drugAlergies').val(data.drugAlergies);
+                },
+                error: function (err) {
+                    console.log(err.responseText);
+                }
+            })
+
+            $('#makeAppointmentModal').modal('show')
+
+
+        });
+    });
+
+}
+
+
+
 
 $("document").ready(function () {
  
     initJqueryDatatable();
-   
+    setEventViewAppointment();
 
 });

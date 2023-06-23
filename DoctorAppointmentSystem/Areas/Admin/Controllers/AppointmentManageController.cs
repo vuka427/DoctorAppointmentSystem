@@ -9,6 +9,7 @@ using DoctorAppointmentSystem.Models.DB;
 using DoctorAppointmentSystem.Services.ServiceInterface;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Security.Permissions;
 using System.Web;
@@ -59,7 +60,6 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             try
             {
 
-
                 Apointments = apmts.Select(dt => _mapper.GetMapper().Map<APPOINTMENT, ApponitmentViewModel>(dt)).ToList();
             }
             catch
@@ -68,7 +68,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
                 string sEventMsg = "Exception: Failed to mapping APPOINTMENT to ApponitmentViewModel";
                 string sEventSrc = nameof(LoadAppointmentData);
                 string sEventType = "C";
-                string sInsBy = GetCurrentUser().USERNAME;
+                string sInsBy = GetCurrentUser().USERNAME ;
                 Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
                 Apointments = new List<ApponitmentViewModel>();
             }
@@ -88,32 +88,17 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             {
                 Apointments = (sortDirection == "asc" ? Apointments.OrderBy(c => c.APPOINTMENTID) : Apointments.OrderByDescending(c => c.APPOINTMENTID));
             }
-            else if(sortColumnIndex == 2)
-            {
-                Apointments = (sortDirection == "asc" ? Apointments.OrderBy(c => c.PATIENID) : Apointments.OrderByDescending(c => c.PATIENID));
-            }
-            else if (sortColumnIndex == 4)
-            {
-                Apointments = (sortDirection == "asc" ? Apointments.OrderBy(c => c.DOCTORID) : Apointments.OrderByDescending(c => c.DOCTORID));
-            }
-            else if (sortColumnIndex == 13)
-            {
-                Apointments = sortDirection == "asc" ? Apointments.OrderBy(c => c.CREATEDDATE) : Apointments.OrderByDescending(c => c.CREATEDDATE);
-            }
-            else if (sortColumnIndex == 15)
-            {
-                Apointments = sortDirection == "asc" ? Apointments.OrderBy(c => c.UPDATEDDATE) : Apointments.OrderByDescending(c => c.CREATEDDATE);
-            }else
+            
             {
                 Func<ApponitmentViewModel, string> orderingFunction = e =>
                                                            sortColumnIndex == 2 ? e.PATIENTNAME :
                                                            sortColumnIndex == 3 ? e.DOCTORNAME :
-                                                           sortColumnIndex == 6 ? e.APPOINTMENTDATE :
-                                                           sortColumnIndex == 7 ? e.APPOINTMENTTIME :
-                                                           sortColumnIndex == 8 ? e.APPOINTMENTDAY :
-                                                           sortColumnIndex == 9 ? e.APPOIMENTSTATUS:
-                                                           sortColumnIndex == 10 ? e.CONSULTANTTIME :
-                                                           sortColumnIndex == 12 ? e.CREATEDBY :
+                                                           sortColumnIndex == 4 ? e.APPOINTMENTDATE :
+                                                           sortColumnIndex == 5 ? e.APPOINTMENTTIME :
+                                                           sortColumnIndex == 6 ? e.APPOINTMENTDAY :
+                                                           sortColumnIndex == 14 ? e.APPOIMENTSTATUS:
+                                                           sortColumnIndex == 7 ? e.CONSULTANTTIME :
+                                                           sortColumnIndex == 11 ? e.CREATEDBY :
                                                            e.UPDATEDBY
                                                            ;
 
@@ -159,6 +144,33 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             var apm = _appointment.getAppointmentInfo(appointmentID, GetCurrentUser().USERNAME);
 
             return Json(new { error = 1, msg = "ok", data= apm }, JsonRequestBehavior.AllowGet);
+        }
+
+        public CompletedApptViewDetailsModel getAppointmentInfo(int appointmentID, string username)
+        {
+            CompletedApptViewDetailsModel avm = new CompletedApptViewDetailsModel();
+            try
+            {
+                var apm = _dbContext.APPOINTMENT.Where(a => a.APPOINTMENTID == appointmentID)
+                                                .Include("PATIENT")
+                                                .Include("SCHEDULE")
+                                                .Include("SCHEDULE.DOCTOR")
+                                                .FirstOrDefault();
+
+                avm = _mapper.GetMapper().Map<APPOINTMENT, CompletedApptViewDetailsModel>(apm);
+            }
+            catch
+            {
+                string sEventCatg = "ADMIN PORTAL";
+                string sEventMsg = "Exception: Failed to load detail appointment";
+                string sEventSrc = nameof(getAppointmentInfo);
+                string sEventType = "L";
+                string sInsBy = username;
+
+                Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
+            }
+            return avm;
+
         }
 
         [NonAction]

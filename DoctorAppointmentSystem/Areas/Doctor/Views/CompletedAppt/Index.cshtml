@@ -1,19 +1,21 @@
 ﻿
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Completed Appointment";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<link href="~/Content/css/appointmentHistory.css" rel="stylesheet" />
 
 
-<h3 class="text-center mt-3 mb-3 font-weight-bold">Appointment Confirmed</h3>
 
-<div class="col-12 col-sm-12 col-md-12" style="margin-bottom: 5em">
-    <div class="container-fluid content-wrapper pr-0 pl-0 pr-md-2 pl-md-2 mt-4 table-responsive">
-        <table id="historyTbl" class="dt-responsive display">
-            <thead></thead>
-            <tbody></tbody>
-        </table>
+@Styles.Render("~/Content/doctor/appointment/completed")
+
+<h3 class="text-center mt-2 font-weight-bold">Completed Appointments</h3>
+
+<div class="content-wrapper">
+    <div id="list-appointment-page" class="col-12 col-sm-12 col-md-12 p-1" style="margin-bottom: 5em">
+        <div class="container-fluid content-wrapper mt-4 table-responsive card shadow pt-3 pb-3">
+            <table id="appointment-table" class="dt-responsive display nowrap" cellspacing="0" width="100%" style=" margin : auto">
+            </table>
+        </div>
     </div>
 </div>
 
@@ -71,22 +73,26 @@
                                 <span class="ml-3 pr-2 pl-2">Mode of Consultant</span>
                                 <select name="modeOfConsultant" class="custom-select" id="modeOfConsultant" required="required">
                                     <option selected disabled hidden>Select mode of consultant</option>
-                                    @{ var modeOfConsultant = ViewBag.modeOfConsultant;
+                                    @{
+                                        var modeOfConsultant = ViewBag.modeOfConsultant;
                                         foreach (var mode in modeOfConsultant)
                                         {
-                            <option value=@mode.ID>@mode.PARAVAL</option>
- } }
+                                            <option value=@mode.ID>@mode.PARAVAL</option>
+                                        }
+                                    }
                                 </select>
                             </div>
                             <div class="input-box">
                                 <span class="ml-3 pr-2 pl-2">Consultant Type</span>
                                 <select name="consultantType" class="custom-select" id="consultantType" required="required">
                                     <option selected disabled hidden>Select type of consultant</option>
-                                    @{ var consultantType = ViewBag.consultantType;
+                                    @{
+                                        var consultantType = ViewBag.consultantType;
                                         foreach (var type in consultantType)
                                         {
-                            <option value=@type.ID>@type.PARAVAL</option>
- } }
+                                            <option value=@type.ID>@type.PARAVAL</option>
+                                        }
+                                    }
                                 </select>
                             </div>
                         </div>
@@ -137,8 +143,10 @@
     </div>
 </div>
 
+
+
 @section scripts{
-    <script src="~/Scripts/js/appointmentHistory.js"></script>
+
+    @Scripts.Render("~/bundles/doctor/appointment/completed")
+
 }
-
-

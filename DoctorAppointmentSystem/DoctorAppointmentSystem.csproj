@@ -204,7 +204,13 @@
     <Compile Include="Areas\Doctor\Controllers\RegistrationController.cs" />
     <Compile Include="Areas\Doctor\DoctorAreaRegistration.cs" />
     <Compile Include="Areas\Doctor\Models\Appointments\AppointmentsDoctorIO.cs" />
-    <Compile Include="Areas\Doctor\Models\Appointments\ApponitmentViewModel.cs" />
+    <Compile Include="Areas\Doctor\Models\Appointments\Appointment\AppointmentViewModel.cs" />
+    <Compile Include="Areas\Doctor\Models\Appointments\CancelledAppointment\CancelledApptViewModel.cs" />
+    <Compile Include="Areas\Doctor\Models\Appointments\CompletedAppointment\CompletedApptViewDetailsModel.cs" />
+    <Compile Include="Areas\Doctor\Models\Appointments\CompletedAppointment\CompletedApptViewModel.cs" />
+    <Compile Include="Areas\Doctor\Models\Appointments\Mapping\AppointmentDoctorMappingProfile.cs" />
+    <Compile Include="Areas\Doctor\Models\Home\calendarIO.cs" />
+    <Compile Include="Areas\Doctor\Models\Home\EventViewModel.cs" />
     <Compile Include="Areas\Doctor\Models\ComfirmedAppt\ConfirmedApptIO.cs" />
     <Compile Include="Areas\Doctor\Models\ViewModels\AppointmentViewModel.cs" />
     <Compile Include="Areas\Doctor\Models\ViewModels\MemberDetailViewModel.cs" />
@@ -306,6 +312,7 @@
     <Content Include="Content\bootstrap-lib\bootstrap.min.css" />
     <Content Include="Content\bootstrap-lib\jquery.dataTables.min.css" />
     <Content Include="Content\bootstrap-lib\responsive.bootstrap.min.css" />
+    <Content Include="Content\css\appointmentDoctor.css" />
     <Content Include="Content\css\Areas\Admin\admin-appointment.css" />
     <Content Include="Content\css\Areas\Admin\doctor-management.css" />
     <Content Include="Content\css\Areas\Admin\doctor-schedule-mgt.css" />
@@ -315,6 +322,7 @@
     <Content Include="Content\css\changePassword.css" />
     <Content Include="Content\css\custom-input.css" />
     <Content Include="Content\css\appointmentHistory.css" />
+    <Content Include="Content\css\dashboardDoctor.css" />
     <Content Include="Content\css\intro.css" />
     <Content Include="Content\css\layout.css" />
     <Content Include="Content\css\appointment.css" />
@@ -381,6 +389,12 @@
     <Content Include="lib\font-awesome\sprites\brands.svg" />
     <Content Include="lib\font-awesome\sprites\regular.svg" />
     <Content Include="lib\font-awesome\sprites\solid.svg" />
+    <Content Include="lib\fullcalendar\index.global.js" />
+    <Content Include="lib\fullcalendar\index.global.min.js" />
+    <Content Include="lib\fullcalendar\index.js" />
+    <Content Include="lib\fullcalendar\index.min.js" />
+    <Content Include="lib\moment.js\moment.js" />
+    <Content Include="lib\moment.js\moment.min.js" />
     <Content Include="lib\select2-bootstrap-css\select2-bootstrap.css" />
     <Content Include="lib\select2-bootstrap-css\select2-bootstrap.min.css" />
     <Content Include="lib\select2\css\select2.css" />
@@ -544,6 +558,11 @@
       <DependentUpon>DBContext.edmx</DependentUpon>
     </Content>
     <Content Include="Areas\Doctor\Views\Appointments\Index.cshtml" />
+    <Content Include="Areas\Doctor\Views\ConfirmedAppt\Index.cshtml" />
+    <Content Include="libman.json" />
+    <Content Include="Areas\Doctor\Views\CompletedAppt\Index.cshtml" />
+/>
+    <Content Include="lib\moment.js\moment.min.js.map" />
     <Content Include="Areas\Doctor\Views\ConfirmedAppt\MemberDetails.cshtml" />
     <Content Include="Areas\Doctor\Views\ConfirmedAppt\Index.cshtml" />
     <None Include="Scripts\bootstrap-lib-js\jquery.validate-vsdoc.js" />
@@ -553,6 +572,8 @@
     <Content Include="Scripts\bootstrap-lib-js\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\bootstrap-lib-js\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\bootstrap-lib-js\modernizr-2.8.3.js" />
+    <Content Include="Scripts\js\Areas\Doctor\completedAppointments.js" />
+    <Content Include="Scripts\js\Areas\Doctor\cancelledAppointments.js" />
     <Content Include="Scripts\js\Areas\Doctor\appointmentsDoctor.js" />
     <Content Include="Scripts\js\Areas\Admin\adminmanagement.js" />
     <Content Include="Scripts\js\Areas\Admin\adminProfile.js" />
@@ -563,6 +584,7 @@
     <Content Include="Scripts\js\Areas\Admin\patientmanagement.js" />
     <Content Include="Scripts\js\Areas\Admin\usermanagement.js" />
     <Content Include="Scripts\js\Areas\Doctor\confirmedAppt.js" />
+    <Content Include="Scripts\js\Areas\Doctor\dashboard.js" />
     <Content Include="Scripts\js\changePassword.js" />
     <Content Include="Scripts\js\appointmentHistory.js" />
     <Content Include="Scripts\js\intro.js" />
