@@ -74,6 +74,14 @@ namespace DoctorAppointmentSystem
             bundles.Add(new StyleBundle("~/Content/select2/css").Include(
                     "~/lib/select2/css/select2.css"));
 
+            //Config ScriptBundle and StyleBundle moment js
+            bundles.Add(new ScriptBundle("~/bundles/momentjs").Include(
+                     "~/lib/moment.js/moment.min.js"));
+
+            //Config ScriptBundle and StyleBundle for fullcalendar
+            bundles.Add(new ScriptBundle("~/bundles/fullcalendar/js").Include(
+                     "~/lib/fullcalendar/index.global.js"));
+
             //Config StyleBundle for fontawesome lib
             bundles.Add(new StyleBundle("~/Content/fontawesome/css").Include(
                     "~/lib/font-awesome/css/all.min.css"));
@@ -93,6 +101,7 @@ namespace DoctorAppointmentSystem
                      "~/Scripts/js/Areas/Admin/appointmentManagement.admin.js"));
             bundles.Add(new StyleBundle("~/Content/admin/appointment").Include(
                  "~/Content/css/Areas/Admin/admin-appointment.css"));
+
             //Config ScriptBundle and StyleBundle admin profile
             bundles.Add(new ScriptBundle("~/bundles/admin/profile").Include(
                      "~/Scripts/js/Areas/Admin/adminProfile.js"));
@@ -102,7 +111,23 @@ namespace DoctorAppointmentSystem
             //Config ScriptBundle and StyleBundle doctor appointment
             bundles.Add(new ScriptBundle("~/bundles/doctor/appointment").Include(
                      "~/Scripts/js/Areas/Doctor/appointmentsDoctor.js"));
-
+            bundles.Add(new StyleBundle("~/Content/doctor/appointment").Include(
+                "~/Content/css/appointmentDoctor.css"));
+            //Config ScriptBundle and StyleBundle doctor cancelled appointment
+            bundles.Add(new ScriptBundle("~/bundles/doctor/appointment/cancelled").Include(
+                     "~/Scripts/js/Areas/Doctor/cancelledAppointments.js"));
+            bundles.Add(new StyleBundle("~/Content/doctor/appointment/cancelled").Include(
+                "~/Content/css/cancelledAppointment.css"));
+            //Config ScriptBundle and StyleBundle doctor completed appointment
+            bundles.Add(new ScriptBundle("~/bundles/doctor/appointment/completed").Include(
+                     "~/Scripts/js/Areas/Doctor/completedAppointments.js"));
+            bundles.Add(new StyleBundle("~/Content/doctor/appointment/completed").Include(
+                "~/Content/css/completedAppointments.css"));
+            //Config ScriptBundle and StyleBundle  doctor dashboard
+            bundles.Add(new ScriptBundle("~/bundles/doctor/dashboard").Include(
+                     "~/Scripts/js/Areas/Doctor/dashboard.js"));
+            bundles.Add(new StyleBundle("~/Content/doctor/dashboard").Include(
+                "~/Content/css/dashboardDoctor.css"));
         }
     }
 }

@@ -403,6 +403,7 @@ function initJqueryDatatable() {
                 "title": "Action",
                 "responsivePriority": 1,
                 "searchable": false,
+                "orderable": false,
                 "render": function (data, type, row) {
                     console.log(data, type, row);
                     return "<btn class=\"btn-update-schedule btn btn-sm btn-outline-primary btn-action\" data-id=\"" + row.SCHEDULEID + "\"  data-toggle=\"tooltip\" data-placement=\"top\" title=\"Edit schedule\"> <i class=\"fa-solid fa-user-pen\"></i> </btn>"

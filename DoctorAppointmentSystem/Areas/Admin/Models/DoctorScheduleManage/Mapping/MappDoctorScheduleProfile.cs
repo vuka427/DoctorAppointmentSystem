@@ -18,6 +18,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Models.DoctorSchedule.Mapping
                 .ForMember(dest => dest.DOCTORID, act => act.MapFrom(src => src.DOCTORID))
                 .ForMember(dest => dest.DOCTORNAME, act => act.MapFrom(src => (src.DOCTOR!=null)? src.DOCTOR.DOCTORNAME: ""))
                 .ForMember(dest => dest.WORKINGDAY, act => act.MapFrom(src => src.WORKINGDAY.ToShortDateString()))
+                .ForMember(dest => dest.APPOINTMENTNUM, act => act.MapFrom(src => src.APPOINTMENT.Count ))
                 .ForMember(dest => dest.SHIFTTIME, act => act.MapFrom(src => src.SHIFTTIME.ToString(@"hh\:mm")))
                 .ForMember(dest => dest.BREAKTIME, act => act.MapFrom(src => src.BREAKTIME.ToString(@"hh\:mm")))
                 .ForMember(dest => dest.CONSULTANTTIME, act => act.MapFrom(src => 

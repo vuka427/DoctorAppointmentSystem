@@ -1,16 +1,16 @@
 ﻿
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Cancelled Appointment";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@Styles.Render("~/Content/doctor/appointment")
 
-<h3 class="text-center mt-2 font-weight-bold">Appointments</h3>
+
+@Styles.Render("~/Content/doctor/appointment/cancelled")
+
+<h3 class="text-center mt-2 font-weight-bold">Cancelled Appointments</h3>
 
 <div class="content-wrapper">
-    @* index  *@
-
     <div id="list-appointment-page" class="col-12 col-sm-12 col-md-12 p-1" style="margin-bottom: 5em">
         <div class="container-fluid content-wrapper mt-4 table-responsive card shadow pt-3 pb-3">
             <table id="appointment-table" class="dt-responsive  display nowrap" cellspacing="0" width="100%" style=" margin : auto">
@@ -21,7 +21,6 @@
 
 @section scripts{
 
-    @Scripts.Render("~/bundles/doctor/appointment")
-
+    @Scripts.Render("~/bundles/doctor/appointment/cancelled")
 
 }

@@ -28,7 +28,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Models.AppointmentManage.Mapping
                 .ForMember(dest => dest.APPOINTMENTDAY, act => act.MapFrom(src => src.APPOINTMENTDATE != null ? src.APPOINTMENTDATE.Value.DayOfWeek.ToString() : ""))
                 ;
 
-            CreateMap<APPOINTMENT, AppointmentViewDetailsModel>()
+            CreateMap<APPOINTMENT, CompletedApptViewDetailsModel>()
                 // doctor
                 .ForMember(dest => dest.doctorID, act => act.MapFrom(src => src.DOCTORID ))
                 .ForMember(dest => dest.doctorName, act => act.MapFrom(src => src.SCHEDULE != null && src.SCHEDULE.DOCTOR != null ?

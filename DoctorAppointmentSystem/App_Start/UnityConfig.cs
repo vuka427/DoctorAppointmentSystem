@@ -1,5 +1,6 @@
 ﻿using DoctorAppointmentSystem.Areas.Admin.Models;
 using DoctorAppointmentSystem.Areas.Doctor.Models.Appointments;
+using DoctorAppointmentSystem.Areas.Doctor.Models.Home;
 using DoctorAppointmentSystem.Models.Account;
 using DoctorAppointmentSystem.Models.DB;
 using DoctorAppointmentSystem.Services;
@@ -32,6 +33,7 @@ namespace DoctorAppointmentSystem.App_Start
             container.RegisterType<DoctorIO, DoctorIO>(TypeLifetime.Transient);
             //register doctor IO 
             container.RegisterType<AppointmentsDoctorIO, AppointmentsDoctorIO>(TypeLifetime.Transient);
+            container.RegisterType<calendarIO, calendarIO>(TypeLifetime.Transient);
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }
     }

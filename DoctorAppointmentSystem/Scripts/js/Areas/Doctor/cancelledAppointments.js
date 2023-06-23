@@ -5,7 +5,7 @@
 function initJqueryDatatable() {
     var table = $('#appointment-table').DataTable({
 
-        "sAjaxSource": "/Doctor/Appointments/LoadAppointmentData",
+        "sAjaxSource": "/Doctor/CancelledAppt/LoadAppointmentData",
         "sServerMethod": "POST",
         "bServerSide": true,
         "bProcessing": true,
@@ -33,7 +33,7 @@ function initJqueryDatatable() {
             {
                 "data": "PATIENTNAME",
                 "title": 'Patient Name',
-                
+                "searchable": true,
                 "searchable": true,
                 "render": function (data, type, row) {
                     return '<a href="#' + row.APPOINTMENTID + '" class="">' + data + '</a>';
@@ -67,6 +67,7 @@ function initJqueryDatatable() {
                 "className": 'text-center',
                 "responsivePriority": 1,
                 "searchable": true,
+                "orderable": false,
                 "render": function (data, type, row) {
                     if (data.toLowerCase() == 'pending') {
                         return '<span class="column-status column-status--pending">' + data + '</span>';
