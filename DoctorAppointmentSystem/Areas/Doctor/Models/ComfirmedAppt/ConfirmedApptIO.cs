@@ -57,7 +57,7 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Models.ComfirmedAppt
             catch (Exception ex)
             {
                 string username = GetInfo.Username;
-                string sEventCatg = GetInfo.GetUserType(username);
+                string sEventCatg = GetInfo.GetUserType(username).ToUpper() + "PORTAL";
                 string sEventMsg = "Exception: " + ex.Message;
                 string sEventSrc = "LoadData";
                 string sEventType = "S";
@@ -113,7 +113,14 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Models.ComfirmedAppt
             }
             catch (Exception ex)
             {
-                
+                string username = GetInfo.Username;
+                string sEventCatg = GetInfo.GetUserType(username).ToUpper() + "PORTAL";
+                string sEventMsg = "Exception: " + ex.Message;
+                string sEventSrc = "GetMemberDetails";
+                string sEventType = "S";
+                string sInsBy = username;
+
+                Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
                 return results;
             }
         }
