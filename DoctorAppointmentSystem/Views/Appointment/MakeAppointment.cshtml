@@ -1,6 +1,8 @@
 ﻿
 @{ ViewBag.Title = "Make Appointment";
-                Layout = "~/Views/Shared/_Layout.cshtml"; }
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+
 <link href="~/Content/css/appointment.css" rel="stylesheet" />
 <style>
     form .error {
@@ -91,9 +93,10 @@
                                     <select name="modeOfConsultant" class="custom-select" id="modeOfConsultant" required="required">
                                         <option selected disabled hidden>Select mode of consultant</option>
                                         @{ var modeOfConsultant = ViewBag.modeOfConsultant;
-                                                        foreach (var mode in modeOfConsultant)
-                                                        {
-                                            <option value=@mode.ID>@mode.PARAVAL</option> } }
+                                            foreach (var mode in modeOfConsultant)
+                                            {
+                                <option value=@mode.ID>@mode.PARAVAL</option>
+ } }
                                     </select>
                                 </div>
                                 <div class="input-box">
@@ -101,9 +104,10 @@
                                     <select name="consultantType" class="custom-select" id="consultantType" required="required">
                                         <option selected disabled hidden>Select type of consultant</option>
                                         @{ var consultantType = ViewBag.consultantType;
-                                                        foreach (var type in consultantType)
-                                                        {
-                                            <option value=@type.ID>@type.PARAVAL</option> } }
+                                            foreach (var type in consultantType)
+                                            {
+                                <option value=@type.ID>@type.PARAVAL</option>
+ } }
                                     </select>
                                 </div>
                             </div>
