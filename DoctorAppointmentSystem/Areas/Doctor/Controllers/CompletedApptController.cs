@@ -89,9 +89,9 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Controllers
                 Func<CompletedApptViewModel, string> orderingFunction = e =>
                                                            sortColumnIndex == 2 ? e.PATIENTNAME :
                                                            sortColumnIndex == 3 ? e.DATEOFCONSULTANT :
-                                                           sortColumnIndex == 4 ? e.DATEOFCONSULTANTTIME :
-                                                           sortColumnIndex == 5 ? e.DATEOFCONSULTANTDAY :
-                                                           sortColumnIndex == 6 ? e.APPOIMENTSTATUS : e.CONSULTANTTIME
+                                                           sortColumnIndex == 4 ? e.APPOINTMENTDATE :
+                                                         
+                                                           sortColumnIndex == 5 ? e.APPOIMENTSTATUS : e.CONSULTANTTIME
                                                            ;
 
                 Apointments = (sortDirection == "asc" ? Apointments.OrderBy(orderingFunction) : Apointments.OrderByDescending(orderingFunction));

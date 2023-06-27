@@ -15,6 +15,8 @@ using System.Web.Security;
 using System.IO;
 using System.Threading.Tasks;
 using DoctorAppointmentSystem.Models.Account.ChangePassword;
+using DoctorAppointmentSystem.Models.Account.AuthenQuestion;
+using Antlr.Runtime.Misc;
 
 namespace DoctorAppointmentSystem.Controllers
 {
@@ -213,7 +215,9 @@ namespace DoctorAppointmentSystem.Controllers
         [Authorize]
         public ActionResult ChangePassword()
         {
-            ViewBag.questions = new ChangePasswordIO().GetAuthQuestions();
+
+
+            ViewBag.questions = new ChangePasswordIO().GetAuthQuestions(User.Identity.Name);
             return View();
         }
 
@@ -221,7 +225,7 @@ namespace DoctorAppointmentSystem.Controllers
         {
             try
             {
-                bool success = new ChangePasswordIO().VerifyAccount(answers);
+                bool success = new ChangePasswordIO().VerifyAccount(answers, User.Identity.Name);
                 if (success)
                 {
                     return Json(new { success = true }, JsonRequestBehavior.AllowGet);
@@ -272,6 +276,67 @@ namespace DoctorAppointmentSystem.Controllers
                 return Json(new { success = false, message = "Password incorrect! Please check again" }, JsonRequestBehavior.AllowGet);
             }
         }
+
+        [Authorize]
+        public ActionResult AuthenQuestion()
+        {
+            var questions = SystemParaHelper.GenerateAuthQuestion();
+            ViewBag.questions = new SelectList(questions, "id", "paraval");
+            string username = User.Identity.Name;
+            if(string.IsNullOrEmpty(username))
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            if (registerIO.IsAnswerPaswdRecovery(username))
+            {
+               
+                var user = registerIO.GetUserByUserName(username);
+                if (user.USERTYPE.Equals("Patient"))
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    if (user.USERTYPE.Equals("Doctor")) 
+
+                    return RedirectToAction("Index", "Home" ,new { area = "Doctor"});
+                }
+
+                return RedirectToAction("Index", "Manage", new { area = "Admin" });
+
+            }
+            ViewBag.username = username;
+            return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult AuthenQuestion(AuthenQuestionModel question)
+        {
+            question.passwordRecoveryAns1 = question.passwordRecoveryAns1 != null ? question.passwordRecoveryAns1.Trim() : question.passwordRecoveryAns1;
+            question.passwordRecoveryAns2 = question.passwordRecoveryAns2 != null ? question.passwordRecoveryAns2.Trim() : question.passwordRecoveryAns2;
+            question.passwordRecoveryAns3 = question.passwordRecoveryAns3 != null ? question.passwordRecoveryAns3.Trim() : question.passwordRecoveryAns3;
+            string username = User.Identity.Name;
+            if(username == question.username)
+            {
+                var result = registerIO.SetAuthenQuestions(question);
+
+
+                if (result)
+                {
+                    string action = "";
+                    string controller = "";
+                    string area = "";
+                    var user = registerIO.GetUserByUserName(username);
+                    loginIO.UserRedirects(user, out area, out controller, out action);
+                    string url = Url.Action(action, controller, new { area = area });
+                    return Json(new { success = true, message = "", url = url });
+
+                }
+            }
+            return Json(new { success = false });
+        }
+
 
         public ActionResult Logout()
         {

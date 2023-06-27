@@ -64,20 +64,29 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Models.Appointments
 
         }
 
-        public int CountApptPending()
+        public int CountApptPending(int doctorId)
         {
-            return _dbContext.APPOINTMENT.Where(a=>a.DELETEDFLAG == false && a.APPOIMENTSTATUS == "Pending").Count();
+            return _dbContext.APPOINTMENT.Where(a=>a.DELETEDFLAG == false && a.DOCTORID == doctorId && a.APPOIMENTSTATUS == "Pending").Count();
         }
-        public int CountApptToDay()
+        public int CountApptToDay(int doctorId)
         {
-            var date = DateTime.Now;
-            date = date.Date.AddHours(1).AddMinutes(0).AddSeconds(0);
+            var startDate = DateTime.Now;
+            startDate = startDate.Date.AddHours(1).AddMinutes(0).AddSeconds(0);
+           var endDate = startDate.AddDays(1);
 
             return _dbContext.APPOINTMENT.Where(a => a.DELETEDFLAG == false && 
-                                                    a.APPOIMENTSTATUS == "Confirm" && 
-           
-                                                    a.DATEOFCONSULTATION.ToShortDateString() ==  date.ToShortDateString()).Count();
+                                                    a.APPOIMENTSTATUS == "Confirm" &&
+                                                    a.DOCTORID == doctorId &&
+                                                    a.DATEOFCONSULTATION >=  startDate && a.DATEOFCONSULTATION < endDate).Count();
         }
 
+        public int CountApptComfirmed(int doctorId)
+        {
+            return _dbContext.APPOINTMENT.Where(a => a.DELETEDFLAG == false && a.DOCTORID == doctorId && a.APPOIMENTSTATUS == "Confirm").Count();
+        }
+        public int CountApptCompleted(int doctorId)
+        {
+            return _dbContext.APPOINTMENT.Where(a => a.DELETEDFLAG == false && a.DOCTORID == doctorId && a.APPOIMENTSTATUS == "Completed").Count();
+        }
     }
 }

@@ -27,24 +27,36 @@ namespace DoctorAppointmentSystem.Models.Account
         public void UserRedirects(USER user, out string area, out string controller, out string action)
         {
             string userType = user.USERTYPE.ToLower();
-            if (userType.Equals("patient"))
-            {
-                area = "";
-                action = "Index";
-                controller = "Home";
-            }
-            else if (userType.Equals("doctor"))
-            {
-                area = "Doctor";
-                action = "Index";
-                controller = "Home";
-            }
-            else
+
+            if (userType.Equals("admin"))
             {
                 area = "Admin";
                 action = "Index";
                 controller = "Manage";
             }
+            else 
+            if(user.PASSWORDRECOVERYANS1 != null)
+            {
+                if (userType.Equals("patient"))
+                {
+                    area = "";
+                    action = "Index";
+                    controller = "Home";
+                }
+                else
+                {
+                    area = "Doctor";
+                    action = "Index";
+                    controller = "Home";
+                }
+            }
+            else 
+            {
+                area = "";
+                action = "AuthenQuestion";
+                controller = "Account";
+            }
+            
 
             try
             {

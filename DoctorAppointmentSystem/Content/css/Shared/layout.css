@@ -1011,7 +1011,7 @@ a:hover {
 /* header sticky nnv-pat02*/
 
 .main-header {
-    position: relative;
+    position: sticky;
     top: 0;
     z-index: 99;
 }

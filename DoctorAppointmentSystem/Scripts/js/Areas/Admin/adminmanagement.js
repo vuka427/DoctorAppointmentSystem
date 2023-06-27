@@ -144,7 +144,6 @@ function loadDataToForm(adminid) {
             $("#uadminid").val(data.admin.USERID);
             $("#uusername").val(data.admin.USERNAME);
             $("#uemail").val(data.admin.EMAIL);
-
         }
     });
 }
