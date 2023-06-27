@@ -65,6 +65,9 @@ $(document).on('submit', '#formChangePassword', function (event) {
                         $('#formChangePassword').trigger('reset');
                         logoutUser();
                     }, 2000);
+                    $('#currPass').get(0).type = 'password';
+                    $('#newPass').get(0).type = 'password';
+                    $('#confirmPass').get(0).type = 'password';
                 } else {
                     Swal.fire({
                         position: 'top',
@@ -224,12 +227,26 @@ function validChangePasswordForm() {
         },
     })
 }
+// show hihe pass
+function showPass() {
 
+    $(".paswd-on-off").each(function () {
+
+        var inp = this;
+
+        if (inp.type == "password") {
+            inp.type = "text";
+        }
+        else {
+            inp.type = "password";
+        }
+
+    });
+}
 
 $(document).ready(function () {
     $('#formChangePassword-Doctor').hide();
     validVerifyAccountForm.call;
     validChangePasswordForm();
-    var previousPage = document.referrer;
-    $('#btnGoToDashboard').attr('href', previousPage);
+    
 })

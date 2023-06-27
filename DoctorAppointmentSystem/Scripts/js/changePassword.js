@@ -65,6 +65,9 @@ $(document).on('submit', '#formChangePassword', function (event) {
                         $('#formChangePassword').trigger('reset');
                         logoutUser();
                     }, 2000);
+                    $('#currPass').get(0).type = 'password';
+                    $('#newPass').get(0).type = 'password';
+                    $('#confirmPass').get(0).type = 'password';
                 } else {
                     Swal.fire({
                         position: 'top',
@@ -76,6 +79,8 @@ $(document).on('submit', '#formChangePassword', function (event) {
                         width: '30em'
                     })
                 }
+
+
             },
             error: function (err) {
                 console.log(err.responseText);
@@ -101,8 +106,8 @@ function logoutUser() {
 }
 
 function showChangePassForm() {
-    $('#formVerifyAccount').hide();
-    $('#formChangePassword').show();
+    $('#formVerifyAccount-Doctor').hide();
+    $('#formChangePassword-Doctor').show();
     $('#formVerifyAccount').trigger('reset');
     $('#formChangePassword').trigger('reset');
 }
@@ -224,9 +229,25 @@ function validChangePasswordForm() {
         },
     })
 }
+// show hihe pass
+function showPass() {
 
+    $(".paswd-on-off").each(function () {
+
+        var inp = this;
+
+        if (inp.type == "password") {
+            inp.type = "text";
+        }
+        else {
+            inp.type = "password";
+        }
+
+    });
+}
 
 $(document).ready(function () {
+    $('#formChangePassword-Doctor').hide();
     validVerifyAccountForm.call;
     validChangePasswordForm();
 })
