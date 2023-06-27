@@ -1,4 +1,5 @@
-﻿using DoctorAppointmentSystem.HelperClasses;
+﻿using DoctorAppointmentSystem.Authorization;
+using DoctorAppointmentSystem.HelperClasses;
 using DoctorAppointmentSystem.Menu;
 using DoctorAppointmentSystem.Models.Account;
 using DoctorAppointmentSystem.Models.DB;
@@ -10,7 +11,7 @@ using System.Web.Mvc;
 
 namespace DoctorAppointmentSystem.Controllers
 {
-    
+    [AppAuthorize("Patient")]
     public class HomeController : Controller
     {
         public ActionResult Index()
@@ -46,6 +47,7 @@ namespace DoctorAppointmentSystem.Controllers
             return View();
         }
 
+        [AllowAnonymous]
         public ActionResult Intro()
         {
             RegisterIO registerIO = new RegisterIO();
@@ -71,9 +73,6 @@ namespace DoctorAppointmentSystem.Controllers
                 }
             }
             
-
-            
-
                 return View();
         }
     }

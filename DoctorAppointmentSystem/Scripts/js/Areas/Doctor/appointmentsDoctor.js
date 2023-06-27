@@ -109,7 +109,7 @@ function setEventHover() {
             container: "body",
             delay: { "show": 300, "hide": 200 },
             trigger: 'hover',
-            template: '<div class="popover fc-med-popover " role="tooltip"><div class="arrow"></div> <h3  class="popover-header"></h3><div class="popover-body"></div></div>'
+            template: '<div class="popover fc-med-popover" role="tooltip"><div class="arrow"></div> <h3  class="popover-header"></h3><div class="popover-body"></div></div>'
 
         })
 

@@ -1,4 +1,5 @@
-﻿using DoctorAppointmentSystem.HelperClasses;
+﻿using DoctorAppointmentSystem.Authorization;
+using DoctorAppointmentSystem.HelperClasses;
 using DoctorAppointmentSystem.Models.Profile;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.Web.Mvc;
 
 namespace DoctorAppointmentSystem.Controllers
 {
+    [AppAuthorize("Patient","Doctor")]
     public class ProfileController : Controller
     {
         private readonly ProfileIO profileIO;

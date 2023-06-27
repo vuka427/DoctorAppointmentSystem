@@ -1,4 +1,5 @@
-﻿using DoctorAppointmentSystem.HelperClasses;
+﻿using DoctorAppointmentSystem.Authorization;
+using DoctorAppointmentSystem.HelperClasses;
 using DoctorAppointmentSystem.Menu;
 using DoctorAppointmentSystem.Models.Account;
 using DoctorAppointmentSystem.Models.Account.ChangePassword;
@@ -11,6 +12,7 @@ using System.Web.Mvc;
 
 namespace DoctorAppointmentSystem.Areas.Doctor.Controllers
 {
+    [AppAuthorize("Doctor")]
     public class ProfileController : Controller
     {
         private readonly ProfileIO profileIO;

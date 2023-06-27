@@ -4,6 +4,7 @@ using DoctorAppointmentSystem.Areas.Admin.Models.DataTableModel;
 using DoctorAppointmentSystem.Areas.Admin.Models.DoctorSchedule;
 using DoctorAppointmentSystem.Areas.Admin.Models.DoctorScheduleManage;
 using DoctorAppointmentSystem.Areas.Admin.Models.Validation;
+using DoctorAppointmentSystem.Authorization;
 using DoctorAppointmentSystem.HelperClasses;
 using DoctorAppointmentSystem.Menu;
 using DoctorAppointmentSystem.Models.DB;
@@ -22,6 +23,7 @@ using Unity;
 
 namespace DoctorAppointmentSystem.Areas.Admin.Controllers
 {
+    [AppAuthorize("Admin")]
     public class DoctorScheduleManageController : Controller
     {
         private readonly DBContext _dbContext;
