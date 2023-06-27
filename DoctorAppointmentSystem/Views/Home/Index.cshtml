@@ -282,7 +282,7 @@
                         return type === 'display' ?
                             '<div class="d-flex justify-content-round">'
                             + '<a data-appointmentid="' + data + '" class="btn btn-outline-info btn-sm btn-action btn-viewAppt" role="button" data-toggle="modal" data-target="#makeAppointmentModal">'
-                            + '<i class="fa-solid fa-eye"></i></a>'
+                            + '<i class="fa-solid fa-eye" data-toggle="popover" data-trigger="hover" data-placement="top"  data-content="View Appointment" ></i></a>'
                             + '</div>'
                             : data;
                     }
@@ -312,9 +312,28 @@
             table.on('draw', function () {
                 styleForStatus();
             });
+
+            setEventHover();
+
         })
 
+        function setEventHover() {
+            
 
+            table.on('draw', function () {
+                $('[data-toggle="popover"]').popover({
+                    html: true,
+                    placement: 'top',
+                    container: "body",
+                    delay: { "show": 300, "hide": 200 },
+                    trigger: 'hover',
+                    template: '<div class="popover fc-med-popover " role="tooltip"><div class="arrow"></div> <h3  class="popover-header"></h3><div class="popover-body"></div></div>'
+
+                })
+
+            });
+
+        } 
         function styleForStatus() {
             var elements = document.getElementsByClassName("column-status");
             for (var element of elements) {

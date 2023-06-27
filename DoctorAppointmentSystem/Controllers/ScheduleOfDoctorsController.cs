@@ -1,4 +1,5 @@
-﻿using DoctorAppointmentSystem.HelperClasses;
+﻿using DoctorAppointmentSystem.Authorization;
+using DoctorAppointmentSystem.HelperClasses;
 using DoctorAppointmentSystem.Menu;
 using DoctorAppointmentSystem.Models.Appointment;
 using DoctorAppointmentSystem.Models.Appointment.MakeAppointment;
@@ -10,6 +11,7 @@ using System.Web.Mvc;
 
 namespace DoctorAppointmentSystem.Controllers
 {
+    [AppAuthorize("Patient")]
     public class ScheduleOfDoctorsController : Controller
     {
         private readonly AppointmentIO appointmentIO;
