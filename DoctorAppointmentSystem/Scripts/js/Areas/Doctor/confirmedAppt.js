@@ -112,4 +112,11 @@ $(document).on('click', '.btn-viewAppt', function (event) {
     var btnViewAppt = $(this);
     var appointmentID = btnViewAppt.data('appointmentid');
     var status = btnViewAppt.data('status');
+    var previousPage = document.referrer;
+    $('#btnGoToDashboard').attr('href', previousPage);
+})
+$(document).on('click', '#btnGoToDashboard', function () {
+    var previousPage = document.referrer;
+    console.log(previousPage);
+    $('#btnGoToDashboard').attr('href', previousPage);
 })

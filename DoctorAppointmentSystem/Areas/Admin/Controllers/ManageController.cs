@@ -38,7 +38,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
 
             ViewBag.DoctorCount = _dashboardIO.CountAllDoctor();
             ViewBag.PatientCount = _dashboardIO.CountAllPatient();
-            ViewBag.TodayAppointment =_dashboardIO.CountAppointmentToDay();
+            ViewBag.TodayAppointment = _dashboardIO.CountAppointmentToDay();
             ViewBag.AppointmentTillDate = _dashboardIO.CountAllAppointment();
 
 
@@ -48,8 +48,23 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
         public JsonResult GetChartApm()
         {
             int[] apmData = _dashboardIO.GetArrayAppointmentOnWeek();
+            int[] apmCompleted = _dashboardIO.GetArrayApptForStatusOnWeek("Completed");
+            int[] apmConfirmed = _dashboardIO.GetArrayApptForStatusOnWeek("Confirm");
+            int[] apmPending = _dashboardIO.GetArrayApptForStatusOnWeek("Pending");
+            int[] apmCancelled = _dashboardIO.GetArrayApptForStatusOnWeek("Cancel");
 
-            return Json(new { error = 0, datachart = apmData }, JsonRequestBehavior.AllowGet);
+            string[] dataLabel = _dashboardIO.GetArrayLabelOnWeek();
+
+            return Json(new { 
+                error = 0, 
+                datachart = apmData, 
+                datalabel = dataLabel , 
+                completed = apmCompleted,
+                confirmed = apmConfirmed,
+                pending = apmPending,
+                cancelled = apmCancelled,
+            }, 
+            JsonRequestBehavior.AllowGet);
         }
 
         [NonAction]

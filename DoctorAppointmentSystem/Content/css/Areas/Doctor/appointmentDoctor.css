@@ -51,3 +51,9 @@ body {
     background-color: #f7f7f7;
     margin: 50px auto;
 }
+
+.late-appointment{
+    border-radius : 2px;
+    background-color:#997473;
+    color:white;
+}

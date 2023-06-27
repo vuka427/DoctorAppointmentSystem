@@ -53,6 +53,49 @@ namespace DoctorAppointmentSystem.Models.Account
             }
         }
 
+        public List<string> GetAuthQuestions(string username)
+        {
+            
+            int id = GetInfo.GetUserID(username);
+
+            List<string> authQuestions = new List<string>();
+            try
+            {
+                using (DBContext dbContext = new DBContext())
+                {
+                    USER user = dbContext.USER.Find(id);
+
+                    if (user == null)
+                    {
+                        throw new ArgumentNullException();
+                    }
+                    else
+                    {
+                        string ques1 = SystemParaHelper.GetParaval((int)user.PASSWORDRECOVERYQUE1);
+                        string ques2 = SystemParaHelper.GetParaval((int)user.PASSWORDRECOVERYQUE2);
+                        string ques3 = SystemParaHelper.GetParaval((int)user.PASSWORDRECOVERYQUE3);
+
+                        authQuestions.Add(ques1);
+                        authQuestions.Add(ques2);
+                        authQuestions.Add(ques3);
+
+                        return authQuestions;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                string sEventCatg = "PATIENT PORTAL";
+                string sEventMsg = "Exception: " + ex.Message;
+                string sEventSrc = "GetAuthQuestions";
+                string sEventType = "S";
+                string sInsBy = GetInfo.Username;
+
+                Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
+                return authQuestions;
+            }
+        }
+
         public List<string> GetAnswers()
         {
             string username = GetInfo.Username;
@@ -91,12 +134,50 @@ namespace DoctorAppointmentSystem.Models.Account
                 return answers;
             }
         }
+        public List<string> GetAnswers( string username)
+        {
+            
+            int id = GetInfo.GetUserID(username);
 
-        public bool VerifyAccount(VerifyAccountViewModel vam)
+            List<string> answers = new List<string>();
+            try
+            {
+                using (DBContext dbContext = new DBContext())
+                {
+                    USER user = dbContext.USER.Find(id);
+
+                    if (user == null)
+                    {
+                        throw new ArgumentNullException();
+                    }
+                    else
+                    {
+                        answers.Add(user.PASSWORDRECOVERYANS1);
+                        answers.Add(user.PASSWORDRECOVERYANS2);
+                        answers.Add(user.PASSWORDRECOVERYANS3);
+
+                        return answers;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                string sEventCatg = "PATIENT PORTAL";
+                string sEventMsg = "Exception: " + ex.Message;
+                string sEventSrc = "GetAuthQuestions";
+                string sEventType = "S";
+                string sInsBy = GetInfo.Username;
+
+                Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
+                return answers;
+            }
+        }
+
+        public bool VerifyAccount(VerifyAccountViewModel vam ,string username)
         {
             try
             {
-                List<string> answers = GetAnswers();
+                List<string> answers = GetAnswers(username);
                 if (vam.ans1.Equals(answers[0])
                         && vam.ans2.Equals(answers[1])
                         && vam.ans3.Equals(answers[2]))

@@ -72,8 +72,6 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Controllers
                                               || x.PATIENTNAME.ToLower().Contains(param.sSearch.ToLower())
                                               || x.APPOINTMENTID.ToString().ToLower().Contains(param.sSearch.ToLower())
                                               || x.DATEOFCONSULTANT.ToString().ToLower().Contains(param.sSearch.ToLower())
-                                             
-
                                                ).ToList();
             }
             var sortColumnIndex = param.iSortCol_0;

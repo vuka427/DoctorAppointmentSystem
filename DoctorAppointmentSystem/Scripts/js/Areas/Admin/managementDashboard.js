@@ -22,12 +22,37 @@ function LoadDataToChart() {
                     new Chart(ctx, {
                         type: 'bar',
                         data: {
-                            labels: ['Monday', 'Tuesday ', 'Wednesday', 'Thursday ', 'Friday ', 'Saturday', 'Sunday'],
-                            datasets: [{
-                                label: 'Appointments',
-                                data: data.datachart,
-                                borderWidth: 1
-                            }]
+                            labels: data.datalabel ,
+                            datasets: [
+                                {
+                                    label: 'Pending Appointments',
+                                    data: data.pending,
+                                    borderWidth: 1,
+                                    backgroundColor: "#ffc107"
+                                }
+                                ,
+                                {
+                                    label: 'Confirmed Appointments',
+                                    data: data.confirmed,
+                                    borderWidth: 1,
+                                    backgroundColor: "#007bff"
+                                },
+                                {
+                                    label: 'Completed Appointments',
+                                    data: data.completed,
+                                    borderWidth: 1,
+                                    backgroundColor: "#00ff21"
+                                }
+                                ,
+                                
+                                
+                                {
+                                    label: 'Cancelled Appointments',
+                                    data: data.cancelled,
+                                    borderWidth: 1,
+                                    backgroundColor: "#dc3545"
+                                }
+                            ]
                         },
                         options: {
                             scales: {
@@ -37,9 +62,15 @@ function LoadDataToChart() {
                                         callback: function (value) { if (Number.isInteger(value)) { return value; } },
                                         stepSize: 1
                                     }
+                                   
                                 }]
-                            }
+                            },
+                            responsive: true,
+                            interaction: {
+                                intersect: false,
+                            },
                         },
+                        
                         
                     });
 

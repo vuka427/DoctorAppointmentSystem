@@ -1,6 +1,5 @@
 ﻿
 
-
 // Jquery datatable
 function initJqueryDatatable() {
     var table = $('#appointment-table').DataTable({
@@ -95,6 +94,12 @@ function initJqueryDatatable() {
 $("document").ready(function () {
  
     initJqueryDatatable();
-   
+    var previousPage = document.referrer;
+    $('#btnGoToDashboard').attr('href', previousPage);
 
 });
+$(document).on('click', '#btnGoToDashboard', function () {
+    var previousPage = document.referrer;
+    console.log(previousPage);
+    $('#btnGoToDashboard').attr('href', previousPage);
+})

@@ -42,8 +42,16 @@ function initJqueryDatatable() {
             {
                 "data": "DATEOFCONSULTANT",
                 "title": 'Date Of Consultant',
-                "searchable": true
+                "searchable": true,
+                "render": function (data, type, row) {
+                    if (row.LATE) return '<div class="text-center late-appointment" data-toggle="popover" '
+                        + 'data-trigger="hover" data-placement="top"  data-content="Appointment is lated">' + data + '</div>';
 
+                    return '<div class="text-center ">' + data + '</div>';
+
+
+                     
+                }
             },
             {
                 "data": "DATEOFCONSULTANTTIME",
@@ -91,9 +99,36 @@ function initJqueryDatatable() {
 
 }
 
+function setEventHover() {
+    var table = $('#appointment-table').DataTable();
+
+    table.on('draw', function () {
+        $('[data-toggle="popover"]').popover({
+            html: true,
+            placement: 'top',
+            container: "body",
+            delay: { "show": 300, "hide": 200 },
+            trigger: 'hover',
+            template: '<div class="popover fc-med-popover " role="tooltip"><div class="arrow"></div> <h3  class="popover-header"></h3><div class="popover-body"></div></div>'
+
+        })
+
+    });
+
+} 
+
+
 $("document").ready(function () {
  
     initJqueryDatatable();
+    // Initialize popover component
+    setEventHover();
+   
    
 
 });
+$(document).on('click', '#btnGoToDashboard', function () {
+    var previousPage = document.referrer;
+    console.log(previousPage);
+    $('#btnGoToDashboard').attr('href', previousPage);
+})
