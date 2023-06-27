@@ -34,13 +34,15 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text custom-symbol"><i class="fa fa-user"></i></span>
                             </div>
-                            <input type="text" class="form-control" id="username" name="username" placeholder="User name (*)" maxlength="256">
+                            <input type="text" class="form-control" id="username" name="username" placeholder="User name (*)" maxlength="256"
+                                   data-toggle="popover" data-trigger="hover" data-placement="top"  data-content="User name (*)">
                         </div><!-- Username -->
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text custom-symbol"><i class="fa fa-lock"></i></span>
                             </div>
-                            <input type="password" class="form-control paswd-on-off" id="password" name="password" placeholder="Password (*)" maxlength="50">
+                            <input type="password" class="form-control paswd-on-off" id="password" name="password" placeholder="Password (*)" maxlength="50"
+                                   data-toggle="popover" data-trigger="hover" data-placement="top"  data-content="Password (*)">
                         </div><!-- Password -->
                         <div class="form-check form-group  input-group">
                             <input type="checkbox" class="form-check-input" id="check-show-password" onclick="showPass()">
@@ -53,22 +55,25 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text custom-symbol"><i class="fa fa-address-book"></i></span>
                             </div>
-                            <input id="doctorname" name="doctorname" class="form-control " placeholder="Doctor Name (*)" type="text" pattern="^[a-zA-Z0-9]+$" maxlength="50">
+                            <input id="doctorname" name="doctorname" class="form-control " placeholder="Doctor Name (*)" type="text" pattern="^[a-zA-Z0-9]+$" maxlength="50"
+                                   data-toggle="popover" data-trigger="hover" data-placement="top"  data-content="Doctor Name (*)">
                         </div><!-- Doctorname -->
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text custom-symbol"><i class="fa fa-birthday-cake"></i></span>
                             </div>
-                            <input placeholder="Date of birth (*)" class="form-control" type="text" onfocus="(this.type='date')" onblur="this.type='text'" id="brithofdate" name="brithofdate">
+                            <input placeholder="Date of birth (*)" class="form-control" type="text" onfocus="(this.type='date')" onblur="this.type='text'" id="brithofdate" name="brithofdate"
+                                   data-toggle="popover" data-trigger="hover" data-placement="top"  data-content="Date of birth (*)">
 
                         </div> <!-- brithofdate -->
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text custom-symbol"><i class="fa fa-address-card"></i></span>
                             </div>
-                            <input type="text" class="form-control" id="nationalid" name="nationalid" onkeypress="return isNumberKey(event)" placeholder="National ID (*)" maxlength="10">
+                            <input type="text" class="form-control" id="nationalid" name="nationalid" onkeypress="return isNumberKey(event)" placeholder="National ID (*)" maxlength="10"
+                                   data-toggle="popover" data-trigger="hover" data-placement="top"  data-content="National ID (*)">
                         </div><!-- Nationalid -->
-                        <div class="form-group input-group">
+                        <div class="form-group input-group" data-toggle="popover" data-trigger="hover" data-placement="top"  data-content="Gender (*)">
                             <div class="input-group-prepend">
                                 <span class="input-group-text custom-symbol"><i class="fa fa-venus-mars"></i></span>
                             </div>
@@ -79,19 +84,22 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text custom-symbol"><i class="fa fa-phone"></i></span>
                             </div>
-                            <input type="text" class="form-control" id="mobile" name="mobile" onkeypress="return isNumberKey(event)" placeholder="Mobile No (*)" maxlength="10">
+                            <input type="text" class="form-control" id="mobile" name="mobile" onkeypress="return isNumberKey(event)" placeholder="Mobile (*)" maxlength="10"
+                                   data-toggle="popover" data-trigger="hover" data-placement="top"  data-content="Mobile (*)">
                         </div><!-- mobile -->
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text custom-symbol"><i class="fa-solid fa-envelope"></i></span>
                             </div>
-                            <input type="email" class="form-control" id="email" name="email" placeholder="Email (*)">
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Email (*)"
+                                   data-toggle="popover" data-trigger="hover" data-placement="top"  data-content="Email (*)">
                         </div> <!-- email -->
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text custom-symbol"><i class="fa fa-home"></i></span>
                             </div>
-                            <textarea rows="3" class="form-control" id="address" name="address" placeholder="Address (*)" maxlength="256"></textarea>
+                            <textarea rows="3" class="form-control" id="address" name="address" placeholder="Address (*)" maxlength="256" 
+                                      data-toggle="popover" data-trigger="hover" data-placement="top"  data-content="Address (*)"></textarea>
                         </div> <!-- address -->
                         <p class="divider-text">
                             <span class="bg-light">Doctor information</span>
@@ -100,9 +108,10 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text custom-symbol"><i class="fa-solid fa-syringe"></i></span>
                             </div>
-                            <input type="text" class="form-control" id="specialy" name="specialy" placeholder="Specialty (*)" maxlength="256">
+                            <input type="text" class="form-control" id="specialy" name="specialy" placeholder="Specialty (*)" maxlength="256"
+                                   data-toggle="popover" data-trigger="hover" data-placement="top"  data-content="Specialty (*)">
                         </div> <!-- Specialty -->
-                        <div class="form-group input-group">
+                        <div class="form-group input-group"  data-toggle="popover" data-trigger="hover" data-placement="top"  data-content="Department (*)">
                             <div class="input-group-prepend">
                                 <span class="input-group-text custom-symbol icon-for-select2"><i class="fa-solid fa-building-user"></i></span>
                             </div>
@@ -115,13 +124,15 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text custom-symbol"><i class="fa-sharp fa-solid fa-briefcase"></i></span>
                             </div>
-                            <input placeholder="Working start date (*)" type="text" class="form-control" id="workingstartdate" name="workingstartdate" onfocus="(this.type='date')" onblur="this.type='text'">
+                            <input placeholder="Working start date (*)" type="text" class="form-control" id="workingstartdate" name="workingstartdate" onfocus="(this.type='date')" onblur="this.type='text'"
+                                    data-toggle="popover" data-trigger="hover" data-placement="top"  data-content="Working start date (*)">
                         </div> <!-- workingstartdate -->
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text custom-symbol"><i class="fa-sharp fa-solid fa-briefcase"></i></span>
                             </div>
-                            <input placeholder="Working end date (*)" type="text" class="form-control" id="workingenddate" name="workingenddate" onfocus="(this.type='date')" onblur="this.type='text'">
+                            <input placeholder="Working end date (*)" type="text" class="form-control" id="workingenddate" name="workingenddate" onfocus="(this.type='date')" onblur="this.type='text'"
+                                    data-toggle="popover" data-trigger="hover" data-placement="top"  data-content="Working end date (*)">
                         </div> <!-- workingenddate -->
                         <div class="form-group text-center">
                             <input type="submit" class="btn btn-primary" value="Create">

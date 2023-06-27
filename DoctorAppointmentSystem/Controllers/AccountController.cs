@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using DoctorAppointmentSystem.Models.Account.ChangePassword;
 using DoctorAppointmentSystem.Models.Account.AuthenQuestion;
 using Antlr.Runtime.Misc;
+using DoctorAppointmentSystem.Menu;
 
 namespace DoctorAppointmentSystem.Controllers
 {
@@ -215,7 +216,9 @@ namespace DoctorAppointmentSystem.Controllers
         [Authorize]
         public ActionResult ChangePassword()
         {
-
+            ViewBag.menu = RenderMenu.RenderPatientMenu("");
+            ViewBag.name = GetInfo.GetFullName(User.Identity.Name);
+            ViewBag.avatar = GetInfo.GetImgPath(User.Identity.Name);
 
             ViewBag.questions = new ChangePasswordIO().GetAuthQuestions(User.Identity.Name);
             return View();
