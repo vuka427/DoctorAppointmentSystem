@@ -15,6 +15,9 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Models.ViewModels
         public string dateOfConsultation { get; set; }
         public string consultationTime { get; set; }
         public string consultationDay { get; set; }
+        public string appointmentDate { get; set; }
+        public string appointmentTime { get; set; }
+        public string appointmentDay { get; set; }
         public string appointmentStatus { get; set; }
     }
 }

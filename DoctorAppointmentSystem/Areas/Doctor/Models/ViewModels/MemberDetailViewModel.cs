@@ -7,6 +7,7 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Models.ViewModels
 {
     public class MemberDetailViewModel
     {
+        public int appointmentID { get; set; }
         public string fullName { get; set; }
         public string dateOfBirth { get; set; }
         public string gender { get; set; }

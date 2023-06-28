@@ -116,8 +116,12 @@
     </div>
 
     <div class="d-flex justify-content-end">
-        <button type="button" class="btn btn-danger mr-3" id="btnCancel">Cancel Appointment</button>
-        <button type="submit" form="appointmentForm" class="btn btn-primary mr-3" id="btnConfirm"> Confirm Appointment</button>
-        <button type="button" class="btn btn-secondary" id="btnCancel">Back</button>
+        <a role="button" class="btn btn-danger mr-3 text-light" id="btnCancel" data-appointmentid="@Model.appointmentID">Cancel Appointment</a>
+        <a role="button" class="btn btn-primary mr-3 text-light" id="btnConfirm" data-appointmentid="@Model.appointmentID"> Confirm Appointment</a>
+        <a role="button" class="btn btn-secondary text-light" href="@Url.Action("Index", "Appointments", new { area = "Doctor"})">Back</a>
     </div>
 </div>
+@section scripts{
+    <script src="~/Scripts/js/Areas/Doctor/memberDetails.js"></script>
+}
+

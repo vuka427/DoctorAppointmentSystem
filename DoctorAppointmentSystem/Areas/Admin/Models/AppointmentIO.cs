@@ -42,9 +42,9 @@ namespace DoctorAppointmentSystem.Areas.Admin.Models
             {
                 return new ValidationResult { Success = false, ErrorMessage = "Can't find appointment" };
             }
-            if (appointment.APPOINTMENT_NOTE.Count > 0)
+            if (appointment.APPOINTMENT_PRESCRIPTION.Count > 0)
             {
-                appointment.APPOINTMENT_NOTE.ForEach(item => { 
+                appointment.APPOINTMENT_PRESCRIPTION.ForEach(item => { 
                     item.PRESCRIPTION.DELETEDFLAG = true;
                     item.PRESCRIPTION.UPDATEDDATE = DateTime.Now;
                     item.PRESCRIPTION.UPDATEDBY = username;

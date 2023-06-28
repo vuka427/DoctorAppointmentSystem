@@ -1,6 +1,8 @@
 ﻿
 using DoctorAppointmentSystem.Areas.Admin.Models.DataTableModel;
 using DoctorAppointmentSystem.Areas.Doctor.Models.Appointments;
+using DoctorAppointmentSystem.Areas.Doctor.Models.ComfirmedAppt;
+using DoctorAppointmentSystem.Areas.Doctor.Models.ViewModels;
 using DoctorAppointmentSystem.Authorization;
 using DoctorAppointmentSystem.HelperClasses;
 using DoctorAppointmentSystem.Menu;
@@ -12,6 +14,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using AppointmentViewModel = DoctorAppointmentSystem.Areas.Doctor.Models.Appointments.AppointmentViewModel;
 
 namespace DoctorAppointmentSystem.Areas.Doctor.Controllers
 {
@@ -107,6 +110,72 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Controllers
                 aaData = displayResult
             }, JsonRequestBehavior.AllowGet);
 
+        }
+
+        public ActionResult MemberDetails(int id)
+        {
+            MemberDetailViewModel data = new ConfirmedApptIO().GetMemberDetails(id);
+
+            ViewBag.consultantType = SystemParaHelper.GenerateByGroup("consultantType");
+            ViewBag.modeOfConsultant = SystemParaHelper.GenerateByGroup("modeOfConsultant");
+            ViewBag.menu = RenderMenu.RenderDoctorMenu("Appointments");
+            ViewBag.name = GetInfo.GetFullName(User.Identity.Name);
+            ViewBag.avatar = GetInfo.GetImgPath(User.Identity.Name);
+            return View(data);
+        }
+
+        [HttpPost]
+        public ActionResult ConfirmAppointment(int id)
+        {
+            bool success = false;
+            try
+            {
+                success = _appointments.ConfirmAppointment(id);
+                if (!success)
+                {
+                    throw new Exception();
+                }
+                return Json(new { success = success });
+            }
+            catch (Exception ex)
+            {
+                string username = GetInfo.Username;
+                string sEventCatg = GetInfo.GetUserType(username);
+                string sEventMsg = ex.Message;
+                string sEventSrc = nameof(CancelAppointment);
+                string sEventType = "U";
+                string sInsBy = username;
+
+                Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
+                return Json(new { success = success });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult CancelAppointment(int id)
+        {
+            bool success = false;
+            try
+            {
+                success = _appointments.CancelAppointment(id);
+                if (!success)
+                {
+                    throw new Exception();
+                }
+                return Json(new { success = success });
+            }
+            catch (Exception ex)
+            {
+                string username = GetInfo.Username;
+                string sEventCatg = GetInfo.GetUserType(username);
+                string sEventMsg = ex.Message;
+                string sEventSrc = nameof(CancelAppointment);
+                string sEventType = "U";
+                string sInsBy = username;
+
+                Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
+                return Json(new { success = success });
+            }
         }
 
         [NonAction]

@@ -50,6 +50,7 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Controllers
             ViewBag.apptCompleted = _appointments.CountApptCompleted(CurrentDoctorId);
 
             return View();
+
         }
 
 

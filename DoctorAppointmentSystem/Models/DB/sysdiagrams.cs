@@ -12,13 +12,12 @@ namespace DoctorAppointmentSystem.Models.DB
     using System;
     using System.Collections.Generic;
     
-    public partial class APPOINTMENT_NOTE
+    public partial class sysdiagrams
     {
-        public int PRECRIPTIONID { get; set; }
-        public int APPOINTMENTID { get; set; }
-        public string NOTE { get; set; }
-    
-        public virtual APPOINTMENT APPOINTMENT { get; set; }
-        public virtual PRESCRIPTION PRESCRIPTION { get; set; }
+        public string name { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }

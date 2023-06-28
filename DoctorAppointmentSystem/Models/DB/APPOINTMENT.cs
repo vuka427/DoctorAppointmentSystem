@@ -17,7 +17,7 @@ namespace DoctorAppointmentSystem.Models.DB
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public APPOINTMENT()
         {
-            this.APPOINTMENT_NOTE = new HashSet<APPOINTMENT_NOTE>();
+            this.APPOINTMENT_PRESCRIPTION = new HashSet<APPOINTMENT_PRESCRIPTION>();
         }
     
         public int APPOINTMENTID { get; set; }
@@ -46,7 +46,7 @@ namespace DoctorAppointmentSystem.Models.DB
         public bool DELETEDFLAG { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<APPOINTMENT_NOTE> APPOINTMENT_NOTE { get; set; }
+        public virtual ICollection<APPOINTMENT_PRESCRIPTION> APPOINTMENT_PRESCRIPTION { get; set; }
         public virtual PATIENT PATIENT { get; set; }
         public virtual SCHEDULE SCHEDULE { get; set; }
     }

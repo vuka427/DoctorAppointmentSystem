@@ -80,6 +80,80 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Models.Appointments
                                                     a.DATEOFCONSULTATION >=  startDate && a.DATEOFCONSULTATION < endDate).Count();
         }
 
+        public bool ConfirmAppointment(int id)
+        {
+            bool success = false;
+            try
+            {
+                APPOINTMENT appointment = _dbContext.APPOINTMENT.Find(id);
+                if (appointment == null)
+                {
+                    throw new Exception();
+                }
+                else
+                {
+                    appointment.APPOIMENTSTATUS = "Confirm";
+                    appointment.UPDATEDBY = GetInfo.Username;
+                    appointment.UPDATEDDATE = DateTime.Now;
+
+                    _dbContext.SaveChanges();
+
+                    success = true;
+                }
+                return success;
+            }
+            catch (Exception ex)
+            {
+                string username = GetInfo.Username;
+                string sEventCatg = GetInfo.GetUserType(username).ToUpper() + "PORTAL";
+                string sEventMsg = ex.Message;
+                string sEventSrc = nameof(ConfirmAppointment);
+                string sEventType = "U";
+                string sInsBy = username;
+
+                Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
+                return success;
+            }
+        }
+
+        public bool CancelAppointment(int id)
+        {
+            bool success = false;
+
+            try
+            {
+                APPOINTMENT appointment = _dbContext.APPOINTMENT.Find(id);
+                if (appointment == null)
+                {
+                    throw new Exception();
+                }
+                else
+                {
+                    appointment.APPOIMENTSTATUS = "Cancel";
+                    appointment.UPDATEDBY = GetInfo.Username;
+                    appointment.UPDATEDDATE = DateTime.Now;
+
+                    _dbContext.SaveChanges();
+
+                    success = true;
+                }
+                return success;
+            }
+            catch (Exception ex)
+            {
+                string username = GetInfo.Username;
+                string sEventCatg = GetInfo.GetUserType(username).ToUpper() + "PORTAL";
+                string sEventMsg = ex.Message;
+                string sEventSrc = nameof(CancelAppointment);
+                string sEventType = "U";
+                string sInsBy = username;
+
+                Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
+
+                return success;
+            }
+        }
+
         public int CountApptComfirmed(int doctorId)
         {
             return _dbContext.APPOINTMENT.Where(a => a.DELETEDFLAG == false && a.DOCTORID == doctorId && a.APPOIMENTSTATUS == "Confirm").Count();

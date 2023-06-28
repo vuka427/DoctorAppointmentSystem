@@ -42,45 +42,44 @@ namespace DoctorAppointmentSystem.Controllers
                 {
                     throw new Exception("Username not found.");
                 }
-                else
-                {
-                    if (PasswordHelper.VerifyPassword(model.Password, user.PASSWORDHASH))
-                    {
-                        if (user.STATUS)
-                        {
-                            if (user.LASTLOGIN != null)
-                            {
-                                FormsAuthentication.SetAuthCookie(model.Username, false);
-                                GetInfo.Username = model.Username.Trim();
-                                string action = "";
-                                string controller = "";
-                                string area = "";
 
-                                loginIO.UserRedirects(user, out area, out controller, out action);
-                                string url = Url.Action(action, controller, new { area = area});
-                                return Json(new { success = true, message = "", url = url });
-                            }
-                            else
-                            {
-                                return Json(new { success = false, message = "Please check your email to activate your account before logging in." });
-                            }
+                if (PasswordHelper.VerifyPassword(model.Password, user.PASSWORDHASH))
+                {
+                    if (user.STATUS)
+                    {
+                        if (user.LASTLOGIN != null)
+                        {
+                            FormsAuthentication.SetAuthCookie(model.Username, false);
+                            GetInfo.Username = model.Username.Trim();
+                            string action = "";
+                            string controller = "";
+                            string area = "";
+
+                            loginIO.UserRedirects(user, out area, out controller, out action);
+                            string url = Url.Action(action, controller, new { area = area });
+                            return Json(new { success = true, message = "", url = url });
                         }
                         else
                         {
-                            return Json(new { success = false, message = "Account have been locked." });
+                            return Json(new { success = false, message = "Please check your email to activate your account before logging in." });
                         }
                     }
                     else
                     {
-                        throw new Exception("User failed to login.");
+                        return Json(new { success = false, message = "Account have been locked." });
                     }
                 }
+                else
+                {
+                    throw new Exception("User failed to login.");
+                }
+
             }
             catch (Exception ex)
             {
-                string sEventCatg = "PATIENT PORTAL";
+                string sEventCatg = GetInfo.GetUserType(model.Username) + " PORTAL";
                 string sEventMsg = "Exception: " + ex.Message;
-                string sEventSrc = "Login";
+                string sEventSrc = nameof(Login);
                 string sEventType = "S";
                 string sInsBy = model.Username;
 

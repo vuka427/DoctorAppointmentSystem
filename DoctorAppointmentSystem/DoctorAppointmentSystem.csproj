@@ -212,8 +212,12 @@
     <Compile Include="Areas\Doctor\Models\ComfirmedAppt\ConfirmedApptIO.cs" />
     <Compile Include="Areas\Doctor\Models\Home\calendarIO.cs" />
     <Compile Include="Areas\Doctor\Models\Home\EventViewModel.cs" />
+    <Compile Include="Areas\Doctor\Models\Registration\RegistrationIO.cs" />
     <Compile Include="Areas\Doctor\Models\ViewModels\AppointmentViewModel.cs" />
+    <Compile Include="Areas\Doctor\Models\ViewModels\DiagnosisViewModel.cs" />
+    <Compile Include="Areas\Doctor\Models\ViewModels\MedicationViewModel.cs" />
     <Compile Include="Areas\Doctor\Models\ViewModels\MemberDetailViewModel.cs" />
+    <Compile Include="Areas\Doctor\Models\ViewModels\CreateMemberViewModel.cs" />
     <Compile Include="Authorization\AppAuthorizeAttribute.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AppointmentController.cs" />
@@ -254,7 +258,7 @@
     <Compile Include="Models\DB\APPOINTMENT.cs">
       <DependentUpon>DBContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\DB\APPOINTMENT_NOTE.cs">
+    <Compile Include="Models\DB\APPOINTMENT_PRESCRIPTION.cs">
       <DependentUpon>DBContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\DBContext.Context.cs">
@@ -293,6 +297,9 @@
     <Compile Include="Models\DB\SCHEDULE.cs">
       <DependentUpon>DBContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DB\sysdiagrams.cs">
+      <DependentUpon>DBContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DB\SYSTEM_PARA.cs">
       <DependentUpon>DBContext.tt</DependentUpon>
     </Compile>
@@ -313,19 +320,20 @@
     <Content Include="Content\bootstrap-lib\bootstrap.min.css" />
     <Content Include="Content\bootstrap-lib\jquery.dataTables.min.css" />
     <Content Include="Content\bootstrap-lib\responsive.bootstrap.min.css" />
-    <Content Include="Content\css\Areas\Doctor\appointmentDoctor.css" />
     <Content Include="Content\css\Areas\Admin\admin-appointment.css" />
     <Content Include="Content\css\Areas\Admin\doctor-management.css" />
     <Content Include="Content\css\Areas\Admin\doctor-schedule-mgt.css" />
     <Content Include="Content\css\Areas\Admin\patient-management.css" />
     <Content Include="Content\css\Areas\Admin\user-management.css" />
-    <Content Include="Content\css\Areas\Doctor\confirmedAppt.css" />
+    <Content Include="Content\css\Areas\Doctor\appointmentDoctor.css" />
     <Content Include="Content\css\Areas\Doctor\cancelledAppointment.css" />
-    <Content Include="Content\css\changePassword.css" />
     <Content Include="Content\css\Areas\Doctor\completedAppointments.css" />
+    <Content Include="Content\css\Areas\Doctor\confirmedAppt.css" />
+    <Content Include="Content\css\Areas\Doctor\dashboardDoctor.css" />
+    <Content Include="Content\css\Areas\Doctor\registration.css" />
+    <Content Include="Content\css\changePassword.css" />
     <Content Include="Content\css\custom-input.css" />
     <Content Include="Content\css\appointmentHistory.css" />
-    <Content Include="Content\css\Areas\Doctor\dashboardDoctor.css" />
     <Content Include="Content\css\intro.css" />
     <Content Include="Content\css\layout.css" />
     <Content Include="Content\css\appointment.css" />
@@ -344,7 +352,9 @@
     <Content Include="img\carousel-patient-02.jpg" />
     <Content Include="img\carousel-patient-03.jpg" />
     <Content Include="img\CUSC-Logo-Series.ico" />
+    <Content Include="img\default-user-image.png" />
     <Content Include="img\doctor-avatar-01.jpg" />
+    <Content Include="img\empty.jpg" />
     <Content Include="img\login-intro-img.png" />
     <Content Include="img\medical-appointment.ico" />
     <Content Include="img\person-avatar-01.jpg" />
@@ -561,6 +571,10 @@
     <Content Include="Areas\Admin\Views\AdminProfile\Index.cshtml" />
     <Content Include="Areas\Doctor\Views\web.config" />
     <Content Include="Areas\Doctor\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Doctor\Views\Appointments\Index.cshtml" />
+    <Content Include="Areas\Doctor\Views\ConfirmedAppt\Index.cshtml" />
+    <Content Include="Areas\Doctor\Views\Appointments\MemberDetails.cshtml" />
+    <Content Include="Areas\Doctor\Views\ConfirmedAppt\AppointmentDetails.cshtml" />
     <EntityDeploy Include="Models\DB\DBContext.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>DBContext.Designer.cs</LastGenOutput>
@@ -568,19 +582,19 @@
     <Content Include="Models\DB\DBContext.edmx.diagram">
       <DependentUpon>DBContext.edmx</DependentUpon>
     </Content>
-    <Content Include="Areas\Doctor\Views\Appointments\Index.cshtml" />
-    <Content Include="Areas\Doctor\Views\ConfirmedAppt\MemberDetails.cshtml" />
-    <Content Include="Areas\Doctor\Views\ConfirmedAppt\Index.cshtml" />
+    <Content Include="Areas\Doctor\Views\Registration\Index.cshtml" />
     <Content Include="lib\moment.js\moment.min.js.map" />
+    <Content Include="lib\popper.js\umd\popper.js.map" />
+    <Content Include="lib\popper.js\umd\popper.min.js.map" />
     <Content Include="lib\tooltip.js\esm\tooltip.js.map" />
     <Content Include="lib\tooltip.js\esm\tooltip.min.js.map" />
     <Content Include="lib\tooltip.js\tooltip.js.map" />
     <Content Include="lib\tooltip.js\tooltip.min.js.map" />
     <Content Include="lib\tooltip.js\umd\tooltip.js.map" />
     <Content Include="lib\tooltip.js\umd\tooltip.min.js.map" />
-    <Content Include="lib\popper.js\umd\popper.js.map" />
-    <Content Include="lib\popper.js\umd\popper.min.js.map" />
     <Content Include="Areas\Doctor\Views\Profile\ChangePassword.cshtml" />
+    <Content Include="Areas\Doctor\Views\CompletedAppt\Index.cshtml" />
+    <Content Include="Areas\Doctor\Views\CancelledAppt\Index.cshtml" />
     <None Include="Scripts\bootstrap-lib-js\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\bootstrap-lib-js\jquery.dataTables.min.js" />
     <Content Include="Scripts\bootstrap-lib-js\jquery.validate.js" />
@@ -588,6 +602,7 @@
     <Content Include="Scripts\bootstrap-lib-js\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\bootstrap-lib-js\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\bootstrap-lib-js\modernizr-2.8.3.js" />
+    <Content Include="Scripts\js\Areas\Doctor\appointmentDetails.js" />
     <Content Include="Scripts\js\Areas\Doctor\appointmentsDoctor.js" />
     <Content Include="Scripts\js\Areas\Admin\adminmanagement.js" />
     <Content Include="Scripts\js\Areas\Admin\adminProfile.js" />
@@ -602,6 +617,9 @@
     <Content Include="Scripts\js\Areas\Doctor\completedAppointments.js" />
     <Content Include="Scripts\js\Areas\Doctor\confirmedAppt.js" />
     <Content Include="Scripts\js\Areas\Doctor\dashboard.js" />
+    <Content Include="Scripts\js\Areas\Doctor\memberDetails.js" />
+    <Content Include="Scripts\js\Areas\Doctor\registration.js" />
+    <Content Include="Scripts\js\authenQuestions.js" />
     <Content Include="Scripts\js\changePassword.js" />
     <Content Include="Scripts\js\appointmentHistory.js" />
     <Content Include="Scripts\js\intro.js" />
@@ -626,7 +644,6 @@
     <Content Include="Scripts\js\login.js" />
     <Content Include="Scripts\bootstrap-lib-js\popper.min.js" />
     <Content Include="Scripts\js\profile.js" />
-    <Content Include="Scripts\js\authenQuestions.js" />
     <Content Include="Scripts\js\register.js" />
     <Content Include="Scripts\js\scheduleOfDoctors.js" />
     <Content Include="Scripts\js\Shared\intro.js" />
@@ -658,14 +675,10 @@
     <Content Include="Views\ScheduleOfDoctors\Index.cshtml" />
     <Content Include="Views\Account\Activate.cshtml" />
     <Content Include="Views\Account\ChangePassword.cshtml" />
-    <Content Include="Views\Account\AuthenQuestion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Doctor\Data\" />
-    <Folder Include="Areas\Doctor\Views\CancelledAppt\" />
-    <Folder Include="Areas\Doctor\Views\CompletedAppt\" />
-    <Folder Include="Areas\Doctor\Views\Registration\" />
     <Folder Include="Areas\Doctor\Views\Shared\" />
     <Folder Include="Uploads\" />
   </ItemGroup>

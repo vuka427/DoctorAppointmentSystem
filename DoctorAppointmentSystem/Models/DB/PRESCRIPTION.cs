@@ -17,16 +17,16 @@ namespace DoctorAppointmentSystem.Models.DB
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public PRESCRIPTION()
         {
-            this.APPOINTMENT_NOTE = new HashSet<APPOINTMENT_NOTE>();
+            this.APPOINTMENT_PRESCRIPTION = new HashSet<APPOINTMENT_PRESCRIPTION>();
         }
     
         public int PRECRIPTIONID { get; set; }
         public string DRUG { get; set; }
         public string NOTE { get; set; }
         public string PATIENTNAME { get; set; }
-        public int MEDICATIONDAYS { get; set; }
-        public int QUANTITY { get; set; }
-        public string UNIT { get; set; }
+        public string MEDICATIONDAYS { get; set; }
+        public string QUANTITY { get; set; }
+        public int FREQUENCY { get; set; }
         public string CREATEDBY { get; set; }
         public Nullable<System.DateTime> CREATEDDATE { get; set; }
         public string UPDATEDBY { get; set; }
@@ -34,6 +34,6 @@ namespace DoctorAppointmentSystem.Models.DB
         public bool DELETEDFLAG { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<APPOINTMENT_NOTE> APPOINTMENT_NOTE { get; set; }
+        public virtual ICollection<APPOINTMENT_PRESCRIPTION> APPOINTMENT_PRESCRIPTION { get; set; }
     }
 }

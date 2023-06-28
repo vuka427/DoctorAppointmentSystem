@@ -36,7 +36,7 @@ function initJqueryDatatable() {
                 
                 "searchable": true,
                 "render": function (data, type, row) {
-                    return '<a href="#' + row.APPOINTMENTID + '" class="">' + data + '</a>';
+                    return '<a href="/Doctor/Appointments/MemberDetails?id=' + row.APPOINTMENTID + '" class="">' + data + '</a>';
                 }
             },
             {
@@ -48,7 +48,6 @@ function initJqueryDatatable() {
                         + 'data-trigger="hover" data-placement="top"  data-content="Appointment is lated">' + data + '</div>';
 
                     return '<div class="text-center ">' + data + '</div>';
-
 
                      
                 }

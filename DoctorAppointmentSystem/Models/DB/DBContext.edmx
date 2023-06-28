@@ -34,7 +34,7 @@
           <Property Name="UPDATEDDATE" Type="datetime" />
           <Property Name="DELETEDFLAG" Type="bit" Nullable="false" />
         </EntityType>
-        <EntityType Name="APPOINTMENT_NOTE">
+        <EntityType Name="APPOINTMENT_PRESCRIPTION">
           <Key>
             <PropertyRef Name="PRECRIPTIONID" />
             <PropertyRef Name="APPOINTMENTID" />
@@ -115,9 +115,9 @@
           <Property Name="DRUG" Type="nvarchar" MaxLength="256" Nullable="false" />
           <Property Name="NOTE" Type="nvarchar" MaxLength="256" />
           <Property Name="PATIENTNAME" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="MEDICATIONDAYS" Type="int" Nullable="false" />
-          <Property Name="QUANTITY" Type="int" Nullable="false" />
-          <Property Name="UNIT" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="MEDICATIONDAYS" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="QUANTITY" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="FREQUENCY" Type="int" Nullable="false" />
           <Property Name="CREATEDBY" Type="nvarchar" MaxLength="50" />
           <Property Name="CREATEDDATE" Type="datetime" />
           <Property Name="UPDATEDBY" Type="nvarchar" MaxLength="50" />
@@ -207,12 +207,12 @@
         </EntityType>
         <Association Name="FK_APPOINTM_RELATIONS_APPOINTM">
           <End Role="APPOINTMENT" Type="Self.APPOINTMENT" Multiplicity="1" />
-          <End Role="APPOINTMENT_NOTE" Type="Self.APPOINTMENT_NOTE" Multiplicity="*" />
+          <End Role="APPOINTMENT_PRESCRIPTION" Type="Self.APPOINTMENT_PRESCRIPTION" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="APPOINTMENT">
               <PropertyRef Name="APPOINTMENTID" />
             </Principal>
-            <Dependent Role="APPOINTMENT_NOTE">
+            <Dependent Role="APPOINTMENT_PRESCRIPTION">
               <PropertyRef Name="APPOINTMENTID" />
             </Dependent>
           </ReferentialConstraint>
@@ -231,12 +231,12 @@
         </Association>
         <Association Name="FK_APPOINTM_RELATIONS_PRESCRIP">
           <End Role="PRESCRIPTION" Type="Self.PRESCRIPTION" Multiplicity="1" />
-          <End Role="APPOINTMENT_NOTE" Type="Self.APPOINTMENT_NOTE" Multiplicity="*" />
+          <End Role="APPOINTMENT_PRESCRIPTION" Type="Self.APPOINTMENT_PRESCRIPTION" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="PRESCRIPTION">
               <PropertyRef Name="PRECRIPTIONID" />
             </Principal>
-            <Dependent Role="APPOINTMENT_NOTE">
+            <Dependent Role="APPOINTMENT_PRESCRIPTION">
               <PropertyRef Name="PRECRIPTIONID" />
             </Dependent>
           </ReferentialConstraint>
@@ -317,7 +317,7 @@
         </Association>
         <EntityContainer Name="DoctorAppointmentSystemStoreContainer">
           <EntitySet Name="APPOINTMENT" EntityType="Self.APPOINTMENT" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="APPOINTMENT_NOTE" EntityType="Self.APPOINTMENT_NOTE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="APPOINTMENT_PRESCRIPTION" EntityType="Self.APPOINTMENT_PRESCRIPTION" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DEPARTMENT" EntityType="Self.DEPARTMENT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DOCTOR" EntityType="Self.DOCTOR" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LOG" EntityType="Self.LOG" Schema="dbo" store:Type="Tables" />
@@ -330,7 +330,7 @@
           <EntitySet Name="USER" EntityType="Self.USER" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_APPOINTM_RELATIONS_APPOINTM" Association="Self.FK_APPOINTM_RELATIONS_APPOINTM">
             <End Role="APPOINTMENT" EntitySet="APPOINTMENT" />
-            <End Role="APPOINTMENT_NOTE" EntitySet="APPOINTMENT_NOTE" />
+            <End Role="APPOINTMENT_PRESCRIPTION" EntitySet="APPOINTMENT_PRESCRIPTION" />
           </AssociationSet>
           <AssociationSet Name="FK_APPOINTM_RELATIONS_PATIENT" Association="Self.FK_APPOINTM_RELATIONS_PATIENT">
             <End Role="PATIENT" EntitySet="PATIENT" />
@@ -338,7 +338,7 @@
           </AssociationSet>
           <AssociationSet Name="FK_APPOINTM_RELATIONS_PRESCRIP" Association="Self.FK_APPOINTM_RELATIONS_PRESCRIP">
             <End Role="PRESCRIPTION" EntitySet="PRESCRIPTION" />
-            <End Role="APPOINTMENT_NOTE" EntitySet="APPOINTMENT_NOTE" />
+            <End Role="APPOINTMENT_PRESCRIPTION" EntitySet="APPOINTMENT_PRESCRIPTION" />
           </AssociationSet>
           <AssociationSet Name="FK_APPOINTM_RELATIONS_SCHEDULE" Association="Self.FK_APPOINTM_RELATIONS_SCHEDULE">
             <End Role="SCHEDULE" EntitySet="SCHEDULE" />
@@ -398,11 +398,11 @@
           <Property Name="UPDATEDBY" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UPDATEDDATE" Type="DateTime" Precision="3" />
           <Property Name="DELETEDFLAG" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="APPOINTMENT_NOTE" Relationship="Self.FK_APPOINTM_RELATIONS_APPOINTM" FromRole="APPOINTMENT" ToRole="APPOINTMENT_NOTE" />
+          <NavigationProperty Name="APPOINTMENT_PRESCRIPTION" Relationship="Self.FK_APPOINTM_RELATIONS_APPOINTM" FromRole="APPOINTMENT" ToRole="APPOINTMENT_PRESCRIPTION" />
           <NavigationProperty Name="PATIENT" Relationship="Self.FK_APPOINTM_RELATIONS_PATIENT" FromRole="APPOINTMENT" ToRole="PATIENT" />
           <NavigationProperty Name="SCHEDULE" Relationship="Self.FK_APPOINTM_RELATIONS_SCHEDULE" FromRole="APPOINTMENT" ToRole="SCHEDULE" />
         </EntityType>
-        <EntityType Name="APPOINTMENT_NOTE">
+        <EntityType Name="APPOINTMENT_PRESCRIPTION">
           <Key>
             <PropertyRef Name="PRECRIPTIONID" />
             <PropertyRef Name="APPOINTMENTID" />
@@ -410,8 +410,8 @@
           <Property Name="PRECRIPTIONID" Type="Int32" Nullable="false" />
           <Property Name="APPOINTMENTID" Type="Int32" Nullable="false" />
           <Property Name="NOTE" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="APPOINTMENT" Relationship="Self.FK_APPOINTM_RELATIONS_APPOINTM" FromRole="APPOINTMENT_NOTE" ToRole="APPOINTMENT" />
-          <NavigationProperty Name="PRESCRIPTION" Relationship="Self.FK_APPOINTM_RELATIONS_PRESCRIP" FromRole="APPOINTMENT_NOTE" ToRole="PRESCRIPTION" />
+          <NavigationProperty Name="APPOINTMENT" Relationship="Self.FK_APPOINTM_RELATIONS_APPOINTM" FromRole="APPOINTMENT_PRESCRIPTION" ToRole="APPOINTMENT" />
+          <NavigationProperty Name="PRESCRIPTION" Relationship="Self.FK_APPOINTM_RELATIONS_PRESCRIP" FromRole="APPOINTMENT_PRESCRIPTION" ToRole="PRESCRIPTION" />
         </EntityType>
         <EntityType Name="DEPARTMENT">
           <Key>
@@ -491,15 +491,15 @@
           <Property Name="DRUG" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="NOTE" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="PATIENTNAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="MEDICATIONDAYS" Type="Int32" Nullable="false" />
-          <Property Name="QUANTITY" Type="Int32" Nullable="false" />
-          <Property Name="UNIT" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MEDICATIONDAYS" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="QUANTITY" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FREQUENCY" Type="Int32" Nullable="false" />
           <Property Name="CREATEDBY" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CREATEDDATE" Type="DateTime" Precision="3" />
           <Property Name="UPDATEDBY" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UPDATEDDATE" Type="DateTime" Precision="3" />
           <Property Name="DELETEDFLAG" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="APPOINTMENT_NOTE" Relationship="Self.FK_APPOINTM_RELATIONS_PRESCRIP" FromRole="PRESCRIPTION" ToRole="APPOINTMENT_NOTE" />
+          <NavigationProperty Name="APPOINTMENT_PRESCRIPTION" Relationship="Self.FK_APPOINTM_RELATIONS_PRESCRIP" FromRole="PRESCRIPTION" ToRole="APPOINTMENT_PRESCRIPTION" />
         </EntityType>
         <EntityType Name="ROLE">
           <Key>
@@ -590,12 +590,12 @@
         </EntityType>
         <Association Name="FK_APPOINTM_RELATIONS_APPOINTM">
           <End Role="APPOINTMENT" Type="Self.APPOINTMENT" Multiplicity="1" />
-          <End Role="APPOINTMENT_NOTE" Type="Self.APPOINTMENT_NOTE" Multiplicity="*" />
+          <End Role="APPOINTMENT_PRESCRIPTION" Type="Self.APPOINTMENT_PRESCRIPTION" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="APPOINTMENT">
               <PropertyRef Name="APPOINTMENTID" />
             </Principal>
-            <Dependent Role="APPOINTMENT_NOTE">
+            <Dependent Role="APPOINTMENT_PRESCRIPTION">
               <PropertyRef Name="APPOINTMENTID" />
             </Dependent>
           </ReferentialConstraint>
@@ -628,12 +628,12 @@
         </Association>
         <Association Name="FK_APPOINTM_RELATIONS_PRESCRIP">
           <End Role="PRESCRIPTION" Type="Self.PRESCRIPTION" Multiplicity="1" />
-          <End Role="APPOINTMENT_NOTE" Type="Self.APPOINTMENT_NOTE" Multiplicity="*" />
+          <End Role="APPOINTMENT_PRESCRIPTION" Type="Self.APPOINTMENT_PRESCRIPTION" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="PRESCRIPTION">
               <PropertyRef Name="PRECRIPTIONID" />
             </Principal>
-            <Dependent Role="APPOINTMENT_NOTE">
+            <Dependent Role="APPOINTMENT_PRESCRIPTION">
               <PropertyRef Name="PRECRIPTIONID" />
             </Dependent>
           </ReferentialConstraint>
@@ -700,7 +700,7 @@
         </Association>
         <EntityContainer Name="DBContext" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="APPOINTMENT" EntityType="Self.APPOINTMENT" />
-          <EntitySet Name="APPOINTMENT_NOTE" EntityType="Self.APPOINTMENT_NOTE" />
+          <EntitySet Name="APPOINTMENT_PRESCRIPTION" EntityType="Self.APPOINTMENT_PRESCRIPTION" />
           <EntitySet Name="DEPARTMENT" EntityType="Self.DEPARTMENT" />
           <EntitySet Name="DOCTOR" EntityType="Self.DOCTOR" />
           <EntitySet Name="LOG" EntityType="Self.LOG" />
@@ -713,7 +713,7 @@
           <EntitySet Name="USER" EntityType="Self.USER" />
           <AssociationSet Name="FK_APPOINTM_RELATIONS_APPOINTM" Association="Self.FK_APPOINTM_RELATIONS_APPOINTM">
             <End Role="APPOINTMENT" EntitySet="APPOINTMENT" />
-            <End Role="APPOINTMENT_NOTE" EntitySet="APPOINTMENT_NOTE" />
+            <End Role="APPOINTMENT_PRESCRIPTION" EntitySet="APPOINTMENT_PRESCRIPTION" />
           </AssociationSet>
           <AssociationSet Name="FK_APPOINTM_RELATIONS_PATIENT" Association="Self.FK_APPOINTM_RELATIONS_PATIENT">
             <End Role="PATIENT" EntitySet="PATIENT" />
@@ -725,7 +725,7 @@
           </AssociationSet>
           <AssociationSet Name="FK_APPOINTM_RELATIONS_PRESCRIP" Association="Self.FK_APPOINTM_RELATIONS_PRESCRIP">
             <End Role="PRESCRIPTION" EntitySet="PRESCRIPTION" />
-            <End Role="APPOINTMENT_NOTE" EntitySet="APPOINTMENT_NOTE" />
+            <End Role="APPOINTMENT_PRESCRIPTION" EntitySet="APPOINTMENT_PRESCRIPTION" />
           </AssociationSet>
           <AssociationSet Name="FK_DOCTOR_RELATIONS_DEPARTME" Association="Self.FK_DOCTOR_RELATIONS_DEPARTME">
             <End Role="DEPARTMENT" EntitySet="DEPARTMENT" />
@@ -784,9 +784,9 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="APPOINTMENT_NOTE">
-            <EntityTypeMapping TypeName="DoctorAppointmentSystem.APPOINTMENT_NOTE">
-              <MappingFragment StoreEntitySet="APPOINTMENT_NOTE">
+          <EntitySetMapping Name="APPOINTMENT_PRESCRIPTION">
+            <EntityTypeMapping TypeName="DoctorAppointmentSystem.APPOINTMENT_PRESCRIPTION">
+              <MappingFragment StoreEntitySet="APPOINTMENT_PRESCRIPTION">
                 <ScalarProperty Name="PRECRIPTIONID" ColumnName="PRECRIPTIONID" />
                 <ScalarProperty Name="APPOINTMENTID" ColumnName="APPOINTMENTID" />
                 <ScalarProperty Name="NOTE" ColumnName="NOTE" />
@@ -870,7 +870,7 @@
                 <ScalarProperty Name="PATIENTNAME" ColumnName="PATIENTNAME" />
                 <ScalarProperty Name="MEDICATIONDAYS" ColumnName="MEDICATIONDAYS" />
                 <ScalarProperty Name="QUANTITY" ColumnName="QUANTITY" />
-                <ScalarProperty Name="UNIT" ColumnName="UNIT" />
+                <ScalarProperty Name="FREQUENCY" ColumnName="FREQUENCY" />
                 <ScalarProperty Name="CREATEDBY" ColumnName="CREATEDBY" />
                 <ScalarProperty Name="CREATEDDATE" ColumnName="CREATEDDATE" />
                 <ScalarProperty Name="UPDATEDBY" ColumnName="UPDATEDBY" />
