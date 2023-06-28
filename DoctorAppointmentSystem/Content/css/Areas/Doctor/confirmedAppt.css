@@ -77,9 +77,7 @@ body {
         padding: 10px 10px 0;
         width: 100%;
         border: none;
-        border: 1px solid #ced4da;
-        border-radius: .25rem;
-        height: calc(1em + 2.3rem);
+        border-bottom: 1px solid #9c9c9c;
         outline: none;
         font-size: 1em;
         background: inherit;
@@ -172,8 +170,7 @@ body {
 .info-wrapper {
     border-top: 2px solid #ccc;
     margin-bottom: 20px;
-    padding-left: 5px;
-    padding-right: 5px;
+    padding: 10px 5px 0;
 }
 
 .row {
@@ -211,6 +208,39 @@ body {
     }
 
     #info-4 {
-        order: 3;
+        order: 4;
     }
+
+    #info-5 {
+        order: 5;
+    }
+}
+
+tr .input-box {
+    margin: 0;
+}
+
+tr td input {
+    display: inline-block;
+    width: 100%;
+    height: calc(1.5em + 0.75rem + 2px);
+    padding: 0.375rem 1.75rem 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    vertical-align: middle;
+    background: #fff;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+}
+
+.table-wrapper{
+    font-size: 16px;
+    line-height: 1.5rem;
+}
+
+th {
+    text-align: center !important;
+    vertical-align: middle !important;
 }

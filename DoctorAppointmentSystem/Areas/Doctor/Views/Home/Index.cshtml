@@ -4,5 +4,96 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<div class="row m-2">
+    <!-- Status -->
+    <article class="col-12 ">
+        <hr class="custom-hr-primary" />
+        <h4>Status</h4>
+        <div class=" d-flex  justify-content-center mt-1">
+            <div class="custom-card" style="min-width:180px;">
 
+                <div class="row custom-card-body d-flex flex-wrap justify-content-between align-items-center">
+
+                    <div class="col-8 col-md-8">
+                        <a href="@Url.Action("Index", "DoctorManage", new {area = "Admin"})">
+                            <p class="h3">0</p>
+                            <h5 class="custom-card-title">Today Appointments</h5>
+                        </a>
+                    </div>
+
+                    <span class="col-3 col-md-3 custom-card-icon text-center">
+                        <i class="fa-solid fa-file-medical"></i>
+
+                    </span>
+                </div>
+
+            </div>
+
+            <div class="custom-card " style="min-width: 180px;  ">
+
+                <div class="row custom-card-body d-flex flex-wrap justify-content-between align-items-center">
+
+                    <div class="col-8 col-md-8">
+                        <a href="@Url.Action("Index", "PatientManage", new {area = "Admin"})">
+
+                            <p class="h3">0</p>
+                            <h5 class="custom-card-title">New Booking</h5>
+                        </a>
+
+                    </div>
+
+                    <span class="col-3 col-md-3 custom-card-icon text-center">
+                        <i class="far fa-bookmark"></i>
+                    </span>
+                </div>
+
+            </div>
+
+            <div class="custom-card" style="min-width: 180px; ">
+                <div class="custom-card-body d-flex flex-nowrap justify-content-between align-items-center">
+                    <div class="col-8 col-md-8">
+                        <p class="h3">0</p>
+                        <span class="custom-card-title h5">Appointments</span>
+                    </div>
+                    <span class="col-3 col-md-3 custom-card-icon text-center">
+                        <i class="fa-solid fa-file-medical"></i>
+                    </span>
+                </div>
+            </div>
+
+            <div class="custom-card " style="min-width: 180px; ">
+                <div class="custom-card-body d-flex flex-nowrap justify-content-between align-items-center ">
+                    <div class="col-8 col-md-8">
+                        <a href="@Url.Action("Index", "AppointmentManage", new {area = "Admin"})">
+                            <p class="h3">0</p>
+                            <span class="custom-card-title h5">All Appointments</span>
+                        </a>
+                    </div>
+                    <span class="col-3 col-md-3 custom-card-icon text-center">
+                        <i class="fas fa-calendar-alt"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </article>
+
+
+
+</div>
+
+<hr  />
+<h4 class="m-4">Appointment Schedule</h4>
+
+<div class="container-fluid m-2">
+    <div style="max-height:600px;" id='calendar'></div>
+</div>
+
+
+
+@section scripts{
+
+    @Scripts.Render("~/bundles/momentjs")
+    @Scripts.Render("~/bundles/fullcalendar/js")
+    @Scripts.Render("~/bundles/doctor/dashboard")
+
+}

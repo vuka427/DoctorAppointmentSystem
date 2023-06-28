@@ -118,6 +118,7 @@ function setSubmitFormByAjax() {
                     $("#form-create-doctor").trigger('reset');
                     $('#password').get(0).type = 'password';
                     
+                    
                 }
             });
         }
@@ -518,6 +519,7 @@ function initJqueryDatatable() {
                 "title": "Action",
                 "responsivePriority": 1,
                 "searchable": true,
+                "orderable": false,
                 "render": function (data, type, row) {
                     console.log(data, type, row);
                     return "<btn class=\"btn-update-doctor btn btn-sm btn-outline-primary btn-action\" data-id=\"" + row.DOCTORID + "\" data-doctorname=\"" + row.DOCTORNAME + "\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Edit user\"> <i class=\"fa-solid fa-user-pen\"></i></btn>"

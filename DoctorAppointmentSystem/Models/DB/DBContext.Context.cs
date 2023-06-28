@@ -26,7 +26,7 @@ namespace DoctorAppointmentSystem.Models.DB
         }
     
         public virtual DbSet<APPOINTMENT> APPOINTMENT { get; set; }
-        public virtual DbSet<APPOINTMENT_NOTE> APPOINTMENT_NOTE { get; set; }
+        public virtual DbSet<APPOINTMENT_PRESCRIPTION> APPOINTMENT_PRESCRIPTION { get; set; }
         public virtual DbSet<DEPARTMENT> DEPARTMENT { get; set; }
         public virtual DbSet<DOCTOR> DOCTOR { get; set; }
         public virtual DbSet<LOG> LOG { get; set; }

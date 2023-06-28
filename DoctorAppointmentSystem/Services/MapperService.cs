@@ -5,6 +5,7 @@ using DoctorAppointmentSystem.Areas.Admin.Models.DoctorManage.Mapping;
 using DoctorAppointmentSystem.Areas.Admin.Models.DoctorSchedule.Mapping;
 using DoctorAppointmentSystem.Areas.Admin.Models.PatientManage.Mapping;
 using DoctorAppointmentSystem.Areas.Admin.Models.UserManage.Mapping;
+using DoctorAppointmentSystem.Areas.Doctor.Models.Appointments.Mapping;
 using DoctorAppointmentSystem.Services.ServiceInterface;
 using System;
 using System.Collections.Generic;
@@ -42,7 +43,9 @@ namespace DoctorAppointmentSystem.Services
                 cfg.AddProfile(new MappDoctorScheduleProfile(_sysParam));
                 //register mapper for appointment
                 cfg.AddProfile(new MapAppointmentProfile(_sysParam));
-                
+                //register mapper for appointment doctor
+                cfg.AddProfile(new AppointmentDoctorMappingProfile(_sysParam));
+
 
             });
 

@@ -224,6 +224,7 @@ function initJqueryDatatable() {
                 "title": "Action",
                 "responsivePriority": 1,
                 "searchable": false,
+                "orderable": false,
                 "render": function (data, type, row) {
                     console.log(data, type, row);
                     return "<btn class=\"btn-view-appointment btn btn-sm btn-outline-primary btn-action\" data-appointmentid=\"" + row.APPOINTMENTID + "\"  data-toggle=\"tooltip\" data-placement=\"top\" title=\"View Appointment\"   > <i class=\"fa-solid fa-eye\"></i> </btn>"

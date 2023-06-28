@@ -531,15 +531,17 @@ namespace DoctorAppointmentSystem.Models.Appointment
                 using (DBContext dbContext = new DBContext())
                 {
                     List<SCHEDULE> schedules = dbContext.SCHEDULE
-                        .Where(s => s.WORKINGDAY.Equals(dateOfConsultation) && s.SHIFTTIME.CompareTo(time) <= 0 && s.BREAKTIME.CompareTo(time) > 0)
+                        .Where(s => s.WORKINGDAY.Equals(dateOfConsultation) 
+                        && s.SHIFTTIME.CompareTo(time) <= 0 
+                        && s.BREAKTIME.CompareTo(time) > 0)
                         .OrderBy(s => s.DOCTORID)
+                        .Distinct()
                         .ToList();
 
-                    DoctorViewModel dvm = new DoctorViewModel();
                     int doctorID = 0;
                     foreach (SCHEDULE s in schedules)
                     {
-                        if (s.DOCTORID == doctorID) continue;
+                        DoctorViewModel dvm = new DoctorViewModel();
 
                         doctorID = s.DOCTORID;
                         DOCTOR doctor = dbContext.DOCTOR.Find(doctorID);

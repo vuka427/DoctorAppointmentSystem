@@ -119,7 +119,7 @@ namespace DoctorAppointmentSystem.Models.Account
             {
                 string sEventCatg = "PATIENT PORTAL";
                 string sEventMsg = "Exception: " + ex.Message;
-                string sEventSrc = "VerifyPatientInfo";
+                string sEventSrc = nameof(VerifyPatientInfo);
                 string sEventType = "S";
                 string sInsBy = patient.fullName;
 

@@ -204,10 +204,20 @@
     <Compile Include="Areas\Doctor\Controllers\RegistrationController.cs" />
     <Compile Include="Areas\Doctor\DoctorAreaRegistration.cs" />
     <Compile Include="Areas\Doctor\Models\Appointments\AppointmentsDoctorIO.cs" />
-    <Compile Include="Areas\Doctor\Models\Appointments\ApponitmentViewModel.cs" />
+    <Compile Include="Areas\Doctor\Models\Appointments\Appointment\AppointmentViewModel.cs" />
+    <Compile Include="Areas\Doctor\Models\Appointments\CancelledAppointment\CancelledApptViewModel.cs" />
+    <Compile Include="Areas\Doctor\Models\Appointments\CompletedAppointment\CompletedApptViewDetailsModel.cs" />
+    <Compile Include="Areas\Doctor\Models\Appointments\CompletedAppointment\CompletedApptViewModel.cs" />
+    <Compile Include="Areas\Doctor\Models\Appointments\Mapping\AppointmentDoctorMappingProfile.cs" />
     <Compile Include="Areas\Doctor\Models\ComfirmedAppt\ConfirmedApptIO.cs" />
+    <Compile Include="Areas\Doctor\Models\Home\calendarIO.cs" />
+    <Compile Include="Areas\Doctor\Models\Home\EventViewModel.cs" />
+    <Compile Include="Areas\Doctor\Models\Registration\RegistrationIO.cs" />
     <Compile Include="Areas\Doctor\Models\ViewModels\AppointmentViewModel.cs" />
+    <Compile Include="Areas\Doctor\Models\ViewModels\DiagnosisViewModel.cs" />
+    <Compile Include="Areas\Doctor\Models\ViewModels\MedicationViewModel.cs" />
     <Compile Include="Areas\Doctor\Models\ViewModels\MemberDetailViewModel.cs" />
+    <Compile Include="Areas\Doctor\Models\ViewModels\CreateMemberViewModel.cs" />
     <Compile Include="Authorization\AppAuthorizeAttribute.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AppointmentController.cs" />
@@ -247,7 +257,7 @@
     <Compile Include="Models\DB\APPOINTMENT.cs">
       <DependentUpon>DBContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\DB\APPOINTMENT_NOTE.cs">
+    <Compile Include="Models\DB\APPOINTMENT_PRESCRIPTION.cs">
       <DependentUpon>DBContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\DBContext.Context.cs">
@@ -286,6 +296,9 @@
     <Compile Include="Models\DB\SCHEDULE.cs">
       <DependentUpon>DBContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DB\sysdiagrams.cs">
+      <DependentUpon>DBContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DB\SYSTEM_PARA.cs">
       <DependentUpon>DBContext.tt</DependentUpon>
     </Compile>
@@ -312,6 +325,7 @@
     <Content Include="Content\css\Areas\Admin\patient-management.css" />
     <Content Include="Content\css\Areas\Admin\user-management.css" />
     <Content Include="Content\css\Areas\Doctor\confirmedAppt.css" />
+    <Content Include="Content\css\Areas\Doctor\registration.css" />
     <Content Include="Content\css\changePassword.css" />
     <Content Include="Content\css\custom-input.css" />
     <Content Include="Content\css\appointmentHistory.css" />
@@ -334,6 +348,7 @@
     <Content Include="img\carousel-patient-03.jpg" />
     <Content Include="img\CUSC-Logo-Series.ico" />
     <Content Include="img\doctor-avatar-01.jpg" />
+    <Content Include="img\empty.jpg" />
     <Content Include="img\login-intro-img.png" />
     <Content Include="img\medical-appointment.ico" />
     <Content Include="img\person-avatar-01.jpg" />
@@ -536,6 +551,10 @@
     <Content Include="Areas\Admin\Views\AdminProfile\Index.cshtml" />
     <Content Include="Areas\Doctor\Views\web.config" />
     <Content Include="Areas\Doctor\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Doctor\Views\Appointments\Index.cshtml" />
+    <Content Include="Areas\Doctor\Views\ConfirmedAppt\Index.cshtml" />
+    <Content Include="Areas\Doctor\Views\Appointments\MemberDetails.cshtml" />
+    <Content Include="Areas\Doctor\Views\ConfirmedAppt\AppointmentDetails.cshtml" />
     <EntityDeploy Include="Models\DB\DBContext.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>DBContext.Designer.cs</LastGenOutput>
@@ -543,9 +562,7 @@
     <Content Include="Models\DB\DBContext.edmx.diagram">
       <DependentUpon>DBContext.edmx</DependentUpon>
     </Content>
-    <Content Include="Areas\Doctor\Views\Appointments\Index.cshtml" />
-    <Content Include="Areas\Doctor\Views\ConfirmedAppt\MemberDetails.cshtml" />
-    <Content Include="Areas\Doctor\Views\ConfirmedAppt\Index.cshtml" />
+    <Content Include="Areas\Doctor\Views\Registration\Index.cshtml" />
     <None Include="Scripts\bootstrap-lib-js\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\bootstrap-lib-js\jquery.dataTables.min.js" />
     <Content Include="Scripts\bootstrap-lib-js\jquery.validate.js" />
@@ -553,6 +570,7 @@
     <Content Include="Scripts\bootstrap-lib-js\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\bootstrap-lib-js\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\bootstrap-lib-js\modernizr-2.8.3.js" />
+    <Content Include="Scripts\js\Areas\Doctor\appointmentDetails.js" />
     <Content Include="Scripts\js\Areas\Doctor\appointmentsDoctor.js" />
     <Content Include="Scripts\js\Areas\Admin\adminmanagement.js" />
     <Content Include="Scripts\js\Areas\Admin\adminProfile.js" />
@@ -563,6 +581,8 @@
     <Content Include="Scripts\js\Areas\Admin\patientmanagement.js" />
     <Content Include="Scripts\js\Areas\Admin\usermanagement.js" />
     <Content Include="Scripts\js\Areas\Doctor\confirmedAppt.js" />
+    <Content Include="Scripts\js\Areas\Doctor\memberDetails.js" />
+    <Content Include="Scripts\js\Areas\Doctor\registration.js" />
     <Content Include="Scripts\js\changePassword.js" />
     <Content Include="Scripts\js\appointmentHistory.js" />
     <Content Include="Scripts\js\intro.js" />
@@ -625,7 +645,6 @@
     <Folder Include="Areas\Doctor\Views\CancelledAppt\" />
     <Folder Include="Areas\Doctor\Views\CompletedAppt\" />
     <Folder Include="Areas\Doctor\Views\Profile\" />
-    <Folder Include="Areas\Doctor\Views\Registration\" />
     <Folder Include="Areas\Doctor\Views\Shared\" />
     <Folder Include="Uploads\" />
   </ItemGroup>

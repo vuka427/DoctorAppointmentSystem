@@ -5,7 +5,7 @@ using System.Web;
 
 namespace DoctorAppointmentSystem.Areas.Admin.Models.AppointmentManage
 {
-    public class AppointmentViewDetailsModel
+    public class CompletedApptViewDetailsModel
     {
             public int doctorID { get; set; }
             public int patientID { get; set; }

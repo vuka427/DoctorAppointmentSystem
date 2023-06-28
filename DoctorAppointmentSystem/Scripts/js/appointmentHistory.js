@@ -104,7 +104,7 @@ function styleForStatus() {
     for (var element of elements) {
         if (element.textContent.toLowerCase() == 'pending') {
             element.classList.add("column-status--pending");
-        } else if (element.textContent.toLowerCase() == 'in process') {
+        } else if (element.textContent.toLowerCase() == 'confirm') {
             element.classList.add("column-status--process");
         } else if (element.textContent.toLowerCase() == 'completed') {
             element.classList.add("column-status--completed");

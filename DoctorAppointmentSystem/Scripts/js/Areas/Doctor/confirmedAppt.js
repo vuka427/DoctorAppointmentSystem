@@ -23,31 +23,33 @@
             autoWidth: true,
             searchable: true,
             render: function (data, type, row) {
-                return '<a class="btn-viewAppt" href="/Doctor/ConfirmedAppt/MemberDetails?id=' + row.appointmentID + '">' + data + '</a>';
+                return '<a class="btn-viewAppt" href="/Doctor/ConfirmedAppt/AppointmentDetails?id=' + row.appointmentID + '">' + data + '</a>';
             }
         },
         {
-            data: 'patientGender',
-            title: 'Gender',
-            autoWidth: true,
-            searchable: true,
-        },
-        {
             data: 'dateOfConsultation',
-            title: 'Date of Consultation',
+            title: 'Consultation Date',
             className: 'text-center',
             autoWidth: true,
             searchable: true,
             orderData: [3]
         },
         {
-            data: 'consultationTime',
+            data: 'appointmentDate',
+            title: 'Appointment Date',
+            className: 'text-center',
+            autoWidth: true,
+            searchable: true,
+            orderData: [3]
+        },
+        {
+            data: 'appointmentTime',
             title: 'Time',
             autoWidth: true,
             searchable: true
         },
         {
-            data: 'consultationDay',
+            data: 'appointmentDay',
             title: 'Day',
             autoWidth: true,
             searchable: true
@@ -106,10 +108,3 @@ function styleForStatus() {
         }
     }
 }
-
-$(document).on('click', '.btn-viewAppt', function (event) {
-
-    var btnViewAppt = $(this);
-    var appointmentID = btnViewAppt.data('appointmentid');
-    var status = btnViewAppt.data('status');
-})
