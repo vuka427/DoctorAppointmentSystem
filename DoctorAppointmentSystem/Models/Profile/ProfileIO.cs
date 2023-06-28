@@ -2,6 +2,8 @@
 using DoctorAppointmentSystem.Models.DB;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Web;
 
@@ -154,33 +156,75 @@ namespace DoctorAppointmentSystem.Models.Profile
 
         public void UpdateProfile(ProfileViewModel profileData, string username)
         {
-            try
+            USER user = dbContext.USER.Where(u => u.USERNAME.Equals(username)).FirstOrDefault();
+
+            if(user.USERTYPE == "Patient")
             {
-                USER user = dbContext.USER.Where(u => u.USERNAME.Equals(username)).FirstOrDefault();
-                PATIENT patient = dbContext.PATIENT.Where(p => p.USERID.Equals(user.USERID)).FirstOrDefault();
+                try
+                {
 
-                user.EMAIL = profileData.email.Trim();
-                patient.PATIENTNAME = profileData.fullName.Trim();
-                patient.PATIENTNATIONALID = profileData.nationalID.Trim();
-                patient.PATIENTDATEOFBIRTH = DateTime.Parse(profileData.dateOfBirth);
-                patient.PATIENTGENDER = profileData.gender;
-                patient.PATIENTMOBILENO = profileData.phoneNumber.Trim();
-                patient.PATIENTADDRESS = profileData.address.Trim();
-                patient.UPDATEDBY = username;
-                patient.UPDATEDDATE = DateTime.Now;
+                    PATIENT patient = dbContext.PATIENT.Where(p => p.USERID.Equals(user.USERID)).FirstOrDefault();
 
-                dbContext.SaveChanges();
+                    user.EMAIL = profileData.email.Trim();
+                    patient.PATIENTNAME = profileData.fullName.Trim();
+                    patient.PATIENTNATIONALID = profileData.nationalID.Trim();
+                    patient.PATIENTDATEOFBIRTH = DateTime.Parse(profileData.dateOfBirth);
+                    patient.PATIENTGENDER = profileData.gender;
+                    patient.PATIENTMOBILENO = profileData.phoneNumber.Trim();
+                    patient.PATIENTADDRESS = profileData.address.Trim();
+                    patient.UPDATEDBY = username;
+                    patient.UPDATEDDATE = DateTime.Now;
+
+                    dbContext.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    string sEventCatg = "PATIENT PORTAL";
+                    string sEventMsg = "Exception: " + ex.Message;
+                    string sEventSrc = "UpdateProfile";
+                    string sEventType = "U";
+                    string sInsBy = GetInfo.Username;
+
+                    Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
+                }
             }
-            catch (Exception ex)
+            else
             {
-                string sEventCatg = "PATIENT PORTAL";
-                string sEventMsg = "Exception: " + ex.Message;
-                string sEventSrc = "UpdateProfile";
-                string sEventType = "U";
-                string sInsBy = GetInfo.Username;
+                try
+                {
+                    DOCTOR Doctor = dbContext.DOCTOR.Where(p => p.USERID.Equals(user.USERID)).FirstOrDefault();
 
-                Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
+                    user.EMAIL = profileData.email.Trim();
+
+                    Doctor.DOCTORNAME = profileData.fullName.Trim();
+                    Doctor.DOCTORNATIONALID = profileData.nationalID.Trim();
+                    Doctor.DOCTORDATEOFBIRTH = DateTime.Parse(profileData.dateOfBirth);
+                    Doctor.DOCTORGENDER = profileData.gender;
+                    Doctor.DOCTORMOBILENO = profileData.phoneNumber.Trim();
+                    Doctor.DOCTORADDRESS = profileData.address.Trim();
+                    Doctor.UPDATEDBY = username;
+                    Doctor.UPDATEDDATE = DateTime.Now;
+
+                    dbContext.USER.AddOrUpdate(user);
+                    dbContext.DOCTOR.AddOrUpdate(Doctor);
+
+                    dbContext.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    string sEventCatg = "PATIENT PORTAL";
+                    string sEventMsg = "Exception: " + ex.Message;
+                    string sEventSrc = "UpdateProfile";
+                    string sEventType = "U";
+                    string sInsBy = GetInfo.Username;
+
+                    Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
+                }
             }
+
+
+
+            
         }
     }
 }

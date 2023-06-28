@@ -469,10 +469,10 @@ function initJqueryDatatable() {
                 "orderable": false,
                 "render": function (data, type, row) {
                     var lockbtn = "";
-                    var html = "<btn class=\"btn-reset-password-user btn btn-sm btn-outline-primary btn-action ml-2\" data-id=\"" + row.USERID + "\" data-username=\"" + row.USERNAME + "\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Reset password\" > <i class=\"fa-solid fa-key\"></i></btn>"
-                        + "<btn class=\"btn-delete-user btn btn-sm btn-outline-danger btn-action ml-2 \" data-id=\"" + row.USERID + "\" data-username=\"" + row.USERNAME + "\"  data-toggle=\"tooltip\" data-placement=\"top\" title=\"Delete user\"> <i class=\"fa-solid fa-trash\" ></i> </btn> "
-                    if (row.STATUS) lockbtn = "<btn class=\"btn-lock-user btn btn-sm btn-outline-success btn-action  \" data-id=\"" + row.USERID + "\" data-username=\"" + row.USERNAME + "\"  data-toggle=\"tooltip\" data-placement=\"top\" title=\"Lock account\"> <i class=\"fa-solid fa-lock-open  \"></i> </btn>"
-                    else lockbtn = "<btn class=\"btn-unlock-user btn btn-sm btn-outline-danger btn-action  \" data-id=\"" + row.USERID + "\" data-username=\"" + row.USERNAME + "\"  data-toggle=\"tooltip\" data-placement=\"top\" title=\"Unlock account\"> <i class=\"fa-solid fa-lock  \"></i> </btn>"
+                    var html = "<btn class=\"btn-reset-password-user btn btn-sm btn-outline-primary btn-action ml-2\" data-id=\"" + row.USERID + "\" data-username=\"" + row.USERNAME + "\" data-toggle=\"popover\" data-trigger=\"hover\" data-placement=\"top\"  data-content=\"Reset password\" > <i class=\"fa-solid fa-key\"></i></btn>"
+                        + "<btn class=\"btn-delete-user btn btn-sm btn-outline-danger btn-action ml-2 \" data-id=\"" + row.USERID + "\" data-username=\"" + row.USERNAME + "\" data-toggle=\"popover\" data-trigger=\"hover\" data-placement=\"top\"  data-content=\"Delete user\"> <i class=\"fa-solid fa-trash\" ></i> </btn> "
+                    if (row.STATUS) lockbtn = "<btn class=\"btn-lock-user btn btn-sm btn-outline-success btn-action  \" data-id=\"" + row.USERID + "\" data-username=\"" + row.USERNAME + "\"  data-toggle=\"popover\" data-trigger=\"hover\" data-placement=\"top\"  data-content=\"Lock account\" > <i class=\"fa-solid fa-lock-open  \"></i> </btn>"
+                    else lockbtn = "<btn class=\"btn-unlock-user btn btn-sm btn-outline-danger btn-action  \" data-id=\"" + row.USERID + "\" data-username=\"" + row.USERNAME + "\"  data-toggle=\"popover\" data-trigger=\"hover\" data-placement=\"top\"  data-content=\"Unlock account\" > <i class=\"fa-solid fa-lock  \"></i> </btn>"
 
                     return lockbtn + html;
                         
@@ -486,6 +486,24 @@ function initJqueryDatatable() {
     $(window).trigger('resize');
 
 }
+
+function setEventHover() {
+    var table = $('#UserTable').DataTable();
+
+    table.on('draw', function () {
+        $('[data-toggle="popover"]').popover({
+            html: true,
+            placement: 'top',
+            container: "body",
+            delay: { "show": 300, "hide": 200 },
+            trigger: 'hover',
+            template: '<div class="popover fc-med-popover" role="tooltip"><div class="arrow"></div> <h3  class="popover-header"></h3><div class="popover-body"></div></div>'
+
+        })
+
+    });
+
+} 
 
 // show hihe pass
 function showPass() {
@@ -595,7 +613,7 @@ $("document").ready(function () {
     validateFormResetPassword();
     setEventDeleteUserForBtn();
     setEventLockUserForBtn();
-
+    setEventHover();
    
     $('[data-toggle="tooltip"]').tooltip()
     

@@ -75,8 +75,6 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Controllers
                                               || x.PATIENTNAME.ToLower().Contains(param.sSearch.ToLower())
                                               || x.APPOINTMENTID.ToString().ToLower().Contains(param.sSearch.ToLower())
                                               || x.DATEOFCONSULTANT.ToString().ToLower().Contains(param.sSearch.ToLower())
-                                             
-
                                                ).ToList();
             }
             var sortColumnIndex = param.iSortCol_0;
@@ -120,7 +118,7 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Controllers
 
             ViewBag.consultantType = SystemParaHelper.GenerateByGroup("consultantType");
             ViewBag.modeOfConsultant = SystemParaHelper.GenerateByGroup("modeOfConsultant");
-            ViewBag.menu = RenderMenu.RenderDoctorMenu("Appointments Confirmed");
+            ViewBag.menu = RenderMenu.RenderDoctorMenu("Appointments");
             ViewBag.name = GetInfo.GetFullName(User.Identity.Name);
             ViewBag.avatar = GetInfo.GetImgPath(User.Identity.Name);
             return View(data);

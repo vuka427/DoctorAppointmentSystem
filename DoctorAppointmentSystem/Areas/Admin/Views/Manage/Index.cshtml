@@ -37,11 +37,9 @@
 
                     <div class="col-8 col-md-8">
                         <a href="@Url.Action("Index", "PatientManage", new {area = "Admin"})">
-
                             <p class="h3">@ViewBag.PatientCount</p>
                             <h5 class="custom-card-title">All Patients</h5>
                         </a>
-
                     </div>
 
                     <span class="col-3 col-md-3 custom-card-icon text-center">
@@ -68,7 +66,7 @@
                     <div class="col-8 col-md-8">
                         <a href="@Url.Action("Index", "AppointmentManage", new {area = "Admin"})">
                             <p class="h3">@ViewBag.AppointmentTillDate</p>
-                            <span class="custom-card-title h5">All Appointments</span>
+                            <span class="custom-card-title h5">All  Appointments</span>
                         </a>
                     </div>
                     <span class="col-3 col-md-3 custom-card-icon text-center">
@@ -87,7 +85,7 @@
             var thisWeekStart = today.AddDays(-(int)today.DayOfWeek + 1);
             var thisWeekEnd = thisWeekStart.AddDays(7).AddSeconds(-1);
         }
-        <h4>Booking (@thisWeekStart.ToShortDateString() - @thisWeekEnd.ToShortDateString())</h4>
+        <h4>Appointments for (@thisWeekStart.ToShortDateString() - @thisWeekEnd.AddDays(-1).ToShortDateString())</h4>
         <div class="container-fluid pt-3 content-wrapper table-responsive" style="font-size: 1em">
 
             <div>
@@ -104,6 +102,5 @@
 @section scripts{
     @Scripts.Render("~/bundles/admin/chart")
     @Scripts.Render("~/bundles/admin/dashboard")
-
 
 }

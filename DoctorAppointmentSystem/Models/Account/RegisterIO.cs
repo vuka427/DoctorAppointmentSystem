@@ -1,5 +1,7 @@
 ﻿
+using DoctorAppointmentSystem.Areas.Admin;
 using DoctorAppointmentSystem.HelperClasses;
+using DoctorAppointmentSystem.Models.Account.AuthenQuestion;
 using DoctorAppointmentSystem.Models.Account.Register;
 using DoctorAppointmentSystem.Models.DB;
 using System;
@@ -298,6 +300,8 @@ namespace DoctorAppointmentSystem.Models.Account
             }
         }
 
+
+
         public void ActivateAccount(string username)
         {
             try
@@ -323,6 +327,86 @@ namespace DoctorAppointmentSystem.Models.Account
 
                 Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
             }
+        }
+
+
+        public bool SetAuthenQuestions(AuthenQuestionModel question)
+        {
+            USER user = dbContext.USER.Where(u => u.USERNAME.Equals(question.username)).FirstOrDefault();
+            try
+            {
+               
+                if (user != null && (!IsAnswerPaswdRecovery(user.USERNAME)))
+                {
+                    
+
+                    user.PASSWORDRECOVERYQUE1 = question.passwordRecoveryQue1;
+                    user.PASSWORDRECOVERYANS1 = question.passwordRecoveryAns1.Trim();
+                    user.PASSWORDRECOVERYQUE2 = question.passwordRecoveryQue2;
+                    user.PASSWORDRECOVERYANS2 = question.passwordRecoveryAns2.Trim();
+                    user.PASSWORDRECOVERYQUE3 = question.passwordRecoveryQue3;
+                    user.PASSWORDRECOVERYANS3 = question.passwordRecoveryAns3.Trim();
+                    user.UPDATEDBY = question.username;
+                    user.UPDATEDDATE = DateTime.Now;
+                    dbContext.SaveChanges();
+                }
+                else
+                {
+                    throw new ArgumentNullException();
+                }
+            }
+            catch (Exception ex)
+            {    
+                string sEventCatg = "NONE PORTAL";
+                if(user != null)
+                {
+                    sEventCatg = user.USERTYPE == "Doctor"?  "DOCTOR PORTAL" : "PATIENT";
+                }
+                
+                string sEventMsg = "Exception: " + ex.Message;
+                string sEventSrc = nameof(SetAuthenQuestions);
+                string sEventType = "U";
+                string sInsBy = question.username;
+
+                Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
+            }
+
+
+            return true;
+        }
+
+        public bool IsAnswerPaswdRecovery(string username)
+        {
+            USER user = dbContext.USER.Where(u => u.USERNAME.Equals(username)).FirstOrDefault();
+            
+            if (user != null)
+            {
+                if (user.PASSWORDRECOVERYANS1 != null || user.USERTYPE == "Admin") return true;
+            }
+          
+            return false;
+           
+        }
+        public USER GetUserByUserName(string username)
+        {
+            USER user;
+            try
+            {
+                user = dbContext.USER.Where(u => u.USERNAME.Equals(username)).FirstOrDefault();
+                return user;
+            }
+            catch (Exception ex)
+            {
+                string sEventCatg = "PATIENT PORTAL";
+                string sEventMsg = "Exception: " + ex.Message;
+                string sEventSrc = "GetUserID";
+                string sEventType = "S";
+                string sInsBy = username;
+
+                Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
+                return null;
+            }
+
         }
     }
 }

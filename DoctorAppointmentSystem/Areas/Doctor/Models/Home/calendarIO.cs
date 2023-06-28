@@ -3,6 +3,7 @@ using DoctorAppointmentSystem.Services.ServiceInterface;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Drawing;
 using System.Linq;
 using System.Web;
 
@@ -21,33 +22,45 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Models.Home
             _mapper = mapper;
         }
 
-       public List<EventViewModel> GetDoctorSchedule(DateTime start, DateTime end, int doctorId)
+       public List<EventViewModel> GetDoctorSchedule(DateTime start, DateTime end, int doctorId, string status) // param string filter 
         {
             List<EventViewModel> schedule;
+            List<APPOINTMENT> apptments;
             
             try {
+                if (string.IsNullOrEmpty(status))
+                {
+                     apptments = _dbContext.APPOINTMENT.Where(a => a.DELETEDFLAG == false &&
+                                                                        a.DATEOFCONSULTATION > start && 
+                                                                        a.DATEOFCONSULTATION < end &&
+                                                                        a.DOCTORID == doctorId //&& 
+                                                                        //a.APPOIMENTSTATUS == "Confirm"
+                                                                        )
+                                                                        .Include("PATIENT").ToList();
+                }else 
+                {
+                    apptments = _dbContext.APPOINTMENT.Where(a => a.DELETEDFLAG == false &&
+                                                                       a.DATEOFCONSULTATION > start &&
+                                                                       a.DATEOFCONSULTATION < end &&
+                                                                       a.DOCTORID == doctorId && 
+                                                                       a.APPOIMENTSTATUS == status
+                                                                       )
+                                                                       .Include("PATIENT").ToList();
+                }
+               
 
-                var la = _dbContext.APPOINTMENT.Where(a => a.DELETEDFLAG == false &&
-                                                    a.DATEOFCONSULTATION > start && 
-                                                    a.DATEOFCONSULTATION < end &&
-                                                    a.DOCTORID == doctorId && 
-                                                    a.APPOIMENTSTATUS == "Confirm"
-                                                    )
-                                                    .Include("PATIENT").ToList();
-
-                schedule = la.Select(s => new EventViewModel
+                schedule = apptments.Select(s => new EventViewModel
                 {
                     id = s.APPOINTMENTID,
-                    title = s.PATIENT.PATIENTNAME,
+                    title = "Patient: " + s.PATIENT.PATIENTNAME,
                     start = s.DATEOFCONSULTATION.ToString("yyyy-MM-ddTHH:mm:ss"),
-                    description = "",
-                    url = "#1",
+                    description = "Status: " + s.APPOIMENTSTATUS,
+                    url = GetUrlRedirect(s.APPOIMENTSTATUS),
                     allDay = false,
                     color = s.APPOIMENTSTATUS == "Pending" ? "#ffc107" :
                             s.APPOIMENTSTATUS == "Completed" ? "#00ff21" :
                             s.APPOIMENTSTATUS == "Cancel" ? "#dc3545" : "#007bff"
                              ,
-
                 }).ToList();
             }
             catch
@@ -55,6 +68,15 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Models.Home
                 schedule = new List<EventViewModel>();
             }
             return schedule;
+        }
+
+        private string GetUrlRedirect(string status)
+        {
+            string Url = status == "Pending" ? "/Doctor/Appointments" :
+                            status == "Completed" ? "/Doctor/CompletedAppt" :
+                            status == "Confirm" ? "/Doctor/ConfirmedAppt" : "#";
+
+            return Url;
         }
 
     }

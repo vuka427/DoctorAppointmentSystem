@@ -33,29 +33,34 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Controllers
 
 
         // GET: Doctor/Home
+
         public ActionResult Index()
         {
+
+            var currentUser = GetCurrentUser();
+
             ViewBag.menu = RenderMenu.RenderDoctorMenu("Dashboard");
             ViewBag.name = GetInfo.GetFullName(User.Identity.Name);
             ViewBag.avatar = GetInfo.GetImgPath(User.Identity.Name);
             ViewBag.daynow = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss");
-            
-
+            var CurrentDoctorId = GetCurrentDoctorID();
+            ViewBag.newBooking = _appointments.CountApptPending(CurrentDoctorId);
+            ViewBag.todayAppt = _appointments.CountApptToDay(CurrentDoctorId);
+            ViewBag.apptConfirm = _appointments.CountApptComfirmed(CurrentDoctorId);
+            ViewBag.apptCompleted = _appointments.CountApptCompleted(CurrentDoctorId);
 
             return View();
 
         }
 
 
-        
-
-        [HttpGet]
-        public JsonResult GetDoctorSchedule(DateTime start, DateTime end)
+        [HttpPost]
+        public JsonResult GetDoctorSchedule(DateTime start, DateTime end ,string status)
         {
             var currentUser = GetCurrentUser();
             int doctorId = currentUser.DOCTOR !=null? currentUser.DOCTOR.FirstOrDefault().DOCTORID : 0;
 
-            var events = _calendarIO.GetDoctorSchedule(start, end, doctorId);
+            var events = _calendarIO.GetDoctorSchedule(start, end, doctorId,status);
 
             return Json(events, JsonRequestBehavior.AllowGet);
         }
@@ -76,6 +81,15 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Controllers
                 }
             }
             return new USER();
+        }
+        [NonAction]
+        private int GetCurrentDoctorID()
+        {
+
+            var currentUser = GetCurrentUser();
+            int doctorId = currentUser.DOCTOR != null ? currentUser.DOCTOR.FirstOrDefault().DOCTORID : 0;
+
+            return doctorId;
         }
     }
 }

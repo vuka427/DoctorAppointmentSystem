@@ -1,5 +1,7 @@
-﻿using DoctorAppointmentSystem.HelperClasses;
+﻿using DoctorAppointmentSystem.Authorization;
+using DoctorAppointmentSystem.HelperClasses;
 using DoctorAppointmentSystem.Menu;
+using DoctorAppointmentSystem.Models.Account;
 using DoctorAppointmentSystem.Models.DB;
 using System;
 using System.Collections.Generic;
@@ -9,7 +11,7 @@ using System.Web.Mvc;
 
 namespace DoctorAppointmentSystem.Controllers
 {
-    
+    [AppAuthorize("Patient")]
     public class HomeController : Controller
     {
         public ActionResult Index()
@@ -45,9 +47,33 @@ namespace DoctorAppointmentSystem.Controllers
             return View();
         }
 
+        [AllowAnonymous]
         public ActionResult Intro()
         {
-            return View();
+            RegisterIO registerIO = new RegisterIO();
+            
+            if (User.Identity.IsAuthenticated)
+            {   
+                var user = registerIO.GetUserByUserName(User.Identity.Name);
+                if (user != null)
+                {
+                    if(user.USERTYPE == "Patient")
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else if (user.USERTYPE.Equals("Doctor"))
+                    {
+                        return RedirectToAction("Index", "Home", new { area = "Doctor" });
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Manage", new { area = "Admin" });
+
+                    }
+                }
+            }
+            
+                return View();
         }
     }
 }

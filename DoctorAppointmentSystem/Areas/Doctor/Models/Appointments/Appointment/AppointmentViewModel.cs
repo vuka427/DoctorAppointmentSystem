@@ -15,7 +15,8 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Models.Appointments
         public string APPOIMENTSTATUS { get; set; }//6
         public string CONSULTANTTIME { get; set; } //7
         public int PATIENID { get; set; }
-      
-       
+        public bool LATE { get; set; }
+
+
     }
 }

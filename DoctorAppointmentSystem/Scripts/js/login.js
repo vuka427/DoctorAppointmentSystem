@@ -95,6 +95,22 @@ var validData = $('#login-form').validate({
     },
 })
 
+function showPass() {
+
+    $(".paswd-on-off").each(function () {
+
+        var inp = this;
+
+        if (inp.type == "password") {
+            inp.type = "text";
+        }
+        else {
+            inp.type = "password";
+        }
+
+    });
+}
+
 $(document).ready(function () {
     submit()
     validData()

@@ -64,10 +64,51 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Controllers
             return Json(new { success = success, message=message }, JsonRequestBehavior.AllowGet);
         }
 
+
+        public ActionResult LoadAppointmentData(int id)
+        {
+            try
+            {
+                CreateMemberViewModel data = registrationIO.LoadAppointmentData(id);
+                return Json(new { success = true, data = data }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                string username = GetInfo.Username;
+                string sEventCatg = GetInfo.GetUserType(username).ToUpper() + " PORTAL";
+                string sEventMsg = "Exception: " + ex.Message;
+                string sEventSrc = nameof(LoadAppointmentData);
+                string sEventType = "S";
+                string sInsBy = username;
+
+                Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
+
+                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         public ActionResult MakeAppointment(CreateMemberViewModel member)
         {
-            bool success = true;
-            return Json(new { success = success }, JsonRequestBehavior.AllowGet);
+            bool success = false;
+            string message = "";
+
+            try
+            {
+                success = registrationIO.MakeAppointment(member, out message);
+            }
+            catch (Exception ex)
+            {
+                string username = GetInfo.Username;
+                string sEventCatg = GetInfo.GetUserType(username).ToUpper() + " PORTAL";
+                string sEventMsg = "Exception: " + ex.Message;
+                string sEventSrc = nameof(LoadAppointmentData);
+                string sEventType = "C";
+                string sInsBy = username;
+
+                Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
+            }
+
+            return Json(new { success = success, message = message }, JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -5,6 +5,14 @@
 <link href="~/Content/css/Areas/Doctor/registration.css" rel="stylesheet" />
 @Styles.Render("~/Content/sweetalert/css")
 
+<style>
+    .input-box .custom-select[disabled] {
+        color: inherit;
+        background-color: inherit;
+        border-top: inherit;
+    }
+</style>
+
 <div class="col-12 d-flex justify-content-between flex-nowrap mt-3 p-0" style="gap: 10px!important">
     <div class="col-8 search-box p-0">
         <div class="input-box">
@@ -137,20 +145,20 @@
                                 <span class="info-label">Personal Info</span>
                                 <div class="input-box">
                                     <span class="input-label">Full Name</span>
-                                    <input type="text" name="ApptFullName" id="apptFullName" value="" required autocomplete="off" />
+                                    <input type="text" name="ApptFullName" id="apptFullName" readonly required autocomplete="off" />
                                 </div>
                                 <div class="input-box">
                                     <span class="input-label">Date of Birth</span>
-                                    <input type="text" name="ApptDateOfBirth" id="apptDateOfBirth" required autocomplete="off" onfocus="this.type='date'" onblur="(this.type='text')" />
+                                    <input type="date" name="ApptDateOfBirth" id="apptDateOfBirth" required autocomplete="off" readonly />
                                 </div>
 
                                 <div class="input-box">
                                     <span class="input-label">National ID</span>
-                                    <input type="text" name="ApptNationalID" id="apptNationalID" value="" required autocomplete="off" maxlength="10" />
+                                    <input type="text" name="ApptNationalID" id="apptNationalID" readonly required autocomplete="off"/>
                                 </div>
                                 <div class="input-box">
                                     <span class="input-label">Gender</span>
-                                    @Html.DropDownList("ApptGender", ViewBag.genders as SelectList, new { @class = "custom-select", @id = "apptGender" })
+                                    @Html.DropDownList("ApptGender", ViewBag.genders as SelectList, new { @class = "custom-select", @id = "apptGender", @disabled = "disabled" })
                                 </div>
                             </div>
 
@@ -158,15 +166,15 @@
                                 <span class="info-label">Contact</span>
                                 <div class="input-box">
                                     <span class="input-label">Mobile</span>
-                                    <input type="text" name="ApptMobile" id="apptMobile" value="" required autocomplete="off" maxlength="10" />
+                                    <input type="text" name="ApptMobile" id="apptMobile" readonly required autocomplete="off" maxlength="10" />
                                 </div>
                                 <div class="input-box">
                                     <span class="input-label">Email</span>
-                                    <input type="email" name="ApptEmail" id="apptEmail" value="" required autocomplete="off" />
+                                    <input type="email" name="ApptEmail" id="apptEmail" readonly required autocomplete="off" />
                                 </div>
                                 <div class="input-box">
                                     <span class="input-label">Address</span>
-                                    <input type="text" name="ApptAddress" id="apptAddress" value="" required autocomplete="off" />
+                                    <input type="text" name="ApptAddress" id="apptAddress" readonly required autocomplete="off" />
                                 </div>
                             </div>
 
@@ -198,7 +206,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary mr-3" data-dismiss="modal" id="btnCancel">Close</button>
-                    <button type="button" class="btn btn-primary" id="btnMakeAppt">Make Appointment</button>
+                    <button data-id="" type="button" class="btn btn-primary" id="btnMakeAppt">Make Appointment</button>
                 </div>
             </div>
         </div>

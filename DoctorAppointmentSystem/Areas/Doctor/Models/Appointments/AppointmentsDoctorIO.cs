@@ -37,6 +37,49 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Models.Appointments
             return _dbContext.APPOINTMENT.Where(a => a.DELETEDFLAG == false && a.DOCTORID == doctorId && a.APPOIMENTSTATUS == "Completed").Include("PATIENT").Include("SCHEDULE").ToList();
         }
 
+        public CompletedApptViewDetailsModel getAppointmentInfo(int appointmentID, string username)
+        {
+            CompletedApptViewDetailsModel avm = new CompletedApptViewDetailsModel();
+            try
+            {
+                var apm = _dbContext.APPOINTMENT.Where(a => a.APPOINTMENTID == appointmentID)
+                                                .Include("PATIENT")
+                                                .Include("SCHEDULE")
+                                                .Include("SCHEDULE.DOCTOR")
+                                                .FirstOrDefault();
+
+                avm = _mapper.GetMapper().Map<APPOINTMENT, CompletedApptViewDetailsModel>(apm);
+            }
+            catch
+            {
+                string sEventCatg = "DOCTOR PORTAL";
+                string sEventMsg = "Exception: Failed to load detail appointment";
+                string sEventSrc = nameof(getAppointmentInfo);
+                string sEventType = "L";
+                string sInsBy = username;
+
+                Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
+            }
+            return avm;
+
+        }
+
+        public int CountApptPending(int doctorId)
+        {
+            return _dbContext.APPOINTMENT.Where(a=>a.DELETEDFLAG == false && a.DOCTORID == doctorId && a.APPOIMENTSTATUS == "Pending").Count();
+        }
+        public int CountApptToDay(int doctorId)
+        {
+            var startDate = DateTime.Now;
+            startDate = startDate.Date.AddHours(1).AddMinutes(0).AddSeconds(0);
+           var endDate = startDate.AddDays(1);
+
+            return _dbContext.APPOINTMENT.Where(a => a.DELETEDFLAG == false && 
+                                                    a.APPOIMENTSTATUS == "Confirm" &&
+                                                    a.DOCTORID == doctorId &&
+                                                    a.DATEOFCONSULTATION >=  startDate && a.DATEOFCONSULTATION < endDate).Count();
+        }
+
         public bool ConfirmAppointment(int id)
         {
             bool success = false;
@@ -80,7 +123,7 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Models.Appointments
             try
             {
                 APPOINTMENT appointment = _dbContext.APPOINTMENT.Find(id);
-                if(appointment == null)
+                if (appointment == null)
                 {
                     throw new Exception();
                 }
@@ -96,7 +139,7 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Models.Appointments
                 }
                 return success;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 string username = GetInfo.Username;
                 string sEventCatg = GetInfo.GetUserType(username).ToUpper() + "PORTAL";
@@ -111,47 +154,13 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Models.Appointments
             }
         }
 
-        public CompletedApptViewDetailsModel getAppointmentInfo(int appointmentID, string username)
+        public int CountApptComfirmed(int doctorId)
         {
-            CompletedApptViewDetailsModel avm = new CompletedApptViewDetailsModel();
-            try
-            {
-                var apm = _dbContext.APPOINTMENT.Where(a => a.APPOINTMENTID == appointmentID)
-                                                .Include("PATIENT")
-                                                .Include("SCHEDULE")
-                                                .Include("SCHEDULE.DOCTOR")
-                                                .FirstOrDefault();
-
-                avm = _mapper.GetMapper().Map<APPOINTMENT, CompletedApptViewDetailsModel>(apm);
-            }
-            catch
-            {
-                string sEventCatg = "DOCTOR PORTAL";
-                string sEventMsg = "Exception: Failed to load detail appointment";
-                string sEventSrc = nameof(getAppointmentInfo);
-                string sEventType = "S";
-                string sInsBy = username;
-
-                Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
-            }
-            return avm;
-
+            return _dbContext.APPOINTMENT.Where(a => a.DELETEDFLAG == false && a.DOCTORID == doctorId && a.APPOIMENTSTATUS == "Confirm").Count();
         }
-
-        public int CountApptPending()
+        public int CountApptCompleted(int doctorId)
         {
-            return _dbContext.APPOINTMENT.Where(a=>a.DELETEDFLAG == false && a.APPOIMENTSTATUS == "Pending").Count();
+            return _dbContext.APPOINTMENT.Where(a => a.DELETEDFLAG == false && a.DOCTORID == doctorId && a.APPOIMENTSTATUS == "Completed").Count();
         }
-        public int CountApptToDay()
-        {
-            var date = DateTime.Now;
-            date = date.Date.AddHours(1).AddMinutes(0).AddSeconds(0);
-
-            return _dbContext.APPOINTMENT.Where(a => a.DELETEDFLAG == false && 
-                                                    a.APPOIMENTSTATUS == "Confirm" && 
-           
-                                                    a.DATEOFCONSULTATION.ToShortDateString() ==  date.ToShortDateString()).Count();
-        }
-
     }
 }

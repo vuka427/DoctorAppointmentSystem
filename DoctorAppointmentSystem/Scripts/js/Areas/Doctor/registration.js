@@ -212,13 +212,42 @@ $('#btnCreate').on('click', function () {
         });
     }
 })
-
-$('.btnAppointment').on('click', function () {
+var patientID = 0;
+$(document).on('click', '.btnAppointment', function () {
     var btnAppt = $(this);
-    var patientID = btnAppt.data('id');
+    patientID = btnAppt.data('id');
 
     $.ajax({
-        
+        url: '/Doctor/Registration/LoadAppointmentData',
+        method: 'GET',
+        data: {
+            id: patientID
+        },
+        dataType: 'JSON',
+        success: function (res) {
+            if (res.success) {
+                var data = res.data;
+                $('#apptFullName').val(data.name);
+                $('#apptDateOfBirth').val(data.dateOfBirth);
+                $('#apptGender').val(data.gender);
+                $('#apptNationalID').val(data.nationalID);
+                $('#apptMobile').val(data.mobile);
+                $('#apptEmail').val(data.email);
+                $('#apptAddress').val(data.address);
+            } else {
+                Swal.fire({
+                    position: 'top',
+                    title: 'Failed!',
+                    icon: 'warning',
+                    text: 'Patient data not found.',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+            }
+        },
+        error: function (err) {
+            console.log(err.responseText);
+        }
     })
 })
 
@@ -233,6 +262,7 @@ $('#btnMakeAppt').on('click', function () {
 
     if (isValid) {
         var member = {
+            id: patientID,
             name: $('#apptFullName').val(),
             dateOfBirth: $('#apptDateOfBirth').val(),
             nationalID: $('#apptNationalID').val(),
@@ -249,9 +279,12 @@ $('#btnMakeAppt').on('click', function () {
         console.log(member);
 
         $.ajax({
-            url: '',
+            url: '/Doctor/Registration/MakeAppointment',
             method: 'POST',
-            data: member,
+            data: {
+                id: $('#btnMakeAppt').data('id'),
+                member: member,
+            },
             dataType: 'JSON',
             success: function (res) {
                 if (res.success) {
@@ -263,15 +296,15 @@ $('#btnMakeAppt').on('click', function () {
                         showConfirmButton: false,
                         timer: 2000
                     }).then(function () {
-                        $('#addMemberForm').trigger('reset');
-                        $('#addMemberModal').modal('hide');
+                        $('#makeAppointmentForm').trigger('reset');
+                        $('#makeAppointmentModal').modal('hide');
                     })
                 } else {
                     Swal.fire({
                         position: 'top',
                         title: 'Failed!',
                         icon: 'warning',
-                        text: 'Failed to add a new members.',
+                        text: res.message,
                         showConfirmButton: false,
                         timer: 2000
                     });
@@ -291,4 +324,4 @@ $('#btnMakeAppt').on('click', function () {
             timer: 2000
         });
     }
-})
+});

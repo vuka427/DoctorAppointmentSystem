@@ -1,4 +1,12 @@
 ﻿
+$("document").ready(function () {
+
+    // Initialize popover component
+    setEventHover();
+
+});
+
+
 var table = $('#historyTbl').DataTable({
     language: {
         emptyTable: "You haven't booked any appointments yet."
@@ -65,8 +73,8 @@ var table = $('#historyTbl').DataTable({
                 return type === 'display' ?
                     '<div class="d-flex justify-content-round">'
                     + '<a data-appointmentid="' + data + '" class="btn btn-outline-info btn-sm btn-action btn-viewAppt" role="button" data-toggle="modal" data-target="#makeAppointmentModal">'
-                    + '<i class="fa-solid fa-eye"></i></a>'
-                    + '<a data-appointmentid="' + data + '" class="btn btn-outline-danger btn-sm btn-action btn-cancelAppt" role="button">'
+                    + '<i class="fa-solid fa-eye"  data-toggle="popover" data-trigger="hover" data-placement="top"  data-content="View Appointment"></i></a>'
+                    + '<a data-appointmentid="' + data + '" class="btn btn-outline-danger btn-sm btn-action btn-cancelAppt" role="button"  data-toggle="popover" data-trigger="hover" data-placement="top"  data-content="Cancel Appointment">'
                     + '<i class="fa-solid fa-circle-xmark"></i></a>'
                     + '</div>'
                     : data;
@@ -74,6 +82,24 @@ var table = $('#historyTbl').DataTable({
         }
     ]
 });
+
+function setEventHover() {
+  
+
+    table.on('draw', function () {
+        $('[data-toggle="popover"]').popover({
+            html: true,
+            placement: 'top',
+            container: "body",
+            delay: { "show": 300, "hide": 200 },
+            trigger: 'hover',
+            template: '<div class="popover fc-med-popover " role="tooltip"><div class="arrow"></div> <h3  class="popover-header"></h3><div class="popover-body"></div></div>'
+
+        })
+
+    });
+
+} 
 
 function loadData() {
     $.ajax({

@@ -522,8 +522,8 @@ function initJqueryDatatable() {
                 "orderable": false,
                 "render": function (data, type, row) {
                     console.log(data, type, row);
-                    return "<btn class=\"btn-update-doctor btn btn-sm btn-outline-primary btn-action\" data-id=\"" + row.DOCTORID + "\" data-doctorname=\"" + row.DOCTORNAME + "\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Edit user\"> <i class=\"fa-solid fa-user-pen\"></i></btn>"
-                        + "<btn class=\"btn-delete-doctor btn btn-sm btn-outline-danger btn-action ml-2\" data-id=\"" + row.DOCTORID + "\" data-doctorname=\"" + row.DOCTORNAME + "\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Delete user\" ><i class=\"fa-solid fa-trash\"></i></btn> "
+                    return "<btn class=\"btn-update-doctor btn btn-sm btn-outline-primary btn-action\" data-id=\"" + row.DOCTORID + "\" data-doctorname=\"" + row.DOCTORNAME + "\" data-toggle=\"popover\" data-trigger=\"hover\" data-placement=\"top\"  data-content=\"Edit user\"> <i class=\"fa-solid fa-user-pen\"></i></btn>"
+                        + "<btn class=\"btn-delete-doctor btn btn-sm btn-outline-danger btn-action ml-2\" data-id=\"" + row.DOCTORID + "\" data-doctorname=\"" + row.DOCTORNAME + "\" data-toggle=\"popover\" data-trigger=\"hover\" data-placement=\"top\"  data-content=\"Delete user\" ><i class=\"fa-solid fa-trash\"></i></btn> "
                         
                 }
 
@@ -921,6 +921,23 @@ function isNumberKey(evt) { // accept number
     return true;
 }      
 
+function setEventHover() {
+    var table = $('#DoctorTable').DataTable();
+
+    table.on('draw', function () {
+        $('[data-toggle="popover"]').popover({
+            html: true,
+            placement: 'top',
+            container: "body",
+            delay: { "show": 300, "hide": 200 },
+            trigger: 'hover',
+            template: '<div class="popover fc-med-popover " role="tooltip"><div class="arrow"></div> <h3  class="popover-header"></h3><div class="popover-body"></div></div>'
+
+        })
+
+    });
+
+}
 
 $("document").ready(function () {
     setButtonOnOffForm();
@@ -930,6 +947,7 @@ $("document").ready(function () {
     setEventUpdateDoctorFoBtn();
     setEventDeleteDoctorFoBtn();
     validateFormDoctor();
+    setEventHover();
 
     $("#department").select2();
     

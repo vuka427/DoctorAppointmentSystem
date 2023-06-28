@@ -4,6 +4,7 @@
 
 $(document).ready(function () {
     loadSchedule();
+    setEventHover();
 });
 
 /*Using AJAX to display data of DEPARTMENT TABLE*/
@@ -66,7 +67,8 @@ var table = $("#scheduleTbl").DataTable({
             "autoWidth": true,
             "searchable": true,
             "render": function (data, type, row) {
-                return type === 'display' ? '<a data-doctorid="' + row.doctorID + '" data-scheduleid="' + data + '" class="btn btn-outline-info btn-sm ml-1 btn-viewDoctor" role="button" data-toggle="modal" data-target="#makeAppointmentModal"><i class="fa-solid fa-eye"></i></div>' : data;
+                return type === 'display' ? '<a data-doctorid="' + row.doctorID + '" data-scheduleid="' + data + '" class="btn btn-outline-info btn-sm ml-1 btn-viewDoctor" role="button" data-toggle="modal" data-target="#makeAppointmentModal" '
+                    + '><i class="fa-solid fa-eye"  data-toggle="popover" data-trigger="hover" data-placement="top"  data-content="View Doctor"></i></div>' : data;
             }
         }
     ]
@@ -123,3 +125,21 @@ function loadAppointment(selectedDoctorID, selectedScheduleID) {
         }
     })
 }
+
+function setEventHover() {
+    
+
+    table.on('draw', function () {
+        $('[data-toggle="popover"]').popover({
+            html: true,
+            placement: 'top',
+            container: "body",
+            delay: { "show": 300, "hide": 200 },
+            trigger: 'hover',
+            template: '<div class="popover fc-med-popover " role="tooltip"><div class="arrow"></div> <h3  class="popover-header"></h3><div class="popover-body"></div></div>'
+
+        })
+
+    });
+
+} 

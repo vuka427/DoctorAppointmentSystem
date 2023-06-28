@@ -227,8 +227,8 @@ function initJqueryDatatable() {
                 "orderable": false,
                 "render": function (data, type, row) {
                     console.log(data, type, row);
-                    return "<btn class=\"btn-view-appointment btn btn-sm btn-outline-primary btn-action\" data-appointmentid=\"" + row.APPOINTMENTID + "\"  data-toggle=\"tooltip\" data-placement=\"top\" title=\"View Appointment\"   > <i class=\"fa-solid fa-eye\"></i> </btn>"
-                        + "<btn class=\"btn-delete-appointment btn btn-sm btn-outline-danger btn-action  ml-2\" data-id=\"" + row.APPOINTMENTID + "\" data-patientname=\"" + row.PATIENTNAME + "\"   data-toggle=\"tooltip\" data-placement=\"top\" title=\"Delete Appointment\"> <i class=\"fa-solid fa-trash\"></i> </btn> "
+                    return "<btn class=\"btn-view-appointment btn btn-sm btn-outline-primary btn-action\" data-appointmentid=\"" + row.APPOINTMENTID + "\" data-toggle=\"popover\" data-trigger=\"hover\" data-placement=\"top\"  data-content=\"View Appointment\"    > <i class=\"fa-solid fa-eye\"></i> </btn>"
+                        + "<btn class=\"btn-delete-appointment btn btn-sm btn-outline-danger btn-action  ml-2\" data-id=\"" + row.APPOINTMENTID + "\" data-patientname=\"" + row.PATIENTNAME + "\"   data-toggle=\"popover\" data-trigger=\"hover\" data-placement=\"top\"  data-content=\"Delete Appointment\" > <i class=\"fa-solid fa-trash\"></i> </btn> "
 
                 }
 
@@ -240,6 +240,24 @@ function initJqueryDatatable() {
     $(window).trigger('resize');
 
 }
+
+function setEventHover() {
+    var table = $('#appointment-table').DataTable();
+
+    table.on('draw', function () {
+        $('[data-toggle="popover"]').popover({
+            html: true,
+            placement: 'top',
+            container: "body",
+            delay: { "show": 300, "hide": 200 },
+            trigger: 'hover',
+            template: '<div class="popover fc-med-popover" role="tooltip"><div class="arrow"></div> <h3  class="popover-header"></h3><div class="popover-body"></div></div>'
+
+        })
+
+    });
+
+} 
 
 function setEventViewAppointment() {
     var table = $('#appointment-table').DataTable();
@@ -296,6 +314,6 @@ $("document").ready(function () {
     initJqueryDatatable();
     setEventDeleteAppointment();
     setEventViewAppointment();
-    
+    setEventHover();
 
 });

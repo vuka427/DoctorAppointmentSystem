@@ -41,21 +41,16 @@ function initJqueryDatatable() {
             },
             {
                 "data": "DATEOFCONSULTANT",
-                "title": 'Date Of Consultant',
+                "title": 'Consultation Date',
                 "searchable": true
 
             },
             {
-                "data": "DATEOFCONSULTANTTIME",
-                "title": 'Time',
+                "data": "APPOINTMENTDATE",
+                "title": 'Appointment Date',
                 "searchable": true
             },
-
-            {
-                "data": "DATEOFCONSULTANTDAY",
-                "title": 'Day',
-                "searchable": true
-            },
+            
             {
                 "data": "CONSULTANTTIME",
                 "title": 'Consultant Time',
@@ -159,5 +154,12 @@ $("document").ready(function () {
  
     initJqueryDatatable();
     setEventViewAppointment();
+    
+    
 
 });
+$(document).on('click', '#btnGoToDashboard', function () {
+    var previousPage = document.referrer;
+    console.log(previousPage);
+    $('#btnGoToDashboard').attr('href', previousPage);
+})
