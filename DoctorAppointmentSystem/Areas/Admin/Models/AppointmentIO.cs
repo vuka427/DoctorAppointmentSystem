@@ -1,6 +1,7 @@
 ﻿using DoctorAppointmentSystem.Areas.Admin.Models.AppointmentManage;
 using DoctorAppointmentSystem.Areas.Admin.Models.Validation;
 using DoctorAppointmentSystem.HelperClasses;
+using DoctorAppointmentSystem.Models.Appointment;
 using DoctorAppointmentSystem.Models.Appointment.MakeAppointment;
 using DoctorAppointmentSystem.Models.DB;
 using DoctorAppointmentSystem.Services.ServiceInterface;
@@ -37,7 +38,26 @@ namespace DoctorAppointmentSystem.Areas.Admin.Models
 
         public ValidationResult DeleteAppointment(int ApmId ,string username)
         {
-            var appointment = _dbContext.APPOINTMENT.Where(a=>a.DELETEDFLAG == false && a.APPOINTMENTID == ApmId).Include("APPOINTMENT_NOTE").Include("APPOINTMENT_NOTE.PRESCRIPTION").FirstOrDefault();
+
+            APPOINTMENT appointment;
+            appointment = _dbContext.APPOINTMENT.Where(a => a.DELETEDFLAG == false && a.APPOINTMENTID == ApmId).Include("APPOINTMENT_PRESCRIPTION").Include("APPOINTMENT_PRESCRIPTION.PRESCRIPTION").FirstOrDefault();
+            try
+            {
+                 appointment = _dbContext.APPOINTMENT.Where(a => a.DELETEDFLAG == false && a.APPOINTMENTID == ApmId).Include("APPOINTMENT_PRESCRIPTION").Include("APPOINTMENT_PRESCRIPTION.PRESCRIPTION").FirstOrDefault();
+            }
+            catch
+            {
+                string sEventCatg = "ADMIN PORTAL";
+                string sEventMsg = "Exception: Failed to delete appointment";
+                string sEventSrc = nameof(DeleteAppointment);
+                string sEventType = "D";
+                string sInsBy = username;
+
+                Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
+
+                return new ValidationResult { Success = false, ErrorMessage = "Failed to delete appointment" };
+            }
+           
            if( appointment == null)
             {
                 return new ValidationResult { Success = false, ErrorMessage = "Can't find appointment" };

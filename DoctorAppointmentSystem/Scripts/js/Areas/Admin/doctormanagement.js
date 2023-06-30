@@ -18,6 +18,13 @@ function setButtonOnOffForm() {
             inp.type = "password";
 
         });
+
+        $('#form-create-doctor').find('input').removeClass('border-2 border-danger');
+        $('#form-create-doctor').find('textarea').removeClass('border-2 border-danger');
+        $('#form-create-doctor').find('select').removeClass('border-2 border-danger');
+        $('#form-create-doctor').find('span').removeClass('border-2 border-danger');
+        $('#form-create-doctor').find('label').remove();
+
     });
     // close from update
     $("#btn-close-form-update").on("click", function () {
@@ -25,6 +32,12 @@ function setButtonOnOffForm() {
         $("#table-list-doctor").show();
         $("#form-update-doctor").hide();
         $("#resetpassword-doctor").hide();
+
+        $('#form-edit-doctor').find('input').removeClass('border-2 border-danger');
+        $('#form-edit-doctor').find('textarea').removeClass('border-2 border-danger');
+        $('#form-edit-doctor').find('select').removeClass('border-2 border-danger');
+        $('#form-edit-doctor').find('span').removeClass('border-2 border-danger');
+        $('#form-edit-doctor').find('label').remove();
     });
     // close from reset password
     $("#btn-close-form-reset-password").on("click", function () {
@@ -116,6 +129,7 @@ function setSubmitFormByAjax() {
                         timer: 2000
                     });
                     $("#form-create-doctor").trigger('reset');
+                    $("#department").trigger('change');
                     $('#password').get(0).type = 'password';
                     
                     
@@ -432,13 +446,13 @@ function initJqueryDatatable() {
            
             {
                 "data": "DOCTORDATEOFBIRTH",
-                "title": "Brith of Date",
+                "title": "Date of birth",
 
                 "searchable": true
             },
             {
                 "data": "DOCTORNATIONALID",
-                "title": "Nation ID",
+                "title": "National ID",
 
                 "searchable": true
             },
@@ -462,7 +476,7 @@ function initJqueryDatatable() {
             },
             {
                 "data": "SPECIALITY",
-                "title": "Speciality",
+                "title": "Specialty",
 
                 "searchable": true
             },
@@ -561,14 +575,15 @@ function validateFormDoctor() {
         return value.trim().match(regex);
     });
     jQuery.validator.addMethod('valid_username', function (value) {
-        var regex = /^[a-z0-9-]*$/;
+        var regex = /^[a-zA-Z0-9-]*$/;
         return value.trim().match(regex);
     });
   
     jQuery.validator.addMethod('valid_password', function (value) {
-        var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,50}$/;
+        var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,30}$/;
         return value.trim().match(regex);
     });
+  
     jQuery.validator.addMethod('valid_email', function (value) {
         var regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})?$/;
         return value.trim().match(regex);
@@ -679,13 +694,14 @@ function validateFormDoctor() {
                 maxlength: "Maximum 30 characters",
                 minlength: "Minimum 8 characters",
                 valid_password: "Password charater at least one uppercase letter, one lowercase letter, one number and one special character"
+                
             },
             "nationalid": {
                 required: "National ID is required",
                 maxlength: "National ID charater max lenght is 20!"
             },
             "brithofdate": {
-                required: "Birth of date is required",
+                required: "Date of birth is required",
                 
             },
             "mobile": {
@@ -699,8 +715,8 @@ function validateFormDoctor() {
             }
             ,
             "specialy": {
-                required: "Specialy is required",
-                maxlength: "Specialy charater max lenght is 256 !"
+                required: "Specialty is required",
+                maxlength: "Specialty charater max lenght is 256 !"
             }
             ,
             "email": {
@@ -835,7 +851,7 @@ function validateFormDoctor() {
                 maxlength: "National ID charater max lenght is 20!"
             },
             "ubrithofdate": {
-                required: "Birth of date is required",
+                required: "Date of birth is required",
 
             },
             "umobile": {
@@ -849,8 +865,8 @@ function validateFormDoctor() {
             }
             ,
             "uspecialy": {
-                required: "Specialy is required",
-                maxlength: "Specialy charater max lenght is 256 !"
+                required: "Specialty is required",
+                maxlength: "Specialty charater max lenght is 256 !"
             }
             ,
             "uemail": {
@@ -919,25 +935,14 @@ function isNumberKey(evt) { // accept number
         && (charCode < 48 || charCode > 57))
         return false;
     return true;
-}      
-
-function setEventHover() {
-    var table = $('#DoctorTable').DataTable();
-
-    table.on('draw', function () {
-        $('[data-toggle="popover"]').popover({
-            html: true,
-            placement: 'top',
-            container: "body",
-            delay: { "show": 300, "hide": 200 },
-            trigger: 'hover',
-            template: '<div class="popover fc-med-popover " role="tooltip"><div class="arrow"></div> <h3  class="popover-header"></h3><div class="popover-body"></div></div>'
-
-        })
-
-    });
-
+}    
+function isSpaceKey(evt) { //  
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode == 32 )
+        return false;
+    return true;
 }
+
 
 $("document").ready(function () {
     setButtonOnOffForm();
@@ -947,7 +952,7 @@ $("document").ready(function () {
     setEventUpdateDoctorFoBtn();
     setEventDeleteDoctorFoBtn();
     validateFormDoctor();
-    setEventHover();
+    
 
     $("#department").select2();
     

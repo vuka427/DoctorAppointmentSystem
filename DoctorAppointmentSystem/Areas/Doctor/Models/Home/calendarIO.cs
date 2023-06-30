@@ -74,7 +74,7 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Models.Home
         {
             string Url = status == "Pending" ? "/Doctor/Appointments" :
                             status == "Completed" ? "/Doctor/CompletedAppt" :
-                            status == "Confirm" ? "/Doctor/ConfirmedAppt" : "#";
+                            status == "Confirm" ? "/Doctor/ConfirmedAppt" : "/Doctor/CancelledAppt";
 
             return Url;
         }

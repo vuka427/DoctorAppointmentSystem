@@ -31,17 +31,17 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text custom-symbol"><i class="fa fa-user"></i></span>
                             </div>
-                            <input type="text" class="form-control" id="username" name="username" placeholder="User name (*)" maxlength="256">
+                            <input type="text" class="form-control" id="username" name="username" placeholder="Username (*)" maxlength="256">
                         </div><!-- Username -->
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text custom-symbol"><i class="fa fa-lock"></i></span>
                             </div>
-                            <input type="password" class="form-control paswd-on-off" id="password" name="password" placeholder="Password (*)" maxlength="30">
+                            <input type="password" class="form-control paswd-on-off" id="password" name="password" placeholder="Password (*)" maxlength="30" onkeypress="return isSpaceKey(event)">
                         </div><!-- Password -->
                         <div class="form-check form-group  input-group">
                             <input type="checkbox" class="form-check-input" id="check-show-password" onclick="showPass()">
-                            <label class="form-check-label mt-0 pt-0 h6 text-secondary" for="check-show-password">Show password</label>
+                            <span class="form-check-label mt-0 pt-0 h6 text-secondary" for="check-show-password">Show password</span>
                         </div><!-- Check Box Show Password  -->
                         <p class="divider-text">
                             <span class="bg-light">Patient information</span>

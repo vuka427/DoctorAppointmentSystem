@@ -12,8 +12,8 @@ namespace DoctorAppointmentSystem.Areas.Admin.Models.Validation
     {
         private const string patternName = @"^[\p{L}\p{N}\s]*$"; 
         private const string patternMobile = @"(84|0[3|5|7|8|9])+([0-9]{8})\b";
-        private const string patternUsername = @"^[a-z0-9-]*$";
-        private const string patternPassword = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,50}$";
+        private const string patternUsername = @"^[a-zA-Z0-9-]*$";
+        private const string patternPassword = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,30}$";
 
         /// <summary>
         /// validation full name

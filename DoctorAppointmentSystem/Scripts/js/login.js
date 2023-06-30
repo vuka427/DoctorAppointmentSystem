@@ -112,6 +112,7 @@ function showPass() {
 }
 
 $(document).ready(function () {
+    $('#username').focus();
     submit()
     validData()
 })

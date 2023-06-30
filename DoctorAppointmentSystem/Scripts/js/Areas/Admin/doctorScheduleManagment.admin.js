@@ -10,6 +10,12 @@ function setButtonOnOffForm() {
         $("#update-doctor-schedule-page").hide();
         $("#list-doctor-schedule-page").show();
 
+        $('#form-doctor-schedule').find('input').removeClass('border-2 border-danger');
+        $('#form-doctor-schedule').find('textarea').removeClass('border-2 border-danger');
+        $('#form-doctor-schedule').find('select').removeClass('border-2 border-danger');
+        $('#form-doctor-schedule').find('span').removeClass('border-2 border-danger');
+        $('#form-doctor-schedule').find('label').remove();
+
     });
     // close from update
     $("#btn-close-form-update").on("click", function () {
@@ -420,23 +426,6 @@ function initJqueryDatatable() {
 
 }
 
-function setEventHover() {
-    var table = $('#doctor-schedule-table').DataTable();
-
-    table.on('draw', function () {
-        $('[data-toggle="popover"]').popover({
-            html: true,
-            placement: 'top',
-            container: "body",
-            delay: { "show": 300, "hide": 200 },
-            trigger: 'hover',
-            template: '<div class="popover fc-med-popover" role="tooltip"><div class="arrow"></div> <h3  class="popover-header"></h3><div class="popover-body"></div></div>'
-
-        })
-
-    });
-
-} 
 
 
 //Validate form
@@ -618,7 +607,7 @@ function validateForm() {
         setSubmitFormUdateByAjax();
         setEventDeleteScheduleBtn();
         validateForm();
-        setEventHover();
+        
 
         $("#doctor").select2();
         $("#doctor").on('select2:close', function (e) {

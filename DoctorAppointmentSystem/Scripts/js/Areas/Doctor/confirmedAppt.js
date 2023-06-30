@@ -2,6 +2,7 @@
     language: {
         emptyTable: "You haven't booked any appointments yet."
     },
+    responsive: true,
     order: [[1, 'asc']],
     responsive: true,
     columns: [
@@ -66,6 +67,7 @@
             data: 'appointmentStatus',
             title: 'Status',
             className: 'text-center',
+            responsivePriority: 1,
             autoWidth: true,
             searchable: true,
             render: function (data, type, row) {

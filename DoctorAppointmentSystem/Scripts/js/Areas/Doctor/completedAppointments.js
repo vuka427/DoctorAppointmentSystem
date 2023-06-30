@@ -60,12 +60,14 @@ function initJqueryDatatable() {
             {
                 "data": "CLOSEDBY",
                 "title": 'Closed By',
+                "orderable": false,
                 "searchable": true
             }
             ,
             {
                 "data": "CLOSEDDATE",
                 "title": 'Closed Date',
+                "orderable": false,
                 "searchable": true
             },
             {

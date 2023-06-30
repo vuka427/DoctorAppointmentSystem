@@ -67,6 +67,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Models
             {
                 return new ValidationResult { Success = false, ErrorMessage = "Schedule date is repuired" };
             }
+            schedule.WORKINGDAY = schedule.WORKINGDAY.AddHours(schedule.SHIFTTIME.Hours).AddMinutes(schedule.SHIFTTIME.Minutes);
             if (schedule.WORKINGDAY < datenow)
             {
                 return new ValidationResult { Success = false, ErrorMessage = "Schedule date greater than current date" };

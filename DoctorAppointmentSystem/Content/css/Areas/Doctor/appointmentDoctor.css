@@ -57,3 +57,7 @@ body {
     background-color:#997473;
     color:white;
 }
+.content-wrapper {
+    font-size: 16px;
+    line-height: 1.5em;
+}
