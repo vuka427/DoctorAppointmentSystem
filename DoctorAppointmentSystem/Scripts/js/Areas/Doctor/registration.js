@@ -3,6 +3,7 @@
     ordering: false,
     searching: false,
     info: false,
+    responsive: true,
     columns: [
         {
             className: 'dt-control',
@@ -59,7 +60,7 @@
             }
         }
     ]
-}); 
+});
 
 function search() {
     var nationalID = $('#searchNationalID').val();
@@ -150,7 +151,7 @@ $('#btnCreate').on('click', function () {
             isValid = false;
         }
     });
-    
+
     if (isValid) {
         var member = {
             username: $('#username').val(),
@@ -252,6 +253,7 @@ $(document).on('click', '.btnAppointment', function () {
 })
 
 $('#btnMakeAppt').on('click', function () {
+    
     var isValid = true;
 
     $('#makeAppointmentForm .info-wrapper .input-box input, #makeAppointmentForm .info-wrapper .input-box select').each(function () {
@@ -325,3 +327,123 @@ $('#btnMakeAppt').on('click', function () {
         });
     }
 });
+
+$('#btnAddMember').on('click', function () {
+    document.getElementById('addMemberForm').reset();
+    $('#addMemberForm').find('input').removeClass('border-2 border-danger');
+    $('#addMemberForm').find('label').remove();
+    validateInput();
+});
+
+function validateInput() {
+    jQuery.validator.addMethod('passwordFormat', function (value) {
+        var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,50}$/;
+        return value.trim().match(regex);
+    });
+    jQuery.validator.addMethod('phoneNumberFormat', function (value) {
+        var regex = /^(84|0[3|5|7|8|9])+([0-9]{8})\b$/;
+        return value.trim().match(regex);
+    });
+
+    jQuery.validator.addMethod('emailFormat', function (value) {
+        var regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})?$/;
+        return value.trim().match(regex);
+    });
+
+    $('#addMemberForm').validate({
+        onfocusout: function (element) {
+            $(element).valid()
+        },
+        rules: {
+            "Username": {
+                required: true
+            },
+            "Password": {
+                required: true,
+                passwordFormat: true,
+                minlength: 8
+            },
+            "FullName": {
+                required: true
+            },
+            "Email": {
+                required: true,
+                emailFormat: true
+            },
+            "NationalID": {
+                required: true
+            },
+            "DateOfBirth": {
+                required: true
+            },
+            "Gender": {
+                required: true
+            },
+            "PhoneNumber": {
+                required: true,
+                phoneNumberFormat: true
+            },
+            "Address": {
+                required: true
+            }
+        },
+        messages: {
+            "Username": {
+                required: "Username is required."
+            },
+            "Password": {
+                required: "Password is required.",
+                passwordFormat: "Password charater at least one uppercase letter, one lowercase letter, one number and one special character",
+                minlength: "Password must be between 8 and 50 characters."
+            },
+            "FullName": {
+                required: "Full name is required."
+            },
+            "Email": {
+                required: "Email is required.",
+                emailFormat: "Please enter the correct email format."
+            },
+            "NationalID": {
+                required: "National ID is required."
+            },
+            "DateOfBirth": {
+                required: "Date of birth is required."
+            },
+            "Gender": {
+                required: "Please select gender."
+            },
+            "Mobile": {
+                required: "Phone number is required.",
+                phoneNumberFormat: "Please enter the correct Vietnamese phone number format."
+            },
+            "Address": {
+                required: "Address is required."
+            }
+        },
+        highlight: function (element) {
+            var elem = $(element);
+            if (elem.hasClass("select2-hidden-accessible")) {
+                element = $(".select2-selection");
+
+                element.addClass('border-2 border-danger')
+            } else {
+                elem.addClass('border-2 border-danger ')
+            }
+
+        },
+        unhighlight: function (element) {
+            var elem = $(element);
+            if (elem.hasClass("select2-hidden-accessible")) {
+                element = $(".select2-selection");
+
+                element.removeClass('border-2 border-danger')
+            } else {
+                elem.removeClass('border-2 border-danger')
+            }
+        },
+    });
+}
+
+$(document).ready(function () {
+    $('#apptGender').css('pointer-events', 'none');
+})

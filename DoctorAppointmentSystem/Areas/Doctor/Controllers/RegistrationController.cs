@@ -5,6 +5,7 @@ using DoctorAppointmentSystem.Menu;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -46,7 +47,7 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Controllers
             {
                 string username = GetInfo.Username;
                 string sEventCatg = GetInfo.GetUserType(username).ToUpper() + "PORTAL";
-                string sEventMsg = ex.Message;
+                string sEventMsg = "Exception: " +  ex.Message;
                 string sEventSrc = nameof(SearchMembers);
                 string sEventType = "S";
                 string sInsBy = username;
@@ -59,9 +60,34 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Controllers
         [HttpPost]
         public ActionResult CreateNewMember(CreateMemberViewModel member)
         {
-            string message;
-            bool success = registrationIO.CreateNewMember(member, out message);
-            return Json(new { success = success, message=message }, JsonRequestBehavior.AllowGet);
+            string message = "";
+            bool success = false;
+            try
+            {
+                success = registrationIO.CreateNewMember(member, out message);
+                if (success)
+                {
+                    // Send activation mail asynchronously
+                    string activationToken = EmailSender.GenerateActivationToken(member.username);
+                    string activationLink = EmailSender.GenerateActivationLink(activationToken);
+
+                    EmailSender emailSender = new EmailSender();
+                    _ = Task.Run(() => emailSender.SendActivationEmailAsync(member.email, member.name, activationLink));
+                }
+            }
+            catch (Exception ex)
+            {
+                string username = GetInfo.Username;
+                string sEventCatg = GetInfo.GetUserType(username).ToUpper() + "PORTAL";
+                string sEventMsg = "Exception: " + ex.Message;
+                string sEventSrc = nameof(SearchMembers);
+                string sEventType = "C";
+                string sInsBy = username;
+
+                Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
+            }
+            
+            return Json(new { success = success, message= message }, JsonRequestBehavior.AllowGet);
         }
 
 

@@ -146,8 +146,7 @@ namespace DoctorAppointmentSystem.Models.Appointment
 
                     List<APPOINTMENT> appointmentList = dbContext.APPOINTMENT
                         .Where(a => a.PATIENTID.Equals(patientID) && a.APPOIMENTSTATUS.ToLower().Equals("confirm"))
-                        .OrderBy(a => a.APPOINTMENTDATE)
-                        .ThenByDescending(a => a.APPOINTMENTDATE)
+                        .OrderByDescending(a => a.APPOINTMENTDATE)
                         .Take(3)
                         .ToList();
 
@@ -268,6 +267,10 @@ namespace DoctorAppointmentSystem.Models.Appointment
                     if (appt == null)
                     {
                         throw new Exception("APPOINTMENT not found.");
+                    }
+                    else if (appt.APPOIMENTSTATUS.ToLower().Contains("completed"))
+                    {
+                        throw new Exception("Impossible to cancel a completed appointment.");
                     }
                     else
                     {

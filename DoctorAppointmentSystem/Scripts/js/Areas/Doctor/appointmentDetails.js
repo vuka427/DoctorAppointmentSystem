@@ -100,6 +100,9 @@ $(document).ready(function () {
         "autoWidth": false,
         "responsive": true,
         "ordering": false,
+        "info": true,
+        "searching": false,
+        "paging": false,
         "columns": [
             {
                 "title": "No",
@@ -201,11 +204,11 @@ $(document).ready(function () {
         var numOrder = table.rows().count() + 1;
         var object = {
             no: '<span class="numOrder">' + numOrder + '.</span>',
-            drug: '<input required type="text" name="drug" class="drug-input"><div class="error-container"></div>',
+            drug: '<input required autocomplete="off" type="text" name="drug" class="drug-input"><div class="error-container"></div>',
             frequency: "",
-            medicationDays: '<input required type="text" name="medicationDays" class="medicationDays-input"><div class="error-container"></div>',
-            quantity: '<input required type="text" name="quantity" class="quantity-input"><div class="error-container"></div>',
-            note: '<input required type="text" name="note" class="note-input"><div class="error-container"></div>',
+            medicationDays: '<input required autocomplete="off" type="text" name="medicationDays" class="medicationDays-input"><div class="error-container"></div>',
+            quantity: '<input required autocomplete="off" type="text" name="quantity" class="quantity-input"><div class="error-container"></div>',
+            note: '<input required autocomplete="off" type="text" name="note" class="note-input"><div class="error-container"></div>',
         }
         $('.error-container').empty();
         table.row.add(object).draw(false);

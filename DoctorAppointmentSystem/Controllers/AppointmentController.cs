@@ -116,7 +116,7 @@ namespace DoctorAppointmentSystem.Controllers
                 string sInsBy = GetInfo.Username;
 
                 Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
-                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+                return Json(new { success = false, message = "Impossible to cancel a completed appointment." }, JsonRequestBehavior.AllowGet);
             }
         }
 
