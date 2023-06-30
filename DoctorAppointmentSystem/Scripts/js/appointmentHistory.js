@@ -11,7 +11,7 @@ var table = $('#historyTbl').DataTable({
     language: {
         emptyTable: "You haven't booked any appointments yet."
     },
-    order: [[1, 'asc']],
+    order: [[6, 'desc']],
     columns: [
         {
             orderable: false,
@@ -38,7 +38,6 @@ var table = $('#historyTbl').DataTable({
             className: 'text-center',
             autoWidth: true,
             searchable: true,
-            orderData: [3]
         },
         {
             data: 'consultationTime',
@@ -73,7 +72,7 @@ var table = $('#historyTbl').DataTable({
                 return type === 'display' ?
                     '<div class="d-flex justify-content-round">'
                     + '<a data-appointmentid="' + data + '" class="btn btn-outline-info btn-sm btn-action btn-viewAppt" role="button" data-toggle="modal" data-target="#makeAppointmentModal">'
-                    + '<i class="fa-solid fa-eye"  data-toggle="popover" data-trigger="hover" data-placement="top"  data-content="View Appointment"></i></a>'
+                    + '<i class="fa-solid fa-eye"  data-toggle="popover" data-trigger="hover" data-placement="top" data-content="View Appointment"></i></a>'
                     + '<a data-appointmentid="' + data + '" class="btn btn-outline-danger btn-sm btn-action btn-cancelAppt" role="button"  data-toggle="popover" data-trigger="hover" data-placement="top"  data-content="Cancel Appointment">'
                     + '<i class="fa-solid fa-circle-xmark"></i></a>'
                     + '</div>'
@@ -208,10 +207,17 @@ $(document).on('click', '.btn-cancelAppt', function () {
                             position: 'top',
                             showConfirmButton: false,
                             timer: 2000
-                        })
+                        });
                         loadData();
                     } else {
-                        console.log(res.message)
+                        Swal.fire({
+                            title: 'Failed!',
+                            text: res.message,
+                            icon: 'warning',
+                            position: 'top',
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
                     }
 
                 },

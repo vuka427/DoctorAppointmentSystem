@@ -4,6 +4,7 @@
 }
 <link href="~/Content/css/Areas/Doctor/registration.css" rel="stylesheet" />
 @Styles.Render("~/Content/sweetalert/css")
+<script src="~/Scripts/js/validateInput.js"></script>
 
 <style>
     .input-box .custom-select[disabled] {
@@ -50,19 +51,19 @@
                                 <span class="info-label">Account</span>
                                 <div class="input-box">
                                     <span class="input-label">Username</span>
-                                    <input type="text" name="Username" id="username" value="" required autocomplete="off" maxlength="50" />
+                                    <input type="text" name="Username" id="username" value="" required autocomplete="off" onkeypress="return validateUsername(event)" maxlength="50" />
 
                                 </div>
                                 <div class="input-box">
                                     <span class="input-label">Password</span>
-                                    <input type="password" name="Password" id="password" value="" required autocomplete="off" maxlength="50" />
+                                    <input type="password" name="Password" id="password" value="" required autocomplete="off" onkeypress="return validatePassword(event)" maxlength="50" />
                                 </div>
                             </div>
                             <div class="col-12 col-sm-12 col-md-5 info-wrapper">
                                 <span class="info-label">Personal Info</span>
                                 <div class="input-box">
                                     <span class="input-label">Full Name</span>
-                                    <input type="text" name="FullName" id="fullName" value="" required autocomplete="off" />
+                                    <input type="text" name="FullName" id="fullName" value="" required onkeypress="return validateUnicode(event)" autocomplete="off" />
                                 </div>
                                 <div class="input-box">
                                     <span class="input-label">Date of Birth</span>
@@ -71,7 +72,7 @@
 
                                 <div class="input-box">
                                     <span class="input-label">National ID</span>
-                                    <input type="text" name="NationalID" id="nationalID" value="" required autocomplete="off" maxlength="10" />
+                                    <input type="text" name="NationalID" id="nationalID" value="" required autocomplete="off" onkeypress="return validateNumber(event)" maxlength="10" />
                                 </div>
                                 <div class="input-box">
                                     <span class="input-label">Gender</span>
@@ -83,7 +84,7 @@
                                 <span class="info-label">Contact</span>
                                 <div class="input-box">
                                     <span class="input-label">Mobile</span>
-                                    <input type="text" name="Mobile" id="mobile" value="" required autocomplete="off" maxlength="10" />
+                                    <input type="text" name="Mobile" id="mobile" value="" required onkeypress="return validateNumber(event)" autocomplete="off" maxlength="10" />
                                 </div>
                                 <div class="input-box">
                                     <span class="input-label">Email</span>
@@ -91,7 +92,7 @@
                                 </div>
                                 <div class="input-box">
                                     <span class="input-label">Address</span>
-                                    <input type="text" name="Address" id="address" value="" required autocomplete="off" />
+                                    <input type="text" name="Address" id="address" value="" required onkeypress="return validateUnicode(event)" autocomplete="off" />
                                 </div>
                             </div>
 
@@ -158,7 +159,7 @@
                                 </div>
                                 <div class="input-box">
                                     <span class="input-label">Gender</span>
-                                    @Html.DropDownList("ApptGender", ViewBag.genders as SelectList, new { @class = "custom-select", @id = "apptGender", @disabled = "disabled" })
+                                    @Html.DropDownList("ApptGender", ViewBag.genders as SelectList, new { @class = "custom-select", @id = "apptGender", @tabindex = "-1" })
                                 </div>
                             </div>
 
