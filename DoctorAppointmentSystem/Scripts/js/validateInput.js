@@ -21,3 +21,9 @@ function validateNumber(event) {
     var value = event.key;
     return regex.test(value);
 }
+
+function validateEmail(event) {
+    var regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})?$/;
+    var value = event.key;
+    return regex.test(value);
+}

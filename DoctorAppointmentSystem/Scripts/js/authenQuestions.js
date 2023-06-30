@@ -56,7 +56,7 @@ function setSubmitQuestions() {
                         Swal.fire({
                             position: 'top',
                             icon: 'success',
-                            title: 'Congratulations!',
+                            title: 'The answers have been recorded!',
                             text: res.message,
                             showConfirmButton: false,
                         })

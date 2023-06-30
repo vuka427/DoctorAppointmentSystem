@@ -55,8 +55,11 @@ form .error {
    
 }
 
+.bs-popover-auto[x-placement^=top] > .arrow::after, .bs-popover-top > .arrow::after {
+    border-top-color: #6c757d;
+}
+
 .btn-custom-adm {
     background-color: #747399;
     color: white !important;
-    
 }

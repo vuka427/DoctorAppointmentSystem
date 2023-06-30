@@ -4,6 +4,7 @@
     },
     responsive: true,
     order: [[1, 'asc']],
+    responsive: true,
     columns: [
         {
             orderable: false,
@@ -33,15 +34,21 @@
             className: 'text-center',
             autoWidth: true,
             searchable: true,
-            orderData: [3]
         },
         {
             data: 'appointmentDate',
             title: 'Appointment Date',
-            className: 'text-center',
             autoWidth: true,
             searchable: true,
-            orderData: [3]
+            render: function (data, type, row) {
+                var today = new Date();
+                var apptDate = new Date(data)
+                if (apptDate < today) {
+                    return '<div class="text-center text-light" style="background-color: #997473"  data-toggle="popover" '
+                        + 'data-trigger="hover" data-placement="top"  data-content="Appointment time exceeded.">' + data + '</div>';
+                }
+                return '<div class="text-center ">' + data + '</div>';
+            }
         },
         {
             data: 'appointmentTime',
@@ -56,6 +63,7 @@
             searchable: true
         },
         {
+            responsivePriority: 1,
             data: 'appointmentStatus',
             title: 'Status',
             className: 'text-center',

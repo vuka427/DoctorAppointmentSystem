@@ -91,7 +91,7 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Controllers
                                                            sortColumnIndex == 3 ? e.DATEOFCONSULTANT :
                                                            sortColumnIndex == 4 ? e.APPOINTMENTDATE :
                                                          
-                                                           sortColumnIndex == 5 ? e.APPOIMENTSTATUS : e.CONSULTANTTIME
+                                                           sortColumnIndex == 5 ? e.CONSULTANTTIME : e.APPOIMENTSTATUS 
                                                            ;
 
                 Apointments = (sortDirection == "asc" ? Apointments.OrderBy(orderingFunction) : Apointments.OrderByDescending(orderingFunction));

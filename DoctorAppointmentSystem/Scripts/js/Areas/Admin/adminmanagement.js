@@ -11,12 +11,18 @@ function setButtonOnOffForm() {
         $("#update-admin-page").hide();
         $("#list-admin-page").show();
 
+        $('#form-create-admin').find('input').removeClass('border-2 border-danger');
+        $('#form-create-admin').find('label').remove();
+
     });
     // close from update
     $("#btn-close-form-update").on("click", function () {
         $("#create-admin-page").hide();
         $("#update-admin-page").hide();
         $("#list-admin-page").show();
+
+        $('#form-update-admin').find('input').removeClass('border-2 border-danger');
+        $('#form-update-admin').find('label').remove();
 
     });
 
@@ -432,23 +438,7 @@ function showPass() {
 
 }
 
-function setEventHover() {
-    var table = $('#AdminTable').DataTable();
 
-    table.on('draw', function () {
-        $('[data-toggle="popover"]').popover({
-            html: true,
-            placement: 'top',
-            container: "body",
-            delay: { "show": 300, "hide": 200 },
-            trigger: 'hover',
-            template: '<div class="popover fc-med-popover " role="tooltip"><div class="arrow"></div> <h3  class="popover-header"></h3><div class="popover-body"></div></div>'
-
-        })
-
-    });
-
-} 
 
 //Validate form
 function validateFormAdminUser() {
@@ -460,6 +450,10 @@ function validateFormAdminUser() {
 
     jQuery.validator.addMethod('valid_username', function (value) {
         var regex = /^[a-z0-9-]*$/;
+        return value.trim().match(regex);
+    });
+    jQuery.validator.addMethod('valid_email', function (value) {
+        var regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})?$/;
         return value.trim().match(regex);
     });
     
@@ -485,7 +479,8 @@ function validateFormAdminUser() {
             
             "email": {
                 required: true,
-                email: true
+                email: true,
+                valid_email: true
             }
             
         },
@@ -506,7 +501,8 @@ function validateFormAdminUser() {
             
             "email": {
                 required: "Email is required",
-                email: "wrong email format"
+                email: "wrong email format",
+                valid_email: "wrong email format"
             }
 
         },
@@ -553,13 +549,16 @@ function validateFormAdminUser() {
         rules: {
             "uemail": {
                 required: true,
-                email: true
+                email: true,
+                valid_email: true
             }
         },
         messages: {
             "uemail": {
                 required: "Email is required",
-                email: "wrong email format"
+                email: "wrong email format",
+                valid_email: "wrong email format"
+
             },
         },
         highlight: function (element) {
@@ -598,6 +597,13 @@ function validateFormAdminUser() {
     });
 }
 
+function isSpaceKey(evt) { // accept number 
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode == 32)
+        return false;
+    return true;
+}
+
 $("document").ready(function () {
     setButtonOnOffForm();
     initJqueryDatatable();
@@ -606,6 +612,6 @@ $("document").ready(function () {
     setSubmitFormUdateByAjax();
     validateFormAdminUser();
     setEventDeletePatientFoBtn();
-    setEventHover();
+    
 
 });

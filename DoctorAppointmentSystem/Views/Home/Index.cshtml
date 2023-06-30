@@ -221,6 +221,7 @@
                 emptyTable: "You don't have any upcoming appointments."
             },
             order: [[1, 'asc']],
+            responsive: true,
             columns: [
                 {
                     className: 'dt-control',
@@ -247,7 +248,6 @@
                     className: 'text-center',
                     autoWidth: true,
                     searchable: true,
-                    orderData: [3]
                 },
                 {
                     data: 'consultationTime',
@@ -262,6 +262,7 @@
                     searchable: true
                 },
                 {
+                    responsivePriority: 2,
                     data: 'appointmentStatus',
                     title: 'Status',
                     className: 'text-center',
@@ -339,7 +340,7 @@
             for (var element of elements) {
                 if (element.textContent.toLowerCase() == 'pending') {
                     element.classList.add("column-status--pending");
-                } else if (element.textContent.toLowerCase() == 'in process') {
+                } else if (element.textContent.toLowerCase() == 'confirm') {
                     element.classList.add("column-status--process");
                 } else if (element.textContent.toLowerCase() == 'completed') {
                     element.classList.add("column-status--completed");

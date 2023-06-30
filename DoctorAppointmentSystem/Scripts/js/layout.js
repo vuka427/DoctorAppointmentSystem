@@ -63,16 +63,22 @@ $(document).ready(function () { //init title
         $(".main-title-page").addClass("header-sidebar-off");
         $(".main-title-page").removeClass("header-sidebar-on");
     }
+});
 
-    // tooltip
+const observer = new MutationObserver(() => {
     $('[data-toggle="popover"]').popover({
         html: true,
         placement: 'top',
-        container: "body",
+        container: 'body',
         delay: { "show": 300, "hide": 200 },
         trigger: 'hover',
-        template: '<div class="popover fc-med-popover " role="tooltip"><div class="arrow"></div> <h3  class="popover-header"></h3><div class="popover-body"></div></div>'
-
-    })
-
+        template: '<div class="popover fc-med-popover" role="tooltip"><div class="arrow"></div> <h3  class="popover-header bg-secondary"></h3><div class="popover-body bg-secondary text-light"></div></div>'
+    });
 });
+
+const observerOptions = {
+    childList: true,
+    subtree: true
+};
+
+observer.observe(document.documentElement, observerOptions);

@@ -206,10 +206,12 @@ function initJqueryDatatable() {
                     if (data.toLowerCase() == 'pending') {
                         return '<span class="column-status column-status--pending">' + data + '</span>';
                         
-                    } else if (data.toLowerCase() == 'in process') {
+                    } else if (data.toLowerCase() == 'confirm') {
                         return '<span class="column-status column-status--process">' + data + '</span>';
                        
                     } else if (data.toLowerCase() == 'completed') {
+                        
+
                         return '<span class="column-status column-status--completed">' + data + '</span>';
                         
                     } else {
@@ -241,23 +243,8 @@ function initJqueryDatatable() {
 
 }
 
-function setEventHover() {
-    var table = $('#appointment-table').DataTable();
 
-    table.on('draw', function () {
-        $('[data-toggle="popover"]').popover({
-            html: true,
-            placement: 'top',
-            container: "body",
-            delay: { "show": 300, "hide": 200 },
-            trigger: 'hover',
-            template: '<div class="popover fc-med-popover" role="tooltip"><div class="arrow"></div> <h3  class="popover-header"></h3><div class="popover-body"></div></div>'
 
-        })
-
-    });
-
-} 
 
 function setEventViewAppointment() {
     var table = $('#appointment-table').DataTable();
@@ -314,6 +301,6 @@ $("document").ready(function () {
     initJqueryDatatable();
     setEventDeleteAppointment();
     setEventViewAppointment();
-    setEventHover();
+  
 
 });

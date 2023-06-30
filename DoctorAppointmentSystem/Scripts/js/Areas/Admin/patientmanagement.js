@@ -15,6 +15,12 @@ function setButtonOnOffForm() {
             var inp = this;
             inp.type = "password";
         });
+
+        $('#form-create-patient').find('input').removeClass('border-2 border-danger');
+        $('#form-create-patient').find('textarea').removeClass('border-2 border-danger');
+        $('#form-create-patient').find('select').removeClass('border-2 border-danger');
+        $('#form-create-patient').find('span').removeClass('border-2 border-danger');
+        $('#form-create-patient').find('label').remove();
      
     });
     // close from update
@@ -22,6 +28,12 @@ function setButtonOnOffForm() {
         $("#create-patient-page").hide();
         $("#update-patient-page").hide();
         $("#list-patient-page").show();
+
+        $('#form-edit-doctor').find('input').removeClass('border-2 border-danger');
+        $('#form-edit-doctor').find('textarea').removeClass('border-2 border-danger');
+        $('#form-edit-doctor').find('select').removeClass('border-2 border-danger');
+        $('#form-edit-doctor').find('span').removeClass('border-2 border-danger');
+        $('#form-edit-doctor').find('label').remove();
        
     });
     
@@ -387,13 +399,13 @@ function initJqueryDatatable() {
            
             {
                 "data": "PATIENTDATEOFBIRTH",
-                "title": "BrithDate",
+                "title": "Data of Birth",
 
                 "searchable": true
             },
             {
                 "data": "PATIENTNATIONALID",
-                "title": "Nation ID",
+                "title": "National ID",
 
                 "searchable": true
             },
@@ -508,6 +520,10 @@ function validateFormPatient() {
         var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,50}$/;
         return value.trim().match(regex);
     });
+    jQuery.validator.addMethod('valid_email', function (value) {
+        var regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})?$/;
+        return value.trim().match(regex);
+    });
     jQuery.validator.addMethod("greaterThan",
         function (value, element, params) {
 
@@ -569,7 +585,8 @@ function validateFormPatient() {
             ,
             "email": {
                 required: true,
-                email: true
+                email: true,
+                valid_email: true
             }
             ,
             "Gender": {
@@ -600,7 +617,7 @@ function validateFormPatient() {
                 maxlength: "National ID charater max lenght is 20!"
             },
             "brithofdate": {
-                required: "Birth of date is required",
+                required: "Date of Birth is required",
 
             },
             "mobile": {
@@ -615,7 +632,8 @@ function validateFormPatient() {
             ,
             "email": {
                 required: "Email is required",
-                email: "wrong email format"
+                email: "wrong email format",
+                valid_email: "wrong email format"
             },
             "Gender": {
                 required: "Gender is required"
@@ -692,7 +710,8 @@ function validateFormPatient() {
             ,
             "uemail": {
                 required: true,
-                email: true
+                email: true,
+                valid_email: true
             },
             "uGender": {
                 required: true
@@ -711,7 +730,7 @@ function validateFormPatient() {
                 maxlength: "National ID charater max lenght is 20!"
             },
             "ubrithofdate": {
-                required: "Birth of date is required",
+                required: "Data of Birth is required",
 
             },
             "umobile": {
@@ -726,7 +745,8 @@ function validateFormPatient() {
             ,
             "uemail": {
                 required: "Email is required",
-                email: "wrong email format"
+                email: "wrong email format",
+                valid_email: "wrong email format"
             },
             "uGender": {
                 required: "Gender is required"
@@ -775,25 +795,16 @@ function isNumberKey(evt) { // accept number
         && (charCode < 48 || charCode > 57))
         return false;
     return true;
-}      
+}  
 
-function setEventHover() {
-    var table = $('#PatientTable').DataTable();
+function isSpaceKey(evt) { // accept number 
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode == 32)
+        return false;
+    return true;
+}
 
-    table.on('draw', function () {
-        $('[data-toggle="popover"]').popover({
-            html: true,
-            placement: 'top',
-            container: "body",
-            delay: { "show": 300, "hide": 200 },
-            trigger: 'hover',
-            template: '<div class="popover fc-med-popover" role="tooltip"><div class="arrow"></div> <h3  class="popover-header"></h3><div class="popover-body"></div></div>'
-
-        })
-
-    });
-
-}        
+      
 
 
 $("document").ready(function () {
@@ -804,7 +815,7 @@ $("document").ready(function () {
     setEventUpdatePatientFoBtn();
     setEventDeletePatientFoBtn();
     validateFormPatient();
-    setEventHover();
+    
     
     
 });

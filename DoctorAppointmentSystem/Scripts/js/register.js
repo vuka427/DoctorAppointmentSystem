@@ -206,7 +206,8 @@ var validateData = function () {
             },
             "Password": {
                 required: true,
-                passwordFormat: true
+                passwordFormat: true,
+                minlength: 8
             },
             "Confirm": {
                 required: true,
@@ -261,7 +262,8 @@ var validateData = function () {
             },
             "Password": {
                 required: "Password is required.",
-                passwordFormat: "Password charater at least one uppercase letter, one lowercase letter, one number and one special character"
+                passwordFormat: "Password charater at least one uppercase letter, one lowercase letter, one number and one special character",
+                minlength: "Password must be between 8 and 50 characters."
             },
             "Confirm": {
                 required: "Password is required.",

@@ -250,7 +250,7 @@ var validateData = function () {
         },
         messages: {
             "consultantType": {
-                required: "Please choose mode of consultant."
+                required: "Please choose type of consultant."
             },
             "modeOfConsultant": {
                 required: "Please choose mode of consultant."
