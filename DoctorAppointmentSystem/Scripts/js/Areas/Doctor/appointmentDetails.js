@@ -100,6 +100,8 @@ $(document).ready(function () {
         "autoWidth": false,
         "responsive": true,
         "ordering": false,
+        "paging": false,
+        "searching": false,
         "columns": [
             {
                 "title": "No",

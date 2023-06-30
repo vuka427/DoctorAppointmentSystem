@@ -297,9 +297,6 @@
     <Compile Include="Models\DB\SCHEDULE.cs">
       <DependentUpon>DBContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\DB\sysdiagrams.cs">
-      <DependentUpon>DBContext.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\DB\SYSTEM_PARA.cs">
       <DependentUpon>DBContext.tt</DependentUpon>
     </Compile>
@@ -320,6 +317,7 @@
     <Content Include="Content\bootstrap-lib\bootstrap.min.css" />
     <Content Include="Content\bootstrap-lib\jquery.dataTables.min.css" />
     <Content Include="Content\bootstrap-lib\responsive.bootstrap.min.css" />
+    <Content Include="Content\css\appointmentDoctor.css" />
     <Content Include="Content\css\Areas\Admin\admin-appointment.css" />
     <Content Include="Content\css\Areas\Admin\doctor-management.css" />
     <Content Include="Content\css\Areas\Admin\doctor-schedule-mgt.css" />
@@ -331,7 +329,9 @@
     <Content Include="Content\css\Areas\Doctor\confirmedAppt.css" />
     <Content Include="Content\css\Areas\Doctor\dashboardDoctor.css" />
     <Content Include="Content\css\Areas\Doctor\registration.css" />
+    <Content Include="Content\css\cancelledAppointment.css" />
     <Content Include="Content\css\changePassword.css" />
+    <Content Include="Content\css\completedAppointments.css" />
     <Content Include="Content\css\custom-input.css" />
     <Content Include="Content\css\appointmentHistory.css" />
     <Content Include="Content\css\intro.css" />
@@ -575,13 +575,6 @@
     <Content Include="Areas\Doctor\Views\ConfirmedAppt\Index.cshtml" />
     <Content Include="Areas\Doctor\Views\Appointments\MemberDetails.cshtml" />
     <Content Include="Areas\Doctor\Views\ConfirmedAppt\AppointmentDetails.cshtml" />
-    <EntityDeploy Include="Models\DB\DBContext.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>DBContext.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\DB\DBContext.edmx.diagram">
-      <DependentUpon>DBContext.edmx</DependentUpon>
-    </Content>
     <Content Include="Areas\Doctor\Views\Registration\Index.cshtml" />
     <Content Include="lib\moment.js\moment.min.js.map" />
     <Content Include="lib\popper.js\umd\popper.js.map" />
@@ -595,6 +588,13 @@
     <Content Include="Areas\Doctor\Views\Profile\ChangePassword.cshtml" />
     <Content Include="Areas\Doctor\Views\CompletedAppt\Index.cshtml" />
     <Content Include="Areas\Doctor\Views\CancelledAppt\Index.cshtml" />
+    <EntityDeploy Include="Models\DB\DBContext.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>DBContext.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\DB\DBContext.edmx.diagram">
+      <DependentUpon>DBContext.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\bootstrap-lib-js\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\bootstrap-lib-js\jquery.dataTables.min.js" />
     <Content Include="Scripts\bootstrap-lib-js\jquery.validate.js" />
@@ -675,6 +675,7 @@
     <Content Include="Views\ScheduleOfDoctors\Index.cshtml" />
     <Content Include="Views\Account\Activate.cshtml" />
     <Content Include="Views\Account\ChangePassword.cshtml" />
+    <Content Include="Views\Account\AuthenQuestion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
