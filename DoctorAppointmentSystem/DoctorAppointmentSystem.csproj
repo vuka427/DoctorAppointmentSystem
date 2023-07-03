@@ -313,6 +313,9 @@
     <Compile Include="Models\DB\SCHEDULE.cs">
       <DependentUpon>DBContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DB\sysdiagrams.cs">
+      <DependentUpon>DBContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DB\SYSTEM_PARA.cs">
       <DependentUpon>DBContext.tt</DependentUpon>
     </Compile>
@@ -602,6 +605,9 @@
     <Content Include="Areas\Doctor\Views\Profile\ChangePassword.cshtml" />
     <Content Include="Areas\Doctor\Views\CompletedAppt\Index.cshtml" />
     <Content Include="Areas\Doctor\Views\CancelledAppt\Index.cshtml" />
+    <Content Include="Scripts\bootstrap-lib-js\bootstrap.min.js.map" />
+    <Content Include="Scripts\bootstrap-lib-js\jquery-3.4.1.min.map" />
+    <Content Include="Content\bootstrap-lib\bootstrap.css.map" />
     <EntityDeploy Include="Models\DB\DBContext.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>DBContext.Designer.cs</LastGenOutput>
@@ -609,9 +615,6 @@
     <Content Include="Models\DB\DBContext.edmx.diagram">
       <DependentUpon>DBContext.edmx</DependentUpon>
     </Content>
-    <Content Include="Scripts\bootstrap-lib-js\bootstrap.min.js.map" />
-    <Content Include="Scripts\bootstrap-lib-js\jquery-3.4.1.min.map" />
-    <Content Include="Content\bootstrap-lib\bootstrap.css.map" />
     <None Include="Scripts\bootstrap-lib-js\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\bootstrap-lib-js\jquery-3.4.1.min.js" />
     <Content Include="Scripts\bootstrap-lib-js\jquery.dataTables.min.js" />

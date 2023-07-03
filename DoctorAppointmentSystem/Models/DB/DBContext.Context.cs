@@ -34,6 +34,7 @@ namespace DoctorAppointmentSystem.Models.DB
         public virtual DbSet<PRESCRIPTION> PRESCRIPTION { get; set; }
         public virtual DbSet<ROLE> ROLE { get; set; }
         public virtual DbSet<SCHEDULE> SCHEDULE { get; set; }
+        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<SYSTEM_PARA> SYSTEM_PARA { get; set; }
         public virtual DbSet<USER> USER { get; set; }
     }

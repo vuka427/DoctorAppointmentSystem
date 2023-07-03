@@ -1058,3 +1058,9 @@ a:hover {
     margin-left: 13px;
     font-size: 1.2em
 }
+
+@media (max-width: 768px) {
+    h3 {
+        font-size: 1.2rem !important;
+    }
+}

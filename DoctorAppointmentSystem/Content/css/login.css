@@ -1,6 +1,11 @@
-﻿/*[ Wrap Picture ]
------------------------------------------------------------
-*/
+﻿body {
+    background-image: url('../../img/bg-img.jpg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
 .wrap-pic-w img {
     width: 100%;
 }
@@ -174,10 +179,6 @@ button {
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    padding: 15px;
-    background-image: url('../../img/bg-img.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
 }
 
 .wrap-login100 {
