@@ -123,6 +123,7 @@
           <Property Name="UPDATEDBY" Type="nvarchar" MaxLength="50" />
           <Property Name="UPDATEDDATE" Type="datetime" />
           <Property Name="DELETEDFLAG" Type="bit" Nullable="false" />
+          <Property Name="UNIT" Type="int" />
         </EntityType>
         <EntityType Name="ROLE">
           <Key>
@@ -499,6 +500,7 @@
           <Property Name="UPDATEDBY" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UPDATEDDATE" Type="DateTime" Precision="3" />
           <Property Name="DELETEDFLAG" Type="Boolean" Nullable="false" />
+          <Property Name="UNIT" Type="Int32" />
           <NavigationProperty Name="APPOINTMENT_PRESCRIPTION" Relationship="Self.FK_APPOINTM_RELATIONS_PRESCRIP" FromRole="PRESCRIPTION" ToRole="APPOINTMENT_PRESCRIPTION" />
         </EntityType>
         <EntityType Name="ROLE">
@@ -876,6 +878,7 @@
                 <ScalarProperty Name="UPDATEDBY" ColumnName="UPDATEDBY" />
                 <ScalarProperty Name="UPDATEDDATE" ColumnName="UPDATEDDATE" />
                 <ScalarProperty Name="DELETEDFLAG" ColumnName="DELETEDFLAG" />
+                <ScalarProperty Name="UNIT" ColumnName="UNIT" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

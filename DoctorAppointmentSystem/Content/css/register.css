@@ -55,13 +55,11 @@ i {
 }
 
 body {
-    height: 100% !important;
-}
-
-body {
     background-image: url('../../img/bg-img.jpg');
-    background-size: cover;
     background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    background-size: cover;
 }
 
 #register-wrapper {
