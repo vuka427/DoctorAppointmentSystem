@@ -119,7 +119,7 @@ function setEventViewAppointment() {
                 dataType: 'JSON',
                 success: function (res) {
                     var data = res.data;
-                    console.log(res.data);
+                    
                     $('#doctorName').text(data.doctorName);
                     $('#doctorGender').text(data.doctorGender);
                     $('#speciality').text(data.doctorSpeciality);
@@ -156,12 +156,12 @@ $("document").ready(function () {
  
     initJqueryDatatable();
     setEventViewAppointment();
-    
+
     
 
 });
 $(document).on('click', '#btnGoToDashboard', function () {
     var previousPage = document.referrer;
-    console.log(previousPage);
+    
     $('#btnGoToDashboard').attr('href', previousPage);
 })
