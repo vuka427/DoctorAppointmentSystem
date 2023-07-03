@@ -27,7 +27,9 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Models.Registration
                         p => p.USERID,
                         u => u.USERID, (p, u) => new { p, u })
                         .Where(c => c.p.PATIENTNATIONALID.Contains(nationalID)
-                        && c.p.PATIENTNAME.Contains(name))
+                        && c.p.PATIENTNAME.Contains(name)
+                        && c.u.DELETEDFLAG == false
+                        && c.p.DELETEDFLAG == false)
                         .ToList();
                     if (members.Count == 0)
                     {

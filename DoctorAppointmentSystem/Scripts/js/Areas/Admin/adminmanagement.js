@@ -84,7 +84,7 @@ function setSubmitFormByAjax() {
                         title: 'Success !',
                         text: 'Create admin account is success !',
                         showConfirmButton: false,
-                        timer: 2000
+                        timer: 3000
                     });
 
                     $("#form-create-admin").trigger('reset');
@@ -212,7 +212,7 @@ function setSubmitFormUdateByAjax() {
                                 title: 'Success !',
                                 text: 'Update admin account is success!',
                                 showConfirmButton: false,
-                                timer: 2000
+                                timer: 3000
                             });
 
                             $("#form-update-admin").trigger('reset');
@@ -311,7 +311,7 @@ function deleteAdminByAjax(adminid) {
                 title: 'Deleted!',
                 text: 'Delete admin account is success !',
                 showConfirmButton: false,
-                timer: 2000
+                timer: 3000
             });
         }
     });

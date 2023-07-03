@@ -126,7 +126,7 @@ function setSubmitFormByAjax() {
                         title: 'Success !',
                         text: 'Create doctor is success !',
                         showConfirmButton: false,
-                        timer: 2000
+                        timer: 3000
                     });
                     $("#form-create-doctor").trigger('reset');
                     $("#department").trigger('change');
@@ -260,7 +260,7 @@ function setSubmitFormUdateByAjax() {
                                 title: 'Success !',
                                 text: 'Update doctor is success !',
                                 showConfirmButton: false,
-                                timer: 2000
+                                timer: 3000
                             });
                             $("#form-edit-doctor").trigger('reset');
 
@@ -358,7 +358,7 @@ function deleteDocTorByAjax(doctorid) {
                 title: 'Deleted !',
                 text: 'Delete doctor is success !',
                 showConfirmButton: false,
-                timer: 2000
+                timer: 3000
             });
         }
     });

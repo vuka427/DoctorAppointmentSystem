@@ -18,33 +18,26 @@ namespace DoctorAppointmentSystem.Controllers
         [Obsolete]
         public ActionResult Index()
         {
-            ViewBag.consultantType = SystemParaHelper.GenerateByGroup("consultantType");
-            ViewBag.modeOfConsultant = SystemParaHelper.GenerateByGroup("modeOfConsultant");
-            ViewBag.menu = RenderMenu.RenderPatientMenu("Home");
-            ViewBag.name = GetInfo.GetFullName(User.Identity.Name);
-            ViewBag.avatar = GetInfo.GetImgPath(User.Identity.Name);
             try
             {
                 using (DBContext dbContext = new DBContext())
                 {
-                    int userID = 0;
-                    USER user = dbContext.USER.Where(u => u.USERNAME.Equals(User.Identity.Name)).FirstOrDefault();
-                    if (user != null)
-                    {
-                        userID = user.USERID;
-                    }
+                    string username = User.Identity.Name;
+                    int userID = dbContext.USER.Where(u => u.USERNAME.Equals(username)).Select(u => u.USERID).FirstOrDefault();
+
                     if (userID != 0)
                     {
-                        PATIENT patient = dbContext.PATIENT.Where(p => p.USERID.Equals(userID)).FirstOrDefault();
-                        if (patient != null)
-                        {
-                            int patientID = patient.PATIENTID;
-                            ViewBag.allDoctors = dbContext.DOCTOR.Count();
-                            ViewBag.allBooking = dbContext.APPOINTMENT.Where(a => a.PATIENTID.Equals(patientID)).Count();
-                            ViewBag.newBooking = dbContext.APPOINTMENT.Where(a => a.PATIENTID.Equals(patientID) && (a.APPOIMENTSTATUS.Equals("Pending") || a.APPOIMENTSTATUS.Equals("Confirm"))).Count();
+                        int patientID = dbContext.PATIENT.Where(p => p.USERID.Equals(userID)).Select(p => p.PATIENTID).FirstOrDefault();
 
+                        if (patientID != 0)
+                        {
                             DateTime today = DateTime.Now.Date;
-                            ViewBag.todaySessions = dbContext.APPOINTMENT.Where(a => a.PATIENTID.Equals(patientID) && EntityFunctions.TruncateTime(a.APPOINTMENTDATE).Value.Equals(today)).Count();
+                            var appointments = dbContext.APPOINTMENT.Where(a => a.PATIENTID.Equals(patientID));
+
+                            ViewBag.allDoctors = dbContext.DOCTOR.Count();
+                            ViewBag.allBooking = appointments.Count();
+                            ViewBag.newBooking = appointments.Count(a => a.APPOIMENTSTATUS.Equals("Pending") || a.APPOIMENTSTATUS.Equals("Confirm"));
+                            ViewBag.todaySessions = appointments.Count(a => EntityFunctions.TruncateTime(a.APPOINTMENTDATE).Value.Equals(today));
                         }
                     }
                 }
@@ -59,9 +52,16 @@ namespace DoctorAppointmentSystem.Controllers
 
                 Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
             }
-            
+
+            ViewBag.consultantType = SystemParaHelper.GenerateByGroup("consultantType");
+            ViewBag.modeOfConsultant = SystemParaHelper.GenerateByGroup("modeOfConsultant");
+            ViewBag.menu = RenderMenu.RenderPatientMenu("Home");
+            ViewBag.name = GetInfo.GetFullName(User.Identity.Name);
+            ViewBag.avatar = GetInfo.GetImgPath(User.Identity.Name);
+
             return View();
         }
+
 
         [AllowAnonymous]
         public ActionResult Intro()

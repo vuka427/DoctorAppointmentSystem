@@ -71,7 +71,7 @@ function setSubmitQuestions() {
                             title: 'Failed!',
                             text: res.message,
                             showConfirmButton: false,
-                            timer: 2000,
+                            timer: 3000,
                             width: '30em'
                         })
                     }
@@ -83,7 +83,7 @@ function setSubmitQuestions() {
                         title: 'Failed!',
                         text: err.message,
                         showConfirmButton: false,
-                        timer: 2000,
+                        timer: 3000,
                         width: '30em'
                     })
                 }

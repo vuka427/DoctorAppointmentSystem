@@ -72,7 +72,7 @@
                         title: 'Congratulations!',
                         text: res.message,
                         showConfirmButton: false,
-                        timer: 2000
+                        timer: 3000,
                     })
                 } else {
                     Swal.fire({
@@ -81,7 +81,7 @@
                         title: 'Failed!',
                         text: res.message,
                         showConfirmButton: false,
-                        timer: 2000
+                        timer: 3000,
                     })
                 }
             },
@@ -92,7 +92,7 @@
                     title: 'Failed!',
                     text: err.responseText,
                     showConfirmButton: false,
-                    timer: 2000
+                    timer: 3000,
                 })
             }
         });
@@ -136,7 +136,7 @@ var showProfile = function () {
                 title: 'Error!',
                 text: err.responseText,
                 showConfirmButton: false,
-                timer: 2000,
+                timer: 3000,
                 width: '30em'
             })
         }

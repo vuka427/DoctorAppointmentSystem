@@ -103,7 +103,7 @@ function setSubmitFormByAjax() {
                         title: 'Success !',
                         text: 'Create patient is success !',
                         showConfirmButton: false,
-                        timer: 2000
+                        timer: 3000
                     });
                     $("#form-create-patient").trigger('reset');
                     $('#password').get(0).type = 'password';
@@ -244,7 +244,7 @@ function setSubmitFormUdateByAjax() {
                                 title: 'Success !',
                                 text: 'Update patient is success!',
                                 showConfirmButton: false,
-                                timer: 2000
+                                timer: 3000
                             });
                             $("#form-update-patient").trigger('reset');
                         }

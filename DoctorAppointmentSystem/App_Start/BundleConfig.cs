@@ -10,7 +10,7 @@ namespace DoctorAppointmentSystem
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/bootstrap-lib-js/jquery-{version}.js"));
+                        "~/Scripts/bootstrap-lib-js/jquery-3.4.1.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/bootstrap-lib-js/jquery.validate*"));
@@ -18,10 +18,10 @@ namespace DoctorAppointmentSystem
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at https://modernizr.com to pick only the tests you need.
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
-                        "~/Scripts/bootstrap-lib-js/modernizr-*"));
+                        "~/Scripts/bootstrap-lib-js/modernizr-2.8.3.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap-lib-js/bootstrap.js"
+                      "~/Scripts/bootstrap-lib-js/bootstrap.min.js"
                       ));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
@@ -38,14 +38,14 @@ namespace DoctorAppointmentSystem
             //Config ScriptBundle and StyleBundle for jQuery Datatable
             bundles.Add(new ScriptBundle("~/bundles/datatable").Include(
                 "~/Scripts/bootstrap-lib-js/jquery.dataTables.min.js",
-                 "~/Scripts/bootstrap-lib-js/dataTables.responsive.js"));
+                 "~/Scripts/bootstrap-lib-js/dataTables.responsive.min.js"));
 
             bundles.Add(new StyleBundle("~/Content/datatable").Include(
                 "~/Content/bootstrap-lib/jquery.dataTables.min.css"));
 
             //Config ScriptBundle and StyleBundle Chart.js
             bundles.Add(new ScriptBundle("~/bundles/admin/chart").Include(
-                     "~/lib/chart.js/Chart.js"));
+                     "~/lib/chart.js/Chart.min.js"));
 
             //Config ScriptBundle and StyleBundle doctor management
             bundles.Add(new ScriptBundle("~/bundles/admin/doctor").Include(
@@ -70,9 +70,9 @@ namespace DoctorAppointmentSystem
 
             //Config ScriptBundle and StyleBundle for select2 lib
             bundles.Add(new ScriptBundle("~/bundles/select2/js").Include(
-                     "~/lib/select2/js/select2.js"));
+                     "~/lib/select2/js/select2.min.js"));
             bundles.Add(new StyleBundle("~/Content/select2/css").Include(
-                    "~/lib/select2/css/select2.css"));
+                    "~/lib/select2/css/select2.min.css"));
 
             //Config ScriptBundle and StyleBundle moment js
             bundles.Add(new ScriptBundle("~/bundles/momentjs").Include(
@@ -83,9 +83,9 @@ namespace DoctorAppointmentSystem
                      "~/lib/fullcalendar/index.global.js"));
             //Config ScriptBundle and StyleBundle tooltip js
             bundles.Add(new ScriptBundle("~/bundles/admin/tooltip").Include(
-                     "~/lib/tooltip.js/tooltip.js"));
+                     "~/lib/tooltip.js/tooltip.min.js"));
             bundles.Add(new ScriptBundle("~/bundles/admin/popper").Include(
-                     "~/lib/popper.js/umd/popper.js"));
+                     "~/lib/popper.js/umd/popper.min.js"));
 
             //Config StyleBundle for fontawesome lib
             bundles.Add(new StyleBundle("~/Content/fontawesome/css").Include(
@@ -110,32 +110,39 @@ namespace DoctorAppointmentSystem
             //Config ScriptBundle and StyleBundle admin profile
             bundles.Add(new ScriptBundle("~/bundles/admin/profile").Include(
                      "~/Scripts/js/Areas/Admin/adminProfile.js"));
+
             //Config ScriptBundle and StyleBundle admin dashboard
             bundles.Add(new ScriptBundle("~/bundles/admin/dashboard").Include(
                      "~/Scripts/js/Areas/Admin/managementDashboard.js"));
+
             //Config ScriptBundle and StyleBundle doctor appointment
             bundles.Add(new ScriptBundle("~/bundles/doctor/appointment").Include(
                      "~/Scripts/js/Areas/Doctor/appointmentsDoctor.js"));
             bundles.Add(new StyleBundle("~/Content/doctor/appointment").Include(
                 "~/Content/css/Areas/Doctor/appointmentDoctor.css"));
+
             //Config ScriptBundle and StyleBundle doctor cancelled appointment
             bundles.Add(new ScriptBundle("~/bundles/doctor/appointment/cancelled").Include(
                      "~/Scripts/js/Areas/Doctor/cancelledAppointments.js"));
             bundles.Add(new StyleBundle("~/Content/doctor/appointment/cancelled").Include(
                 "~/Content/css/Areas/Doctor/cancelledAppointment.css"));
+
             //Config ScriptBundle and StyleBundle doctor completed appointment
             bundles.Add(new ScriptBundle("~/bundles/doctor/appointment/completed").Include(
                      "~/Scripts/js/Areas/Doctor/completedAppointments.js"));
             bundles.Add(new StyleBundle("~/Content/doctor/appointment/completed").Include(
                 "~/Content/css/Areas/Doctor/completedAppointments.css"));
+
             //Config ScriptBundle and StyleBundle  doctor dashboard
             bundles.Add(new ScriptBundle("~/bundles/doctor/dashboard").Include(
                      "~/Scripts/js/Areas/Doctor/dashboard.js"));
             bundles.Add(new StyleBundle("~/Content/doctor/dashboard").Include(
                 "~/Content/css/Areas/Doctor/dashboardDoctor.css"));
+
             //Config ScriptBundle and StyleBundle admin profile
             bundles.Add(new ScriptBundle("~/bundles/authen/questions").Include(
                      "~/Scripts/js/authenQuestions.js"));
+
             //Config ScriptBundle and StyleBundle change doctor password
             bundles.Add(new ScriptBundle("~/bundles/doctor/changepassword").Include(
                      "~/Scripts/js/Areas/Doctor/changeDoctorPassword.js"));

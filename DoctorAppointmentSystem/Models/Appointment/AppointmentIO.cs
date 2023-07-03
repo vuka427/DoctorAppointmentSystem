@@ -90,53 +90,7 @@ namespace DoctorAppointmentSystem.Models.Appointment
         public List<HistoryViewModel> GetAllAppointment(string username)
         {
             List<HistoryViewModel> result = new List<HistoryViewModel>();
-            try
-            {
-                using (DBContext dbContext = new DBContext())
-                {
-                    int userID = GetInfo.GetUserID(username);
-                    int patientID = GetInfo.GetPatientID(userID);
 
-                    List<APPOINTMENT> appointmentList = dbContext.APPOINTMENT.Where(a => a.PATIENTID.Equals(patientID)).ToList();
-
-
-                    foreach (APPOINTMENT appointment in appointmentList)
-                    {
-                        HistoryViewModel row = new HistoryViewModel();
-                        row.appointmentID = appointment.APPOINTMENTID;
-
-                        int doctorID = appointment.DOCTORID;
-                        DOCTOR doctor = dbContext.DOCTOR.Find(doctorID);
-
-                        row.doctorName = doctor.DOCTORNAME;
-                        row.appointmentStatus = appointment.APPOIMENTSTATUS;
-                        DateTime dateOfConsultation = (DateTime)appointment.DATEOFCONSULTATION;
-                        row.dateOfConsultation = dateOfConsultation.Date.ToString("yyyy-MM-dd");
-                        row.consultationTime = dateOfConsultation.TimeOfDay.ToString(@"hh\:mm");
-                        row.consultationDay = dateOfConsultation.DayOfWeek.ToString();
-
-                        result.Add(row);
-                    }
-                    return result;
-                }
-            }
-            catch (Exception ex)
-            {
-                string sEventCatg = "PATIENT PORTAL";
-                string sEventMsg = "Exception: " + ex.Message;
-                string sEventSrc = "GetAllAppointment";
-                string sEventType = "S";
-                string sInsBy = GetInfo.Username;
-
-                Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
-                return result;
-            }
-
-        }
-
-        public List<HistoryViewModel> GetUpcomingAppointment(string username)
-        {
-            List<HistoryViewModel> result = new List<HistoryViewModel>();
             try
             {
                 using (DBContext dbContext = new DBContext())
@@ -145,28 +99,61 @@ namespace DoctorAppointmentSystem.Models.Appointment
                     int patientID = GetInfo.GetPatientID(userID);
 
                     List<APPOINTMENT> appointmentList = dbContext.APPOINTMENT
-                        .Where(a => a.PATIENTID.Equals(patientID) && a.APPOIMENTSTATUS.ToLower().Equals("confirm"))
-                        .OrderByDescending(a => a.APPOINTMENTDATE)
-                        .Take(3)
+                        .Where(a => a.PATIENTID == patientID)
                         .ToList();
 
                     foreach (APPOINTMENT appointment in appointmentList)
                     {
-                        HistoryViewModel row = new HistoryViewModel();
-                        row.appointmentID = appointment.APPOINTMENTID;
+                        DOCTOR doctor = dbContext.DOCTOR.Find(appointment.DOCTORID);
 
-                        int doctorID = appointment.DOCTORID;
-                        DOCTOR doctor = dbContext.DOCTOR.Find(doctorID);
-
-                        row.doctorName = doctor.DOCTORNAME;
-                        row.appointmentStatus = appointment.APPOIMENTSTATUS;
-                        DateTime dateOfConsultation = (DateTime)appointment.DATEOFCONSULTATION;
-                        row.dateOfConsultation = dateOfConsultation.Date.ToString("yyyy-MM-dd");
-                        row.consultationTime = dateOfConsultation.TimeOfDay.ToString(@"hh\:mm");
-                        row.consultationDay = dateOfConsultation.DayOfWeek.ToString();
+                        HistoryViewModel row = new HistoryViewModel
+                        {
+                            appointmentID = appointment.APPOINTMENTID,
+                            doctorName = doctor.DOCTORNAME,
+                            appointmentStatus = appointment.APPOIMENTSTATUS,
+                            dateOfConsultation = appointment.DATEOFCONSULTATION.Date.ToString("yyyy-MM-dd"),
+                            consultationTime = appointment.DATEOFCONSULTATION.ToString(@"hh\:mm"),
+                            consultationDay = appointment.DATEOFCONSULTATION.DayOfWeek.ToString()
+                        };
 
                         result.Add(row);
                     }
+                }
+            }
+            catch (Exception ex)
+            {
+                string errorMessage = "Exception: " + ex.Message;
+                Logger.TraceLog("PATIENT PORTAL", errorMessage, "GetAllAppointment", "S", GetInfo.Username);
+            }
+            return result;
+        }
+
+        public List<HistoryViewModel> GetUpcomingAppointment(string username)
+        {
+            try
+            {
+                int userID = GetInfo.GetUserID(username);
+                int patientID = GetInfo.GetPatientID(userID);
+
+                using (DBContext dbContext = new DBContext())
+                {
+                    var appointmentList = dbContext.APPOINTMENT
+                        .Join(dbContext.DOCTOR, a => a.DOCTORID, d => d.DOCTORID, (a, d) => new { Appointment = a, Doctor = d })
+                        .Where(ad => ad.Appointment.PATIENTID == patientID && ad.Appointment.APPOIMENTSTATUS.ToLower() == "confirm")
+                        .OrderByDescending(ad => ad.Appointment.APPOINTMENTDATE)
+                        .Take(3)
+                        .ToList();
+
+                    var result = appointmentList.Select(ad => new HistoryViewModel
+                    {
+                        appointmentID = ad.Appointment.APPOINTMENTID,
+                        doctorName = ad.Doctor.DOCTORNAME,
+                        appointmentStatus = ad.Appointment.APPOIMENTSTATUS,
+                        dateOfConsultation = ad.Appointment.DATEOFCONSULTATION.Date.ToString("yyyy-MM-dd"),
+                        consultationTime = ad.Appointment.DATEOFCONSULTATION.TimeOfDay.ToString(@"hh\:mm"),
+                        consultationDay = ad.Appointment.DATEOFCONSULTATION.DayOfWeek.ToString()
+                    }).ToList();
+
                     return result;
                 }
             }
@@ -179,10 +166,11 @@ namespace DoctorAppointmentSystem.Models.Appointment
                 string sInsBy = GetInfo.Username;
 
                 Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
-                return result;
+                return new List<HistoryViewModel>();
             }
-
         }
+
+
 
 
         public AppointmentViewModel ViewAppointment(int appointmentID)

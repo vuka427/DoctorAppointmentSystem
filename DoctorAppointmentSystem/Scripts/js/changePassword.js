@@ -58,7 +58,7 @@ $(document).on('submit', '#formChangePassword', function (event) {
                         title: 'Congratulation!',
                         text: res.message,
                         showConfirmButton: false,
-                        timer: 2000,
+                        timer: 3000,
                         width: '30em'
                     });
                     setTimeout(function () {
@@ -75,7 +75,7 @@ $(document).on('submit', '#formChangePassword', function (event) {
                         title: 'Failed!',
                         text: res.message,
                         showConfirmButton: false,
-                        timer: 2000,
+                        timer: 3000,
                         width: '30em'
                     })
                 }

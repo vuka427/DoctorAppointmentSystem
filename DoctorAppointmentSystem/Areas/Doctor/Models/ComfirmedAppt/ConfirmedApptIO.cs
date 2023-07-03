@@ -17,8 +17,10 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Models.ComfirmedAppt
             {
                 using (DBContext dbContext = new DBContext())
                 {
-                    List<APPOINTMENT> appointmentList = dbContext.APPOINTMENT.Where(a => a.DOCTORID.Equals(doctorID)
-                    && a.APPOIMENTSTATUS.ToLower().Equals(appointmentStatus))
+                    List<APPOINTMENT> appointmentList = dbContext.APPOINTMENT
+                        .Where(a => a.DOCTORID.Equals(doctorID)
+                        && a.APPOIMENTSTATUS.ToLower().Equals(appointmentStatus)
+                        && a.DELETEDFLAG == false)
                         .ToList();
 
                     if (appointmentList.Count == 0)
@@ -84,7 +86,7 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Models.ComfirmedAppt
                         throw new Exception();
                     }
                     PATIENT patient = dbContext.PATIENT.Find(appointment.PATIENTID);
-                    if(patient == null)
+                    if (patient == null)
                     {
                         throw new Exception();
                     }
@@ -134,7 +136,7 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Models.ComfirmedAppt
             bool success = false;
             try
             {
-                if(appointmentDate.CompareTo(DateTime.Now) <= 0)
+                if (appointmentDate.CompareTo(DateTime.Now) <= 0)
                 {
                     message = "Appointment date have to greater than current date.";
                     return success;
@@ -162,19 +164,19 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Models.ComfirmedAppt
                         int doctorId = appointment.DOCTORID;
 
                         List<SCHEDULE> schedules = _dbContext.SCHEDULE
-                            .Where(s => s.DOCTORID.Equals(doctorId) 
+                            .Where(s => s.DOCTORID.Equals(doctorId)
                             && s.WORKINGDAY.Equals(appointmentDate.Date)
                             && s.SHIFTTIME.CompareTo(appointmentDate.TimeOfDay) <= 0
                             && s.BREAKTIME.CompareTo(appointmentDate.TimeOfDay) > 0)
                             .ToList();
 
-                        if(schedules.Count == 0)
+                        if (schedules.Count == 0)
                         {
                             message = "There are no schedule during this time.";
                             return success;
                         }
 
-                        
+
 
                         appointment.APPOINTMENTDATE = appointmentDate;
                         appointment.UPDATEDBY = GetInfo.Username;
@@ -204,7 +206,7 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Models.ComfirmedAppt
                 return success;
             }
         }
-        
+
         public DiagnosisViewModel GetDiagnosis(int id)
         {
             DiagnosisViewModel result = new DiagnosisViewModel();
@@ -213,7 +215,7 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Models.ComfirmedAppt
                 using (DBContext dbContext = new DBContext())
                 {
                     APPOINTMENT appointment = dbContext.APPOINTMENT.Find(id);
-                    if(appointment == null)
+                    if (appointment == null)
                     {
                         throw new Exception();
                     }
@@ -251,16 +253,16 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Models.ComfirmedAppt
                         .Where(a => a.APPOINTMENTID.Equals(id))
                         .ToList();
 
-                    if(apptNotes.Count == 0)
+                    if (apptNotes.Count == 0)
                     {
                         throw new Exception();
                     }
                     else
                     {
-                        foreach(APPOINTMENT_PRESCRIPTION apptNote in apptNotes)
+                        foreach (APPOINTMENT_PRESCRIPTION apptNote in apptNotes)
                         {
                             PRESCRIPTION prescription = dbContext.PRESCRIPTION.Find(apptNote.PRECRIPTIONID);
-                            if(prescription == null)
+                            if (prescription == null)
                             {
                                 throw new Exception();
                             }
@@ -310,7 +312,7 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Models.ComfirmedAppt
                             p => p.PRECRIPTIONID, a => a.PRECRIPTIONID, (p, a) => p)
                             .ToList();
 
-                        if(currPressList.Count != 0)
+                        if (currPressList.Count != 0)
                         {
                             foreach (var pres in currPressList)
                             {
@@ -325,14 +327,14 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Models.ComfirmedAppt
                         foreach (var item in data)
                         {
                             APPOINTMENT appointment = dbContext.APPOINTMENT.Find(item.appointmentID);
-                            if(appointment == null)
+                            if (appointment == null)
                             {
                                 throw new Exception();
                             }
 
                             int patientId = appointment.PATIENTID;
                             PATIENT patient = dbContext.PATIENT.Find(patientId);
-                            if(patient == null)
+                            if (patient == null)
                             {
                                 throw new Exception();
                             }
@@ -393,7 +395,7 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Models.ComfirmedAppt
                     {
                         APPOINTMENT appointment = dbContext.APPOINTMENT.Find(notes.appointmentID);
 
-                        if(appointment == null)
+                        if (appointment == null)
                         {
                             throw new Exception();
                         }
@@ -434,7 +436,7 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Models.ComfirmedAppt
                     if (SaveMedication(id, data) && SaveDiagnosis(notes))
                     {
                         APPOINTMENT appointment = dbContext.APPOINTMENT.Find(id);
-                        if(appointment == null)
+                        if (appointment == null)
                         {
                             throw new Exception();
                         }
