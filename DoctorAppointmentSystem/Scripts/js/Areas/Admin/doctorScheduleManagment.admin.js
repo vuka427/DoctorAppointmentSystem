@@ -56,7 +56,7 @@ function setSubmitFormByAjax() {
                 CONSULTANTTIME: $("#consultanttime").val(),
              
             };
-            console.log(formData);
+           
             $.ajax({
                 type: "POST",
                 url: "/Admin/DoctorScheduleManage/CreateDoctorSchedule",
@@ -64,7 +64,7 @@ function setSubmitFormByAjax() {
                 dataType: "json",
                 encode: true,
             }).done(function (data) {
-                console.log(data);
+                
                 if (data.error == 1) {
                    
                     Swal.fire(
@@ -114,7 +114,7 @@ function loadDataToForm(Scheduleid) {
         dataType: "json",
         encode: true,
     }).done(function (data) {
-        console.log(data);
+       
         if (data.error == 1) {
             Swal.fire(
                 'Failed!',
@@ -124,7 +124,7 @@ function loadDataToForm(Scheduleid) {
         }
         if (data.error == 0) {
 
-            console.log(data.doctor);
+            
             $("#uscheduleid").val(data.schedule.SCHEDULEID);
             $("#udoctor").val(data.schedule.DOCTORID);
             $("#udoctor").trigger('change');
@@ -170,7 +170,7 @@ function setSubmitFormUdateByAjax() {
                         CONSULTANTTIME: $("#uconsultanttime").val()
                     };
                 
-                    console.log($("#uscheduleid").val());
+                    
 
                     $.ajax({
                         type: "POST",
@@ -179,7 +179,7 @@ function setSubmitFormUdateByAjax() {
                         dataType: "json",
                         encode: true,
                     }).done(function (data) {
-                        console.log(data);
+                        
                         if (data.error == 1) {
 
                             Swal.fire(
@@ -226,7 +226,7 @@ function setEventUpdateDoctorScheduleForBtn() {
 
             var Button = $(this);
             var id = Button.data("id");
-            console.log(id);
+            
             loadDataToForm(id);
         });
 
@@ -243,7 +243,7 @@ function setEventDeleteScheduleBtn() {
         $(".btn-delete-schedule").on("click", function () {
             var Button = $(this);
             var id = Button.data("id");
-            console.log("db=>" + id);
+           
 
             const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
@@ -291,7 +291,7 @@ function deleteScheduleByAjax(sheduleid) {
         dataType: "json",
         encode: true,
     }).done(function (data) {
-        console.log(data);
+       
         if (data.error == 1) {
             Swal.fire(
                 'Failed!',
@@ -338,7 +338,7 @@ function initJqueryDatatable() {
             },
             {
                 "data": "SCHEDULEID",
-                "title": 'Schedule ID',
+                "title": 'ID',
                 "searchable": true
 
             },
@@ -356,7 +356,7 @@ function initJqueryDatatable() {
             },
             {
                 "data": "WORKINGDAY",
-                "title": 'Schedule Date',
+                "title": 'Working Day',
                 "searchable": true
 
             },
@@ -386,22 +386,22 @@ function initJqueryDatatable() {
             },
             {
                 "data": "CREATEDBY",
-                "title": "Create By",
+                "title": "Created By",
                 "searchable": true
             },
             {
                 "data": "CREATEDDATE",
-                "title": "Create Date",
+                "title": "Created Date",
                 "searchable": true
             },
             {
                 "data": "UPDATEDBY",
-                "title": "Update By",
+                "title": "Updated By",
                 "searchable": true
             },
             {
                 "data": "UPDATEDDATE",
-                "title": "Update Date",
+                "title": "Updated Date",
                 "searchable": true
             },
             {
@@ -411,7 +411,7 @@ function initJqueryDatatable() {
                 "searchable": false,
                 "orderable": false,
                 "render": function (data, type, row) {
-                    console.log(data, type, row);
+                   
                     return "<btn class=\"btn-update-schedule btn btn-sm btn-outline-primary btn-action\" data-id=\"" + row.SCHEDULEID + "\"  data-toggle=\"popover\" data-trigger=\"hover\" data-placement=\"top\"  data-content=\"Edit schedule\" > <i class=\"fa-solid fa-user-pen\"></i> </btn>"
                         + "<btn class=\"btn-delete-schedule btn btn-sm btn-outline-danger btn-action  ml-2\" data-id=\"" + row.SCHEDULEID + "\"  data-toggle=\"popover\" data-trigger=\"hover\" data-placement=\"top\"  data-content=\"Delete schedule\" > <i class=\"fa-solid fa-trash\"></i> </btn> "
 

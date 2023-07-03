@@ -73,7 +73,7 @@ function setSubmitFormByAjax() {
 
 
             };
-            console.log("Create =>patient");
+          
             $.ajax({
                 type: "POST",
                 url: "/Admin/PatientManage/CreatePatient",
@@ -81,7 +81,7 @@ function setSubmitFormByAjax() {
                 dataType: "json",
                 encode: true,
             }).done(function (data) {
-                console.log(data);
+                
                 if (data.error == 1) {
                    
                     Swal.fire(
@@ -130,7 +130,7 @@ function setEventUpdatePatientFoBtn() {
 
             var Button = $(this);
             var id = Button.data("id");
-            console.log(id);
+          
             loadDataToForm(id);
 
         });
@@ -153,7 +153,7 @@ function loadDataToForm(patientid) {
         dataType: "json",
         encode: true,
     }).done(function (data) {
-        console.log(data);
+       
         if (data.error == 1) {
             //showMessageFormUpdate(data.msg);
             Swal.fire(
@@ -163,8 +163,6 @@ function loadDataToForm(patientid) {
             )
         }
         if (data.error == 0) {
-
-            console.log(data.doctor);
 
             $("#upatientid").val(data.patient.PATIENTID);
             $("#upatientname").val(data.patient.PATIENTNAME);
@@ -221,7 +219,7 @@ function setSubmitFormUdateByAjax() {
                         dataType: "json",
                         encode: true,
                     }).done(function (data) {
-                        console.log(data);
+                       
                         if (data.error == 1) {
 
                             
@@ -276,7 +274,7 @@ function setEventDeletePatientFoBtn() {
             var Button = $(this);
             var id = Button.data("id");
             var username = Button.data("partientname");
-            console.log("db=>" + id);
+          
 
             const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
@@ -324,7 +322,7 @@ function deletePatientByAjax(patientid) {
         dataType: "json",
         encode: true,
     }).done(function (data) {
-        console.log(data);
+       
         if (data.error == 1) {
             Swal.fire(
                 'Failed!',
@@ -384,7 +382,7 @@ function initJqueryDatatable() {
             },
             {
                 "data": "USERNAME",
-                "title": "User Name",
+                "title": "Username",
 
                 "searchable": true
 
@@ -442,25 +440,25 @@ function initJqueryDatatable() {
             },
             {
                 "data": "CREATEDBY",
-                "title": "Create By",
+                "title": "Created By",
 
                 "searchable": true
             },
             {
                 "data": "CREATEDDATE",
-                "title": "Create Date",
+                "title": "Created Date",
 
                 "searchable": true
             },
             {
                 "data": "UPDATEDBY",
-                "title": "Update By",
+                "title": "Updated By",
 
                 "searchable": true
             },
             {
                 "data": "UPDATEDDATE",
-                "title": "Update Date",
+                "title": "Updated Date",
 
                 "searchable": true
             },
@@ -471,7 +469,7 @@ function initJqueryDatatable() {
                 "searchable": true,
                 "orderable": false,
                 "render": function (data, type, row) {
-                    console.log(data, type, row);
+                   
                     return "<btn class=\"btn-update-patient btn btn-sm btn-outline-primary btn-action\" data-id=\"" + row.PATIENTID + "\" data-partientname=\"" + row.PATIENTNAME + "\" data-toggle=\"popover\" data-trigger=\"hover\" data-placement=\"top\"  data-content=\"Edit user\"> <i class=\"fa-solid fa-user-pen\"></i> </btn>"
                         + "<btn class=\"btn-delete-patient btn btn-sm btn-outline-danger btn-action  ml-2\" data-id=\"" + row.PATIENTID + "\" data-partientname=\"" + row.PATIENTNAME + "\" data-toggle=\"popover\" data-trigger=\"hover\" data-placement=\"top\"  data-content=\"Delete user\" > <i class=\"fa-solid fa-trash\"></i></btn> "
                         

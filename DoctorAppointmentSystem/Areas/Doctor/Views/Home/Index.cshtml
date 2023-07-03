@@ -69,7 +69,7 @@
                     <div class="col-8 col-md-8">
                         <a href="#">
                             <p class="h3"> @ViewBag.apptCompleted </p>
-                            <span class="custom-card-title h5">All Appointments </span>
+                            <span class="custom-card-title h5">Completed Appointments </span>
                         </a>
                     </div>
                     <span class="col-3 col-md-3 custom-card-icon text-center">
@@ -86,6 +86,8 @@
 
 <hr />
 <h4 class="m-4">Appointment Schedule</h4>
+
+
 <div id="select-statu-appt" class="input-group mb-3 ml-4  ">
     <div class="input-group-prepend">
         <label class="input-group-text" for="appt-status-filter">Status</label>
@@ -99,6 +101,15 @@
     </select>
 
 </div>
+<div class="ml-4">
+    <ul >
+        <li style="display:inline-block;"> <span style="display: inline-block; height: 10px; width: 20px; background-color: #ffc107" class="mr-1 ml-2"></span> Pending </li>
+        <li style="display:inline-block;"> <span style="display: inline-block; height: 10px; width: 20px; background-color: #007bff" class="mr-1 ml-2"></span>Confirm</li>
+        <li style="display:inline-block;"> <span style="display: inline-block; height: 10px; width: 20px; background-color: #00ff21" class="mr-1 ml-2"></span>Completed</li>
+        <li style="display:inline-block;"> <span style="display: inline-block; height: 10px; width: 20px; background-color: #dc3545" class="mr-1 ml-2"></span>Cancelled</li>
+    </ul>
+</div>
+
 <div class="container-fluid m-2">
     <div style="max-height:600px;" id='calendar'></div>
 </div>

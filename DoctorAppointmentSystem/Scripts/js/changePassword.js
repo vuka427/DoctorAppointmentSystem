@@ -1,39 +1,4 @@
-﻿$(document).on('submit', '#formVerifyAccount', function (event) {
-    event.preventDefault();
-
-    var answers = {
-        ans1: $('#authQuestion1').val(),
-        ans2: $('#authQuestion2').val(),
-        ans3: $('#authQuestion3').val()
-    }
-
-    if ($('#formVerifyAccount').valid()) {
-        $.ajax({
-            url: '/Account/VerifyAnswers',
-            method: 'GET',
-            data: answers,
-            dataType: 'JSON',
-            success: function (res) {
-                if (res.success) {
-                    showChangePassForm();
-                } else {
-                    Swal.fire({
-                        position: 'top',
-                        icon: 'warning',
-                        title: 'Failed!',
-                        text: res.message,
-                        showConfirmButton: false,
-                        timer: 2000,
-                        width: '30em'
-                    })
-                }
-            },
-            error: function (err) {
-                console.log(err.responseText);
-            }
-        })
-    }
-})
+﻿
 
 $(document).on('submit', '#formChangePassword', function (event) {
     event.preventDefault();
@@ -105,67 +70,6 @@ function logoutUser() {
     });
 }
 
-function showChangePassForm() {
-    $('#formVerifyAccount-Doctor').hide();
-    $('#formChangePassword-Doctor').show();
-    $('#formVerifyAccount').trigger('reset');
-    $('#formChangePassword').trigger('reset');
-}
-
-function cancel() {
-    $('#formVerifyAccount').trigger('reset');
-    $('#formVerifyAccount').trigger('reset');
-}
-
-var validVerifyAccountForm = $('#formVerifyAccount').validate({
-    onfocusout: function (element) {
-        $(element).valid()
-    },
-    rules: {
-        "authQuestion1": {
-            required: true
-        },
-        "authQuestion2": {
-            required: true
-        },
-        "authQuestion3": {
-            required: true
-        }
-    },
-    messages: {
-        "authQuestion1": {
-            required: 'This value is required.'
-        },
-        "authQuestion2": {
-            required: 'This value is required.'
-        },
-        "authQuestion3": {
-            required: 'This value is required.'
-        }
-    },
-    highlight: function (element) {
-        var elem = $(element);
-        if (elem.hasClass("select2-hidden-accessible")) {
-            element = $(".select2-selection");
-
-            element.addClass('border-2 border-danger')
-        } else {
-            elem.addClass('border-2 border-danger ')
-        }
-
-    },
-    unhighlight: function (element) {
-        var elem = $(element);
-        if (elem.hasClass("select2-hidden-accessible")) {
-            element = $(".select2-selection");
-
-            element.removeClass('border-2 border-danger')
-        } else {
-            elem.removeClass('border-2 border-danger')
-        }
-    },
-})
-
 function validChangePasswordForm() {
     jQuery.validator.addMethod('passwordFormat', function (value) {
         var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,50}$/;
@@ -178,8 +82,8 @@ function validChangePasswordForm() {
         },
         rules: {
             "currPass": {
-                required: true,
-                passwordFormat: true
+                required: true
+                
             },
             "newPass": {
                 required: true,
@@ -193,8 +97,8 @@ function validChangePasswordForm() {
         },
         messages: {
             "currPass": {
-                required: 'Password is required.',
-                passwordFormat: "Password charater at least one uppercase letter, one lowercase letter, one number and one special character"
+                required: 'Password is required.'
+                
             },
             "newPass": {
                 required: 'New password is required.',
@@ -247,7 +151,6 @@ function showPass() {
 }
 
 $(document).ready(function () {
-    $('#formChangePassword-Doctor').hide();
-    validVerifyAccountForm.call;
+    
     validChangePasswordForm();
 })

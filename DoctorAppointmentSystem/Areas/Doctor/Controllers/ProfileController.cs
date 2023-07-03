@@ -40,32 +40,6 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Controllers
             return View();
         }
 
-        public ActionResult VerifyAnswers(VerifyAccountViewModel answers)
-        {
-            try
-            {
-                bool success = new ChangePasswordIO().VerifyAccount(answers, User.Identity.Name);
-                if (success)
-                {
-                    return Json(new { success = true }, JsonRequestBehavior.AllowGet);
-                }
-                else
-                {
-                    throw new Exception();
-                }
-            }
-            catch (Exception ex)
-            {
-                string sEventCatg = "PATIENT PORTAL";
-                string sEventMsg = "Exception: " + ex.Message;
-                string sEventSrc = "VerifyAnswers";
-                string sEventType = "S";
-                string sInsBy = GetInfo.Username;
-
-                Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
-                return Json(new { success = false, message = "Failed to verify account! Please check your answers again." }, JsonRequestBehavior.AllowGet);
-            }
-        }
 
         [HttpPost]
         public ActionResult ChangePasswordAPI(ChangePasswordViewModel data)

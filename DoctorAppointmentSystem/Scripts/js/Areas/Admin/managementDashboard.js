@@ -1,8 +1,4 @@
 ﻿
-
-
-
-
 //load data to chart
 function LoadDataToChart() {
    
@@ -78,8 +74,6 @@ function LoadDataToChart() {
                 }
             });
 }
-
-
 
 $("document").ready(function () {
     LoadDataToChart();

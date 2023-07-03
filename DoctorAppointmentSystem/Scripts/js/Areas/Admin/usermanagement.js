@@ -384,13 +384,13 @@ function initJqueryDatatable() {
             },
             {
                 "data": "FULLNAME",
-                "title": "Full name",
+                "title": "Full Name",
                 "searchable": true
 
             },
             {
                 "data": "USERNAME",
-                "title": "User Name",
+                "title": "Username",
 
                 "searchable": true
 
@@ -411,7 +411,7 @@ function initJqueryDatatable() {
            
             {
                 "data": "MOBILENO",
-                "title": "Mobile NO",
+                "title": "Mobile",
 
                 "searchable": true
             },
@@ -429,37 +429,37 @@ function initJqueryDatatable() {
             },
             {
                 "data": "LOGINLOCKDATE",
-                "title": "Login lock date",
+                "title": "Login Lock Date",
 
                 "searchable": true
             },
             {
                 "data": "LOGINRETRYCOUNT",
-                "title": "Login retry count",
+                "title": "Login Retry Count",
 
                 "searchable": true
             },
             {
                 "data": "CREATEDBY",
-                "title": "Create By",
-
+                "title": "Created By",
+                
                 "searchable": true
             },
             {
                 "data": "CREATEDDATE",
-                "title": "Create Date",
+                "title": "Created Date",
 
                 "searchable": true
             },
             {
                 "data": "UPDATEDBY",
-                "title": "Update By",
+                "title": "Updated By",
 
                 "searchable": true
             },
             {
                 "data": "UPDATEDDATE",
-                "title": "Update Date",
+                "title": "Updated Date",
 
                 "searchable": true
             },
