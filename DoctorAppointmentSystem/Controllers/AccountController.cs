@@ -154,7 +154,7 @@ namespace DoctorAppointmentSystem.Controllers
                             // Save the image as JPEG with reduced quality
                             var jpegEncoder = new JpegEncoder
                             {
-                                Quality = 100 // Adjust the quality value as needed (0-100)
+                                Quality = 50 // Adjust the quality value as needed (0-100)
                             };
                             image.Save(filePath, jpegEncoder);
                         }

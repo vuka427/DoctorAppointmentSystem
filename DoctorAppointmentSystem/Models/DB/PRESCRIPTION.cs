@@ -32,6 +32,7 @@ namespace DoctorAppointmentSystem.Models.DB
         public string UPDATEDBY { get; set; }
         public Nullable<System.DateTime> UPDATEDDATE { get; set; }
         public bool DELETEDFLAG { get; set; }
+        public Nullable<int> UNIT { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<APPOINTMENT_PRESCRIPTION> APPOINTMENT_PRESCRIPTION { get; set; }

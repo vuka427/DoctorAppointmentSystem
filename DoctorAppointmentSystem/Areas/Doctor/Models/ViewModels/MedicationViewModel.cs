@@ -15,5 +15,6 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Models.ViewModels
         public string medicationDays { get; set; }
         public string quantity { get; set; }
         public int frequency { get; set; }
+        public int unit { get; set; }
     }
 }

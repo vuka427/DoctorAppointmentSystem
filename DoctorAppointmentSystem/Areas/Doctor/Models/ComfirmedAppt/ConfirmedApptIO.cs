@@ -310,6 +310,7 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Models.ComfirmedAppt
                         var currPressList = dbContext.PRESCRIPTION
                             .Join(dbContext.APPOINTMENT_PRESCRIPTION,
                             p => p.PRECRIPTIONID, a => a.PRECRIPTIONID, (p, a) => p)
+                            .Where(p => p.DELETEDFLAG == false)
                             .ToList();
 
                         if (currPressList.Count != 0)
@@ -346,6 +347,7 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Models.ComfirmedAppt
                             prescription.QUANTITY = item.quantity;
                             prescription.NOTE = item.note;
                             prescription.FREQUENCY = item.frequency;
+                            prescription.UNIT = item.unit;
                             prescription.CREATEDBY = GetInfo.Username;
                             prescription.UPDATEDBY = GetInfo.Username;
                             prescription.CREATEDDATE = DateTime.Now;

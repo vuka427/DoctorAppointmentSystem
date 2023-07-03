@@ -94,10 +94,11 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Controllers
             }
         }
 
-        public ActionResult GetFrequency()
+        public ActionResult GetFreqAndUnit()
         {
-            var data = SystemParaHelper.GenerateByGroup("Frequency");
-            return Json(new { data = data }, JsonRequestBehavior.AllowGet);
+            var frequency = SystemParaHelper.GenerateByGroup("Frequency");
+            var unit = SystemParaHelper.GenerateByGroup("Unit");
+            return Json(new { frequency = frequency, unit = unit }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult LoadDoctorNotes(int id)

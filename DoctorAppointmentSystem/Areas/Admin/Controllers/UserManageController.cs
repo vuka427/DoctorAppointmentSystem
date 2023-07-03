@@ -7,11 +7,13 @@ using DoctorAppointmentSystem.Menu;
 using DoctorAppointmentSystem.Models.DB;
 using DoctorAppointmentSystem.Services;
 using DoctorAppointmentSystem.Services.ServiceInterface;
+using Microsoft.Ajax.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
@@ -127,9 +129,14 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
         public JsonResult DeleteUser(int USERID)
         {
             USER CurentUser = GetCurrentUser();
+
             if (CurentUser == null)
             {
                 return Json(new { error = 1, msg = "Can't find current user !" });
+            }
+            if(USERID == CurentUser.USERID)
+            {
+                return Json(new {error = 1 , msg = "You can't detele your account" });
             }
             if (USERID == 0)
             {
@@ -161,11 +168,37 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             {
                 if (user.PATIENT.FirstOrDefault() != null)
                 {
+
+
+
                     var patient = user.PATIENT.FirstOrDefault();
                     patient.DELETEDFLAG = true;
                     patient.UPDATEDBY = CurentUser.USERNAME;
                     patient.UPDATEDDATE = DateTime.Now;
                     _dbContext.PATIENT.AddOrUpdate(patient);
+
+                    _dbContext.Entry(patient).Collection(s => s.APPOINTMENT).Load();
+
+                    if (patient.APPOINTMENT.Count > 0)
+                    {
+                        patient.APPOINTMENT.ForEach(a =>
+                        {
+                            if (a.APPOINTMENT_PRESCRIPTION.Count > 0)
+                            {
+                                a.APPOINTMENT_PRESCRIPTION.ForEach(p => {
+                                    p.PRESCRIPTION.DELETEDFLAG = true;
+                                    _dbContext.APPOINTMENT_PRESCRIPTION.AddOrUpdate(p);
+                                });
+
+                            }
+
+                            a.DELETEDFLAG = true;
+                            _dbContext.APPOINTMENT.AddOrUpdate(a);
+                        });
+                    }
+
+
+
                 }
             }
            

@@ -4,6 +4,7 @@
     },
     responsive: true,
     order: [[1, 'asc']],
+    
     columns: [
         {
             orderable: false,
@@ -28,7 +29,7 @@
         {
             data: 'dateOfConsultation',
             title: 'Consultation Date',
-            className: 'text-center',
+            className: 'text-center text-nowrap',
             searchable: true,
         },
         {
@@ -39,10 +40,10 @@
                 var today = new Date();
                 var apptDate = new Date(data)
                 if (apptDate < today) {
-                    return '<div class="text-center text-light" style="background-color: #997473"  data-toggle="popover" '
+                    return '<div class="text-center text-light text-nowrap" style="background-color: #997473"  data-toggle="popover" '
                         + 'data-trigger="hover" data-placement="top"  data-content="Appointment time exceeded.">' + data + '</div>';
                 }
-                return '<div class="text-center ">' + data + '</div>';
+                return '<div class="text-center text-nowrap">' + data + '</div>';
             }
         },
         {

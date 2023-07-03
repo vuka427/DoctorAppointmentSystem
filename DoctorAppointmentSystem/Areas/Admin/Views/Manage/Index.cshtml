@@ -9,51 +9,39 @@
 
 <div class="row m-2">
     <!-- Status -->
-    <article class="col-12 col-md-5 custom-post">
+    <article class="col-12 col-sm-12 col-md-5 custom-post">
         <hr class="custom-hr-primary" />
-        <h3>Status</h3>
-        <div class="custom-status-wrapper d-flex flex-wrap justify-content-center mt-5">
-            <div class="custom-card" style="min-width:180px;">
-
-                <div class="row custom-card-body d-flex flex-wrap justify-content-between align-items-center">
-
-                    <div class="col-8 col-md-8">
-                        <a href="@Url.Action("Index", "DoctorManage", new {area = "Admin"})">
-                            <p class="h3">@ViewBag.DoctorCount </p>
-                            <h4 class="custom-card-title">All Doctors</h4>
-                        </a>
+        <h4>Status</h4>
+        <div class="custom-status-wrapper d-flex flex-wrap justify-content-center">
+            <div class="custom-card">
+                <div class="custom-card-body d-flex flex-nowrap justify-content-between align-items-center">
+                    <div class="col-8 col-md-8 d-flex flex-column justify-content-between h-100">
+                        <p class="h5" id="allDoctors">@ViewBag.DoctorCount</p>
+                        <span class="custom-card-title">All Doctors</span>
                     </div>
-
                     <span class="col-3 col-md-3 custom-card-icon text-center">
                         <i class="fas fa-users"></i>
                     </span>
                 </div>
-
             </div>
 
-            <div class="custom-card " style="min-width: 180px;  ">
-
-                <div class="row custom-card-body d-flex flex-wrap justify-content-between align-items-center">
-
-                    <div class="col-8 col-md-8">
-                        <a href="@Url.Action("Index", "PatientManage", new {area = "Admin"})">
-                            <p class="h3">@ViewBag.PatientCount</p>
-                            <h4 class="custom-card-title">All Patients</h4>
-                        </a>
+            <div class="custom-card">
+                <div class="custom-card-body d-flex flex-nowrap justify-content-between align-items-center">
+                    <div class="col-8 col-md-8 d-flex flex-column justify-content-between h-100">
+                        <p class="h5" id="allBooking">@ViewBag.PatientCount</p>
+                        <span class="custom-card-title">All Patients</span>
                     </div>
-
                     <span class="col-3 col-md-3 custom-card-icon text-center">
                         <i class="fas fa-wheelchair"></i>
                     </span>
                 </div>
-
             </div>
 
-            <div class="custom-card" style="min-width: 180px; ">
+            <div class="custom-card">
                 <div class="custom-card-body d-flex flex-nowrap justify-content-between align-items-center">
-                    <div class="col-8 col-md-8">
-                        <p class="h3">@ViewBag.TodayAppointment</p>
-                        <span class="custom-card-title h4">Today Appointments</span>
+                    <div class="col-8 col-md-8 d-flex flex-column justify-content-between h-100">
+                        <p class="h5" id="newBooking">@ViewBag.TodayAppointment</p>
+                        <span class="custom-card-title">Today Appointments</span>
                     </div>
                     <span class="col-3 col-md-3 custom-card-icon text-center">
                         <i class="fa-solid fa-file-medical"></i>
@@ -61,13 +49,11 @@
                 </div>
             </div>
 
-            <div class="custom-card " style="min-width: 180px; ">
-                <div class="custom-card-body d-flex flex-nowrap justify-content-between align-items-center " >
-                    <div class="col-8 col-md-8">
-                        <a href="@Url.Action("Index", "AppointmentManage", new {area = "Admin"})">
-                            <p class="h3">@ViewBag.AppointmentTillDate</p>
-                            <span class="custom-card-title h4">All  Appointments</span>
-                        </a>
+            <div class="custom-card">
+                <div class="custom-card-body d-flex flex-nowrap justify-content-between align-items-center">
+                    <div class="col-8 col-md-8 d-flex flex-column justify-content-between h-100">
+                        <p class="h5" id="todaySessions">@ViewBag.AppointmentTillDate</p>
+                        <span class="custom-card-title">All Appointments</span>
                     </div>
                     <span class="col-3 col-md-3 custom-card-icon text-center">
                         <i class="fas fa-calendar-alt"></i>
@@ -77,7 +63,7 @@
         </div>
     </article>
 
-    <article class="col-12 col-md-7 custom-post">
+    <article class="col-12 col-sm-12 col-md-7 custom-post">
         <hr class="custom-hr-primary" />
         @{
             var today = DateTime.Now;

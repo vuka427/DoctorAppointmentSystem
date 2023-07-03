@@ -112,13 +112,13 @@ $(document).ready(function () {
             {
                 "title": "Drug",
                 "data": "drug",
-                "width": "18%"
+                "width": "15%"
             },
             {
                 "title": "Frequency",
                 "data": "frequency",
                 "className": "frequency",
-                "width": "20%"
+                "width": "18%"
             },
             {
                 "title": "Medication Days",
@@ -128,7 +128,13 @@ $(document).ready(function () {
             {
                 "title": "Quantity",
                 "data": "quantity",
-                "width": "15%"
+                "width": "10%"
+            },
+            {
+                "title": "Unit",
+                "data": "unit",
+                "className": "unit",
+                "width": "16%"
             },
             {
                 "title": "Note",
@@ -149,22 +155,35 @@ $(document).ready(function () {
         ]
     });
 
-    var select = $('<select>').addClass('custom-select');
-    select.attr('name', 'frequency');
+    var freqSelect = $('<select>').addClass('custom-select');
+    freqSelect.attr('name', 'frequency');
+
+    var unitSelect = $('<select>').addClass('custom-select');
+    unitSelect.attr('name', 'unit');
     $('#medication-tab').on('click', function () {
         $.ajax({
-            url: '/Doctor/ConfirmedAppt/GetFrequency',
+            url: '/Doctor/ConfirmedAppt/GetFreqAndUnit',
             method: 'GET',
             dataType: 'JSON',
             success: function (res) {
-                var data = res.data;
-                select.empty();
-                for (var item of data) {
+                var freq = res.frequency;
+                var unit = res.unit;
+                freqSelect.empty();
+                unitSelect.empty();
+                for (var item of freq) {
                     var option = $('<option>', {
                         value: item.ID,
                         text: item.PARAVAL
                     });
-                    select.append(option);
+                    freqSelect.append(option);
+                }
+
+                for (var item of unit) {
+                    var option = $('<option>', {
+                        value: item.ID,
+                        text: item.PARAVAL
+                    });
+                    unitSelect.append(option);
                 }
             },
             error: function (err) {
@@ -181,17 +200,19 @@ $(document).ready(function () {
             no: '<span class="numOrder">' + numOrder + '.</span>',
             drug: '<input required autocomplete="off" type="text" name="drug" class="drug-input"><div class="error-container"></div>',
             frequency: "",
-            medicationDays: '<input required autocomplete="off" type="text" name="medicationDays" class="medicationDays-input"><div class="error-container"></div>',
-            quantity: '<input required autocomplete="off" type="text" name="quantity" class="quantity-input"><div class="error-container"></div>',
+            unit: "",
+            medicationDays: '<input required autocomplete="off" type="text" onkeypress="return validateNumber(event)" name="medicationDays" class="medicationDays-input"><div class="error-container"></div>',
+            quantity: '<input required autocomplete="off" type="text" onkeypress="return validateNumber(event)" name="quantity" class="quantity-input"><div class="error-container"></div>',
             note: '<input required autocomplete="off" type="text" name="note" class="note-input"><div class="error-container"></div>',
         }
         $('.error-container').empty();
         table.row.add(object).draw(false);
 
         var frequency = $('.frequency').last();
-        var clonedSelect = select.clone();
-        clonedSelect.appendTo(frequency);
-
+        freqSelect.clone().appendTo(frequency);
+        
+        var unit = $('.unit').last();
+        unitSelect.clone().appendTo(unit);
     });
 
 
@@ -227,12 +248,14 @@ $(document).ready(function () {
                     var cells = $(this).find('input');
                     var numberOrder = $(this).find('span').first().text();
                     var frequency = $(this).find('select').first().val();
+                    var unit = $(this).find('select').last().val();
                     var rowData = {
                         "appointmentID": appointmentID,
                         "no": numberOrder,
                         "drug": cells.eq(0).val(),
                         "note": cells.eq(1).val(),
                         "frequency": frequency,
+                        "unit": unit,
                         "medicationDays": cells.eq(2).val(),
                         "quantity": cells.eq(3).val()
                     };

@@ -73,8 +73,6 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Controllers
                                               || x.PATIENTNAME.ToLower().Contains(param.sSearch.ToLower())
                                               || x.APPOINTMENTID.ToString().ToLower().Contains(param.sSearch.ToLower())
                                               || x.DATEOFCONSULTANT.ToString().ToLower().Contains(param.sSearch.ToLower())
-
-
                                                ).ToList();
             }
             var sortColumnIndex = param.iSortCol_0;
@@ -90,7 +88,6 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Controllers
                                                            sortColumnIndex == 2 ? e.PATIENTNAME :
                                                            sortColumnIndex == 3 ? e.DATEOFCONSULTANT :
                                                            sortColumnIndex == 4 ? e.APPOINTMENTDATE :
-                                                         
                                                            sortColumnIndex == 5 ? e.CONSULTANTTIME : e.APPOIMENTSTATUS 
                                                            ;
 

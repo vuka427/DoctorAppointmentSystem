@@ -55,8 +55,10 @@
             <div class="custom-card appt-gird-l ">
                 <div class="custom-card-body d-flex flex-nowrap justify-content-between align-items-center">
                     <div class="col-8 col-md-8">
-                        <p class="h3"> @ViewBag.apptConfirm</p>
-                        <span class="custom-card-title h5">Appointments Confirmed</span>
+                        <a href="@Url.Action("Index", "ConfirmedAppt", new {area = "Doctor"})">
+                            <p class="h3"> @ViewBag.apptConfirm</p>
+                            <span class="custom-card-title h5">Appointments Confirmed</span>
+                        </a>
                     </div>
                     <span class="col-3 col-md-3 custom-card-icon text-center">
                         <i class="fa-solid fa-file-medical"></i>
@@ -67,7 +69,7 @@
             <div class="custom-card appt-gird-l ">
                 <div class="custom-card-body d-flex flex-nowrap justify-content-between align-items-center ">
                     <div class="col-8 col-md-8">
-                        <a href="#">
+                        <a href="@Url.Action("Index", "CompletedAppt", new {area = "Doctor"})">
                             <p class="h3"> @ViewBag.apptCompleted </p>
                             <span class="custom-card-title h5">Completed Appointments </span>
                         </a>

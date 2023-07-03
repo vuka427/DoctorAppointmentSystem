@@ -23,6 +23,7 @@ namespace DoctorAppointmentSystem.Controllers
         {
             var genders = SystemParaHelper.GenerateGender();
             ViewBag.genders = new SelectList(genders, "id", "paraval");
+            ViewBag.backUrl = "/Home/Index";
             return View();
         }
 
