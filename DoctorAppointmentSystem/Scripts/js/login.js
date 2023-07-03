@@ -1,16 +1,23 @@
-﻿var submit = $('#login-form').submit(function (event) {
+﻿var submit = $('#login-form').on('submit', function (event) {
     event.preventDefault();
+
     var user = {
         username: $('#username').val(),
         password: $('#password').val()
     }
+    var antiForgeryToken = $('#login-form input[name="__RequestVerificationToken"]').val();
 
-    console.log(user);
     if ($('#login-form').valid()) {
         $.ajax({
             url: '/Account/Login',
             method: 'POST',
-            data: { model: user },
+            headers: {
+                'RequestVerificationToken': antiForgeryToken
+            },
+            data: {
+                __RequestVerificationToken: antiForgeryToken,
+                model: user
+            },
             success: function (res) {
                 if (res.success == true) {
                     window.location.href = res.url;
@@ -22,7 +29,7 @@
                         title: 'Failed!',
                         text: res.message,
                         showConfirmButton: false,
-                        timer: 2000,
+                        timer: 3000,
                         width: '30em'
                     })
                 }
@@ -31,8 +38,8 @@
                 Swal.fire({
                     position: 'top',
                     icon: 'warning',
-                    title: 'Connect to Sever failed!',
-                    text: res.message,
+                    title: 'Connect to Server failed!',
+                    text: err.responseText,
                     showConfirmButton: false,
                     timer: 3000,
                     width: '30em'
@@ -46,11 +53,12 @@
             title: 'Failed!',
             text: 'Please fill out the form completely!',
             showConfirmButton: false,
-            timer: 2000,
+            timer: 3000,
             width: '30em'
         })
     }
-})
+});
+
 
 var validData = $('#login-form').validate({
     onfocusout: function (element) {
@@ -113,6 +121,6 @@ function showPass() {
 
 $(document).ready(function () {
     $('#username').focus();
-    submit()
-    validData()
+    submit.call;
+    validData.call;
 })

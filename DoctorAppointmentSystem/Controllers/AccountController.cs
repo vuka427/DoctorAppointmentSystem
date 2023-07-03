@@ -1,13 +1,9 @@
-﻿using DoctorAppointmentSystem.Models;
-using DoctorAppointmentSystem.Models.Account;
+﻿using DoctorAppointmentSystem.Models.Account;
 using DoctorAppointmentSystem.Models.Account.Login;
 using DoctorAppointmentSystem.Models.Account.Register;
 using DoctorAppointmentSystem.Models.DB;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using DoctorAppointmentSystem.HelperClasses;
@@ -16,8 +12,12 @@ using System.IO;
 using System.Threading.Tasks;
 using DoctorAppointmentSystem.Models.Account.ChangePassword;
 using DoctorAppointmentSystem.Models.Account.AuthenQuestion;
-using Antlr.Runtime.Misc;
 using DoctorAppointmentSystem.Menu;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
+using SixLabors.ImageSharp.Formats;
+using SixLabors.ImageSharp.Formats.Jpeg;
+
 
 namespace DoctorAppointmentSystem.Controllers
 {
@@ -33,6 +33,7 @@ namespace DoctorAppointmentSystem.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Login(LoginViewModel model)
         {
             try
@@ -43,37 +44,29 @@ namespace DoctorAppointmentSystem.Controllers
                     throw new Exception("Username not found.");
                 }
 
-                if (PasswordHelper.VerifyPassword(model.Password, user.PASSWORDHASH))
-                {
-                    if (user.STATUS)
-                    {
-                        if (user.LASTLOGIN != null)
-                        {
-                            FormsAuthentication.SetAuthCookie(model.Username, false);
-                            GetInfo.Username = model.Username.Trim();
-                            string action = "";
-                            string controller = "";
-                            string area = "";
-
-                            loginIO.UserRedirects(user, out area, out controller, out action);
-                            string url = Url.Action(action, controller, new { area = area });
-                            return Json(new { success = true, message = "", url = url });
-                        }
-                        else
-                        {
-                            return Json(new { success = false, message = "Please check your email to activate your account before logging in." });
-                        }
-                    }
-                    else
-                    {
-                        return Json(new { success = false, message = "Account have been locked." });
-                    }
-                }
-                else
+                if (!PasswordHelper.VerifyPassword(model.Password, user.PASSWORDHASH))
                 {
                     throw new Exception("User failed to login.");
                 }
 
+                if (!user.STATUS)
+                {
+                    return Json(new { success = false, message = "Account has been locked." });
+                }
+
+                if (user.LASTLOGIN == null)
+                {
+                    return Json(new { success = false, message = "Please check your email to activate your account before logging in." });
+                }
+
+                FormsAuthentication.SetAuthCookie(model.Username, false);
+                GetInfo.Username = model.Username.Trim();
+
+                string action, controller, area;
+                loginIO.UserRedirects(user, out area, out controller, out action);
+                string url = Url.Action(action, controller, new { area = area });
+
+                return Json(new { success = true, url = url }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -84,9 +77,11 @@ namespace DoctorAppointmentSystem.Controllers
                 string sInsBy = model.Username;
 
                 Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
+
                 return Json(new { success = false, message = "Username or password is incorrect." });
             }
         }
+
 
         public ActionResult Login()
         {
@@ -127,10 +122,12 @@ namespace DoctorAppointmentSystem.Controllers
             return Json(new { success = true, message }, JsonRequestBehavior.AllowGet);
         }
 
+
+
         [HttpPost]
         public ActionResult UploadFiles(string username)
         {
-            username = String.IsNullOrEmpty(username.Trim()) ? User.Identity.Name : username;
+            username = string.IsNullOrEmpty(username.Trim()) ? User.Identity.Name : username;
             if (Request.Files.Count > 0)
             {
                 try
@@ -139,13 +136,34 @@ namespace DoctorAppointmentSystem.Controllers
                     for (int i = 0; i < files.Count; i++)
                     {
                         HttpPostedFileBase file = files[i];
-                        string imgFormat = file.FileName.Substring(file.FileName.LastIndexOf("."));
+                        string imgFormat = Path.GetExtension(file.FileName);
                         string fileName = username + "_avatar" + imgFormat;
+                        string filePath = Path.Combine(Server.MapPath("~/Uploads/"), fileName);
+
+                        using (Image image = Image.Load(file.InputStream))
+                        {
+                            // Resize the image to the desired dimensions
+                            int targetWidth = 400;
+                            int targetHeight = 400;
+                            image.Mutate(x => x.Resize(new ResizeOptions
+                            {
+                                Size = new Size(targetWidth, targetHeight),
+                                Mode = ResizeMode.Max
+                            }));
+
+                            // Save the image as JPEG with reduced quality
+                            var jpegEncoder = new JpegEncoder
+                            {
+                                Quality = 100 // Adjust the quality value as needed (0-100)
+                            };
+                            image.Save(filePath, jpegEncoder);
+                        }
+
                         using (DBContext dbContext = new DBContext())
                         {
-                            if (!String.IsNullOrEmpty(User.Identity.Name))
+                            if (!string.IsNullOrEmpty(User.Identity.Name))
                             {
-                                USER user = dbContext.USER.Where(u => u.USERNAME.Equals(User.Identity.Name)).FirstOrDefault();
+                                USER user = dbContext.USER.FirstOrDefault(u => u.USERNAME.Equals(User.Identity.Name));
                                 if (user != null)
                                 {
                                     user.AVATARURL = fileName;
@@ -153,11 +171,9 @@ namespace DoctorAppointmentSystem.Controllers
                                 }
                             }
                         }
-                        fileName = Path.Combine(Server.MapPath("~/Uploads/"), fileName);
-                        file.SaveAs(fileName);
                     }
 
-                    return Json(new { success = true, message = " Good Job." });
+                    return Json(new { success = true, message = "Good Job." });
                 }
                 catch (Exception ex)
                 {
@@ -168,12 +184,12 @@ namespace DoctorAppointmentSystem.Controllers
                     string sInsBy = username;
 
                     Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
-                    return Json(new { success = true, message = "Error occurred. Error details: " + ex.Message });
+                    return Json(new { success = false, message = "Error occurred. Error details: " + ex.Message });
                 }
             }
             else
             {
-                return Json(new { success = false, message = " No files selected." });
+                return Json(new { success = false, message = "No files selected." });
             }
         }
 
@@ -285,13 +301,13 @@ namespace DoctorAppointmentSystem.Controllers
             var questions = SystemParaHelper.GenerateAuthQuestion();
             ViewBag.questions = new SelectList(questions, "id", "paraval");
             string username = User.Identity.Name;
-            if(string.IsNullOrEmpty(username))
+            if (string.IsNullOrEmpty(username))
             {
                 return RedirectToAction("Login", "Account");
             }
             if (registerIO.IsAnswerPaswdRecovery(username))
             {
-               
+
                 var user = registerIO.GetUserByUserName(username);
                 if (user.USERTYPE.Equals("Patient"))
                 {
@@ -299,9 +315,9 @@ namespace DoctorAppointmentSystem.Controllers
                 }
                 else
                 {
-                    if (user.USERTYPE.Equals("Doctor")) 
+                    if (user.USERTYPE.Equals("Doctor"))
 
-                    return RedirectToAction("Index", "Home" ,new { area = "Doctor"});
+                        return RedirectToAction("Index", "Home", new { area = "Doctor" });
                 }
 
                 return RedirectToAction("Index", "Manage", new { area = "Admin" });
@@ -319,7 +335,7 @@ namespace DoctorAppointmentSystem.Controllers
             question.passwordRecoveryAns2 = question.passwordRecoveryAns2 != null ? question.passwordRecoveryAns2.Trim() : question.passwordRecoveryAns2;
             question.passwordRecoveryAns3 = question.passwordRecoveryAns3 != null ? question.passwordRecoveryAns3.Trim() : question.passwordRecoveryAns3;
             string username = User.Identity.Name;
-            if(username == question.username)
+            if (username == question.username)
             {
                 var result = registerIO.SetAuthenQuestions(question);
 

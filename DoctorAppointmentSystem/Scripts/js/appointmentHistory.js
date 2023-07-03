@@ -1,17 +1,15 @@
-﻿
-$("document").ready(function () {
-
-    // Initialize popover component
-    setEventHover();
-
-});
-
-
-var table = $('#historyTbl').DataTable({
+﻿var table = $('#historyTbl').DataTable({
     language: {
         emptyTable: "You haven't booked any appointments yet."
     },
+    responsive: true,
+    ordering: true,
+    searching: true,
     order: [[6, 'desc']],
+    ajax: {
+        url: '/Appointment/ViewHistory',
+        type: 'GET'
+    },
     columns: [
         {
             orderable: false,
@@ -22,41 +20,29 @@ var table = $('#historyTbl').DataTable({
         {
             data: 'appointmentID',
             title: 'Appt No.',
-            autoWidth: true,
-            searchable: true
         },
         {
             data: 'doctorName',
             title: 'Doctor Name',
             className: 'text-nowrap',
-            autoWidth: true,
-            searchable: true
         },
         {
             data: 'dateOfConsultation',
             title: 'Date of Consultation',
             className: 'text-center',
-            autoWidth: true,
-            searchable: true,
         },
         {
             data: 'consultationTime',
             title: 'Time',
-            autoWidth: true,
-            searchable: true
         },
         {
             data: 'consultationDay',
             title: 'Day',
-            autoWidth: true,
-            searchable: true
         },
         {
             data: 'appointmentStatus',
             title: 'Status',
             className: 'text-center',
-            autoWidth: true,
-            searchable: true,
             render: function (data, type, row) {
                 return '<span class="column-status">' + data + '</span>';
             }
@@ -65,9 +51,7 @@ var table = $('#historyTbl').DataTable({
             responsivePriority: 1,
             data: 'appointmentID',
             title: "Action",
-            autoWidth: true,
             orderable: false,
-            searchable: true,
             render: function (data, type, row) {
                 return type === 'display' ?
                     '<div class="d-flex justify-content-round">'
@@ -82,72 +66,44 @@ var table = $('#historyTbl').DataTable({
     ]
 });
 
-function setEventHover() {
-  
-
-    table.on('draw', function () {
-        $('[data-toggle="popover"]').popover({
-            html: true,
-            placement: 'top',
-            container: "body",
-            delay: { "show": 300, "hide": 200 },
-            trigger: 'hover',
-            template: '<div class="popover fc-med-popover " role="tooltip"><div class="arrow"></div> <h3  class="popover-header"></h3><div class="popover-body"></div></div>'
-
-        })
-
-    });
-
-} 
-
 function loadData() {
-    $.ajax({
-        url: '/Appointment/ViewHistory',
-        method: 'GET',
-        dataType: 'JSON',
-        success: function (res) {
-            table.clear(res.data).draw();
-            table.rows.add(res.data).draw();
-            styleForStatus();
-        },
-        error: function (err) {
-            console.log(err.responseText)
-        }
-    })
+    table.ajax.reload();
 }
 
 $(document).ready(function () {
     loadData();
-    table.on('draw', function () {
-        styleForStatus();
-    });
-})
+});
 
+
+table.on('draw', function () {
+    styleForStatus();
+});
 
 function styleForStatus() {
-    var elements = document.getElementsByClassName("column-status");
-    for (var element of elements) {
-        if (element.textContent.toLowerCase() == 'pending') {
-            element.classList.add("column-status--pending");
-        } else if (element.textContent.toLowerCase() == 'confirm') {
-            element.classList.add("column-status--process");
-        } else if (element.textContent.toLowerCase() == 'completed') {
-            element.classList.add("column-status--completed");
-        } else {
-            element.classList.add("column-status--cancel");
+    $('.column-status').each(function () {
+        var statusText = this.textContent.toLowerCase();
+        switch (statusText) {
+            case 'pending':
+                $(this).addClass('column-status--pending');
+                break;
+            case 'confirm':
+                $(this).addClass('column-status--process');
+                break;
+            case 'completed':
+                $(this).addClass('column-status--completed');
+                break;
+            default:
+                $(this).addClass('column-status--cancel');
+                break;
         }
-    }
+    });
 }
 
 $(document).on('click', '.btn-viewAppt', function () {
     var btnViewAppt = $(this);
     var appointmentID = btnViewAppt.data('appointmentid');
-    $.ajax({
-        url: '/Appointment/ViewAppointment',
-        method: 'GET',
-        data: { appointmentID: appointmentID },
-        dataType: 'JSON',
-        success: function (res) {
+    $.getJSON('/Appointment/ViewAppointment', { appointmentID: appointmentID })
+        .done(function (res) {
             var data = res.data;
             console.log(res.data);
             $('#doctorName').text(data.doctorName);
@@ -165,12 +121,11 @@ $(document).on('click', '.btn-viewAppt', function () {
             $('#symtoms').val(data.symtoms);
             $('#existingIllness').val(data.existingIllness);
             $('#drugAlergies').val(data.drugAlergies);
-        },
-        error: function (err) {
+        })
+        .fail(function (err) {
             console.log(err.responseText);
-        }
-    })
-})
+        });
+});
 
 $(document).on('click', '.btn-cancelAppt', function () {
     var btnCancelAppt = $(this);
@@ -181,7 +136,8 @@ $(document).on('click', '.btn-cancelAppt', function () {
             cancelButton: 'btn btn-danger'
         },
         buttonsStyling: false
-    })
+    });
+
     swalWithBootstrapButtons.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
@@ -191,14 +147,10 @@ $(document).on('click', '.btn-cancelAppt', function () {
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Yes, cancel it!'
-    }).then((result) => {
+    }).then(function (result) {
         if (result.isConfirmed) {
-            $.ajax({
-                url: '/Appointment/CancelAppointment',
-                method: 'POST',
-                data: { appointmentID: appointmentID },
-                dataType: 'JSON',
-                success: function (res) {
+            $.post('/Appointment/CancelAppointment', { appointmentID: appointmentID })
+                .done(function (res) {
                     if (res.success) {
                         Swal.fire({
                             title: 'Cancelled!',
@@ -206,7 +158,7 @@ $(document).on('click', '.btn-cancelAppt', function () {
                             icon: 'success',
                             position: 'top',
                             showConfirmButton: false,
-                            timer: 2000
+                            timer: 3000
                         });
                         loadData();
                     } else {
@@ -216,16 +168,13 @@ $(document).on('click', '.btn-cancelAppt', function () {
                             icon: 'warning',
                             position: 'top',
                             showConfirmButton: false,
-                            timer: 2000
+                            timer: 3000
                         });
                     }
-
-                },
-                error: function (err) {
+                })
+                .fail(function (err) {
                     console.log(err.responseText);
-                }
-            })
+                });
         }
-    })
-
-})
+    });
+});

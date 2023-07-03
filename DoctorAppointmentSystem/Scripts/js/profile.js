@@ -1,16 +1,6 @@
 ﻿$(document).ready(function () {
     showProfile();
     validateData();
-    var previousPage = document.referrer;
-    $('#btnGoToHome').attr('href', previousPage);
-
-    $('#dateOfBirth').on('focus', function () {
-        $(this).attr('type', 'date');
-    });
-
-    $('#dateOfBirth').on('blur', function () {
-        $(this).attr('type', 'text');
-    });
 
     // Handle event click Edit button
     $('#btnEdit').click(function () {
@@ -72,7 +62,7 @@
                         title: 'Congratulations!',
                         text: res.message,
                         showConfirmButton: false,
-                        timer: 2000
+                        timer: 3000,
                     })
                 } else {
                     Swal.fire({
@@ -81,7 +71,7 @@
                         title: 'Failed!',
                         text: res.message,
                         showConfirmButton: false,
-                        timer: 2000
+                        timer: 3000,
                     })
                 }
             },
@@ -92,7 +82,7 @@
                     title: 'Failed!',
                     text: err.responseText,
                     showConfirmButton: false,
-                    timer: 2000
+                    timer: 3000,
                 })
             }
         });
@@ -136,7 +126,7 @@ var showProfile = function () {
                 title: 'Error!',
                 text: err.responseText,
                 showConfirmButton: false,
-                timer: 2000,
+                timer: 3000,
                 width: '30em'
             })
         }

@@ -30,7 +30,7 @@ $(document).on('click', '#btnChangeDate', function () {
                     icon: 'warning',
                     position: 'top',
                     showConfirmButton: false,
-                    timer: 2000
+                    timer: 3000
                 })
             }
         },
@@ -75,7 +75,7 @@ $(document).on('click', '#btnCancel', function () {
                             icon: 'success',
                             position: 'top',
                             showConfirmButton: false,
-                            timer: 2000
+                            timer: 3000
                         })
                         setTimeout(function () {
                             window.location.href = '/Doctor/CancelledAppt/Index';
@@ -136,6 +136,7 @@ $(document).ready(function () {
                 "width": "25%"
             },
             {
+                "responsivePriority": 1,
                 "title": "Action",
                 "data": null,
                 "orderable": false,
@@ -147,32 +148,6 @@ $(document).ready(function () {
             }
         ]
     });
-
-    function loadDoctorNotes() {
-        $.ajax({
-            url: '/Doctor/ConfirmedAppt/LoadDoctorNotes',
-            method: 'GET',
-            data: { id: appointmentID },
-            dataType: 'JSON',
-            success: function (res) {
-                if (res.success) {
-                    var notes = res.diagnosis;
-                    var medications = res.medications;
-
-                    $('#diagnosis').val(notes.diagnosis);
-                    $('#caseNote').val(notes.caseNote);
-                    $('#adviceToPatient').val(notes.adviceToPatient);
-
-                    console.log(notes, medications)
-
-                    table.rows.add(medications).draw();
-                }
-            },
-            error: function (err) {
-                console.log(err.responseText);
-            }
-        })
-    }
 
     var select = $('<select>').addClass('custom-select');
     select.attr('name', 'frequency');
@@ -244,7 +219,7 @@ $(document).ready(function () {
                     icon: 'warning',
                     text: 'Please add prescription before pressing Save.',
                     showConfirmButton: false,
-                    timer: 2000
+                    timer: 3000
                 });
             } else {
                 $('#mediacationTbl tbody tr').each(function () {
@@ -289,7 +264,7 @@ $(document).ready(function () {
                                 title: 'Saved!',
                                 text: 'Saved medication successfully.',
                                 showConfirmButton: false,
-                                timer: 2000
+                                timer: 3000
                             });
                         } else {
                             console.log('failed.');
@@ -337,7 +312,7 @@ $(document).ready(function () {
                 title: 'Failed!',
                 icon: 'warning',
                 text: 'Please complete all required information in Notes and Medication.',
-                timer: 2000,
+                timer: 3000,
                 showConfirmButton: false
             })
         }

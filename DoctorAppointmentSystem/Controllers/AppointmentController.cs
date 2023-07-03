@@ -3,12 +3,10 @@ using DoctorAppointmentSystem.HelperClasses;
 using DoctorAppointmentSystem.Menu;
 using DoctorAppointmentSystem.Models.Appointment;
 using DoctorAppointmentSystem.Models.Appointment.MakeAppointment;
-using DoctorAppointmentSystem.Models.DB;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
+
 
 namespace DoctorAppointmentSystem.Controllers
 {
@@ -83,7 +81,7 @@ namespace DoctorAppointmentSystem.Controllers
         }
 
 
-        // // Get a list of doctors with corresponding work schedules
+        // Get a list of doctors with corresponding work schedules
         public ActionResult GetDoctors(DateTime dateOfConsultation, TimeSpan time)
         {
             List<DoctorViewModel> doctors = appointmentIO.GetDoctors(dateOfConsultation, time);
@@ -93,7 +91,7 @@ namespace DoctorAppointmentSystem.Controllers
 
         public ActionResult ViewAppointment(int appointmentID)
         {
-            AppointmentViewModel data =  appointmentIO.ViewAppointment(appointmentID);
+            AppointmentViewModel data = appointmentIO.ViewAppointment(appointmentID);
             return Json(new { data }, JsonRequestBehavior.AllowGet);
         }
 
@@ -120,6 +118,6 @@ namespace DoctorAppointmentSystem.Controllers
             }
         }
 
-        
+
     }
 }

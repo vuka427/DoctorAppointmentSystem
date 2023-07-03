@@ -90,7 +90,7 @@ $('.register-form').submit(function (event) {
                 title: 'Error!',
                 text: 'Please check your registration information!',
                 showConfirmButton: false,
-                timer: 2000,
+                timer: 3000,
                 width: '30em'
             })
             $('#confirmPassword').focus();
@@ -114,7 +114,7 @@ $('.register-form').submit(function (event) {
                         setTimeout(function () {
                             window.location.href = '/Account/Login';
                             $('.register-form').trigger('reset');
-                        }, 2000);
+                        }, 3000);
                     } else {
                         Swal.fire({
                             position: 'top',
@@ -122,7 +122,7 @@ $('.register-form').submit(function (event) {
                             title: 'Failed!',
                             text: res.message,
                             showConfirmButton: false,
-                            timer: 2000,
+                            timer: 3000,
                             width: '30em'
                         })
                     }
@@ -134,7 +134,7 @@ $('.register-form').submit(function (event) {
                         title: 'Failed!',
                         text: err.message,
                         showConfirmButton: false,
-                        timer: 2000,
+                        timer: 3000,
                         width: '30em'
                     })
                 }
@@ -164,7 +164,7 @@ $('.register-form').submit(function (event) {
             title: 'Failed!',
             text: 'Please fill out the form completely!',
             showConfirmButton: false,
-            timer: 2000,
+            timer: 3000,
             width: '30em'
         })
     }

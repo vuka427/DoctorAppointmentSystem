@@ -95,7 +95,7 @@ function deleteAppointment(apmid) {
                 title: 'Deleted !',
                 text: 'Delete appointment is success !',
                 showConfirmButton: false,
-                timer: 2000
+                timer: 3000
             });
         }
     });

@@ -21,12 +21,14 @@ namespace DoctorAppointmentSystem.Models.Account
 
         public USER GetUser(string username)
         {
-            return dbContext.USER.Where(u => u.USERNAME.Equals(username)).FirstOrDefault();
+            return dbContext.USER.SingleOrDefault(u => u.USERNAME.Equals(username, StringComparison.OrdinalIgnoreCase));
         }
+
 
         public void UserRedirects(USER user, out string area, out string controller, out string action)
         {
             string userType = user.USERTYPE.ToLower();
+            bool hasPasswordRecoveryAnswer = user.PASSWORDRECOVERYANS1 != null;
 
             if (userType.Equals("admin"))
             {
@@ -34,8 +36,7 @@ namespace DoctorAppointmentSystem.Models.Account
                 action = "Index";
                 controller = "Manage";
             }
-            else 
-            if(user.PASSWORDRECOVERYANS1 != null)
+            else if (hasPasswordRecoveryAnswer)
             {
                 if (userType.Equals("patient"))
                 {
@@ -50,13 +51,12 @@ namespace DoctorAppointmentSystem.Models.Account
                     controller = "Home";
                 }
             }
-            else 
+            else
             {
                 area = "";
                 action = "AuthenQuestion";
                 controller = "Account";
             }
-            
 
             try
             {
@@ -74,5 +74,6 @@ namespace DoctorAppointmentSystem.Models.Account
                 Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
             }
         }
+
     }
 }

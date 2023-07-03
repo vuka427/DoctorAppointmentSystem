@@ -1,5 +1,4 @@
 ﻿var table = $('#registrationTbl').DataTable({
-    paging: false,
     ordering: false,
     searching: false,
     info: false,
@@ -23,13 +22,11 @@
             data: 'dateOfBirth',
             title: 'Date of Birth',
             className: 'text-nowrap',
-            orderData: [3]
         },
         {
             data: 'gender',
             title: 'Gender',
             className: 'text-nowrap',
-            orderData: [3]
         },
         {
             data: 'nationalID',
@@ -86,10 +83,12 @@ function search() {
                         icon: 'info',
                         text: "Patient information could not be found.",
                         showConfirmButton: false,
-                        timer: 1500
+                        timer: 3000
                     })
                 } else {
                     table.rows.add(data).draw();
+                    table.responsive.rebuild();
+                    table.responsive.recalc();
                 }
             } else {
                 Swal.fire({
@@ -98,7 +97,7 @@ function search() {
                     icon: 'warning',
                     text: res.message,
                     showConfirmButton: false,
-                    timer: 1500
+                    timer: 3000
                 })
             }
         },
@@ -109,6 +108,8 @@ function search() {
     $('#searchName').val('');
     $('#searchNationalID').val('');
 }
+
+$
 
 $(document).on('click', '#btnSearch', function () {
     search()
@@ -182,7 +183,7 @@ $('#btnCreate').on('click', function () {
                         icon: 'success',
                         text: res.message,
                         showConfirmButton: false,
-                        timer: 2000
+                        timer: 3000
                     }).then(function () {
                         $('#addMemberForm').trigger('reset');
                         $('#addMemberModal').modal('hide');
@@ -194,7 +195,7 @@ $('#btnCreate').on('click', function () {
                         icon: 'warning',
                         text: 'Failed to add a new members.',
                         showConfirmButton: false,
-                        timer: 2000
+                        timer: 3000
                     });
                 }
             },
@@ -209,7 +210,7 @@ $('#btnCreate').on('click', function () {
             icon: 'warning',
             text: 'Please fill out all information before submitting.',
             showConfirmButton: false,
-            timer: 2000
+            timer: 3000
         });
     }
 })
@@ -242,7 +243,7 @@ $(document).on('click', '.btnAppointment', function () {
                     icon: 'warning',
                     text: 'Patient data not found.',
                     showConfirmButton: false,
-                    timer: 2000
+                    timer: 3000
                 });
             }
         },
@@ -296,7 +297,7 @@ $('#btnMakeAppt').on('click', function () {
                         icon: 'success',
                         text: res.message,
                         showConfirmButton: false,
-                        timer: 2000
+                        timer: 3000
                     }).then(function () {
                         $('#makeAppointmentForm').trigger('reset');
                         $('#makeAppointmentModal').modal('hide');
@@ -308,7 +309,7 @@ $('#btnMakeAppt').on('click', function () {
                         icon: 'warning',
                         text: res.message,
                         showConfirmButton: false,
-                        timer: 2000
+                        timer: 3000
                     });
                 }
             },
@@ -323,7 +324,7 @@ $('#btnMakeAppt').on('click', function () {
             icon: 'warning',
             text: 'Please fill out all information before submitting.',
             showConfirmButton: false,
-            timer: 2000
+            timer: 3000
         });
     }
 });

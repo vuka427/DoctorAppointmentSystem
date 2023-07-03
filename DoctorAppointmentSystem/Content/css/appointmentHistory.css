@@ -41,16 +41,6 @@ body {
     background-color: #fff;
 }
 
-.wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 70vh;
-    width: 80%;
-    background-color: #f7f7f7;
-    margin: 50px auto;
-}
 
 .info-wrapper {
     position: relative;
@@ -147,11 +137,6 @@ body {
 .content-wrapper {
     font-size: 16px;
     line-height: 1.5em;
-}
-
-.form-control {
-    height: 2.4rem;
-    padding: 0.3rem 0.75rem;
 }
 
 .modal-title {

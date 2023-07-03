@@ -57,14 +57,30 @@
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="SixLabors.ImageSharp, Version=2.0.0.0, Culture=neutral, PublicKeyToken=d998eea7b14cab13, processorArchitecture=MSIL">
+      <HintPath>..\packages\SixLabors.ImageSharp.2.1.1\lib\net472\SixLabors.ImageSharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.5.0.0\lib\net45\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Text.Encoding.CodePages, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encoding.CodePages.5.0.0\lib\net461\System.Text.Encoding.CodePages.dll</HintPath>
+    </Reference>
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.2\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
@@ -314,10 +330,10 @@
     <Compile Include="Services\SystemParamService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-lib\bootstrap.css" />
     <Content Include="Content\bootstrap-lib\bootstrap.min.css" />
     <Content Include="Content\bootstrap-lib\jquery.dataTables.min.css" />
     <Content Include="Content\bootstrap-lib\responsive.bootstrap.min.css" />
-    <Content Include="Content\css\appointmentDoctor.css" />
     <Content Include="Content\css\Areas\Admin\admin-appointment.css" />
     <Content Include="Content\css\Areas\Admin\doctor-management.css" />
     <Content Include="Content\css\Areas\Admin\doctor-schedule-mgt.css" />
@@ -329,9 +345,7 @@
     <Content Include="Content\css\Areas\Doctor\confirmedAppt.css" />
     <Content Include="Content\css\Areas\Doctor\dashboardDoctor.css" />
     <Content Include="Content\css\Areas\Doctor\registration.css" />
-    <Content Include="Content\css\cancelledAppointment.css" />
     <Content Include="Content\css\changePassword.css" />
-    <Content Include="Content\css\completedAppointments.css" />
     <Content Include="Content\css\custom-input.css" />
     <Content Include="Content\css\appointmentHistory.css" />
     <Content Include="Content\css\intro.css" />
@@ -351,7 +365,7 @@
     <Content Include="img\carousel-patient-01.jpg" />
     <Content Include="img\carousel-patient-02.jpg" />
     <Content Include="img\carousel-patient-03.jpg" />
-    <Content Include="img\CUSC-Logo-Series.ico" />
+    <Content Include="img\CUSC-Logo-Series.png" />
     <Content Include="img\default-user-image.png" />
     <Content Include="img\doctor-avatar-01.jpg" />
     <Content Include="img\empty.jpg" />
@@ -560,8 +574,8 @@
     </Content>
     <Content Include="Scripts\bootstrap-lib-js\ajax.googleapis.com_ajax_libs_jquery_1.11.3_jquery.min.js" />
     <Content Include="Scripts\bootstrap-lib-js\bootstrap.bundle.min.js" />
-    <Content Include="Scripts\bootstrap-lib-js\bootstrap.js" />
-    <Content Include="Scripts\bootstrap-lib-js\dataTables.responsive.js" />
+    <Content Include="Scripts\bootstrap-lib-js\bootstrap.min.js" />
+    <Content Include="Scripts\bootstrap-lib-js\dataTables.responsive.min.js" />
     <Content Include="Scripts\bootstrap-lib-js\jquery-3.4.1.js" />
     <Content Include="Scripts\bootstrap-lib-js\bootstrap.js.map" />
     <Content Include="Scripts\bootstrap-lib-js\bootstrap.bundle.min.js.map" />
@@ -595,13 +609,18 @@
     <Content Include="Models\DB\DBContext.edmx.diagram">
       <DependentUpon>DBContext.edmx</DependentUpon>
     </Content>
+    <Content Include="Scripts\bootstrap-lib-js\bootstrap.min.js.map" />
+    <Content Include="Scripts\bootstrap-lib-js\jquery-3.4.1.min.map" />
+    <Content Include="Content\bootstrap-lib\bootstrap.css.map" />
     <None Include="Scripts\bootstrap-lib-js\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\bootstrap-lib-js\jquery-3.4.1.min.js" />
     <Content Include="Scripts\bootstrap-lib-js\jquery.dataTables.min.js" />
     <Content Include="Scripts\bootstrap-lib-js\jquery.validate.js" />
     <Content Include="Scripts\bootstrap-lib-js\jquery.validate.min.js" />
     <Content Include="Scripts\bootstrap-lib-js\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\bootstrap-lib-js\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\bootstrap-lib-js\modernizr-2.8.3.js" />
+    <Content Include="Scripts\bootstrap-lib-js\modernizr-2.8.3.min.js" />
     <Content Include="Scripts\js\Areas\Doctor\appointmentDetails.js" />
     <Content Include="Scripts\js\Areas\Doctor\appointmentsDoctor.js" />
     <Content Include="Scripts\js\Areas\Admin\adminmanagement.js" />
@@ -692,6 +711,9 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\bootstrap-lib-js\index.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

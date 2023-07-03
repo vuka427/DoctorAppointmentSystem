@@ -34,11 +34,11 @@ $(document).on('click', '#btnCancel', function () {
                             icon: 'success',
                             position: 'top',
                             showConfirmButton: false,
-                            timer: 2000
+                            timer: 3000
                         })
                         setTimeout(function () {
                             window.location.href = '/Doctor/CancelledAppt/Index';
-                        }, 2000)
+                        }, 3000)
                     } else {
                         console.log(res.message)
                     }
@@ -65,16 +65,16 @@ $(document).on('click', '#btnConfirm', function () {
         success: function (res) {
             if (res.success) {
                 Swal.fire({
-                    title: 'Cancelled!',
+                    title: 'Success!',
                     text: 'Appointment has been confirmed.',
                     icon: 'success',
                     position: 'top',
                     showConfirmButton: false,
-                    timer: 2000
+                    timer: 3000
                 })
                 setTimeout(function () {
                     window.location.href = '/Doctor/ConfirmedAppt/Index';
-                }, 2000)
+                }, 3000)
             } else {
                 console.log(res.message)
             }

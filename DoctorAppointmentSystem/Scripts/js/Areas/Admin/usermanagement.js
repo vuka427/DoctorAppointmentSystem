@@ -85,7 +85,7 @@ function setSubmitFormResetPasswordByAjax() {
                                 title: 'Success !',
                                 text: 'Reset password for user is success !',
                                 showConfirmButton: false,
-                                timer: 2000
+                                timer: 3000
                             });
                             $('#password').get(0).type = 'password';
                             $('#passwordconfirm').get(0).type = 'password';
@@ -206,7 +206,7 @@ function deleteUserByAjax(doctorid) {
                 title: 'Deleted !',
                 text: 'Delete user is success !',
                 showConfirmButton: false,
-                timer: 2000
+                timer: 3000
             });
            
         }
@@ -334,7 +334,7 @@ function lockOnOffUserByAjax(doctorid, lock) {
                     title: 'Locked!',
                     text: 'Lock User is success !',
                     showConfirmButton: false,
-                    timer: 2000
+                    timer: 3000
                 });
                
             } else {
@@ -344,7 +344,7 @@ function lockOnOffUserByAjax(doctorid, lock) {
                     title: 'UnLocked!',
                     text: 'UnLock User is success !',
                     showConfirmButton: false,
-                    timer: 2000
+                    timer: 3000
                 });
                 
             }

@@ -4,7 +4,6 @@
     },
     responsive: true,
     order: [[1, 'asc']],
-    responsive: true,
     columns: [
         {
             orderable: false,
@@ -15,14 +14,12 @@
         {
             data: 'appointmentID',
             title: 'Appt No.',
-            autoWidth: true,
             searchable: true
         },
         {
             data: 'patientName',
             title: 'Patient Name',
             className: 'text-nowrap',
-            autoWidth: true,
             searchable: true,
             render: function (data, type, row) {
                 return '<a class="btn-viewAppt" href="/Doctor/ConfirmedAppt/AppointmentDetails?id=' + row.appointmentID + '">' + data + '</a>';
@@ -32,13 +29,11 @@
             data: 'dateOfConsultation',
             title: 'Consultation Date',
             className: 'text-center',
-            autoWidth: true,
             searchable: true,
         },
         {
             data: 'appointmentDate',
             title: 'Appointment Date',
-            autoWidth: true,
             searchable: true,
             render: function (data, type, row) {
                 var today = new Date();
@@ -53,13 +48,11 @@
         {
             data: 'appointmentTime',
             title: 'Time',
-            autoWidth: true,
             searchable: true
         },
         {
             data: 'appointmentDay',
             title: 'Day',
-            autoWidth: true,
             searchable: true
         },
         {
@@ -68,7 +61,6 @@
             title: 'Status',
             className: 'text-center',
             responsivePriority: 1,
-            autoWidth: true,
             searchable: true,
             render: function (data, type, row) {
                 return '<span class="column-status">' + data + '</span>';
@@ -126,9 +118,10 @@ $(document).on('click', '.btn-viewAppt', function (event) {
     var status = btnViewAppt.data('status');
     var previousPage = document.referrer;
     $('#btnGoToDashboard').attr('href', previousPage);
-})
+});
+
 $(document).on('click', '#btnGoToDashboard', function () {
     var previousPage = document.referrer;
     console.log(previousPage);
     $('#btnGoToDashboard').attr('href', previousPage);
-})
+});

@@ -200,7 +200,7 @@ function setSubmitFormUdateByAjax() {
                                 title: 'Success !',
                                 text: 'Update Schedule is success !',
                                 showConfirmButton: false,
-                                timer: 2000
+                                timer: 3000
                             });
                             $("#from-update-doctor-schedule").trigger('reset');
 
@@ -307,7 +307,7 @@ function deleteScheduleByAjax(sheduleid) {
                 title: 'Delete !',
                 text: 'Delete schedule is success !',
                 showConfirmButton: false,
-                timer: 2000
+                timer: 3000
             });
         }
     });

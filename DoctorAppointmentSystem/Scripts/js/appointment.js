@@ -15,7 +15,7 @@ function validateAppointment() {
             title: 'Failed!',
             text: "Please select Date of Consultation and Time before choosing a doctor.",
             showConfirmButton: false,
-            timer: 2000
+            timer: 3000
         })
         doctorSelector.selectedIndex = 0;
     }
@@ -187,7 +187,7 @@ $('#appointmentForm').submit(function (event) {
                             title: 'Congratulations!',
                             text: res.message,
                             showConfirmButton: false,
-                            timer: 2000
+                            timer: 3000
                         })
                         // Reset all input tag
                         resetInputTag()
@@ -209,7 +209,7 @@ $('#appointmentForm').submit(function (event) {
                             title: 'Failed!',
                             text: res.message,
                             showConfirmButton: false,
-                            timer: 2000
+                            timer: 3000
                         })
                     }
                 },
@@ -225,7 +225,7 @@ $('#appointmentForm').submit(function (event) {
             title: 'Failed!',
             text: 'Please choose mode of consultant and type of consultant.',
             showConfirmButton: false,
-            timer: 2000
+            timer: 3000
         })
     }
 })
