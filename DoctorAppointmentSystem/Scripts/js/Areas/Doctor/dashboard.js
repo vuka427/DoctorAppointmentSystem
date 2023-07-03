@@ -34,11 +34,6 @@ function initCalendar() {
                 dataType: "json",
                 contentType: false,
                 processData: false,
-                success: function (data) { console.log(data) },
-                error: function () {
-                    alert('Ocorreu um erro ao retornar as Tarefas. Por favor, entre em contato conosco.');
-                    console.log(MediaError)
-                },
                 color: 'blue',   // a non-ajax option
                 textColor: '#f1f1fb' // a non-ajax option
             }

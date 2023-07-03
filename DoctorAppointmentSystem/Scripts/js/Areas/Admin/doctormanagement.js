@@ -77,8 +77,6 @@ function setSubmitFormByAjax() {
 
         if ($("#form-create-doctor").valid()) {
 
-            
-
             var formData = {
 
                 DOCTORNAME: $("#doctorname").val(),
@@ -95,7 +93,7 @@ function setSubmitFormByAjax() {
                 WORKINGENDDATE: $("#workingenddate").val(),
                 WORKINGSTARTDATE: $("#workingstartdate").val(),
             };
-            console.log(formData);
+           
             $.ajax({
                 type: "POST",
                 url: "/Admin/DoctorManage/CreateDoctor",
@@ -103,7 +101,7 @@ function setSubmitFormByAjax() {
                 dataType: "json",
                 encode: true,
             }).done(function (data) {
-                console.log(data);
+               
                 if (data.error == 1) {
                    
                     Swal.fire(
@@ -118,8 +116,6 @@ function setSubmitFormByAjax() {
                     $("#l-form-doctor").hide();
                     $("#table-list-doctor").show();
 
-                   
-                   
                     Swal.fire({
                         position: 'top',
                         icon: 'success',
@@ -156,7 +152,7 @@ function loadDataToForm(doctorid) {
         dataType: "json",
         encode: true,
     }).done(function (data) {
-        console.log(data);
+        
         if (data.error == 1) {
             //showMessageFormUpdate(data.msg);
             Swal.fire(
@@ -167,7 +163,6 @@ function loadDataToForm(doctorid) {
         }
         if (data.error == 0) {
 
-            console.log(data.doctor);
             $("#udoctorid").val(data.doctor.DOCTORID);
             $("#udoctorname").val(data.doctor.DOCTORNAME);
             $("#uusername").val(data.doctor.USERNAME);
@@ -183,7 +178,6 @@ function loadDataToForm(doctorid) {
             $("#ugender").val([data.doctor.DOCTORGENDER]);
             $("#uemail").val(data.doctor.EMAIL);
             $("#uspecialy").val(data.doctor.SPECIALITY);
-
 
         }
     });
@@ -238,7 +232,7 @@ function setSubmitFormUdateByAjax() {
                         dataType: "json",
                         encode: true,
                     }).done(function (data) {
-                        console.log(data);
+                      
                         if (data.error == 1) {
                            
                             Swal.fire(
@@ -284,7 +278,7 @@ function setEventDeleteDoctorFoBtn() {
             var Button = $(this);
             var doctorname = Button.data("doctorname");
             var id = Button.data("id");
-            console.log("db=>" + id);
+            
 
             const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
@@ -321,7 +315,7 @@ function setEventDeleteDoctorFoBtn() {
     $("#btn-accept-delete-doctor").on("click", function () {
         var Button = $(this);
         var id = Button.attr("data-id");
-        console.log("dl=>" + id);
+       
         DeleteDocTorByAjax(id);// delete doctor by id
     });
 
@@ -341,7 +335,7 @@ function deleteDocTorByAjax(doctorid) {
         dataType: "json",
         encode: true,
     }).done(function (data) {
-        console.log(data);
+       
         if (data.error == 1) {
             Swal.fire(
                 'Failed!',
@@ -377,7 +371,7 @@ function setEventUpdateDoctorFoBtn() {
 
             var Button = $(this);
             var id = Button.data("id");
-            console.log(id);
+            
             loadDataToForm(id);
 
         });
@@ -426,7 +420,7 @@ function initJqueryDatatable() {
             },
             {
                 "data": "USERNAME",
-                "title": "User Name",
+                "title": "Username",
 
                 "searchable": true
 
@@ -446,7 +440,7 @@ function initJqueryDatatable() {
            
             {
                 "data": "DOCTORDATEOFBIRTH",
-                "title": "Date of birth",
+                "title": "Date of Birth",
 
                 "searchable": true
             },
@@ -458,7 +452,7 @@ function initJqueryDatatable() {
             },
             {
                 "data": "DOCTORMOBILENO",
-                "title": "Mobile NO",
+                "title": "Mobile",
 
                 "searchable": true
             },
@@ -476,7 +470,7 @@ function initJqueryDatatable() {
             },
             {
                 "data": "SPECIALITY",
-                "title": "Specialty",
+                "title": "Speciality",
 
                 "searchable": true
             },
@@ -506,25 +500,25 @@ function initJqueryDatatable() {
             },
             {
                 "data": "CREATEDBY",
-                "title": "Create By",
+                "title": "Created By",
 
                 "searchable": true
             },
             {
                 "data": "CREATEDDATE",
-                "title": "Create Date",
+                "title": "Created Date",
 
                 "searchable": true
             },
             {
                 "data": "UPDATEDBY",
-                "title": "Update By",
+                "title": "Updated By",
 
                 "searchable": true
             },
             {
                 "data": "UPDATEDDATE",
-                "title": "Update Date",
+                "title": "Updated Date",
 
                 "searchable": true
             },
@@ -535,7 +529,7 @@ function initJqueryDatatable() {
                 "searchable": true,
                 "orderable": false,
                 "render": function (data, type, row) {
-                    console.log(data, type, row);
+                    
                     return "<btn class=\"btn-update-doctor btn btn-sm btn-outline-primary btn-action\" data-id=\"" + row.DOCTORID + "\" data-doctorname=\"" + row.DOCTORNAME + "\" data-toggle=\"popover\" data-trigger=\"hover\" data-placement=\"top\"  data-content=\"Edit user\"> <i class=\"fa-solid fa-user-pen\"></i></btn>"
                         + "<btn class=\"btn-delete-doctor btn btn-sm btn-outline-danger btn-action ml-2\" data-id=\"" + row.DOCTORID + "\" data-doctorname=\"" + row.DOCTORNAME + "\" data-toggle=\"popover\" data-trigger=\"hover\" data-placement=\"top\"  data-content=\"Delete user\" ><i class=\"fa-solid fa-trash\"></i></btn> "
                         

@@ -63,7 +63,7 @@ function setSubmitFormByAjax() {
                 dataType: "json",
                 encode: true,
             }).done(function (data) {
-                console.log(data);
+                
                 if (data.error == 1) {
                    
                     Swal.fire(
@@ -111,7 +111,7 @@ function setEventUpdateAdminForBtn() {
 
             var Button = $(this);
             var id = Button.data("id");
-            console.log(id);
+           
             loadDataToForm(id);
 
         });
@@ -134,7 +134,7 @@ function loadDataToForm(adminid) {
         dataType: "json",
         encode: true,
     }).done(function (data) {
-        console.log(data);
+        
         if (data.error == 1) {
             
             Swal.fire(
@@ -145,7 +145,7 @@ function loadDataToForm(adminid) {
         }
         if (data.error == 0) {
 
-            console.log(data.doctor);
+           
 
             $("#uadminid").val(data.admin.USERID);
             $("#uusername").val(data.admin.USERNAME);
@@ -189,7 +189,7 @@ function setSubmitFormUdateByAjax() {
                         dataType: "json",
                         encode: true,
                     }).done(function (data) {
-                        console.log(data);
+                       
                         if (data.error == 1) {
 
                            
@@ -228,9 +228,6 @@ function setSubmitFormUdateByAjax() {
             })
         }
 
-
-
-
         event.preventDefault();
     });
 }
@@ -244,8 +241,8 @@ function setEventDeletePatientFoBtn() {
         $(".btn-delete-admin").on("click", function () {
             var Button = $(this);
             var id = Button.data("id");
-            var username = Button.data("username");
-            console.log("db=>" + id);
+           
+            
 
             const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
@@ -294,7 +291,7 @@ function deleteAdminByAjax(adminid) {
         dataType: "json",
         encode: true,
     }).done(function (data) {
-        console.log(data);
+       
         if (data.error == 1) {
             Swal.fire(
                 'Failed!',
@@ -349,7 +346,7 @@ function initJqueryDatatable() {
             },
             {
                 "data": "USERNAME",
-                "title": "User Name",
+                "title": "Username",
 
                 "searchable": true
 
@@ -375,25 +372,25 @@ function initJqueryDatatable() {
             },
             {
                 "data": "CREATEDBY",
-                "title": "Create By",
+                "title": "Created By",
 
                 "searchable": true
             },
             {
                 "data": "CREATEDDATE",
-                "title": "Create Date",
+                "title": "Created Date",
 
                 "searchable": true
             },
             {
                 "data": "UPDATEDBY",
-                "title": "Update By",
+                "title": "Updated By",
 
                 "searchable": true
             },
             {
                 "data": "UPDATEDDATE",
-                "title": "Update Date",
+                "title": "Updated Date",
 
                 "searchable": true
             },
@@ -404,7 +401,7 @@ function initJqueryDatatable() {
                 "searchable": false,
                 "orderable": false,
                 "render": function (data, type, row) {
-                    console.log(data, type, row);
+                    
                     return '<btn class=\"btn-update-admin btn btn-sm btn-outline-primary btn-action \" data-id=\"' + row.USERID + '\" data-username=\"' + row.USERNAME + '\"  data-toggle=\"popover\" data-trigger=\"hover\" data-placement=\"top\"  data-content=\"Edit user\" > <i class=\"fa-solid fa-user-pen\"></i> </btn>'
                         + '<btn class=\"btn-delete-admin btn btn-sm btn-outline-danger btn-action ml-2\" data-id=\"' + row.USERID + '\" data-username=\"' + row.USERNAME + '\" data-toggle=\"popover\" data-trigger=\"hover\" data-placement=\"top\"  data-content=\"Delete user\" > <i class=\"fa-solid fa-trash\"></i> </btn> '
 

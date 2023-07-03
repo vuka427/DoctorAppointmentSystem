@@ -8,6 +8,7 @@ using DoctorAppointmentSystem.Menu;
 using DoctorAppointmentSystem.Models.DB;
 using DoctorAppointmentSystem.Services;
 using DoctorAppointmentSystem.Services.ServiceInterface;
+using Microsoft.Ajax.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -536,11 +537,31 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             {
                 return Json(new { error = 1, msg = "Error! do not delete patient !" });
             }
-            var patient = _dbContext.PATIENT.Where(p=>p.PATIENTID == PatientId && p.DELETEDFLAG == false).Include("USER").FirstOrDefault();
+            var patient = _dbContext.PATIENT.Where(p=>p.PATIENTID == PatientId && p.DELETEDFLAG == false).Include("USER").Include("APPOINTMENT").Include("APPOINTMENT.APPOINTMENT_PRESCRIPTION.PRESCRIPTION").FirstOrDefault();
             if (patient == null)
             {
                 return Json(new { error = 1, msg = "Error! do not find patienr !" });
             }
+
+            if (patient.APPOINTMENT.Count > 0)
+            {
+                patient.APPOINTMENT.ForEach(a =>
+                {
+                    if (a.APPOINTMENT_PRESCRIPTION.Count > 0)
+                    {
+                        a.APPOINTMENT_PRESCRIPTION.ForEach(p => { 
+                            p.PRESCRIPTION.DELETEDFLAG = true;
+                            _dbContext.APPOINTMENT_PRESCRIPTION.AddOrUpdate(p);
+                        });
+                       
+                    }
+                   
+                    a.DELETEDFLAG = true; 
+                    _dbContext.APPOINTMENT.AddOrUpdate(a);
+                });
+            }
+
+
 
             patient.UPDATEDBY = CurentUser.USERNAME;
             patient.UPDATEDDATE = DateTime.Now;
@@ -548,6 +569,8 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             patient.UPDATEDDATE = DateTime.Now;
             patient.USER.DELETEDFLAG = true;
             patient.USER.UPDATEDBY = CurentUser.USERNAME;
+
+
 
             _dbContext.PATIENT.AddOrUpdate(patient);
             _dbContext.USER.AddOrUpdate(patient.USER);

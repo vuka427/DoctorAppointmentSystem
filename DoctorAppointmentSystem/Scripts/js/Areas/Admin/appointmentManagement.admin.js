@@ -127,7 +127,7 @@ function initJqueryDatatable() {
             },
             {
                 "data": "APPOINTMENTID",
-                "title": 'Appointment ID',
+                "title": 'ID',
                 "searchable": true
 
             },
@@ -177,22 +177,22 @@ function initJqueryDatatable() {
             },
             {
                 "data": "CREATEDBY",
-                "title": "Create By",
+                "title": "Created By",
                 "searchable": true
             },
             {
                 "data": "CREATEDDATE",
-                "title": "Create Date",
+                "title": "Created Date",
                 "searchable": true
             },
             {
                 "data": "UPDATEDBY",
-                "title": "Update By",
+                "title": "Updated By",
                 "searchable": true
             },
             {
                 "data": "UPDATEDDATE",
-                "title": "Update Date",
+                "title": "Updated Date",
                 "searchable": true
             }
             ,
@@ -228,7 +228,7 @@ function initJqueryDatatable() {
                 "searchable": false,
                 "orderable": false,
                 "render": function (data, type, row) {
-                    console.log(data, type, row);
+                   
                     return "<btn class=\"btn-view-appointment btn btn-sm btn-outline-primary btn-action\" data-appointmentid=\"" + row.APPOINTMENTID + "\" data-toggle=\"popover\" data-trigger=\"hover\" data-placement=\"top\"  data-content=\"View Appointment\"    > <i class=\"fa-solid fa-eye\"></i> </btn>"
                         + "<btn class=\"btn-delete-appointment btn btn-sm btn-outline-danger btn-action  ml-2\" data-id=\"" + row.APPOINTMENTID + "\" data-patientname=\"" + row.PATIENTNAME + "\"   data-toggle=\"popover\" data-trigger=\"hover\" data-placement=\"top\"  data-content=\"Delete Appointment\" > <i class=\"fa-solid fa-trash\"></i> </btn> "
 
@@ -262,7 +262,7 @@ function setEventViewAppointment() {
                 dataType: 'JSON',
                 success: function (res) {
                     var data = res.data;
-                    console.log(res.data);
+                   
                     $('#doctorName').text(data.doctorName);
                     $('#doctorGender').text(data.doctorGender);
                     $('#speciality').text(data.doctorSpeciality);
