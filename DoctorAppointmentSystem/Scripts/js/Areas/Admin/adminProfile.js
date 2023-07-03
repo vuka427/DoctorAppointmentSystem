@@ -52,7 +52,25 @@
             processData: false,
             data: fileData,
             success: function (res) {
-                console.log(res.message);
+                if (res.success == true) {
+                    Swal.fire({
+                        position: 'top',
+                        icon: 'success',
+                        title: 'Congratulations!',
+                        text: 'Profile photo update successfully',
+                        showConfirmButton: false,
+                        timer: 3000,
+                    })
+                } else {
+                    Swal.fire({
+                        position: 'top',
+                        icon: 'error',
+                        title: 'Failed!',
+                        text: res.message,
+                        showConfirmButton: false,
+                        timer: 3000,
+                    })
+                }
             },
             error: function (err) {
                 console.log(err.responseText);

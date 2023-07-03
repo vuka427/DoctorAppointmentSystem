@@ -32,20 +32,15 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Models.Appointments.Mapping
                ;
 
             CreateMap<APPOINTMENT, CancelledApptViewModel>()
-               .ForMember(dest => dest.PATIENTNAME, act =>
-                                                   act.MapFrom(src => src.PATIENT != null ? src.PATIENT.PATIENTNAME : ""))
-              .ForMember(dest => dest.PATIENTNAME, act =>
-                                                   act.MapFrom(src => src.PATIENT != null ? src.PATIENT.PATIENTNAME : ""))
+                .ForMember(dest => dest.PATIENTNAME, act => act.MapFrom(src => src.PATIENT != null ? src.PATIENT.PATIENTNAME : ""))
+             .ForMember(dest => dest.PATIENTNAME, act => act.MapFrom(src => src.PATIENT != null ? src.PATIENT.PATIENTNAME : ""))
 
-              .ForMember(dest => dest.CONSULTANTTIME, act =>
-                                                  act.MapFrom(src => src.SCHEDULE == null ? "" :
-                                                       (sysParam.GetAllParam().Where(p => p.ID == src.SCHEDULE.CONSULTANTTIME)) == null ? "" :
-                                                       sysParam.GetAllParam().Where(p => p.ID == src.SCHEDULE.CONSULTANTTIME).FirstOrDefault().NOTE
-                                                  ))
-              .ForMember(dest => dest.DATEOFCONSULTANT, act => act.MapFrom(src => src.DATEOFCONSULTATION != null ? src.DATEOFCONSULTATION.ToShortDateString() : ""))
-              .ForMember(dest => dest.DATEOFCONSULTANTTIME, act => act.MapFrom(src => src.DATEOFCONSULTATION != null ? src.DATEOFCONSULTATION.TimeOfDay.ToString(@"hh\:mm") : ""))
-              .ForMember(dest => dest.DATEOFCONSULTANTDAY, act => act.MapFrom(src => src.DATEOFCONSULTATION != null ? src.DATEOFCONSULTATION.DayOfWeek.ToString() : ""))
-              ;
+             .ForMember(dest => dest.DATEOFCONSULTANT, act => act.MapFrom(src => src.DATEOFCONSULTATION != null ? src.DATEOFCONSULTATION.ToString(@"dd-MM-yyyy HH\:mm") : ""))
+             .ForMember(dest => dest.APPOINTMENTDATE, act => act.MapFrom(src => src.APPOINTMENTDATE != null ? src.APPOINTMENTDATE.Value.ToString(@"dd-MM-yyyy HH\:mm") : ""))
+
+           
+
+             ;
             CreateMap<APPOINTMENT, CompletedApptViewModel>()
               .ForMember(dest => dest.PATIENTNAME, act => act.MapFrom(src => src.PATIENT != null ? src.PATIENT.PATIENTNAME : ""))
              .ForMember(dest => dest.PATIENTNAME, act => act.MapFrom(src => src.PATIENT != null ? src.PATIENT.PATIENTNAME : ""))

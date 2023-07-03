@@ -40,26 +40,16 @@ function initJqueryDatatable() {
             },
             {
                 "data": "DATEOFCONSULTANT",
-                "title": 'Date Of Consultant',
+                "title": 'Consultation Date',
                 "searchable": true
 
             },
             {
-                "data": "DATEOFCONSULTANTTIME",
-                "title": 'Time',
+                "data": "APPOINTMENTDATE",
+                "title": 'Appointment Date',
                 "searchable": true
             },
 
-            {
-                "data": "DATEOFCONSULTANTDAY",
-                "title": 'Day',
-                "searchable": true
-            },
-            {
-                "data": "CONSULTANTTIME",
-                "title": 'Consultant Time',
-                "searchable": true
-            } ,
             {
                 "data": "APPOIMENTSTATUS",
                 "title": 'Status',
@@ -80,9 +70,9 @@ function initJqueryDatatable() {
                         return '<span class="column-status column-status--cancel">' + data + '</span>';
 
                     }
-
                 }
             }
+
         ]
 
     });

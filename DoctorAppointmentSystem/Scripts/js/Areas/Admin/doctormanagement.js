@@ -427,7 +427,7 @@ function initJqueryDatatable() {
             },
             {
                 "data": "DEPARTMENT",
-                "title": "Deparment",
+                "title": "Department",
 
                 "searchable": true
             },

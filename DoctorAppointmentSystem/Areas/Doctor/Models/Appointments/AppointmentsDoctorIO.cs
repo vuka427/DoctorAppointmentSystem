@@ -26,15 +26,15 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Models.Appointments
 
         public List<APPOINTMENT> GetAllPendingAppt(int doctorId)
         {
-            return _dbContext.APPOINTMENT.Where(a => a.DELETEDFLAG == false && a.DOCTORID == doctorId && a.APPOIMENTSTATUS == "Pending").Include("PATIENT").Include("SCHEDULE").ToList();
+            return _dbContext.APPOINTMENT.Where(a => a.DELETEDFLAG == false && a.DOCTORID == doctorId && a.APPOIMENTSTATUS == "Pending").Include("PATIENT").Include("SCHEDULE").AsNoTracking().ToList();
         }
         public List<APPOINTMENT> GetAllCancelledAppt(int doctorId)
         {
-            return _dbContext.APPOINTMENT.Where(a => a.DELETEDFLAG == false && a.DOCTORID == doctorId && a.APPOIMENTSTATUS == "Cancel").Include("PATIENT").Include("SCHEDULE").ToList();
+            return _dbContext.APPOINTMENT.Where(a => a.DELETEDFLAG == false && a.DOCTORID == doctorId && a.APPOIMENTSTATUS == "Cancel").Include("PATIENT").AsNoTracking().ToList();
         }
         public List<APPOINTMENT> GetAllCompleteAppt(int doctorId)
         {
-            return _dbContext.APPOINTMENT.Where(a => a.DELETEDFLAG == false && a.DOCTORID == doctorId && a.APPOIMENTSTATUS == "Completed").Include("PATIENT").Include("SCHEDULE").ToList();
+            return _dbContext.APPOINTMENT.Where(a => a.DELETEDFLAG == false && a.DOCTORID == doctorId && a.APPOIMENTSTATUS == "Completed").Include("PATIENT").Include("SCHEDULE").AsNoTracking().ToList();
         }
 
         public CompletedApptViewDetailsModel getAppointmentInfo(int appointmentID, string username)
@@ -46,6 +46,7 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Models.Appointments
                                                 .Include("PATIENT")
                                                 .Include("SCHEDULE")
                                                 .Include("SCHEDULE.DOCTOR")
+                                                .AsNoTracking()
                                                 .FirstOrDefault();
 
                 avm = _mapper.GetMapper().Map<APPOINTMENT, CompletedApptViewDetailsModel>(apm);

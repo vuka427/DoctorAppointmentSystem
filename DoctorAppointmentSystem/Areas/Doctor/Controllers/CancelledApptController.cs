@@ -85,9 +85,7 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Controllers
                 Func<CancelledApptViewModel, string> orderingFunction = e =>
                                                            sortColumnIndex == 2 ? e.PATIENTNAME :
                                                            sortColumnIndex == 3 ? e.DATEOFCONSULTANT :
-                                                           sortColumnIndex == 4 ? e.DATEOFCONSULTANTTIME :
-                                                           sortColumnIndex == 5 ? e.DATEOFCONSULTANTDAY :
-                                                           sortColumnIndex == 6 ?  e.CONSULTANTTIME : e.APPOIMENTSTATUS
+                                                           sortColumnIndex == 4 ? e.APPOINTMENTDATE : e.APPOIMENTSTATUS
                                                            ;
 
                 Apointments = (sortDirection == "asc" ? Apointments.OrderBy(orderingFunction) : Apointments.OrderByDescending(orderingFunction));
