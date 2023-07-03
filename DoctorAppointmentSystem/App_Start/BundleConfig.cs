@@ -13,7 +13,7 @@ namespace DoctorAppointmentSystem
                         "~/Scripts/bootstrap-lib-js/jquery-3.4.1.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
-                        "~/Scripts/bootstrap-lib-js/jquery.validate*"));
+                        "~/Scripts/bootstrap-lib-js/jquery.validate.min.js", "~/Scripts/bootstrap-lib-js/jquery.validate.unobtrusive.min.js"));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at https://modernizr.com to pick only the tests you need.

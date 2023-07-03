@@ -1,16 +1,6 @@
 ﻿$(document).ready(function () {
     showProfile();
     validateData();
-    var previousPage = document.referrer;
-    $('#btnGoToHome').attr('href', previousPage);
-
-    $('#dateOfBirth').on('focus', function () {
-        $(this).attr('type', 'date');
-    });
-
-    $('#dateOfBirth').on('blur', function () {
-        $(this).attr('type', 'text');
-    });
 
     // Handle event click Edit button
     $('#btnEdit').click(function () {
