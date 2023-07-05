@@ -54,12 +54,12 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Models.Home
                     id = s.APPOINTMENTID,
                     title = "Patient: " + s.PATIENT.PATIENTNAME,
                     start = s.DATEOFCONSULTATION.ToString("yyyy-MM-ddTHH:mm:ss"),
-                    description = "Status: " + s.APPOIMENTSTATUS,
+                    description = "Status: " + s.APPOIMENTSTATUS + ((s.APPOIMENTSTATUS == "Pending" || s.APPOIMENTSTATUS == "Confirm") && s.DATEOFCONSULTATION < DateTime.Now ? "<br/><span class=\"text-danger\"> Appointment time exceeded </span>" : "" ),
                     url = GetUrlRedirect(s.APPOIMENTSTATUS),
                     allDay = false,
-                    color = s.APPOIMENTSTATUS == "Pending" ? "#ffc107" :
+                    color = s.APPOIMENTSTATUS == "Pending" ? (s.DATEOFCONSULTATION< DateTime.Now)? "#747399" : "#ffc107" :
                             s.APPOIMENTSTATUS == "Completed" ? "#00ff21" :
-                            s.APPOIMENTSTATUS == "Cancel" ? "#dc3545" : "#007bff"
+                            s.APPOIMENTSTATUS == "Cancel" ? "#dc3545" : (s.DATEOFCONSULTATION < DateTime.Now) ? "#747399":"#007bff"
                              ,
                 }).ToList();
             }

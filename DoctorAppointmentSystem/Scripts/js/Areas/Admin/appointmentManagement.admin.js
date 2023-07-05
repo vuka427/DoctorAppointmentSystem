@@ -150,55 +150,50 @@ function initJqueryDatatable() {
 
             },
             {
-                "data": "APPOINTMENTTIME",
-                "title": 'Appointment Time',
-                "searchable": true
-            },
-            
-            {
-                "data": "APPOINTMENTDAY",
-                "title": 'Appointment Day',
-                "searchable": true
-            },
-            {
-                "data": "CONSULTANTTIME",
-                "title": 'Consultant Time',
+                "data": "DATEOFCONSUITATION",
+                "title": 'Date Of Consultation',
                 "searchable": true
             },
             {
                 "data": "CLOSEDBY",
                 "title": 'Closed By',
-                "searchable": true
+                "searchable": true,
+                "orderable": false,
             },
             {
                 "data": "CLOSEDDATE",
                 "title": 'Closed Date',
-                "searchable": true
+                "searchable": true,
+                "orderable": false,
             },
             {
                 "data": "CREATEDBY",
                 "title": "Created By",
-                "searchable": true
+                "searchable": true,
+                "orderable": false,
             },
             {
                 "data": "CREATEDDATE",
                 "title": "Created Date",
-                "searchable": true
+                "searchable": true,
+                "orderable": false,
             },
             {
                 "data": "UPDATEDBY",
                 "title": "Updated By",
-                "searchable": true
+                "searchable": true,
+                "orderable": false,
             },
             {
                 "data": "UPDATEDDATE",
                 "title": "Updated Date",
-                "searchable": true
+                "searchable": true,
+                "orderable": false,
             }
             ,
             {
                 "data": "APPOIMENTSTATUS",
-                "title": 'Appointment Status',
+                "title": 'Status',
                 "className": 'text-center',
                 "responsivePriority": 1,
                 "searchable": true,

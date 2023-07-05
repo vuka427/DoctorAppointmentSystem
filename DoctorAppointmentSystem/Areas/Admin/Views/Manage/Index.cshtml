@@ -6,12 +6,13 @@
 
 <h2 class="ml-2">Dashboard</h2>
 
+@Styles.Render("~/Content/Admin/Dashboard");
 
 <div class="row m-2">
     <!-- Status -->
     <article class="col-12 col-sm-12 col-md-5 custom-post">
         <hr class="custom-hr-primary" />
-        <h4>Status</h4>
+        <h4 class="mb-3">Status</h4>
         <div class="custom-status-wrapper d-flex flex-wrap justify-content-center">
             <div class="custom-card">
                 <div class="custom-card-body d-flex flex-nowrap justify-content-between align-items-center">
@@ -63,7 +64,7 @@
         </div>
     </article>
 
-    <article class="col-12 col-sm-12 col-md-7 custom-post">
+    <article class="col-12 col-sm-12 col-md-7 custom-post custom-chart">
         <hr class="custom-hr-primary" />
         @{
             var today = DateTime.Now;
@@ -72,7 +73,7 @@
             var thisWeekEnd = thisWeekStart.AddDays(7).AddSeconds(-1);
         }
         <h3>Appointments for (@thisWeekStart.ToShortDateString() - @thisWeekEnd.AddDays(-1).ToShortDateString())</h3>
-        <div class="container-fluid pt-3 content-wrapper table-responsive" style="font-size: 1em">
+        <div class="container-fluid pt-3 content-wrapper table-responsive custom-chart" style="font-size: 1em" >
 
             <div>
                 <canvas id="myChart"></canvas>

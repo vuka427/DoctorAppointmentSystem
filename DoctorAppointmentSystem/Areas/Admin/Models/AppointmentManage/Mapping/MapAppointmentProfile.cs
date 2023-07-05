@@ -11,21 +11,19 @@ namespace DoctorAppointmentSystem.Areas.Admin.Models.AppointmentManage.Mapping
     public class MapAppointmentProfile : Profile
     {
         public MapAppointmentProfile(ISystemParamService sysParam) {
-            CreateMap<APPOINTMENT,ApponitmentViewModel>()
-                .ForMember(dest => dest.PATIENTNAME, act => 
-                                                     act.MapFrom(src => src.PATIENT !=null? src.PATIENT.PATIENTNAME : "" ))
+            CreateMap<APPOINTMENT, ApponitmentViewModel>()
+                .ForMember(dest => dest.PATIENTNAME, act =>
+                                                     act.MapFrom(src => src.PATIENT != null ? src.PATIENT.PATIENTNAME : ""))
                 .ForMember(dest => dest.DOCTORNAME, act =>
-                                                    act.MapFrom(src => src.SCHEDULE == null ? "" :  
-                                                                       src.SCHEDULE.DOCTOR != null? src.SCHEDULE.DOCTOR.DOCTORNAME :""))
-                .ForMember(dest => dest.CONSULTANTTIME, act =>
-                                                    act.MapFrom(src => src.SCHEDULE == null ? "":
-                                                         (sysParam.GetAllParam().Where(p => p.ID == src.SCHEDULE.CONSULTANTTIME)) == null ? "" :
-                                                         sysParam.GetAllParam().Where(p => p.ID == src.SCHEDULE.CONSULTANTTIME).FirstOrDefault().NOTE 
-                                                    ))
+                                                    act.MapFrom(src => src.SCHEDULE == null ? "" :
+                                                                       src.SCHEDULE.DOCTOR != null ? src.SCHEDULE.DOCTOR.DOCTORNAME : ""))
 
-                .ForMember(dest => dest.APPOINTMENTDATE, act => act.MapFrom(src => src.APPOINTMENTDATE!=null? src.APPOINTMENTDATE.Value.ToShortDateString() : ""))
-                .ForMember(dest => dest.APPOINTMENTTIME, act => act.MapFrom(src => src.APPOINTMENTDATE != null ? src.APPOINTMENTDATE.Value.TimeOfDay.ToString(@"hh\:mm") : ""))
-                .ForMember(dest => dest.APPOINTMENTDAY, act => act.MapFrom(src => src.APPOINTMENTDATE != null ? src.APPOINTMENTDATE.Value.DayOfWeek.ToString() : ""))
+                 .ForMember(dest => dest.APPOINTMENTDATE, act => act.MapFrom(src => src.APPOINTMENTDATE != null ? src.APPOINTMENTDATE.Value.ToString(@"MMMM dd, yyyy hh\:mm tt") : ""))
+                .ForMember(dest => dest.DATEOFCONSUITATION, act => act.MapFrom(src => src.DATEOFCONSULTATION != null ? src.DATEOFCONSULTATION.ToString(@"MMMM dd, yyyy hh\:mm tt") : ""))
+
+                .ForMember(dest => dest.CLOSEDDATE, act => act.MapFrom(src => src.CLOSEDDATE != null ? src.CLOSEDDATE.Value.ToString(@"MMMM dd, yyyy hh\:mm tt") : ""))
+                .ForMember(dest => dest.CREATEDDATE, act => act.MapFrom(src => src.CREATEDDATE != null ? src.CREATEDDATE.Value.ToString(@"MMMM dd, yyyy hh\:mm tt") : ""))
+                .ForMember(dest => dest.UPDATEDDATE, act => act.MapFrom(src => src.UPDATEDDATE != null ? src.UPDATEDDATE.Value.ToString(@"MMMM dd, yyyy hh\:mm tt") : ""))
                 ;
 
             CreateMap<APPOINTMENT, CompletedApptViewDetailsModel>()
