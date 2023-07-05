@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace DoctorAppointmentSystem.Areas.Doctor.Models.Appointments
@@ -162,6 +163,32 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Models.Appointments
         public int CountApptCompleted(int doctorId)
         {
             return _dbContext.APPOINTMENT.Where(a => a.DELETEDFLAG == false && a.DOCTORID == doctorId && a.APPOIMENTSTATUS == "Completed").Count();
+        }
+
+
+
+        public async Task<int> CountApptPendingAsync(int doctorId)
+        {
+            return await _dbContext.APPOINTMENT.Where(a => a.DELETEDFLAG == false && a.DOCTORID == doctorId && a.APPOIMENTSTATUS == "Pending").CountAsync();
+        }
+        public async Task<int> CountApptToDayAsync(int doctorId)
+        {
+            var startDate = DateTime.Now;
+            startDate = startDate.Date.AddHours(1).AddMinutes(0).AddSeconds(0);
+            var endDate = startDate.AddDays(1);
+
+            return await _dbContext.APPOINTMENT.Where(a => a.DELETEDFLAG == false &&
+                                                    a.APPOIMENTSTATUS == "Confirm" &&
+                                                    a.DOCTORID == doctorId &&
+                                                    a.DATEOFCONSULTATION >= startDate && a.DATEOFCONSULTATION < endDate).CountAsync();
+        }
+        public async Task<int> CountApptComfirmedAsync(int doctorId)
+        {
+            return await _dbContext.APPOINTMENT.Where(a => a.DELETEDFLAG == false && a.DOCTORID == doctorId && a.APPOIMENTSTATUS == "Confirm").CountAsync();
+        }
+        public async Task<int> CountApptCompletedAsync(int doctorId)
+        {
+            return await _dbContext.APPOINTMENT.Where(a => a.DELETEDFLAG == false && a.DOCTORID == doctorId && a.APPOIMENTSTATUS == "Completed").CountAsync();
         }
     }
 }
