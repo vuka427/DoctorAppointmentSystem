@@ -65,6 +65,7 @@
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
@@ -313,9 +314,6 @@
     <Compile Include="Models\DB\SCHEDULE.cs">
       <DependentUpon>DBContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\DB\sysdiagrams.cs">
-      <DependentUpon>DBContext.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\DB\SYSTEM_PARA.cs">
       <DependentUpon>DBContext.tt</DependentUpon>
     </Compile>
@@ -338,6 +336,7 @@
     <Content Include="Content\bootstrap-lib\jquery.dataTables.min.css" />
     <Content Include="Content\bootstrap-lib\responsive.bootstrap.min.css" />
     <Content Include="Content\css\Areas\Admin\admin-appointment.css" />
+    <Content Include="Content\css\Areas\Admin\dashboardAdmin.css" />
     <Content Include="Content\css\Areas\Admin\doctor-management.css" />
     <Content Include="Content\css\Areas\Admin\doctor-schedule-mgt.css" />
     <Content Include="Content\css\Areas\Admin\patient-management.css" />
@@ -361,7 +360,7 @@
     <Content Include="Content\css\Site.css" />
     <Content Include="Content\css\login.css" />
     <Content Include="Content\css\register.css" />
-    <Content Include="Database\crebas.sql" />
+    <Content Include="Database\crebas-03072023-1654.sql" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="img\bg-img.jpg" />
@@ -369,9 +368,7 @@
     <Content Include="img\carousel-patient-02.jpg" />
     <Content Include="img\carousel-patient-03.jpg" />
     <Content Include="img\CUSC-Logo-Series.png" />
-    <Content Include="img\default-user-image.png" />
     <Content Include="img\doctor-avatar-01.jpg" />
-    <Content Include="img\empty.jpg" />
     <Content Include="img\login-intro-img.png" />
     <Content Include="img\medical-appointment.ico" />
     <Content Include="img\person-avatar-01.jpg" />

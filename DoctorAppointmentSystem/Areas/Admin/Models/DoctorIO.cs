@@ -357,7 +357,12 @@ namespace DoctorAppointmentSystem.Areas.Admin.Models
                 }
                 oldUser = oldDoctor.USER;
             }
-            IsValidUpdate(model, oldDoctor);
+
+            var  resultValid = IsValidUpdate(model, oldDoctor);
+            if (!resultValid.Success)
+            {
+                return resultValid;
+            }
 
             //map model bind to doctor
             DOCTOR newDoctors;

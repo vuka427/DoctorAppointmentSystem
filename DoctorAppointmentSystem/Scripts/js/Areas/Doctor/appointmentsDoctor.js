@@ -41,7 +41,7 @@ function initJqueryDatatable() {
             },
             {
                 "data": "DATEOFCONSULTANT",
-                "title": 'Date Of Consultant',
+                "title": 'Date Of Consultation',
                 "searchable": true,
                 "render": function (data, type, row) {
                     if (row.LATE) return '<div class="text-center late-appointment" data-toggle="popover" '

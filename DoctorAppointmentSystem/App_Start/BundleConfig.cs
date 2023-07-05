@@ -24,7 +24,7 @@ namespace DoctorAppointmentSystem
                       "~/Scripts/bootstrap-lib-js/bootstrap.min.js"
                       ));
 
-            bundles.Add(new StyleBundle("~/Content/css").Include(
+            bundles.Add(new Bundle("~/Content/css").Include(
                       "~/Content/bootstrap-lib/bootstrap.min.css",
                       "~/Content/bootstrap-lib/responsive.bootstrap.min.css",
                       "~/Content/css/Site.css"));
@@ -79,7 +79,7 @@ namespace DoctorAppointmentSystem
                      "~/lib/moment.js/moment.min.js"));
 
             //Config ScriptBundle and StyleBundle for fullcalendar
-            bundles.Add(new ScriptBundle("~/bundles/fullcalendar/js").Include(
+            bundles.Add(new Bundle("~/bundles/fullcalendar/js").Include(
                      "~/lib/fullcalendar/index.global.js"));
             //Config ScriptBundle and StyleBundle tooltip js
             bundles.Add(new ScriptBundle("~/bundles/admin/tooltip").Include(
@@ -88,7 +88,7 @@ namespace DoctorAppointmentSystem
                      "~/lib/popper.js/umd/popper.min.js"));
 
             //Config StyleBundle for fontawesome lib
-            bundles.Add(new StyleBundle("~/Content/fontawesome/css").Include(
+            bundles.Add(new Bundle("~/Content/fontawesome/css").Include(
                     "~/lib/font-awesome/css/all.min.css"));
 
             //Config StyleBundle for layout
@@ -146,6 +146,14 @@ namespace DoctorAppointmentSystem
             //Config ScriptBundle and StyleBundle change doctor password
             bundles.Add(new ScriptBundle("~/bundles/doctor/changepassword").Include(
                      "~/Scripts/js/Areas/Doctor/changeDoctorPassword.js"));
+
+            bundles.Add(new StyleBundle("~/Content/Admin/Dashboard").Include(
+             "~/Content/css/Areas/Admin/dashboardAdmin.css"));
+            //Config ScriptBundle and StyleBundle dashboard admin
+            foreach (var bundle in BundleTable.Bundles)
+            {
+                bundle.Transforms.Clear();
+            }
         }
     }
 }

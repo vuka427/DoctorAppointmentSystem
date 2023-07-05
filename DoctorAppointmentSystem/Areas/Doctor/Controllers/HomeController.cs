@@ -55,7 +55,7 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Controllers
 
 
         [HttpPost]
-        public JsonResult GetDoctorSchedule(DateTime start, DateTime end ,string status)
+        public JsonResult GetDoctorSchedule(DateTime start, DateTime end ,string status) //action for calendar
         {
             var currentUser = GetCurrentUser();
             int doctorId = currentUser.DOCTOR !=null? currentUser.DOCTOR.FirstOrDefault().DOCTORID : 0;

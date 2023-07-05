@@ -13,17 +13,16 @@ namespace DoctorAppointmentSystem.Areas.Admin.Models.AppointmentManage
        
         public string DOCTORNAME { get; set; }//3
         public string APPOINTMENTDATE { get; set; }//4
-        public string APPOINTMENTTIME { get; set; }//5
-        public string APPOINTMENTDAY { get; set; }//6
+        public string DATEOFCONSUITATION { get; set; }//5
+       //6
         public string APPOIMENTSTATUS { get; set; }//7
-        public string CONSULTANTTIME { get; set; } //8
+         //8
         public string CLOSEDDATE { get; set; }//9
         public string CLOSEDBY { get; set; }//10
         public string CREATEDBY { get; set; }//11
         public string CREATEDDATE { get; set; }//12
         public string UPDATEDBY { get; set; }//13
         public string UPDATEDDATE { get; set; }//14
-        public int DOCTORID { get; set; }//15
-        public int PATIENID { get; set; } //16
+     
     }
 }
