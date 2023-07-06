@@ -53,6 +53,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
         public async Task<ActionResult> LoadUserData(JqueryDatatableParam param)
         {
             var users = await _dbContext.USER.Where(d => d.DELETEDFLAG == false).Include("DOCTOR").Include("PATIENT").ToListAsync();
+
             IEnumerable<UserViewModel> Users;
             try
             {
@@ -61,7 +62,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             catch
             {
                 string sEventCatg = "ADMIN PORTAL";
-                string sEventMsg = "Exception: Failed to mapping USER to UserViewModel ";
+                string sEventMsg = "Exception: Failed to mapping USER to UserViewModel";
                 string sEventSrc = nameof(LoadUserData);
                 string sEventType = "C";
                 string sInsBy = GetCurrentUser().USERNAME;
