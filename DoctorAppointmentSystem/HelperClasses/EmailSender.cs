@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
@@ -17,10 +18,10 @@ namespace DoctorAppointmentSystem.HelperClasses
 
         public EmailSender()
         {
-            smtpServer = "smtp.gmail.com";
-            smtpPort = 587;
-            smtpUsername = "appointment.cusc@gmail.com";
-            smtpPassword = "mbkaaidugrcppbog";
+            smtpServer = ConfigurationManager.AppSettings["SmtpServer"];
+            smtpPort = int.Parse(ConfigurationManager.AppSettings["SmtpPort"]);
+            smtpUsername = ConfigurationManager.AppSettings["SmtpUsername"];
+            smtpPassword = ConfigurationManager.AppSettings["SmtpPassword"];
         }
 
         public static string GenerateActivationToken(string username)

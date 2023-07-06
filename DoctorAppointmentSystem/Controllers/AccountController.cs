@@ -222,7 +222,6 @@ namespace DoctorAppointmentSystem.Controllers
                 string sInsBy = username;
 
                 Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
-
             }
 
             return View();

@@ -5,6 +5,11 @@
     responsive: true,
     ordering: true,
     searching: true,
+    autoWidth: true,
+    columnDefs: [
+        { "width": "165px", "targets": [2, 3] },
+        { "width": "100px", "targets": [4, 5] }
+    ],
     order: [[6, 'desc']],
     ajax: {
         url: '/Appointment/ViewHistory',
@@ -19,7 +24,7 @@
         },
         {
             data: 'appointmentID',
-            title: 'Appt No.',
+            title: 'No.',
         },
         {
             data: 'doctorName',
@@ -29,15 +34,17 @@
         {
             data: 'dateOfConsultation',
             title: 'Date of Consultation',
-            className: 'text-center',
+            className: 'text-nowrap',
         },
         {
             data: 'consultationTime',
             title: 'Time',
+            className: 'text-nowrap',
         },
         {
             data: 'consultationDay',
             title: 'Day',
+            className: 'text-nowrap',
         },
         {
             data: 'appointmentStatus',

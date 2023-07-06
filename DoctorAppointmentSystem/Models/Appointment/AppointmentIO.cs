@@ -14,62 +14,45 @@ namespace DoctorAppointmentSystem.Models.Appointment
     {
         public List<ScheduleViewModel> LoadScheduleList()
         {
-            List<ScheduleViewModel> results = new List<ScheduleViewModel>();
             try
             {
+                var currentDate = DateTime.Now.Date;
+                var currentTime = DateTime.Now.TimeOfDay;
+
                 using (DBContext dbContext = new DBContext())
                 {
-                    var query = from doctor in dbContext.DOCTOR
-                                join schedule in dbContext.SCHEDULE on doctor.DOCTORID equals schedule.DOCTORID
-                                select new
-                                {
-                                    doctor.DOCTORID,
-                                    doctor.DOCTORNAME,
-                                    doctor.SPECIALITY,
-                                    doctor.DOCTORGENDER,
-                                    schedule.SCHEDULEID,
-                                    schedule.BREAKTIME,
-                                    schedule.SHIFTTIME,
-                                    schedule.WORKINGDAY,
-                                    schedule.CONSULTANTTIME
-                                };
-
-                    var list = query.ToList();
-
-                    foreach (var item in list)
-                    {
-                        // Skip past days
-                        if (item.WORKINGDAY.CompareTo(DateTime.Now.Date) < 0 || (item.WORKINGDAY.CompareTo(DateTime.Now.Date) == 0 && item.BREAKTIME.CompareTo(DateTime.Now.TimeOfDay) < 0))
+                    var query = dbContext.SCHEDULE
+                        .Where(s => s.WORKINGDAY >= currentDate && s.BREAKTIME >= currentTime)
+                        .Include(s => s.DOCTOR)
+                        .Select(s => new
                         {
-                            continue;
-                        }
+                            s.SCHEDULEID,
+                            s.DOCTORID,
+                            s.DOCTOR.DOCTORNAME,
+                            s.DOCTOR.DOCTORGENDER,
+                            s.DOCTOR.SPECIALITY,
+                            s.WORKINGDAY,
+                            s.SHIFTTIME,
+                            s.BREAKTIME,
+                            s.CONSULTANTTIME,
+                        })
+                        .ToList();
 
-                        ScheduleViewModel row = new ScheduleViewModel();
-                        row.scheduleID = item.SCHEDULEID;
-                        row.doctorID = item.DOCTORID;
-                        row.workingDay = item.WORKINGDAY.ToString("yyyy-MM-dd");
-                        row.doctorName = item.DOCTORNAME;
-                        row.speciality = item.SPECIALITY;
-                        int gender = item.DOCTORGENDER;
-                        row.gender = dbContext.SYSTEM_PARA.Find(gender).PARAVAL;
-                        row.consultantTime = SystemParaHelper.GetParaval(item.CONSULTANTTIME).ToString() + " minutes";
-
-                        // Get the list of scheduled appointments
-                        var bookedList = from appointment in dbContext.APPOINTMENT
-                                         join schedule in dbContext.SCHEDULE on new { appointment.SCHEDULEID, appointment.DOCTORID } equals new { schedule.SCHEDULEID, schedule.DOCTORID }
-                                         where schedule.SCHEDULEID == item.SCHEDULEID
-                                         select new { appointment.APPOINTMENTID };
-
-                        // Count the number of scheduled appointments
-                        int bookedTimes = bookedList.Count();
-
-                        // Total time spent on scheduled appointments
-                        TimeSpan totalTimeBooked = TimeSpan.FromMinutes(bookedTimes * Convert.ToInt32(SystemParaHelper.GetParaval(item.CONSULTANTTIME)));
-                        TimeSpan startAvailableTimeline = item.SHIFTTIME.Add(totalTimeBooked);
-
-                        row.availableTime = startAvailableTimeline.ToString(@"hh\:mm") + " - " + item.BREAKTIME.ToString(@"hh\:mm");
-                        results.Add(row);
-                    }
+                    var results = query
+                        .Select(s => new ScheduleViewModel
+                        {
+                            scheduleID = s.SCHEDULEID,
+                            doctorID = s.DOCTORID,
+                            workingDay = s.WORKINGDAY.ToString("MMMM dd, yyyy"),
+                            doctorName = s.DOCTORNAME,
+                            gender = SystemParaHelper.GetParaval(s.DOCTORGENDER),
+                            speciality = s.SPECIALITY,
+                            breakTime = s.BREAKTIME.ToString(@"hh\:mm"),
+                            shiftTime = s.SHIFTTIME.ToString(@"hh\:mm"),
+                            consultantTime = SystemParaHelper.GetParaval(s.CONSULTANTTIME) + " minutes",
+                            availableTime = DateTime.Today.Add(s.SHIFTTIME).ToString(@"hh\:mm tt") + " - " + DateTime.Today.Add(s.BREAKTIME).ToString(@"hh\:mm tt")
+                        })
+                        .ToList();
 
                     return results;
                 }
@@ -83,9 +66,12 @@ namespace DoctorAppointmentSystem.Models.Appointment
                 string sInsBy = GetInfo.Username;
 
                 Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
-                return results;
+                return new List<ScheduleViewModel>();
             }
         }
+
+
+
 
         public List<HistoryViewModel> GetAllAppointment(string username)
         {
@@ -111,8 +97,8 @@ namespace DoctorAppointmentSystem.Models.Appointment
                             appointmentID = appointment.APPOINTMENTID,
                             doctorName = doctor.DOCTORNAME,
                             appointmentStatus = appointment.APPOIMENTSTATUS,
-                            dateOfConsultation = appointment.DATEOFCONSULTATION.Date.ToString("yyyy-MM-dd"),
-                            consultationTime = appointment.DATEOFCONSULTATION.ToString(@"hh\:mm"),
+                            dateOfConsultation = appointment.DATEOFCONSULTATION.Date.ToString("MMMM dd, yyyy"),
+                            consultationTime = appointment.DATEOFCONSULTATION.ToString(@"hh\:mm tt"),
                             consultationDay = appointment.DATEOFCONSULTATION.DayOfWeek.ToString()
                         };
 
@@ -522,8 +508,8 @@ namespace DoctorAppointmentSystem.Models.Appointment
                 using (DBContext dbContext = new DBContext())
                 {
                     List<SCHEDULE> schedules = dbContext.SCHEDULE
-                        .Where(s => s.WORKINGDAY.Equals(dateOfConsultation) 
-                        && s.SHIFTTIME.CompareTo(time) <= 0 
+                        .Where(s => s.WORKINGDAY.Equals(dateOfConsultation)
+                        && s.SHIFTTIME.CompareTo(time) <= 0
                         && s.BREAKTIME.CompareTo(time) > 0)
                         .OrderBy(s => s.DOCTORID)
                         .Distinct()

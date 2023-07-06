@@ -24,7 +24,7 @@ namespace DoctorAppointmentSystem
                       "~/Scripts/bootstrap-lib-js/bootstrap.min.js"
                       ));
 
-            bundles.Add(new Bundle("~/Content/css").Include(
+            bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap-lib/bootstrap.min.css",
                       "~/Content/bootstrap-lib/responsive.bootstrap.min.css",
                       "~/Content/css/Site.css"));
@@ -40,8 +40,10 @@ namespace DoctorAppointmentSystem
                 "~/Scripts/bootstrap-lib-js/jquery.dataTables.min.js",
                  "~/Scripts/bootstrap-lib-js/dataTables.responsive.min.js"));
 
+
             bundles.Add(new StyleBundle("~/Content/datatable").Include(
-                "~/Content/bootstrap-lib/jquery.dataTables.min.css"));
+                "~/Content/bootstrap-lib/jquery.dataTables.min.css"
+                ));
 
             //Config ScriptBundle and StyleBundle Chart.js
             bundles.Add(new ScriptBundle("~/bundles/admin/chart").Include(
@@ -79,7 +81,7 @@ namespace DoctorAppointmentSystem
                      "~/lib/moment.js/moment.min.js"));
 
             //Config ScriptBundle and StyleBundle for fullcalendar
-            bundles.Add(new Bundle("~/bundles/fullcalendar/js").Include(
+            bundles.Add(new ScriptBundle("~/bundles/fullcalendar/js").Include(
                      "~/lib/fullcalendar/index.global.js"));
             //Config ScriptBundle and StyleBundle tooltip js
             bundles.Add(new ScriptBundle("~/bundles/admin/tooltip").Include(
@@ -88,8 +90,8 @@ namespace DoctorAppointmentSystem
                      "~/lib/popper.js/umd/popper.min.js"));
 
             //Config StyleBundle for fontawesome lib
-            bundles.Add(new Bundle("~/Content/fontawesome/css").Include(
-                    "~/lib/font-awesome/css/all.min.css"));
+            bundles.Add(new StyleBundle("~/Content/fontawesome/css").Include(
+                    "~/lib/font-awesome/css/fontawesome.min.css", "~/lib/font-awesome/css/solid.min.css"));
 
             //Config StyleBundle for layout
             bundles.Add(new StyleBundle("~/Content/layout/css").Include(
@@ -149,11 +151,6 @@ namespace DoctorAppointmentSystem
 
             bundles.Add(new StyleBundle("~/Content/Admin/Dashboard").Include(
              "~/Content/css/Areas/Admin/dashboardAdmin.css"));
-            //Config ScriptBundle and StyleBundle dashboard admin
-            foreach (var bundle in BundleTable.Bundles)
-            {
-                bundle.Transforms.Clear();
-            }
         }
     }
 }

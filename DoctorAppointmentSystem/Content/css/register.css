@@ -50,16 +50,72 @@ i {
 }
 
 .card {
-    max-width: 80%;
+    width: 80%;
     margin: 0 auto;
 }
 
+.card article{
+    width: 90%;
+}
+
 body {
-    background-image: url('../../img/bg-img.jpg');
     background-repeat: no-repeat;
     background-position: center;
     background-attachment: fixed;
     background-size: cover;
+}
+
+@media(min-width:993px) {
+    body {
+        background-image: url('../../img/bg-img-desktop-lg.jpg');
+    }
+
+    .card {
+        width: 75%;
+        margin: 0 auto;
+    }
+}
+
+@media(max-width:992px) {
+    body {
+        background-image: url('../../img/bg-img-desktop-md.jpg');
+    }
+
+    .card {
+        width: 80%;
+        margin: 0 auto;
+    }
+}
+
+@media(max-width:768px) {
+    body {
+        background-image: url('../../img/bg-img-tablet.jpg');
+    }
+
+    .card {
+        width: 95%;
+        margin: 0 auto;
+    }
+
+        .card article {
+            width: 100%;
+        }
+}
+
+
+@media (max-width: 576px) {
+    body {
+        background-image: url('../../img/bg-img-mobile.jpg');
+    }
+
+    .card {
+        width: 100%;
+        margin: 0 auto;
+    }
+
+        .card article {
+            width: 100%;
+        }
 }
 
 #register-wrapper {

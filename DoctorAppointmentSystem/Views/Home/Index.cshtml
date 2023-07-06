@@ -71,10 +71,8 @@
     <article class="col-12 col-md-7 custom-post">
         <hr class="custom-hr-primary" />
         <h4>Your Upcoming Booking</h4>
-        <div class="container-fluid pt-3 content-wrapper pr-0 pl-0 pr-md-2 pl-md-2 table-responsive" style="font-size: 1em">
-            <table id="upcomingTbl" class="dt-responsive display nowrap">
-                <thead></thead>
-                <tbody></tbody>
+        <div class="container-fluid pt-3 content-wrapper pr-0 pl-0 pr-md-2 pl-md-2" style="font-size: 1em">
+            <table id="upcomingTbl" class="dt-responsive display nowrap w-100">
             </table>
         </div>
     </article>
@@ -216,42 +214,29 @@
                 {
                     data: 'appointmentID',
                     title: 'Appt No.',
-                    autoWidth: true,
-                    searchable: true
                 },
                 {
                     data: 'doctorName',
                     title: 'Doctor Name',
                     className: 'text-nowrap',
-                    autoWidth: true,
-                    searchable: true
                 },
                 {
                     data: 'dateOfConsultation',
                     title: 'Date of Consultation',
                     className: 'text-center',
-                    autoWidth: true,
-                    searchable: true,
                 },
                 {
                     data: 'consultationTime',
                     title: 'Time',
-                    autoWidth: true,
-                    searchable: true
                 },
                 {
                     data: 'consultationDay',
                     title: 'Day',
-                    autoWidth: true,
-                    searchable: true
                 },
                 {
-                    responsivePriority: 2,
                     data: 'appointmentStatus',
                     title: 'Status',
                     className: 'text-center',
-                    autoWidth: true,
-                    searchable: true,
                     render: function (data, type, row) {
                         return '<span class="column-status">' + data + '</span>';
                     }
@@ -260,9 +245,7 @@
                     responsivePriority: 1,
                     data: 'appointmentID',
                     title: "Action",
-                    autoWidth: true,
                     orderable: false,
-                    searchable: true,
                     render: function (data, type, row) {
                         return type === 'display' ?
                             '<div class="d-flex justify-content-round">'
@@ -296,29 +279,10 @@
             loadData();
             table.on('draw', function () {
                 styleForStatus();
-            });
-
-            setEventHover();
-
+            });``
         })
 
-        function setEventHover() {
-            
-
-            table.on('draw', function () {
-                $('[data-toggle="popover"]').popover({
-                    html: true,
-                    placement: 'top',
-                    container: "body",
-                    delay: { "show": 300, "hide": 200 },
-                    trigger: 'hover',
-                    template: '<div class="popover fc-med-popover " role="tooltip"><div class="arrow"></div> <h3  class="popover-header"></h3><div class="popover-body"></div></div>'
-
-                })
-
-            });
-
-        } 
+        
         function styleForStatus() {
             var elements = document.getElementsByClassName("column-status");
             for (var element of elements) {
