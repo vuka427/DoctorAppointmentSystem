@@ -42,7 +42,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
 
         // GET: Admin/Appointment
         
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
             AdminMenu menu = new AdminMenu();
             ViewBag.menu = menu.RenderMenu("Appointments");
@@ -106,6 +106,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
                                                            sortColumnIndex == 3 ? e.DOCTORNAME :
                                                            sortColumnIndex == 4 ? e.APPOINTMENTDATE :
                                                            sortColumnIndex == 5 ? e.DATEOFCONSUITATION :
+                                                            sortColumnIndex == 12 ? e.APPOIMENTSTATUS :
                                                            e.UPDATEDBY
                                                            ;
 

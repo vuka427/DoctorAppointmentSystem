@@ -1,8 +1,7 @@
 ﻿$(document).ready(function () {
     showProfile();
    
-    var previousPage = document.referrer;
-    $('#btnGoToHome').attr('href', previousPage);
+    
 
     $('#dateOfBirth').on('focus', function () {
         $(this).attr('type', 'date');
