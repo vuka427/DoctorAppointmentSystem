@@ -40,8 +40,10 @@ namespace DoctorAppointmentSystem
                 "~/Scripts/bootstrap-lib-js/jquery.dataTables.min.js",
                  "~/Scripts/bootstrap-lib-js/dataTables.responsive.min.js"));
 
+
             bundles.Add(new StyleBundle("~/Content/datatable").Include(
-                "~/Content/bootstrap-lib/jquery.dataTables.min.css"));
+                "~/Content/bootstrap-lib/jquery.dataTables.min.css"
+                ));
 
             //Config ScriptBundle and StyleBundle Chart.js
             bundles.Add(new ScriptBundle("~/bundles/admin/chart").Include(
@@ -89,7 +91,7 @@ namespace DoctorAppointmentSystem
 
             //Config StyleBundle for fontawesome lib
             bundles.Add(new StyleBundle("~/Content/fontawesome/css").Include(
-                    "~/lib/font-awesome/css/all.min.css"));
+                    "~/lib/font-awesome/css/fontawesome.min.css", "~/lib/font-awesome/css/solid.min.css"));
 
             //Config StyleBundle for layout
             bundles.Add(new StyleBundle("~/Content/layout/css").Include(
@@ -146,6 +148,11 @@ namespace DoctorAppointmentSystem
             //Config ScriptBundle and StyleBundle change doctor password
             bundles.Add(new ScriptBundle("~/bundles/doctor/changepassword").Include(
                      "~/Scripts/js/Areas/Doctor/changeDoctorPassword.js"));
+
+            foreach (var bundle in BundleTable.Bundles)
+            {
+                bundle.Transforms.Clear();
+            }
         }
     }
 }

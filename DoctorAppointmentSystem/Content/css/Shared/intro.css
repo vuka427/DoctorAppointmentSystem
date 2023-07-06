@@ -28,7 +28,6 @@ h1, h2, h3, h4, h5, h6 {
 #hero {
     width: 100%;
     min-height: 110vh;
-    background: url('../../../img/bg-img.jpg') top center;
     background-size: cover;
     margin-bottom: -50px;
     margin-top: -80px;
@@ -72,14 +71,16 @@ h1, h2, h3, h4, h5, h6 {
             background: #3291e6;
         }
 
-@media (min-width: 1024px) {
+@media (max-height: 600px) {
     #hero {
-        background-attachment: fixed;
+        background-image: url('../../../img/bg-img-mobile.jpg');
+        height: 110vh;
     }
 }
 
 @media (max-width: 992px) {
     #hero {
+        background-image: url('../../../img/bg-img-desktop-md.jpg');
         margin-bottom: 0;
         height: 100vh;
     }
@@ -100,11 +101,16 @@ h1, h2, h3, h4, h5, h6 {
         }
 }
 
-@media (max-height: 600px) {
+@media (min-width: 1024px) {
     #hero {
-        height: 110vh;
+        background-image: url('../../../img/bg-img-desktop-lg.jpg');
+        background-attachment: fixed;
     }
 }
+
+
+
+
 
 /*--------------------------------------------------------------
 # Sections General

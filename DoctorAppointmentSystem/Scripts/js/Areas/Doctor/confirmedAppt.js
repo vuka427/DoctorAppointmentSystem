@@ -3,8 +3,7 @@
         emptyTable: "You haven't booked any appointments yet."
     },
     responsive: true,
-    order: [[1, 'asc']],
-    
+    searching: true,
     columns: [
         {
             orderable: false,
@@ -20,8 +19,6 @@
         {
             data: 'patientName',
             title: 'Patient Name',
-            className: 'text-nowrap',
-            searchable: true,
             render: function (data, type, row) {
                 return '<a class="btn-viewAppt" href="/Doctor/ConfirmedAppt/AppointmentDetails?id=' + row.appointmentID + '">' + data + '</a>';
             }
@@ -30,7 +27,6 @@
             data: 'dateOfConsultation',
             title: 'Consultation Date',
             className: 'text-center text-nowrap',
-            searchable: true,
         },
         {
             data: 'appointmentDate',

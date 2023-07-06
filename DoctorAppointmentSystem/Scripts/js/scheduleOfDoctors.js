@@ -4,7 +4,6 @@
 
 $(document).ready(function () {
     loadSchedule();
-    setEventHover();
 });
 
 /*Using AJAX to display data of DEPARTMENT TABLE*/
@@ -125,21 +124,3 @@ function loadAppointment(selectedDoctorID, selectedScheduleID) {
         }
     })
 }
-
-function setEventHover() {
-    
-
-    table.on('draw', function () {
-        $('[data-toggle="popover"]').popover({
-            html: true,
-            placement: 'top',
-            container: "body",
-            delay: { "show": 300, "hide": 200 },
-            trigger: 'hover',
-            template: '<div class="popover fc-med-popover " role="tooltip"><div class="arrow"></div> <h3  class="popover-header"></h3><div class="popover-body"></div></div>'
-
-        })
-
-    });
-
-} 

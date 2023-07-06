@@ -94,6 +94,7 @@ $(document).on('click', '#btnCancel', function () {
 })
 
 
+
 $(document).ready(function () {
     var appointmentID = $('#btnCompleted').data('appointmentid');
     var table = $('#mediacationTbl').DataTable({
@@ -105,16 +106,12 @@ $(document).ready(function () {
         "paging": false,
         "columns": [
             {
-                "title": "No",
-                "data": "no",
-                "width": "5%"
-            },
-            {
                 "title": "Drug",
                 "data": "drug",
                 "width": "15%"
             },
             {
+                "responsivePriority": 1,
                 "title": "Frequency",
                 "data": "frequency",
                 "className": "frequency",
@@ -123,7 +120,7 @@ $(document).ready(function () {
             {
                 "title": "Medication Days",
                 "data": "medicationDays",
-                "width": "16%"
+                "width": "5%"
             },
             {
                 "title": "Quantity",
@@ -131,10 +128,11 @@ $(document).ready(function () {
                 "width": "10%"
             },
             {
+                "responsivePriority": 1,
                 "title": "Unit",
                 "data": "unit",
                 "className": "unit",
-                "width": "16%"
+                "width": "15%"
             },
             {
                 "title": "Note",
@@ -199,8 +197,8 @@ $(document).ready(function () {
         var object = {
             no: '<span class="numOrder">' + numOrder + '.</span>',
             drug: '<input required autocomplete="off" type="text" name="drug" class="drug-input"><div class="error-container"></div>',
-            frequency: "",
-            unit: "",
+            frequency: '',
+            unit: '',
             medicationDays: '<input required autocomplete="off" type="text" onkeypress="return validateNumber(event)" name="medicationDays" class="medicationDays-input"><div class="error-container"></div>',
             quantity: '<input required autocomplete="off" type="text" onkeypress="return validateNumber(event)" name="quantity" class="quantity-input"><div class="error-container"></div>',
             note: '<input required autocomplete="off" type="text" name="note" class="note-input"><div class="error-container"></div>',

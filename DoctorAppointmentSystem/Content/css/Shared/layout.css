@@ -66,8 +66,8 @@ hr {
 }
 
 .custom-site-logo {
-    width: 80px;
-    height: 80px;
+    width: 110px;
+    height: 110px;
     border-radius: 50%;
     background-color: #747399;
     display: flex;
@@ -77,14 +77,14 @@ hr {
 }
 
     .custom-site-logo img {
-        width: 80px;
-        height: 80px;
+        width: 110px;
+        height: 110px;
         border-radius: 50%;
         object-fit: cover;
     }
 
 .custom-logo-badges {
-    margin: -38px 0 0 137px;
+    margin: -42px 0 0 137px;
     display: none;
 }
 
@@ -880,6 +880,10 @@ a:hover {
         width: 70%;
         max-width: 375px;
         margin-right: 15px;
+    }
+
+    .custom-logo-badges{
+        display: block;
     }
 
     .custom-search-form {

@@ -11,10 +11,7 @@
     <title>AuthenQuestion</title>
     @Styles.Render("~/Content/css")
     <link href="~/Content/css/register.css" rel="stylesheet" />
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     @Styles.Render("~/Content/fontawesome/css")
-    <script src="~/Scripts/js/validateInput.js"></script>
-    <script src="~/Scripts/bootstrap-lib-js/ajax.googleapis.com_ajax_libs_jquery_1.11.3_jquery.min.js"></script>
     @Styles.Render("~/Content/sweetalert/css")
 </head>
 <body>
@@ -23,8 +20,8 @@
             <div class="card">
                 <article class="card-body mx-auto" style="max-width: 400px;">
                     <h4 class="card-title mt-3 text-center">Security Questions</h4>
-                    <p style="color: #f94a4a; font-weight:400; "  class="text-center ">Answer the question to continue logging in. These questions will be used when resetting the password.</p>
-                  
+                    <p style="color: #f94a4a; font-weight:400; " class="text-center ">Answer the question to continue logging in. These questions will be used when resetting the password.</p>
+
                     <form id="authen-questions" class="register-form d-flex flex-column justify-content-center" enctype="multipart/form-data">
 
                         <input id="username" name="Username" type="text" hidden value="@ViewBag.username">
@@ -81,12 +78,11 @@
 
     <!-- Set value for input Profile picture -->
 
-    <script src="~/Scripts/bootstrap-lib-js/bootstrap.bundle.min.js"></script>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/sweetalert/js")
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/authen/questions")
-
+    <script src="~/Scripts/js/validateInput.js"></script>
 </body>
 </html>

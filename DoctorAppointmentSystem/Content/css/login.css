@@ -1,5 +1,29 @@
-﻿body {
-    background-image: url('../../img/bg-img.jpg');
+﻿@media (max-width: 576px) {
+    body {
+        background-image: url('../../img/bg-img-mobile.jpg');
+    }
+}
+
+@media(max-width:768px) {
+    body {
+        background-image: url('../../img/bg-img-tablet.jpg');
+    }
+}
+
+@media(max-width:992px) {
+    body {
+        background-image: url('../../img/bg-img-desktop-md.jpg');
+    }
+}
+
+@media(min-width:993px) {
+    body {
+        background-image: url('../../img/bg-img-desktop-lg.jpg');
+    }
+}
+
+
+body {
     background-repeat: no-repeat;
     background-position: center center;
     background-attachment: fixed;
@@ -110,10 +134,10 @@ input {
             color: transparent;
         }
 
-input::-webkit-input-placeholder {
-    font-size: 15px;
-    color: #999999;
-}
+    input::-webkit-input-placeholder {
+        font-size: 15px;
+        color: #999999;
+    }
 
     input:-moz-placeholder {
         font-size: 15px;
@@ -182,7 +206,8 @@ button {
 }
 
 .wrap-login100 {
-    min-width: 76%;
+    width: 78%;
+    min-height: 70vh;
     background: #fff;
     border-radius: 10px;
     overflow: hidden;
@@ -193,18 +218,18 @@ button {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    padding: 115px 90px 45px 95px;
+    padding: 115px 90px 45px 110px;
 }
 
 /*------------------------------------------------------------------
 [  ]*/
 .login100-pic {
-    
-    width: 310px;
+    margin: auto 0;
+    width: 38%;
 }
 
     .login100-pic img {
-        max-width: 100%;
+        width: 100%;
     }
 
 
@@ -284,11 +309,29 @@ button {
 
 /*------------------------------------------------------------------
 [ Responsive ]*/
+@media(min-width: 1590px) {
+    .wrap-login100 {
+        height: 70vh;
+        width: 65%;
+    }
+
+    .login100-pic {
+        width: 50%;
+    }
+
+        .login100-pic img {
+            width: 80%;
+        }
+
+    .login100-form {
+        width: 40%;
+    }
+}
 
 
 @media (max-width: 992px) {
     .wrap-login100 {
-        padding: 100px 80px 45px 85px;
+        padding: 100px 80px 45px 95px;
     }
 
     .login100-pic {
@@ -302,7 +345,7 @@ button {
 
 @media (max-width: 768px) {
     .wrap-login100 {
-        padding: 100px 100px 45px 80px;
+        padding: 100px 55px 45px 60px;
     }
 
     .login100-pic {
@@ -316,7 +359,9 @@ button {
 
 @media (max-width: 576px) {
     .wrap-login100 {
-        padding: 50px 15px 45px 15px;
+        width: 94%;
+        min-height: 70vh;
+        padding: 50px 15px 45px 13px;
     }
 
     .login100-form {
