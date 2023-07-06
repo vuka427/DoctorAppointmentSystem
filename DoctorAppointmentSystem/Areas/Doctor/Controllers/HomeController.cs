@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -34,20 +35,21 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Controllers
 
         // GET: Doctor/Home
 
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
 
             var currentUser = GetCurrentUser();
 
             ViewBag.menu = RenderMenu.RenderDoctorMenu("Dashboard");
-            ViewBag.name = GetInfo.GetFullName(User.Identity.Name);
+            ViewBag.name = currentUser.DOCTOR.FirstOrDefault().DOCTORNAME?? "";
             ViewBag.avatar = GetInfo.GetImgPath(User.Identity.Name);
             ViewBag.daynow = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss");
-            var CurrentDoctorId = GetCurrentDoctorID();
-            ViewBag.newBooking = _appointments.CountApptPending(CurrentDoctorId);
-            ViewBag.todayAppt = _appointments.CountApptToDay(CurrentDoctorId);
-            ViewBag.apptConfirm = _appointments.CountApptComfirmed(CurrentDoctorId);
-            ViewBag.apptCompleted = _appointments.CountApptCompleted(CurrentDoctorId);
+            var CurrentDoctorId = GetCurrentDoctorID(currentUser);
+         
+            ViewBag.newBooking = await _appointments.CountApptPendingAsync(CurrentDoctorId);
+            ViewBag.todayAppt = await _appointments.CountApptToDayAsync(CurrentDoctorId);
+            ViewBag.apptConfirm = await _appointments.CountApptComfirmedAsync(CurrentDoctorId);
+            ViewBag.apptCompleted = await _appointments.CountApptCompletedAsync(CurrentDoctorId);
 
             return View();
 
@@ -55,7 +57,7 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Controllers
 
 
         [HttpPost]
-        public JsonResult GetDoctorSchedule(DateTime start, DateTime end ,string status)
+        public JsonResult GetDoctorSchedule(DateTime start, DateTime end ,string status) //action for calendar
         {
             var currentUser = GetCurrentUser();
             int doctorId = currentUser.DOCTOR !=null? currentUser.DOCTOR.FirstOrDefault().DOCTORID : 0;
@@ -83,10 +85,10 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Controllers
             return new USER();
         }
         [NonAction]
-        private int GetCurrentDoctorID()
+        private int GetCurrentDoctorID(USER currentUser )
         {
 
-            var currentUser = GetCurrentUser();
+             
             int doctorId = currentUser.DOCTOR != null ? currentUser.DOCTOR.FirstOrDefault().DOCTORID : 0;
 
             return doctorId;

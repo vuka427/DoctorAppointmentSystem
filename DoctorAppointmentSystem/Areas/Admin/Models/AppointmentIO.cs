@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace DoctorAppointmentSystem.Areas.Admin.Models
@@ -33,7 +34,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Models
 
         public List<APPOINTMENT> GetAllAppointment()
         {
-            return _dbContext.APPOINTMENT.Where(a=>a.DELETEDFLAG == false ).Include("PATIENT").Include("SCHEDULE").Include("SCHEDULE.DOCTOR").ToList();
+            return _dbContext.APPOINTMENT.Where(a => a.DELETEDFLAG == false).Include("PATIENT").Include("SCHEDULE").Include("SCHEDULE.DOCTOR").ToList();
         }
 
         public ValidationResult DeleteAppointment(int ApmId ,string username)

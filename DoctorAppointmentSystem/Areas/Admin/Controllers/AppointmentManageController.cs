@@ -11,8 +11,10 @@ using DoctorAppointmentSystem.Services.ServiceInterface;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Linq.SqlClient;
 using System.Linq;
 using System.Security.Permissions;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -38,10 +40,9 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
         }
 
 
-
-
         // GET: Admin/Appointment
-        public ActionResult Index()
+        
+        public async Task<ActionResult> Index()
         {
             AdminMenu menu = new AdminMenu();
             ViewBag.menu = menu.RenderMenu("Appointments");
@@ -49,19 +50,28 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             var user = GetCurrentUser();
             ViewBag.Name = user != null ? user.USERNAME : "";
 
-            ViewBag.consultantType = SystemParaHelper.GenerateByGroup("consultantType");
-            ViewBag.modeOfConsultant = SystemParaHelper.GenerateByGroup("modeOfConsultant");
+            ViewBag.consultantType = GenerateByGroup("ConsultantType");
+            ViewBag.modeOfConsultant = GenerateByGroup("modeOfConsultant");
 
             return View();
         }
 
-        public JsonResult LoadAppointmentData(JqueryDatatableParam param) {
+        [NonAction]
+        private List<SYSTEM_PARA> GenerateByGroup(string groupID)
+        {
+             return _sysParam.GetAllParam().Where(l => l.GROUPID == groupID).ToList();
+          
+        }
+       
+
+        //performance improvement experiment ((:
+        public JsonResult LoadAppointmentData(JqueryDatatableParam param) 
+        {
 
             var apmts = _appointment.GetAllAppointment();
             IEnumerable<ApponitmentViewModel> Apointments;
             try
             {
-
                 Apointments = apmts.Select(dt => _mapper.GetMapper().Map<APPOINTMENT, ApponitmentViewModel>(dt)).ToList();
             }
             catch
@@ -70,37 +80,32 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
                 string sEventMsg = "Exception: Failed to mapping APPOINTMENT to ApponitmentViewModel";
                 string sEventSrc = nameof(LoadAppointmentData);
                 string sEventType = "C";
-                string sInsBy = GetCurrentUser().USERNAME ;
+                string sInsBy = GetCurrentUser().USERNAME;
                 Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
+
                 Apointments = new List<ApponitmentViewModel>();
             }
 
             if (!string.IsNullOrEmpty(param.sSearch)) //search
             {
-                Apointments = Apointments.Where(x => x.PATIENID.ToString().ToLower().Contains(param.sSearch.ToLower())
-                                              || x.PATIENTNAME.ToLower().Contains(param.sSearch.ToLower())
-                                              || x.DOCTORID.ToString().ToLower().Contains(param.sSearch.ToLower())
-                                              || x.DOCTORNAME.ToLower().Contains(param.sSearch.ToLower())
-                                               ).ToList();
+                Apointments = Apointments.Where(x =>  x.PATIENTNAME.ToLower().Contains(param.sSearch.ToLower())
+                                                      || x.DOCTORNAME.ToLower().Contains(param.sSearch.ToLower())
+                                                       ).ToList();
             }
             var sortColumnIndex = param.iSortCol_0;
-            var sortDirection = param.sSortDir_0; 
+            var sortDirection = param.sSortDir_0;
 
             if (sortColumnIndex == 1)
             {
                 Apointments = (sortDirection == "asc" ? Apointments.OrderBy(c => c.APPOINTMENTID) : Apointments.OrderByDescending(c => c.APPOINTMENTID));
             }
-            
+
             {
                 Func<ApponitmentViewModel, string> orderingFunction = e =>
                                                            sortColumnIndex == 2 ? e.PATIENTNAME :
                                                            sortColumnIndex == 3 ? e.DOCTORNAME :
                                                            sortColumnIndex == 4 ? e.APPOINTMENTDATE :
-                                                           sortColumnIndex == 5 ? e.APPOINTMENTTIME :
-                                                           sortColumnIndex == 6 ? e.APPOINTMENTDAY :
-                                                           sortColumnIndex == 14 ? e.APPOIMENTSTATUS:
-                                                           sortColumnIndex == 7 ? e.CONSULTANTTIME :
-                                                           sortColumnIndex == 11 ? e.CREATEDBY :
+                                                           sortColumnIndex == 5 ? e.DATEOFCONSUITATION :
                                                            e.UPDATEDBY
                                                            ;
 

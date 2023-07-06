@@ -73,21 +73,20 @@ namespace DoctorAppointmentSystem.Models.Account
         public bool VerifyPatientInfo(PatientViewModel patient, out string message)
         {
             bool success = false;
+            message = "";
             try
             {
                 patient.fullName = patient.fullName != null ? patient.fullName.Trim() : patient.fullName;
                 patient.address = patient.address != null ? patient.address.Trim() : patient.address;
 
-                message = "";
-
                 //Check if the email is already in use
-                bool nationalID_exists = dbContext.PATIENT.Where(p => p.PATIENTNATIONALID.Equals(patient.nationalID)).FirstOrDefault() == null ? false : true;
+                bool nationalID_exists = dbContext.PATIENT.Any(p => p.PATIENTNATIONALID.Equals(patient.nationalID)) ? true : false;
 
-                if (String.IsNullOrEmpty(patient.fullName))
+                if (String.IsNullOrWhiteSpace(patient.fullName))
                 {
                     message = "Please enter your full name.";
                 }
-                else if (String.IsNullOrEmpty(patient.nationalID))
+                else if (String.IsNullOrWhiteSpace(patient.nationalID))
                 {
                     message = "Please enter your National ID.";
                 }
@@ -95,7 +94,7 @@ namespace DoctorAppointmentSystem.Models.Account
                 {
                     message = "National ID already exists! Please choose another.";
                 }
-                else if (String.IsNullOrEmpty(patient.dateOfBirth))
+                else if (String.IsNullOrWhiteSpace(patient.dateOfBirth))
                 {
                     message = "Please enter your date of birth.";
                 }
@@ -103,11 +102,11 @@ namespace DoctorAppointmentSystem.Models.Account
                 {
                     message = "Please select gender.";
                 }
-                else if (String.IsNullOrEmpty(patient.phoneNumber))
+                else if (String.IsNullOrWhiteSpace(patient.phoneNumber))
                 {
                     message = "Please enter your phone number.";
                 }
-                else if (String.IsNullOrEmpty(patient.address))
+                else if (String.IsNullOrWhiteSpace(patient.address))
                 {
                     message = "Please enter your address.";
                 }
@@ -126,8 +125,6 @@ namespace DoctorAppointmentSystem.Models.Account
                 string sInsBy = patient.fullName;
 
                 Logger.TraceLog(sEventCatg, sEventMsg, sEventSrc, sEventType, sInsBy);
-
-                message = "";
                 return success;
             }
 
@@ -335,10 +332,10 @@ namespace DoctorAppointmentSystem.Models.Account
             USER user = dbContext.USER.Where(u => u.USERNAME.Equals(question.username)).FirstOrDefault();
             try
             {
-               
+
                 if (user != null && (!IsAnswerPaswdRecovery(user.USERNAME)))
                 {
-                    
+
 
                     user.PASSWORDRECOVERYQUE1 = question.passwordRecoveryQue1;
                     user.PASSWORDRECOVERYANS1 = question.passwordRecoveryAns1.Trim();
@@ -356,13 +353,13 @@ namespace DoctorAppointmentSystem.Models.Account
                 }
             }
             catch (Exception ex)
-            {    
+            {
                 string sEventCatg = "NONE PORTAL";
-                if(user != null)
+                if (user != null)
                 {
-                    sEventCatg = user.USERTYPE == "Doctor"?  "DOCTOR PORTAL" : "PATIENT";
+                    sEventCatg = user.USERTYPE == "Doctor" ? "DOCTOR PORTAL" : "PATIENT";
                 }
-                
+
                 string sEventMsg = "Exception: " + ex.Message;
                 string sEventSrc = nameof(SetAuthenQuestions);
                 string sEventType = "U";
@@ -378,14 +375,14 @@ namespace DoctorAppointmentSystem.Models.Account
         public bool IsAnswerPaswdRecovery(string username)
         {
             USER user = dbContext.USER.Where(u => u.USERNAME.Equals(username)).FirstOrDefault();
-            
+
             if (user != null)
             {
                 if (user.PASSWORDRECOVERYANS1 != null || user.USERTYPE == "Admin") return true;
             }
-          
+
             return false;
-           
+
         }
         public USER GetUserByUserName(string username)
         {

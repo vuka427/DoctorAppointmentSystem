@@ -21,20 +21,20 @@ function LoadDataToChart() {
                             labels: data.datalabel ,
                             datasets: [
                                 {
-                                    label: 'Pending Appointments',
+                                    label: 'Pending',
                                     data: data.pending,
                                     borderWidth: 1,
                                     backgroundColor: "#ffc107"
                                 }
                                 ,
                                 {
-                                    label: 'Confirmed Appointments',
+                                    label: 'Confirmed',
                                     data: data.confirmed,
                                     borderWidth: 1,
                                     backgroundColor: "#007bff"
                                 },
                                 {
-                                    label: 'Completed Appointments',
+                                    label: 'Completed',
                                     data: data.completed,
                                     borderWidth: 1,
                                     backgroundColor: "#00ff21"
@@ -43,7 +43,7 @@ function LoadDataToChart() {
                                 
                                 
                                 {
-                                    label: 'Cancelled Appointments',
+                                    label: 'Cancelled',
                                     data: data.cancelled,
                                     borderWidth: 1,
                                     backgroundColor: "#dc3545"

@@ -149,10 +149,8 @@ namespace DoctorAppointmentSystem
             bundles.Add(new ScriptBundle("~/bundles/doctor/changepassword").Include(
                      "~/Scripts/js/Areas/Doctor/changeDoctorPassword.js"));
 
-            foreach (var bundle in BundleTable.Bundles)
-            {
-                bundle.Transforms.Clear();
-            }
+            bundles.Add(new StyleBundle("~/Content/Admin/Dashboard").Include(
+             "~/Content/css/Areas/Admin/dashboardAdmin.css"));
         }
     }
 }
