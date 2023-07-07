@@ -104,7 +104,9 @@ namespace DoctorAppointmentSystem.Areas.Admin.Models
             if (isUpdate)
             {
                doctorScheduled = _dbContext.SCHEDULE.Where(s => s.DOCTORID == schedule.DOCTORID &&
-                                                               s.WORKINGDAY == schedule.WORKINGDAY &&
+                                                               s.WORKINGDAY.Day == schedule.WORKINGDAY.Day &&
+                                                               s.WORKINGDAY.Month == schedule.WORKINGDAY.Month &&
+                                                               s.WORKINGDAY.Year == schedule.WORKINGDAY.Year &&
                                                                s.SCHEDULEID != schedule.SCHEDULEID &&
                                                                s.DELETEDFLAG == false
                                                                ).ToList();
@@ -112,7 +114,9 @@ namespace DoctorAppointmentSystem.Areas.Admin.Models
             else
             {
                 doctorScheduled = _dbContext.SCHEDULE.Where(s => s.DOCTORID == schedule.DOCTORID &&
-                                                                s.WORKINGDAY == schedule.WORKINGDAY &&
+                                                                 s.WORKINGDAY.Day == schedule.WORKINGDAY.Day &&
+                                                               s.WORKINGDAY.Month == schedule.WORKINGDAY.Month &&
+                                                               s.WORKINGDAY.Year == schedule.WORKINGDAY.Year &&
                                                                 s.DELETEDFLAG == false
                                                                 ).ToList();
             }

@@ -423,7 +423,7 @@ function initJqueryDatatable() {
             },
             {
                 "data": "LASTLOGIN",
-                "title": "Last login",
+                "title": "Last Login",
 
                 "searchable": true
             },
