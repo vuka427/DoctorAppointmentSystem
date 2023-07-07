@@ -44,12 +44,12 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Models.ComfirmedAppt
 
                         string patientGender = SystemParaHelper.GetParaval(patient.PATIENTGENDER);
                         avm.patientGender = patientGender;
-                        avm.patientDateOfBirth = patient.PATIENTDATEOFBIRTH.ToString("yyyy-MM-dd");
-                        avm.dateOfConsultation = appointment.DATEOFCONSULTATION.ToString(@"yyyy-MM-dd HH\:mm");
-                        avm.consultationTime = appointment.DATEOFCONSULTATION.TimeOfDay.ToString(@"hh\:mm");
+                        avm.patientDateOfBirth = patient.PATIENTDATEOFBIRTH.ToString("MMMM dd, yyyy");
+                        avm.dateOfConsultation = appointment.DATEOFCONSULTATION.ToString(@"MMMM dd, yyyy HH\:mm tt");
+                        avm.consultationTime = appointment.DATEOFCONSULTATION.ToString(@"hh\:mm tt");
                         avm.consultationDay = appointment.DATEOFCONSULTATION.DayOfWeek.ToString();
-                        avm.appointmentDate = appointment.APPOINTMENTDATE.Value.ToString(@"yyyy-MM-dd");
-                        avm.appointmentTime = appointment.APPOINTMENTDATE.Value.TimeOfDay.ToString(@"hh\:mm");
+                        avm.appointmentDate = appointment.APPOINTMENTDATE.Value.ToString("MMMM dd, yyyy");
+                        avm.appointmentTime = appointment.APPOINTMENTDATE.Value.ToString(@"hh\:mm tt");
                         avm.appointmentDay = appointment.APPOINTMENTDATE.Value.DayOfWeek.ToString();
                         avm.appointmentStatus = appointment.APPOIMENTSTATUS;
 
