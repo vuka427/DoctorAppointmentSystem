@@ -41,7 +41,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
 
 
         // GET: Admin/Appointment
-        
+       
         public ActionResult Index()
         {
             AdminMenu menu = new AdminMenu();
@@ -51,7 +51,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             ViewBag.Name = user != null ? user.USERNAME : "";
 
             ViewBag.consultantType = GenerateByGroup("ConsultantType");
-            ViewBag.modeOfConsultant = GenerateByGroup("modeOfConsultant");
+            ViewBag.modeOfConsultant = GenerateByGroup("ModeOfConsultant");
 
             return View();
         }

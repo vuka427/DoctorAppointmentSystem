@@ -23,7 +23,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
 
 
         // GET: Admin/AdminProfile
-
+        [OutputCache(Duration = 20, VaryByParam = "none")]
         public ActionResult Index()
         {
             return View();

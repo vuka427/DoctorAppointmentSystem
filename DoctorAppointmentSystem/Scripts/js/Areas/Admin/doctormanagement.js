@@ -440,7 +440,7 @@ function initJqueryDatatable() {
            
             {
                 "data": "DOCTORDATEOFBIRTH",
-                "title": "Date of Birth",
+                "title": "Date Of Birth",
 
                 "searchable": true
             },
