@@ -10,13 +10,13 @@
     }
 }
 
-@media(max-width:992px) {
+@media(max-width:1590px) {
     body {
         background-image: url('../../img/bg-img-desktop-md.jpg');
     }
 }
 
-@media(min-width:993px) {
+@media(min-width:1591px) {
     body {
         background-image: url('../../img/bg-img-desktop-lg.jpg');
     }
