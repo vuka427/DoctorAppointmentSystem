@@ -377,7 +377,9 @@
     <Content Include="img\carousel-patient-02.jpg" />
     <Content Include="img\carousel-patient-03.jpg" />
     <Content Include="img\CUSC-Logo-Series.png" />
+    <Content Include="img\default-user-image.png" />
     <Content Include="img\doctor-avatar-01.jpg" />
+    <Content Include="img\empty.jpg" />
     <Content Include="img\login-intro-img.png" />
     <Content Include="img\medical-appointment.ico" />
     <Content Include="img\person-avatar-01.jpg" />
