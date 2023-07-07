@@ -26,7 +26,6 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
         }
 
 
-
         // GET: Admin/Manage
         public ActionResult Index()
         {

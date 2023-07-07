@@ -18,12 +18,12 @@ namespace DoctorAppointmentSystem.Areas.Admin.Models.AppointmentManage.Mapping
                                                     act.MapFrom(src => src.SCHEDULE == null ? "" :
                                                                        src.SCHEDULE.DOCTOR != null ? src.SCHEDULE.DOCTOR.DOCTORNAME : ""))
 
-                 .ForMember(dest => dest.APPOINTMENTDATE, act => act.MapFrom(src => src.APPOINTMENTDATE != null ? src.APPOINTMENTDATE.Value.ToString(@"MMMM dd, yyyy hh\:mm tt") : ""))
-                .ForMember(dest => dest.DATEOFCONSUITATION, act => act.MapFrom(src => src.DATEOFCONSULTATION != null ? src.DATEOFCONSULTATION.ToString(@"MMMM dd, yyyy hh\:mm tt") : ""))
+                 .ForMember(dest => dest.APPOINTMENTDATE, act => act.MapFrom(src => src.APPOINTMENTDATE != null ? src.APPOINTMENTDATE.Value.ToString(@"MM-dd-yyyy hh\:mm tt") : ""))
+                .ForMember(dest => dest.DATEOFCONSUITATION, act => act.MapFrom(src => src.DATEOFCONSULTATION != null ? src.DATEOFCONSULTATION.ToString(@"MM-dd-yyyy hh\:mm tt") : ""))
 
-                .ForMember(dest => dest.CLOSEDDATE, act => act.MapFrom(src => src.CLOSEDDATE != null ? src.CLOSEDDATE.Value.ToString(@"MMMM dd, yyyy hh\:mm tt") : ""))
-                .ForMember(dest => dest.CREATEDDATE, act => act.MapFrom(src => src.CREATEDDATE != null ? src.CREATEDDATE.Value.ToString(@"MMMM dd, yyyy hh\:mm tt") : ""))
-                .ForMember(dest => dest.UPDATEDDATE, act => act.MapFrom(src => src.UPDATEDDATE != null ? src.UPDATEDDATE.Value.ToString(@"MMMM dd, yyyy hh\:mm tt") : ""))
+                .ForMember(dest => dest.CLOSEDDATE, act => act.MapFrom(src => src.CLOSEDDATE != null ? src.CLOSEDDATE.Value.ToString(@"MM-dd-yyyy hh\:mm tt") : ""))
+                .ForMember(dest => dest.CREATEDDATE, act => act.MapFrom(src => src.CREATEDDATE != null ? src.CREATEDDATE.Value.ToString(@"MM-dd-yyyy hh\:mm tt") : ""))
+                .ForMember(dest => dest.UPDATEDDATE, act => act.MapFrom(src => src.UPDATEDDATE != null ? src.UPDATEDDATE.Value.ToString(@"MM-dd-yyyy hh\:mm tt") : ""))
                 ;
 
             CreateMap<APPOINTMENT, CompletedApptViewDetailsModel>()

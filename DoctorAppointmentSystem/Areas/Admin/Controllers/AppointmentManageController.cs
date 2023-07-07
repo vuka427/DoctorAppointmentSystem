@@ -99,7 +99,7 @@ namespace DoctorAppointmentSystem.Areas.Admin.Controllers
             {
                 Apointments = (sortDirection == "asc" ? Apointments.OrderBy(c => c.APPOINTMENTID) : Apointments.OrderByDescending(c => c.APPOINTMENTID));
             }
-
+            else
             {
                 Func<ApponitmentViewModel, string> orderingFunction = e =>
                                                            sortColumnIndex == 2 ? e.PATIENTNAME :

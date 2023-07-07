@@ -71,6 +71,7 @@ function initJqueryDatatable() {
             {
                 "data": "APPOIMENTSTATUS",
                 "title": 'Status',
+                "orderable": false,
                 "className": 'text-center',
                 "responsivePriority": 1,
                 "searchable": true,

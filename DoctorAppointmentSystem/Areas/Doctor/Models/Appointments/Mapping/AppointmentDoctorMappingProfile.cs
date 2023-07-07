@@ -26,7 +26,7 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Models.Appointments.Mapping
                                                         (sysParam.GetAllParam().Where(p => p.ID == src.SCHEDULE.CONSULTANTTIME)) == null ? "" :
                                                         sysParam.GetAllParam().Where(p => p.ID == src.SCHEDULE.CONSULTANTTIME).FirstOrDefault().NOTE
                                                    ))
-               .ForMember(dest => dest.DATEOFCONSULTANT, act => act.MapFrom(src => src.DATEOFCONSULTATION!= null ? src.DATEOFCONSULTATION.ToString("MMMM dd, yyyy") : ""))
+               .ForMember(dest => dest.DATEOFCONSULTANT, act => act.MapFrom(src => src.DATEOFCONSULTATION!= null ? src.DATEOFCONSULTATION.ToString("MM-dd-yyyy") : ""))
                .ForMember(dest => dest.DATEOFCONSULTANTTIME, act => act.MapFrom(src => src.DATEOFCONSULTATION != null ? src.DATEOFCONSULTATION.ToString(@"hh\:mm tt") : ""))
                .ForMember(dest => dest.DATEOFCONSULTANTDAY, act => act.MapFrom(src => src.DATEOFCONSULTATION != null ? src.DATEOFCONSULTATION.DayOfWeek.ToString() : ""))
                .ForMember(dest => dest.LATE, act => act.MapFrom(src => src.DATEOFCONSULTATION < DateTime.Now? true : false))
@@ -36,8 +36,8 @@ namespace DoctorAppointmentSystem.Areas.Doctor.Models.Appointments.Mapping
                 .ForMember(dest => dest.PATIENTNAME, act => act.MapFrom(src => src.PATIENT != null ? src.PATIENT.PATIENTNAME : ""))
              .ForMember(dest => dest.PATIENTNAME, act => act.MapFrom(src => src.PATIENT != null ? src.PATIENT.PATIENTNAME : ""))
 
-             .ForMember(dest => dest.DATEOFCONSULTANT, act => act.MapFrom(src => src.DATEOFCONSULTATION != null ? src.DATEOFCONSULTATION.ToString(@"MMMM dd, yyyy hh\:mm tt") : ""))
-             .ForMember(dest => dest.APPOINTMENTDATE, act => act.MapFrom(src => src.APPOINTMENTDATE != null ? src.APPOINTMENTDATE.Value.ToString(@"MMMM dd, yyyy hh\:mm tt") : ""))
+             .ForMember(dest => dest.DATEOFCONSULTANT, act => act.MapFrom(src => src.DATEOFCONSULTATION != null ? src.DATEOFCONSULTATION.ToString(@"MM-dd-yyyy hh\:mm tt") : ""))
+             .ForMember(dest => dest.APPOINTMENTDATE, act => act.MapFrom(src => src.APPOINTMENTDATE != null ? src.APPOINTMENTDATE.Value.ToString(@"MM-dd-yyyy hh\:mm tt") : ""))
 
            
 

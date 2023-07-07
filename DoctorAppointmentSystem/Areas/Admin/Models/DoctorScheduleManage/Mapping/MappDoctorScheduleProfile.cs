@@ -25,8 +25,8 @@ namespace DoctorAppointmentSystem.Areas.Admin.Models.DoctorSchedule.Mapping
                                                                                 (sysParam.GetAllParam().Where(p => p.ID == src.CONSULTANTTIME))!=null? 
                                                                                 sysParam.GetAllParam().Where(p=>p.ID == src.CONSULTANTTIME).FirstOrDefault().NOTE:"" ))
 
-                .ForMember(dest => dest.CREATEDDATE, act => act.MapFrom(src => src.CREATEDDATE.Value.ToString(@"MMMM dd, yyyy hh\:mm tt")))
-                .ForMember(dest => dest.UPDATEDDATE, act => act.MapFrom(src => src.UPDATEDDATE.Value.ToString(@"MMMM dd, yyyy hh\:mm tt")))
+                .ForMember(dest => dest.CREATEDDATE, act => act.MapFrom(src => src.CREATEDDATE.Value.ToString(@"MM-dd-yyyy hh\:mm tt")))
+                .ForMember(dest => dest.UPDATEDDATE, act => act.MapFrom(src => src.UPDATEDDATE.Value.ToString(@"MM-dd-yyyy hh\:mm tt")))
                 ;
             CreateMap<SCHEDULE,DoctorScheduleViewEditModel>()
                 .ForMember(dest => dest.WORKINGDAY, act => act.MapFrom(src => src.WORKINGDAY.ToShortDateString()))
